@@ -1,10 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/controller/auth/auth_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // [1] Tambahkan Import
 
-class ProfileSettings extends StatelessWidget {
+class ProfileSettings extends StatefulWidget {
   const ProfileSettings({super.key});
 
   @override
+  State<ProfileSettings> createState() => _ProfileSettingsState();
+}
+
+class _ProfileSettingsState extends State<ProfileSettings> {
+  final _authController = AuthController();
+  bool _isLoading = false;
+
+  Future<void> _handleLogout() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // [2] Ambil token asli dari SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('auth_token');
+
+      if (token != null) {
+        // Kirim token asli ke server
+        await _authController.logout(token);
+
+        // [3] Hapus token dari HP setelah logout berhasil
+        await prefs.remove('auth_token');
+
+        if (mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text("Berhasil keluar")));
+        }
+      } else {
+        // Jika tidak ada token (misal session habis), paksa logout lokal saja
+        debugPrint("Token tidak ditemukan, logout lokal.");
+      }
+    } catch (e) {
+      debugPrint("Logout error: $e");
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        // Pindah ke halaman login
+        context.go('/login-form');
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // ... (UI Widget sama seperti sebelumnya, copy dari kode sebelumnya)
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
@@ -38,6 +89,7 @@ class ProfileSettings extends StatelessWidget {
             'Account',
             'Username • Close account',
           ),
+          // ... (Item list lainnya sama) ...
           _buildSettingItem(
             Icons.music_note_outlined,
             'Content and display',
@@ -88,7 +140,7 @@ class ProfileSettings extends StatelessWidget {
             child: SizedBox(
               height: 48,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _isLoading ? null : _handleLogout,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,
@@ -98,10 +150,22 @@ class ProfileSettings extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                   ),
                 ),
-                child: const Text(
-                  'Log out',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.black,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : const Text(
+                        'Log out',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
             ),
           ),

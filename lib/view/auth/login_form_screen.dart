@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:mqfm_apps/controller/auth/auth_controller.dart';
 import 'package:mqfm_apps/widgets/auth_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // [1] Tambahkan Import ini
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({super.key});
@@ -12,9 +13,11 @@ class LoginFormScreen extends StatefulWidget {
 }
 
 class _LoginFormScreenState extends State<LoginFormScreen> {
+  final _authController = AuthController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -23,8 +26,66 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     super.dispose();
   }
 
+  Future<void> _handleLogin() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await _authController.login(
+        _emailController.text,
+        _passwordController.text,
+      );
+
+      if (!mounted) return;
+
+      if (response.status == 200) {
+        // --- [2] UPDATE DI SINI: SIMPAN TOKEN ---
+        final prefs = await SharedPreferences.getInstance();
+        if (response.data?.token != null) {
+          // Simpan token dengan kunci 'auth_token'
+          await prefs.setString('auth_token', response.data!.token!);
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Login Berhasil! Hai ${response.data?.username}"),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        context.go('/dashboard');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Gagal Masuk: ${response.message}"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      String errorMessage = e.toString().replaceAll("Exception: ", "");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error Koneksi: $errorMessage"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // ... (Bagian UI / Build tidak ada perubahan, sama seperti sebelumnya)
     return Scaffold(
       backgroundColor: const Color(0xFF050505),
       appBar: AppBar(
@@ -87,11 +148,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                     width: 180.w,
                     height: 48.h,
                     child: OutlinedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          context.go('/dashboard');
-                        }
-                      },
+                      onPressed: _isLoading ? null : _handleLogin,
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.white54, width: 1),
                         shape: RoundedRectangleBorder(
@@ -99,13 +156,22 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                         ),
                         foregroundColor: Colors.white,
                       ),
-                      child: Text(
-                        "Masuk",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.sp,
-                        ),
-                      ),
+                      child: _isLoading
+                          ? SizedBox(
+                              height: 20.h,
+                              width: 20.h,
+                              child: const CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              "Masuk",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16.sp,
+                              ),
+                            ),
                     ),
                   ),
                 ),

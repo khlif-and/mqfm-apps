@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/widgets/auth_fields.dart'; // Import CustomTextField, CustomEmailField, CustomPasswordField
+import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/controller/auth/auth_controller.dart';
+import 'package:mqfm_apps/widgets/auth_fields.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,10 +12,16 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  // Inisialisasi Controller
+  final _authController = AuthController();
+
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  // Status Loading
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -24,12 +31,73 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  // Fungsi Register dengan Error Handling Lengkap
+  Future<void> _handleRegister() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Panggil Controller
+      final response = await _authController.register(
+        _usernameController.text,
+        _emailController.text,
+        _passwordController.text,
+      );
+
+      if (!mounted) return;
+
+      // Cek Status Code dari respons API
+      if (response.status == 201) {
+        // --- SUKSES ---
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Berhasil: ${response.message}"),
+            backgroundColor: Colors.green,
+          ),
+        );
+        // Pindah ke Login
+        context.go('/login-form');
+      } else {
+        // --- GAGAL DARI SERVER (Misal: Email duplikat) ---
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Gagal: ${response.message}"),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    } catch (e) {
+      // --- ERROR KONEKSI/SISTEM ---
+      if (!mounted) return;
+
+      // Bersihkan pesan error "Exception:" agar lebih rapi
+      String errorMessage = e.toString().replaceAll("Exception: ", "");
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Error: $errorMessage",
+          ), // Pesan Error Asli muncul di sini
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(
-        0xFF050505,
-      ), // Background Hitam Pekat (Sama dengan Login)
+      backgroundColor: const Color(0xFF050505),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -47,7 +115,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 10.h),
-                // --- JUDUL (Sama dengan Login) ---
                 Center(
                   child: Text(
                     "Buat Akun",
@@ -59,8 +126,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 SizedBox(height: 40.h),
-
-                // --- 1. USERNAME FIELD (Tambahan untuk Register) ---
                 Text(
                   "Username",
                   style: TextStyle(
@@ -75,10 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hintText: "Username",
                   icon: Icons.person_outline,
                 ),
-
                 SizedBox(height: 20.h),
-
-                // --- 2. EMAIL FIELD ---
                 Text(
                   "Email",
                   style: TextStyle(
@@ -89,10 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: 10.h),
                 CustomEmailField(controller: _emailController),
-
                 SizedBox(height: 20.h),
-
-                // --- 3. PASSWORD FIELD ---
                 Text(
                   "Password",
                   style: TextStyle(
@@ -103,26 +162,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: 10.h),
                 CustomPasswordField(controller: _passwordController),
-
                 SizedBox(height: 8.h),
                 Text(
                   "semua data akun anda akan kami konfirmasi.",
                   style: TextStyle(color: Colors.grey, fontSize: 10.sp),
                 ),
-
                 SizedBox(height: 60.h),
-
-                // --- TOMBOL DAFTAR (Style Outline, Sama dengan Login) ---
                 Center(
                   child: SizedBox(
                     width: 180.w,
                     height: 48.h,
                     child: OutlinedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // Proses Register Disini
-                        }
-                      },
+                      // Matikan tombol saat loading
+                      onPressed: _isLoading ? null : _handleRegister,
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.white54, width: 1),
                         shape: RoundedRectangleBorder(
@@ -130,13 +182,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         foregroundColor: Colors.white,
                       ),
-                      child: Text(
-                        "Daftar", // Text tombol beda
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.sp,
-                        ),
-                      ),
+                      child: _isLoading
+                          ? SizedBox(
+                              height: 20.h,
+                              width: 20.h,
+                              child: const CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              "Daftar",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16.sp,
+                              ),
+                            ),
                     ),
                   ),
                 ),
