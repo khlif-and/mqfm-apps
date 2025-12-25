@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:mqfm_apps/widgets/auth_fields.dart';
 
@@ -11,7 +12,6 @@ class LoginFormScreen extends StatefulWidget {
 }
 
 class _LoginFormScreenState extends State<LoginFormScreen> {
-  // Controller Username dihapus karena tidak dipakai di Login
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -46,7 +46,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                 SizedBox(height: 10.h),
                 Center(
                   child: Text(
-                    "Login Akun", // Diubah agar sesuai konteks Login
+                    "Login Akun",
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
@@ -55,8 +55,6 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                   ),
                 ),
                 SizedBox(height: 40.h),
-
-                // --- 1. EMAIL FIELD ---
                 Text(
                   "Email",
                   style: TextStyle(
@@ -67,10 +65,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                 ),
                 SizedBox(height: 10.h),
                 CustomEmailField(controller: _emailController),
-
                 SizedBox(height: 20.h),
-
-                // --- 2. PASSWORD FIELD ---
                 Text(
                   "Password",
                   style: TextStyle(
@@ -81,15 +76,12 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                 ),
                 SizedBox(height: 10.h),
                 CustomPasswordField(controller: _passwordController),
-
                 SizedBox(height: 8.h),
                 Text(
                   "Pastikan email dan password anda benar.",
                   style: TextStyle(color: Colors.grey, fontSize: 10.sp),
                 ),
-
                 SizedBox(height: 60.h),
-
                 Center(
                   child: SizedBox(
                     width: 180.w,
@@ -97,7 +89,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                     child: OutlinedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // Proses Login Disini
+                          context.go('/dashboard');
                         }
                       },
                       style: OutlinedButton.styleFrom(
