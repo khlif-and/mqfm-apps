@@ -1,9 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/view/splash_screen.dart';
-import 'package:mqfm_apps/view/onboarding_screen.dart'; // Pastikan file ini ada
-import 'package:mqfm_apps/view/auth/login_screen.dart';
+import 'package:mqfm_apps/view/onboarding_screen.dart';
 import 'package:mqfm_apps/view/auth/register_screen.dart';
 import 'package:mqfm_apps/view/auth/login_form_screen.dart';
+import 'package:mqfm_apps/view/home/dashboard/dashboard.dart';
+import 'package:mqfm_apps/widgets/components/profile/profile_settings.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
@@ -19,11 +20,6 @@ final GoRouter appRouter = GoRouter(
           const NoTransitionPage(child: OnboardingScreen()),
     ),
     GoRoute(
-      path: '/login',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: LoginScreen()),
-    ),
-    GoRoute(
       path: '/register',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: RegisterScreen()),
@@ -32,6 +28,16 @@ final GoRouter appRouter = GoRouter(
       path: '/login-form',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: LoginFormScreen()),
+    ),
+    GoRoute(
+      path: '/dashboard',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: DashboardPage()),
+    ),
+    GoRoute(
+      path: '/settings',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: ProfileSettings()),
     ),
   ],
 );

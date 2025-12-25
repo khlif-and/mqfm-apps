@@ -1,180 +1,146 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/utils/app_dims.dart';
-import 'package:mqfm_apps/utils/app_styles.dart';
-import 'package:mqfm_apps/widgets/custom_button.dart';
-import 'package:mqfm_apps/widgets/auth_fields.dart';
-// Pastikan import form screen jika tombol arahnya kesana
-import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/widgets/auth_fields.dart'; // Import CustomTextField, CustomEmailField, CustomPasswordField
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            // Constraint ini membuat Container minimal setinggi layar
-            constraints: BoxConstraints(
-              minHeight:
-                  1.sh -
-                  MediaQuery.of(context).padding.top -
-                  MediaQuery.of(context).padding.bottom,
-            ),
-            // TAMBAHAN 1: Align center agar anak (Column) berada di tengah
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+      backgroundColor: const Color(
+        0xFF050505,
+      ), // Background Hitam Pekat (Sama dengan Login)
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Form(
+            key: _formKey,
             child: Column(
-              // TAMBAHAN 2: Ubah mainAxisSize jadi min agar tidak crash
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 40.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.radio, color: Colors.white, size: 40.w),
-                    SizedBox(width: AppDims.w12),
-                    Text(
-                      "102.7 MQFM",
-                      style: AppStyles.displayLarge.copyWith(
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1,
-                        color: Colors.white,
-                      ),
+                SizedBox(height: 10.h),
+                // --- JUDUL (Sama dengan Login) ---
+                Center(
+                  child: Text(
+                    "Buat Akun",
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
                     ),
-                  ],
-                ),
-                Text(
-                  "manajemen qolbu",
-                  style: AppStyles.bodySmall.copyWith(
-                    color: Colors.white70,
-                    letterSpacing: 2,
                   ),
                 ),
+                SizedBox(height: 40.h),
 
-                SizedBox(height: AppDims.h48),
-
+                // --- 1. USERNAME FIELD (Tambahan untuk Register) ---
                 Text(
-                  "Daftar Akun Baru",
-                  style: AppStyles.titleLarge.copyWith(
+                  "Username",
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
                     color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    height: 1.3,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-
-                SizedBox(height: AppDims.h32),
-
-                // Note: Pastikan Controller ini di-handle dengan benar (StatelessWidget tidak bisa punya controller permanen tanpa state management)
-                // Untuk contoh UI saja, kita inisialisasi di dalam build atau ubah ke StatefulWidget
-                // Disini saya pakai contoh TextField biasa agar tidak error controller
-                TextFormField(
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: "Nama Lengkap",
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    prefixIcon: const Icon(
-                      Icons.person_outline,
-                      color: Colors.white70,
-                    ),
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.05),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
                   ),
                 ),
-
-                SizedBox(height: AppDims.h16),
-
-                TextFormField(
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: "Email",
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    prefixIcon: const Icon(
-                      Icons.email_outlined,
-                      color: Colors.white70,
-                    ),
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.05),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                  ),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                  controller: _usernameController,
+                  hintText: "Username",
+                  icon: Icons.person_outline,
                 ),
 
-                SizedBox(height: AppDims.h16),
+                SizedBox(height: 20.h),
 
-                TextFormField(
-                  obscureText: true,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    prefixIcon: const Icon(
-                      Icons.lock_outline,
-                      color: Colors.white70,
-                    ),
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.05),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
+                // --- 2. EMAIL FIELD ---
+                Text(
+                  "Email",
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
                   ),
                 ),
+                SizedBox(height: 10.h),
+                CustomEmailField(controller: _emailController),
 
-                SizedBox(height: AppDims.h32),
+                SizedBox(height: 20.h),
 
-                CustomButton(
-                  text: "Daftar",
-                  icon: const Icon(
-                    Icons.check_circle_outline,
-                    color: Colors.black,
+                // --- 3. PASSWORD FIELD ---
+                Text(
+                  "Password",
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
                   ),
-                  onPressed: () {},
-                  backgroundColor: AppColors.primary,
-                  textColor: Colors.black,
+                ),
+                SizedBox(height: 10.h),
+                CustomPasswordField(controller: _passwordController),
+
+                SizedBox(height: 8.h),
+                Text(
+                  "semua data akun anda akan kami konfirmasi.",
+                  style: TextStyle(color: Colors.grey, fontSize: 10.sp),
                 ),
 
-                SizedBox(height: 32.h),
+                SizedBox(height: 60.h),
 
-                // Spacer() HARUS DIHAPUS jika di dalam SingleChildScrollView
-                // Gunakan SizedBox jarak fix atau mainAxisAlignment dari Container
-                SizedBox(height: 40.h),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Sudah Punya akun? ",
-                      style: AppStyles.bodyMedium.copyWith(
-                        color: Colors.white70,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        context.push('/login-form');
+                // --- TOMBOL DAFTAR (Style Outline, Sama dengan Login) ---
+                Center(
+                  child: SizedBox(
+                    width: 180.w,
+                    height: 48.h,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // Proses Register Disini
+                        }
                       },
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.white54, width: 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                        foregroundColor: Colors.white,
+                      ),
                       child: Text(
-                        "Log in",
-                        style: AppStyles.bodyMedium.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                        "Daftar", // Text tombol beda
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-
-                SizedBox(height: 24.h),
+                SizedBox(height: 20.h),
               ],
             ),
           ),
