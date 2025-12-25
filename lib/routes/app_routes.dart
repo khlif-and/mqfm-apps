@@ -4,7 +4,10 @@ import 'package:mqfm_apps/view/onboarding_screen.dart';
 import 'package:mqfm_apps/view/auth/register_screen.dart';
 import 'package:mqfm_apps/view/auth/login_form_screen.dart';
 import 'package:mqfm_apps/view/home/dashboard/dashboard.dart';
+import 'package:mqfm_apps/widgets/components/playlist/playlist_screen.dart';
 import 'package:mqfm_apps/widgets/components/profile/profile_settings.dart';
+import 'package:mqfm_apps/widgets/components/player/player_screen.dart';
+import 'package:mqfm_apps/widgets/components/search/search_screen.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
@@ -38,6 +41,24 @@ final GoRouter appRouter = GoRouter(
       path: '/settings',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: ProfileSettings()),
+    ),
+    GoRoute(
+      path: '/player/:id', // Tambahkan /:id
+      pageBuilder: (context, state) {
+        // Ambil ID dari URL
+        final id = state.pathParameters['id']!;
+        return NoTransitionPage(child: PlayerScreen(audioId: id));
+      },
+    ),
+    GoRoute(
+      path: '/search',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: SearchScreen()),
+    ),
+    GoRoute(
+      path: '/playlist',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: PlaylistScreen()),
     ),
   ],
 );

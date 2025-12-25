@@ -23,7 +23,7 @@ class DashboardHeader extends StatelessWidget {
         left: 16.w,
         right: 16.w,
       ),
-      decoration: const BoxDecoration(color: Color(0xFFD64D4D)),
+      decoration: const BoxDecoration(color: Color(0xFF121212)),
       child: Row(
         children: [
           // --- LINGKARAN PROFILE DENGAN FUNGSI KLIK ---
