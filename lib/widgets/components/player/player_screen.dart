@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:mqfm_apps/controller/audio/audio_controller.dart';
 import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/utils/manager/audio_player_manager.dart';
 
 class PlayerScreen extends StatefulWidget {
   final String audioId;
@@ -15,6 +17,10 @@ class PlayerScreen extends StatefulWidget {
 
 class _PlayerScreenState extends State<PlayerScreen> {
   final AudioController _audioController = AudioController();
+  final AudioPlayerManager _audioManager = AudioPlayerManager();
+
+  AudioPlayer get _player => _audioManager.player;
+
   Audio? _audioData;
   bool _isLoading = true;
 
@@ -24,9 +30,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _fetchDetailAudio();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Future<void> _fetchDetailAudio() async {
     try {
       final id = int.tryParse(widget.audioId) ?? 0;
+      debugPrint("🔍 [INFO] Fetching audio ID: $id");
+
       final response = await _audioController.getDetailAudio(id);
 
       if (mounted) {
@@ -35,14 +48,51 @@ class _PlayerScreenState extends State<PlayerScreen> {
             _audioData = response.data;
             _isLoading = false;
           });
+
+          debugPrint("✅ [SUCCESS] Data Audio didapat: ${_audioData!.title}");
+
+          if (_audioData!.audioUrl.isNotEmpty) {
+            _audioManager.currentAudioNotifier.value = _audioData;
+
+            try {
+              if (_audioManager.currentAudioId == id) {
+                debugPrint("🔄 [INFO] Melanjutkan audio yang sama...");
+                if (!_player.playing) {
+                  _player.play();
+                }
+              } else {
+                debugPrint("⏳ [PROCESS] Memuat lagu baru...");
+                await _player.stop();
+                await _player.setUrl(_audioData!.audioUrl);
+                _player.play();
+
+                _audioManager.currentAudioId = id;
+                debugPrint("▶️ [PLAYING] Audio berhasil berputar!");
+              }
+            } catch (playerError) {
+              debugPrint("❌ [PLAYER ERROR] Gagal memutar audio: $playerError");
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Gagal putar: $playerError")),
+                );
+              }
+            }
+          }
         } else {
           setState(() => _isLoading = false);
         }
       }
     } catch (e) {
-      debugPrint("Error detail audio: $e");
       if (mounted) setState(() => _isLoading = false);
+      debugPrint("❌ [SYSTEM ERROR] $e");
     }
+  }
+
+  String _formatDuration(Duration? duration) {
+    if (duration == null) return '--:--';
+    final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
   }
 
   @override
@@ -62,10 +112,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   child: CircularProgressIndicator(color: Colors.white),
                 )
               : _audioData == null
-              ? Center(
+              ? const Center(
                   child: Text(
                     "Audio tidak ditemukan",
-                    style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                    style: TextStyle(color: Colors.white),
                   ),
                 )
               : Padding(
@@ -75,7 +125,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   ),
                   child: Column(
                     children: [
-                      // --- HEADER ---
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -92,12 +141,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
                               Text(
                                 'PLAYING FROM PLAYLIST',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white70,
                                   fontSize: 10.sp,
                                   letterSpacing: 1.2,
                                 ),
                               ),
-                              SizedBox(height: 4.h),
                               Text(
                                 "MQFM Radio",
                                 style: TextStyle(
@@ -115,10 +163,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           ),
                         ],
                       ),
-
                       const Spacer(),
-
-                      // --- COVER IMAGE ---
                       Container(
                         height: 340.w,
                         width: 340.w,
@@ -142,10 +187,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           ],
                         ),
                       ),
-
                       const Spacer(),
-
-                      // --- TITLE & INFO ---
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -188,51 +230,75 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           ),
                         ],
                       ),
-
                       SizedBox(height: 24.h),
+                      StreamBuilder<Duration>(
+                        stream: _player.positionStream,
+                        builder: (context, snapshot) {
+                          final position = snapshot.data ?? Duration.zero;
+                          final duration = _player.duration ?? Duration.zero;
 
-                      // --- SLIDER (DUMMY) ---
-                      SliderTheme(
-                        data: SliderTheme.of(context).copyWith(
-                          trackHeight: 2.h,
-                          thumbShape: RoundSliderThumbShape(
-                            enabledThumbRadius: 6.r,
-                          ),
-                          overlayShape: RoundSliderOverlayShape(
-                            overlayRadius: 14.r,
-                          ),
-                          activeTrackColor: Colors.white,
-                          inactiveTrackColor: Colors.white.withOpacity(0.3),
-                          thumbColor: Colors.white,
-                        ),
-                        child: Slider(value: 0.1, onChanged: (v) {}),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '0:00',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                            Text(
-                              '--:--',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          double sliderValue = position.inSeconds.toDouble();
+                          double maxDuration = duration.inSeconds.toDouble();
+                          if (maxDuration <= 0) maxDuration = 1;
+                          if (sliderValue > maxDuration)
+                            sliderValue = maxDuration;
 
+                          return Column(
+                            children: [
+                              SliderTheme(
+                                data: SliderTheme.of(context).copyWith(
+                                  trackHeight: 2.h,
+                                  thumbShape: RoundSliderThumbShape(
+                                    enabledThumbRadius: 6.r,
+                                  ),
+                                  overlayShape: RoundSliderOverlayShape(
+                                    overlayRadius: 14.r,
+                                  ),
+                                  activeTrackColor: Colors.white,
+                                  inactiveTrackColor: Colors.white.withOpacity(
+                                    0.3,
+                                  ),
+                                  thumbColor: Colors.white,
+                                ),
+                                child: Slider(
+                                  min: 0,
+                                  max: maxDuration,
+                                  value: sliderValue,
+                                  onChanged: (value) {
+                                    _player.seek(
+                                      Duration(seconds: value.toInt()),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      _formatDuration(position),
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.7),
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                    Text(
+                                      _formatDuration(duration),
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.7),
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                       SizedBox(height: 10.h),
-
-                      // --- CONTROLS ---
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -246,18 +312,65 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             color: Colors.white,
                             size: 42.r,
                           ),
-                          Container(
-                            height: 72.r,
-                            width: 72.r,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.play_arrow,
-                              color: Colors.black,
-                              size: 38.r,
-                            ),
+                          StreamBuilder<PlayerState>(
+                            stream: _player.playerStateStream,
+                            builder: (context, snapshot) {
+                              final playerState = snapshot.data;
+                              final processingState =
+                                  playerState?.processingState;
+                              final playing = playerState?.playing;
+
+                              if (processingState == ProcessingState.loading ||
+                                  processingState ==
+                                      ProcessingState.buffering) {
+                                return Container(
+                                  height: 72.r,
+                                  width: 72.r,
+                                  padding: EdgeInsets.all(20.r),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const CircularProgressIndicator(
+                                    color: Colors.black,
+                                  ),
+                                );
+                              } else if (playing != true) {
+                                return GestureDetector(
+                                  onTap: _player.play,
+                                  child: Container(
+                                    height: 72.r,
+                                    width: 72.r,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow,
+                                      color: Colors.black,
+                                      size: 38.r,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return GestureDetector(
+                                  onTap: _player.pause,
+                                  child: Container(
+                                    height: 72.r,
+                                    width: 72.r,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.pause,
+                                      color: Colors.black,
+                                      size: 38.r,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
                           ),
                           Icon(
                             Icons.skip_next,
@@ -271,10 +384,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           ),
                         ],
                       ),
-
                       SizedBox(height: 30.h),
-
-                      // --- BOTTOM ACTIONS ---
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
