@@ -64,8 +64,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Ambil ID kategori yang sedang dipilih
-    // Jika index 0 (Semua), maka ID-nya 0.
     int currentCategoryId = _categories[_selectedIndex].id;
 
     return Scaffold(
@@ -74,7 +72,6 @@ class _DashboardPageState extends State<DashboardPage> {
       body: Column(
         children: [
           DashboardHeader(
-            // Kita mapping ambil namanya saja untuk ditampilkan di Header
             categories: _categories.map((e) => e.name).toList(),
             selectedIndex: _selectedIndex,
             onCategorySelected: (index) {

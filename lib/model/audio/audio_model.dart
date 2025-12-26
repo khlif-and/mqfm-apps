@@ -16,7 +16,6 @@ class AudioResponse {
   }
 }
 
-// [BARU] Class untuk respon satu audio (Detail)
 class SingleAudioResponse {
   final int status;
   final String message;
@@ -55,12 +54,26 @@ class Audio {
   });
 
   factory Audio.fromJson(Map<String, dynamic> json) {
+    const String domainUrl =
+        'https://angella-nevoid-becalmingly.ngrok-free.dev';
+
+    String fixUrl(String? path) {
+      if (path == null || path.isEmpty) return "";
+      if (path.startsWith("http") || path.startsWith("https")) {
+        return path;
+      }
+
+      String cleanPath = path.startsWith('/') ? path.substring(1) : path;
+      return "$domainUrl/$cleanPath";
+    }
+
     return Audio(
       id: json['id'],
       title: json['title'],
-      description: json['description'],
-      audioUrl: json['audio_url'] ?? "",
-      thumbnail: json['thumbnail'] ?? "",
+      description: json['description'] ?? "",
+
+      audioUrl: fixUrl(json['audio_url']),
+      thumbnail: fixUrl(json['thumbnail']),
       categoryId: json['category_id'] ?? 0,
       createdAt: json['created_at'] ?? "",
       updatedAt: json['updated_at'] ?? "",
