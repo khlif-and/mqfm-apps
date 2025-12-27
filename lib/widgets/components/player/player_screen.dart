@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mqfm_apps/controller/audio/audio_controller.dart';
+import 'package:mqfm_apps/controller/playlist/playlist_controller.dart';
 import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/model/playlist/playlist_model.dart';
 import 'package:mqfm_apps/utils/manager/audio_player_manager.dart';
 
 class PlayerScreen extends StatefulWidget {
@@ -17,6 +19,7 @@ class PlayerScreen extends StatefulWidget {
 
 class _PlayerScreenState extends State<PlayerScreen> {
   final AudioController _audioController = AudioController();
+  final PlaylistController _playlistController = PlaylistController();
   final AudioPlayerManager _audioManager = AudioPlayerManager();
 
   AudioPlayer get _player => _audioManager.player;
@@ -38,7 +41,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Future<void> _fetchDetailAudio() async {
     try {
       final id = int.tryParse(widget.audioId) ?? 0;
-      debugPrint("🔍 [INFO] Fetching audio ID: $id");
 
       final response = await _audioController.getDetailAudio(id);
 
@@ -49,28 +51,22 @@ class _PlayerScreenState extends State<PlayerScreen> {
             _isLoading = false;
           });
 
-          debugPrint("✅ [SUCCESS] Data Audio didapat: ${_audioData!.title}");
-
           if (_audioData!.audioUrl.isNotEmpty) {
             _audioManager.currentAudioNotifier.value = _audioData;
 
             try {
               if (_audioManager.currentAudioId == id) {
-                debugPrint("🔄 [INFO] Melanjutkan audio yang sama...");
                 if (!_player.playing) {
                   _player.play();
                 }
               } else {
-                debugPrint("⏳ [PROCESS] Memuat lagu baru...");
                 await _player.stop();
                 await _player.setUrl(_audioData!.audioUrl);
                 _player.play();
 
                 _audioManager.currentAudioId = id;
-                debugPrint("▶️ [PLAYING] Audio berhasil berputar!");
               }
             } catch (playerError) {
-              debugPrint("❌ [PLAYER ERROR] Gagal memutar audio: $playerError");
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Gagal putar: $playerError")),
@@ -84,7 +80,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
       }
     } catch (e) {
       if (mounted) setState(() => _isLoading = false);
-      debugPrint("❌ [SYSTEM ERROR] $e");
     }
   }
 
@@ -93,6 +88,263 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
     final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
     return '$minutes:$seconds';
+  }
+
+  void _showPlaylistBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF121212),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.all(16.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40.w,
+                  height: 4.h,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[600],
+                    borderRadius: BorderRadius.circular(2.r),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                "Tambahkan ke Playlist",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              ListTile(
+                leading: Container(
+                  width: 48.w,
+                  height: 48.w,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[800],
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                  child: Icon(Icons.add, color: Colors.white, size: 28.r),
+                ),
+                title: Text(
+                  "Playlist Baru",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  _showCreatePlaylistDialog();
+                },
+              ),
+              const Divider(color: Colors.grey),
+              Expanded(
+                child: FutureBuilder<PlaylistListResponse>(
+                  future: _playlistController.getAllPlaylists(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(color: Colors.white),
+                      );
+                    }
+                    if (snapshot.hasError ||
+                        snapshot.data?.data == null ||
+                        snapshot.data!.data!.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "Belum ada playlist",
+                          style: TextStyle(color: Colors.grey[400]),
+                        ),
+                      );
+                    }
+
+                    final playlists = snapshot.data!.data!;
+                    return ListView.builder(
+                      itemCount: playlists.length,
+                      itemBuilder: (context, index) {
+                        final playlist = playlists[index];
+                        return ListTile(
+                          leading: Container(
+                            width: 48.w,
+                            height: 48.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4.r),
+                              image: DecorationImage(
+                                image: (playlist.imageUrl.isNotEmpty)
+                                    ? NetworkImage(playlist.imageUrl)
+                                    : const AssetImage(
+                                            'assets/images/img_card.jpg',
+                                          )
+                                          as ImageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          title: Text(
+                            playlist.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          subtitle: Text(
+                            "${playlist.audios.length} audio",
+                            style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                            _addAudioToExistingPlaylist(
+                              playlist.id,
+                              playlist.name,
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showCreatePlaylistDialog() {
+    final TextEditingController nameController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF242424),
+          title: const Text(
+            "Buat Playlist Baru",
+            style: TextStyle(color: Colors.white),
+          ),
+          content: TextField(
+            controller: nameController,
+            style: const TextStyle(color: Colors.white),
+            decoration: const InputDecoration(
+              hintText: "Nama Playlist",
+              hintStyle: TextStyle(color: Colors.grey),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.green),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Batal", style: TextStyle(color: Colors.grey)),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (nameController.text.isNotEmpty && _audioData != null) {
+                  Navigator.pop(context);
+                  _createNewPlaylist(nameController.text);
+                }
+              },
+              child: const Text("Buat", style: TextStyle(color: Colors.green)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _createNewPlaylist(String name) async {
+    try {
+      if (_audioData == null) return;
+
+      final response = await _playlistController.createPlaylist(
+        name: name,
+        audioId: _audioData!.id,
+      );
+
+      if (mounted) {
+        if (response.status == 201) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Playlist '$name' berhasil dibuat!"),
+              backgroundColor: Colors.green,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Gagal: ${response.message}"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: $e"), backgroundColor: Colors.red),
+        );
+      }
+    }
+  }
+
+  Future<void> _addAudioToExistingPlaylist(
+    int playlistId,
+    String playlistName,
+  ) async {
+    try {
+      if (_audioData == null) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Menambahkan ke playlist...")),
+      );
+
+      final success = await _playlistController.addAudioToPlaylist(
+        playlistId: playlistId,
+        audioId: _audioData!.id,
+      );
+
+      if (mounted) {
+        if (success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Berhasil ditambahkan ke '$playlistName'"),
+              backgroundColor: Colors.green,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Gagal menambahkan audio"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Gagal: $e"), backgroundColor: Colors.red),
+        );
+      }
+    }
   }
 
   @override
@@ -219,14 +471,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
                               ],
                             ),
                           ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.add_circle_outline,
-                                color: Colors.white,
-                                size: 28.r,
-                              ),
-                            ],
+                          InkWell(
+                            onTap: _showPlaylistBottomSheet,
+                            child: Icon(
+                              Icons.add_circle_outline,
+                              color: Colors.white,
+                              size: 28.r,
+                            ),
                           ),
                         ],
                       ),
@@ -272,7 +523,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 0,
+                                ),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
