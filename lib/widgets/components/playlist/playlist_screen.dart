@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/controller/playlist/playlist_controller.dart';
 import 'package:mqfm_apps/model/playlist/playlist_model.dart';
 import 'package:mqfm_apps/widgets/components/bottom/bottom_bar.dart';
@@ -23,11 +24,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     _fetchPlaylists();
   }
 
-  // UBAH: Return Future<void> agar bisa dipakai oleh RefreshIndicator
   Future<void> _fetchPlaylists() async {
-    // Opsional: Set loading true jika ingin menampilkan loading bar saat refresh
-    // setState(() => _isLoading = true);
-
     try {
       final response = await _controller.getAllPlaylists();
       if (mounted) {
@@ -59,19 +56,16 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       body: SafeArea(
-        // TAMBAHKAN: RefreshIndicator di sini
         child: RefreshIndicator(
-          onRefresh: _fetchPlaylists, // Panggil fungsi fetch saat ditarik
-          color: Colors.green, // Warna loading
+          onRefresh: _fetchPlaylists,
+          color: Colors.green,
           backgroundColor: const Color(0xFF242424),
           child: SingleChildScrollView(
-            // TAMBAHKAN: Physics ini PENTING agar bisa ditarik walau konten sedikit
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // --- HEADER ---
                 Row(
                   children: [
                     CircleAvatar(
@@ -95,10 +89,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     Icon(Icons.add, color: Colors.white, size: 30.r),
                   ],
                 ),
-
                 SizedBox(height: 24.h),
-
-                // --- FILTER CHIPS ---
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -111,10 +102,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     ],
                   ),
                 ),
-
                 SizedBox(height: 24.h),
-
-                // --- SORT & VIEW OPTIONS ---
                 Row(
                   children: [
                     Icon(Icons.import_export, color: Colors.white, size: 18.r),
@@ -131,10 +119,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     Icon(Icons.grid_view, color: Colors.white, size: 18.r),
                   ],
                 ),
-
                 SizedBox(height: 16.h),
-
-                // --- STATIC MENU ---
                 _LibraryItem(
                   title: 'Kajian Favorit',
                   subtitle: 'Playlist • 12 audio',
@@ -157,7 +142,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     ),
                   ),
                 ),
-
                 _LibraryItem(
                   title: 'Kajian Terbaru',
                   subtitle: 'Diupdate hari ini',
@@ -175,8 +159,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     ),
                   ),
                 ),
-
-                // --- DYNAMIC PLAYLISTS ---
                 if (_isLoading)
                   const Center(
                     child: Padding(
@@ -207,15 +189,18 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   )
                 else
                   ..._playlists.map((playlist) {
-                    return _LibraryItem(
-                      title: playlist.name,
-                      subtitle: 'Playlist • ${playlist.audios.length} audio',
-                      imageUrl: playlist.imageUrl,
-                      isRoundImage: false,
+                    return InkWell(
+                      onTap: () {
+                        context.push('/playlist/${playlist.id}');
+                      },
+                      child: _LibraryItem(
+                        title: playlist.name,
+                        subtitle: 'Playlist • ${playlist.audios.length} audio',
+                        imageUrl: playlist.imageUrl,
+                        isRoundImage: false,
+                      ),
                     );
                   }),
-
-                // Tambahan padding bawah agar item terakhir tidak tertutup BottomBar
                 SizedBox(height: 80.h),
               ],
             ),
@@ -227,7 +212,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   }
 }
 
-// ... _FilterChip dan _LibraryItem tetap sama ...
 class _FilterChip extends StatelessWidget {
   final String label;
 

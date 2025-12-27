@@ -10,6 +10,11 @@ class PlaylistController {
     return PlaylistListResponse.fromJson(response);
   }
 
+  Future<PlaylistResponse> getDetailPlaylist(int id) async {
+    final response = await _service.getDetailPlaylist(id);
+    return PlaylistResponse.fromJson(response);
+  }
+
   Future<PlaylistResponse> createPlaylist({
     required String name,
     required int audioId,

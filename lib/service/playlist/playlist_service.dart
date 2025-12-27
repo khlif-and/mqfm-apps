@@ -38,6 +38,26 @@ class PlaylistService {
     }
   }
 
+  Future<Map<String, dynamic>> getDetailPlaylist(int id) async {
+    try {
+      final headers = await _getHeaders();
+      final response = await http.get(
+        Uri.parse('$baseUrl/$id'),
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception(
+          'Failed to load playlist detail: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   Future<Map<String, dynamic>> createPlaylistAndAddAudio({
     required String name,
     required int audioId,
