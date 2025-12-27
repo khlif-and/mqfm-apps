@@ -182,10 +182,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
                               image: DecorationImage(
                                 image: (playlist.imageUrl.isNotEmpty)
                                     ? NetworkImage(playlist.imageUrl)
+                                          as ImageProvider
                                     : const AssetImage(
-                                            'assets/images/img_card.jpg',
-                                          )
-                                          as ImageProvider,
+                                        'assets/images/img_card.jpg',
+                                      ),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -341,7 +341,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Gagal: $e"), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(e.toString().replaceAll("Exception:", "").trim()),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }

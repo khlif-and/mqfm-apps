@@ -57,7 +57,7 @@ class PlaylistService {
       }
 
       request.headers.addAll(headers);
-      request.fields['name'] = name;
+      request.fields['new_playlist_name'] = name;
       request.fields['audio_id'] = audioId.toString();
 
       if (imageFile != null) {
@@ -71,7 +71,7 @@ class PlaylistService {
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         return jsonDecode(response.body);
       } else {
         throw Exception('Failed to create playlist: ${response.body}');
@@ -86,19 +86,38 @@ class PlaylistService {
     required int audioId,
   }) async {
     try {
-      final headers = await _getHeaders();
-      var uri = Uri.parse('$baseUrl/insert-audio');
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('auth_token');
 
-      var response = await http.post(
-        uri,
-        headers: headers,
-        body: jsonEncode({'playlist_id': playlistId, 'audio_id': audioId}),
-      );
+      var uri = Uri.parse('$baseUrl/add-audio');
+
+      var request = http.MultipartRequest('POST', uri);
+
+      Map<String, String> headers = {'ngrok-skip-browser-warning': 'true'};
+      if (token != null) {
+        headers['Authorization'] = 'Bearer $token';
+      }
+      request.headers.addAll(headers);
+
+      request.fields['playlist_id'] = playlistId.toString();
+      request.fields['audio_id'] = audioId.toString();
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
       } else {
-        return false;
+        String errorMessage = 'Gagal menambahkan audio';
+        try {
+          final body = jsonDecode(response.body);
+          if (body['message'] != null) {
+            errorMessage = body['message'];
+          }
+        } catch (_) {
+          errorMessage = response.body;
+        }
+        throw Exception(errorMessage);
       }
     } catch (e) {
       throw Exception(e.toString());
