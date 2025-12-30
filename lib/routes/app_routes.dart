@@ -9,6 +9,7 @@ import 'package:mqfm_apps/widgets/components/playlist/playlist_detail_screen.dar
 import 'package:mqfm_apps/widgets/components/profile/profile_settings.dart';
 import 'package:mqfm_apps/widgets/components/player/player_screen.dart';
 import 'package:mqfm_apps/widgets/components/search/search_screen.dart';
+import 'package:mqfm_apps/widgets/components/library/liked_audios_screen.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
@@ -66,6 +67,11 @@ final GoRouter appRouter = GoRouter(
         final id = state.pathParameters['id']!;
         return NoTransitionPage(child: PlaylistDetailScreen(playlistId: id));
       },
+    ),
+    GoRoute(
+      path: '/favorites',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: LikedAudiosScreen()),
     ),
   ],
 );

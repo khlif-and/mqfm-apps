@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:mqfm_apps/controller/like/like_controller.dart';
 import 'package:mqfm_apps/model/audio/audio_model.dart';
 import 'package:mqfm_apps/utils/manager/audio_player_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -14,6 +16,38 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   final AudioPlayerManager _audioManager = AudioPlayerManager();
+  final LikeController _likeController = LikeController();
+
+  Future<void> _handleLike(int audioId) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('auth_token');
+
+      if (token != null) {
+        await _likeController.likeAudio(token, audioId);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Status Like berhasil diperbarui"),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Silakan login terlebih dahulu")),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("Gagal: $e")));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +132,9 @@ class _BottomBarState extends State<BottomBar> {
                           color: Colors.white,
                           size: 24.sp,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _handleLike(currentAudio.id);
+                        },
                       ),
                       StreamBuilder<PlayerState>(
                         stream: _audioManager.player.playerStateStream,
@@ -171,7 +207,12 @@ class _BottomBarState extends State<BottomBar> {
                 false,
                 () => context.push('/playlist'),
               ),
-              _buildNavItem(Icons.favorite_border, 'like', false, () {}),
+              _buildNavItem(
+                Icons.favorite_border,
+                'like',
+                false,
+                () => context.push('/favorites'),
+              ),
             ],
           ),
         ),

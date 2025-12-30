@@ -120,24 +120,29 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   ],
                 ),
                 SizedBox(height: 16.h),
-                _LibraryItem(
-                  title: 'Kajian Favorit',
-                  subtitle: 'Playlist • 12 audio',
-                  isPinned: true,
-                  customImage: Container(
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xFF450AF5), Color(0xFFC4EFDA)],
+                InkWell(
+                  onTap: () {
+                    context.push('/favorites');
+                  },
+                  child: _LibraryItem(
+                    title: 'Kajian Favorit',
+                    subtitle: 'Playlist • 12 audio',
+                    isPinned: true,
+                    customImage: Container(
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0xFF450AF5), Color(0xFFC4EFDA)],
+                        ),
+                        borderRadius: BorderRadius.circular(4.r),
                       ),
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.favorite,
-                        color: Colors.white,
-                        size: 24.r,
+                      child: Center(
+                        child: Icon(
+                          Icons.favorite,
+                          color: Colors.white,
+                          size: 24.r,
+                        ),
                       ),
                     ),
                   ),
