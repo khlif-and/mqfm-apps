@@ -58,31 +58,28 @@ class PlaylistService {
     }
   }
 
-  Future<Map<String, dynamic>> createPlaylistAndAddAudio({
+  Future<Map<String, dynamic>> createPlaylist({
     required String name,
-    required int audioId,
     File? imageFile,
   }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('auth_token');
 
-      var uri = Uri.parse('$baseUrl/add-audio');
+      var uri = Uri.parse('$baseUrl/');
       var request = http.MultipartRequest('POST', uri);
 
       Map<String, String> headers = {'ngrok-skip-browser-warning': 'true'};
-
       if (token != null) {
         headers['Authorization'] = 'Bearer $token';
       }
-
       request.headers.addAll(headers);
-      request.fields['new_playlist_name'] = name;
-      request.fields['audio_id'] = audioId.toString();
+
+      request.fields['name'] = name;
 
       if (imageFile != null) {
         var multipartFile = await http.MultipartFile.fromPath(
-          'image',
+          'image_file',
           imageFile.path,
         );
         request.files.add(multipartFile);

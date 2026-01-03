@@ -17,12 +17,10 @@ class PlaylistController {
 
   Future<PlaylistResponse> createPlaylist({
     required String name,
-    required int audioId,
     File? imageFile,
   }) async {
-    final response = await _service.createPlaylistAndAddAudio(
+    final response = await _service.createPlaylist(
       name: name,
-      audioId: audioId,
       imageFile: imageFile,
     );
     return PlaylistResponse.fromJson(response);
