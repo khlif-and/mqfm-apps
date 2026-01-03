@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/register_button.dart';
@@ -56,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF050505),
+      backgroundColor: AppColors.backgroundBlack,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

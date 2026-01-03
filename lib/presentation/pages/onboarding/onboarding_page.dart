@@ -21,28 +21,10 @@ class OnboardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.radio, color: Colors.white, size: 40.w),
-                  SizedBox(width: AppDims.w12),
-                  Text(
-                    "102.7 MQFM",
-                    style: AppStyles.displayLarge.copyWith(
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                "manajemen qolbu",
-                style: AppStyles.bodySmall.copyWith(
-                  color: Colors.white70,
-                  letterSpacing: 2,
-                ),
+              Image.asset(
+                'assets/images/img_splash.png',
+                width: 250.w, // Increased size
+                fit: BoxFit.contain,
               ),
 
               SizedBox(height: AppDims.h48),
@@ -50,7 +32,7 @@ class OnboardingScreen extends StatelessWidget {
               Text(
                 AppStrings.onboardingTagline1,
                 style: AppStyles.titleMedium.copyWith(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontWeight: FontWeight.bold,
                   height: 1.3,
                   fontSize: 18.sp,
@@ -60,7 +42,7 @@ class OnboardingScreen extends StatelessWidget {
               Text(
                 AppStrings.onboardingTagline2,
                 style: AppStyles.titleMedium.copyWith(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontWeight: FontWeight.bold,
                   height: 1.3,
                   fontSize: 18.sp,
@@ -76,7 +58,7 @@ class OnboardingScreen extends StatelessWidget {
                   context.push('/register');
                 },
                 backgroundColor: AppColors.primary,
-                textColor: Colors.black,
+                textColor: AppColors.backgroundBlack,
               ),
 
               SizedBox(height: AppDims.h16),
@@ -87,8 +69,8 @@ class OnboardingScreen extends StatelessWidget {
                   context.push('/login-form');
                 },
                 backgroundColor: Colors.transparent,
-                textColor: Colors.white,
-                borderColor: Colors.white54,
+                textColor: AppColors.textWhite,
+                borderColor: AppColors.textSecondary,
               ),
 
               SizedBox(height: AppDims.h40),

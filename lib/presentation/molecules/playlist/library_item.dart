@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LibraryItem extends StatelessWidget {
@@ -69,7 +70,7 @@ class LibraryItem extends StatelessWidget {
                         angle: 45 * 3.14 / 180,
                         child: Icon(
                           Icons.push_pin,
-                          color: const Color(0xFF1DB954),
+                          color: AppColors.primaryClassic,
                           size: 12.r,
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/library_item.dart';
@@ -40,7 +41,7 @@ class LibraryStaticItems extends StatelessWidget {
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFF450AF5), Color(0xFFC4EFDA)],
+                  colors: [AppColors.gradientBlue, AppColors.gradientGreen],
                 ),
                 borderRadius: BorderRadius.circular(4.r),
               ),
@@ -55,13 +56,14 @@ class LibraryStaticItems extends StatelessWidget {
           subtitle: 'Diupdate hari ini',
           customImage: Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF5E35B1),
+              color: AppColors
+                  .catPurple, // Closest match to 5E35B1 (Deep Purple 600)
               borderRadius: BorderRadius.circular(4.r),
             ),
             child: Center(
               child: Icon(
                 Icons.notifications_active,
-                color: const Color(0xFF1DB954),
+                color: AppColors.primaryClassic,
                 size: 24.r,
               ),
             ),

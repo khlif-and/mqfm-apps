@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/playlist/playlist_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
@@ -32,12 +33,12 @@ class _PlaylistPageState extends State<PlaylistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: logic.fetchPlaylists,
-          color: Colors.green,
-          backgroundColor: const Color(0xFF242424),
+          color: AppColors.primaryClassic,
+          backgroundColor: AppColors.surfaceHeader,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/home/dashboard_logic.dart';
 import 'package:mqfm_apps/presentation/molecules/dashboard/quote_card.dart';
@@ -28,7 +29,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.background,
       drawer: const SidebarProfile(),
       body: ListenableBuilder(
         listenable: logic,

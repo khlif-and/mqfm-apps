@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar.dart';
 
 class SidebarProfile extends StatelessWidget {
   const SidebarProfile({super.key});
@@ -8,7 +10,7 @@ class SidebarProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.background,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -17,18 +19,7 @@ class SidebarProfile extends StatelessWidget {
               padding: EdgeInsets.only(left: 16.w, top: 20.h, bottom: 20.h),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 20.r,
-                    backgroundColor: const Color(0xFF8B5A3C),
-                    child: Text(
-                      "K",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  ProfileAvatar(size: 40.r),
                   SizedBox(width: 12.w),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +83,7 @@ class SidebarProfile extends StatelessWidget {
                         width: 40.r,
                         height: 40.r,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF2A2A2A),
+                          color: AppColors.surfaceHighlight,
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Icon(

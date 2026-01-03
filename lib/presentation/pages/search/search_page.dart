@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/search/search_logic.dart';
 import 'package:mqfm_apps/presentation/molecules/search/search_input_bar.dart';
@@ -49,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -73,7 +74,9 @@ class _SearchPageState extends State<SearchPage> {
                 builder: (context, child) {
                   if (logic.isLoading) {
                     return const Center(
-                      child: CircularProgressIndicator(color: Colors.white),
+                      child: CircularProgressIndicator(
+                        color: AppColors.textWhite,
+                      ),
                     );
                   }
 

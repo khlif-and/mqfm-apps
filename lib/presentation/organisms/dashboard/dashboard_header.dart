@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar.dart';
 
 class DashboardHeader extends StatelessWidget {
   final List<String> categories;
@@ -23,29 +25,17 @@ class DashboardHeader extends StatelessWidget {
         left: 16.w,
         right: 16.w,
       ),
-      decoration: const BoxDecoration(color: Color(0xFF121212)),
+      decoration: const BoxDecoration(color: AppColors.background),
       child: Row(
         children: [
           GestureDetector(
             onTap: () {
               Scaffold.of(context).openDrawer();
             },
-            child: Container(
-              width: 50.r,
-              height: 50.r,
-              decoration: const BoxDecoration(
-                color: Color(0xFFD9D9D9),
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  "K",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
-                  ),
-                ),
-              ),
+            child: ProfileAvatar(
+              size: 32.r,
+              backgroundColor: AppColors.placeholder,
+              textColor: AppColors.backgroundBlack,
             ),
           ),
 
@@ -66,8 +56,8 @@ class DashboardHeader extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: index == selectedIndex
-                            ? const Color(0xFF67E267)
-                            : const Color(0xFF262626),
+                            ? AppColors.primaryLight
+                            : AppColors.cardBackground,
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(

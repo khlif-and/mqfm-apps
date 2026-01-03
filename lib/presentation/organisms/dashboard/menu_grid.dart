@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/controller/audio/audio_controller.dart';
 import 'package:mqfm_apps/model/audio/audio_model.dart';
@@ -70,7 +71,7 @@ class _MenuGridState extends State<MenuGrid> {
         final audio = filteredList[index];
         return Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF1E1E1E),
+            color: AppColors.surfaceCard,
             borderRadius: BorderRadius.circular(4.r),
           ),
           child: Row(
@@ -79,7 +80,7 @@ class _MenuGridState extends State<MenuGrid> {
                 width: 45.w,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD9D9D9),
+                  color: AppColors.placeholder,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(4.r),
                     bottomLeft: Radius.circular(4.r),

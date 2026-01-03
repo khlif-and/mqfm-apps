@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 
 class PlayerBackground extends StatelessWidget {
   final Widget child;
@@ -12,7 +13,11 @@ class PlayerBackground extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFFB94E4E), Color(0xFF682A2A), Color(0xFF1E1C1C)],
+          colors: [
+            AppColors.playerGradient1,
+            AppColors.playerGradient2,
+            AppColors.playerGradient3,
+          ],
         ),
       ),
       child: SafeArea(child: child),
