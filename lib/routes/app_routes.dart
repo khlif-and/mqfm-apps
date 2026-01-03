@@ -1,15 +1,15 @@
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/view/splash_screen.dart';
-import 'package:mqfm_apps/view/onboarding_screen.dart';
-import 'package:mqfm_apps/view/auth/register_screen.dart';
-import 'package:mqfm_apps/view/auth/login_form_screen.dart';
-import 'package:mqfm_apps/view/home/dashboard/dashboard.dart';
-import 'package:mqfm_apps/widgets/components/playlist/playlist_screen.dart';
-import 'package:mqfm_apps/widgets/components/playlist/playlist_detail_screen.dart';
-import 'package:mqfm_apps/widgets/components/profile/profile_settings.dart';
-import 'package:mqfm_apps/widgets/components/player/player_screen.dart';
-import 'package:mqfm_apps/widgets/components/search/search_screen.dart';
-import 'package:mqfm_apps/widgets/components/library/liked_audios_screen.dart';
+import 'package:mqfm_apps/presentation/pages/splash/splash_page.dart';
+import 'package:mqfm_apps/presentation/pages/onboarding/onboarding_page.dart';
+import 'package:mqfm_apps/presentation/pages/auth/register_page.dart';
+import 'package:mqfm_apps/presentation/pages/auth/login_page.dart';
+import 'package:mqfm_apps/presentation/pages/home/dashboard_page.dart';
+import 'package:mqfm_apps/presentation/pages/playlist/playlist_page.dart';
+import 'package:mqfm_apps/presentation/pages/playlist/playlist_detail_page.dart';
+import 'package:mqfm_apps/presentation/pages/profile/profile_settings_page.dart';
+import 'package:mqfm_apps/presentation/pages/player/player_page.dart';
+import 'package:mqfm_apps/presentation/pages/search/search_page.dart';
+import 'package:mqfm_apps/presentation/pages/library/liked_audios_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
@@ -27,12 +27,12 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/register',
       pageBuilder: (context, state) =>
-          const NoTransitionPage(child: RegisterScreen()),
+          const NoTransitionPage(child: RegisterPage()),
     ),
     GoRoute(
       path: '/login-form',
       pageBuilder: (context, state) =>
-          const NoTransitionPage(child: LoginFormScreen()),
+          const NoTransitionPage(child: LoginPage()),
     ),
     GoRoute(
       path: '/dashboard',
@@ -42,36 +42,36 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       pageBuilder: (context, state) =>
-          const NoTransitionPage(child: ProfileSettings()),
+          const NoTransitionPage(child: ProfileSettingsPage()),
     ),
     GoRoute(
       path: '/player/:id',
       pageBuilder: (context, state) {
         final id = state.pathParameters['id']!;
-        return NoTransitionPage(child: PlayerScreen(audioId: id));
+        return NoTransitionPage(child: PlayerPage(audioId: id));
       },
     ),
     GoRoute(
       path: '/search',
       pageBuilder: (context, state) =>
-          const NoTransitionPage(child: SearchScreen()),
+          const NoTransitionPage(child: SearchPage()),
     ),
     GoRoute(
       path: '/playlist',
       pageBuilder: (context, state) =>
-          const NoTransitionPage(child: PlaylistScreen()),
+          const NoTransitionPage(child: PlaylistPage()),
     ),
     GoRoute(
       path: '/playlist/:id',
       pageBuilder: (context, state) {
         final id = state.pathParameters['id']!;
-        return NoTransitionPage(child: PlaylistDetailScreen(playlistId: id));
+        return NoTransitionPage(child: PlaylistDetailPage(playlistId: id));
       },
     ),
     GoRoute(
       path: '/favorites',
       pageBuilder: (context, state) =>
-          const NoTransitionPage(child: LikedAudiosScreen()),
+          const NoTransitionPage(child: LikedAudiosPage()),
     ),
   ],
 );
