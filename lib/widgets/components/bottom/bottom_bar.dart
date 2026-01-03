@@ -18,22 +18,74 @@ class _BottomBarState extends State<BottomBar> {
   final AudioPlayerManager _audioManager = AudioPlayerManager();
   final LikeController _likeController = LikeController();
 
-  Future<void> _handleLike(int audioId) async {
+  // Tambahkan variabel state untuk menyimpan ID lagu yang dilike
+  Set<int> _likedAudioIds = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchLikedStatus(); // Ambil data like saat aplikasi dibuka
+  }
+
+  // Fungsi untuk mengambil daftar audio yang sudah dilike
+  Future<void> _fetchLikedStatus() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('auth_token');
+      if (token != null) {
+        final response = await _likeController.getLikedAudios(token);
+        if (response.data != null) {
+          if (mounted) {
+            setState(() {
+              // Kita ambil ID-nya saja dan masukkan ke Set agar pencarian cepat
+              _likedAudioIds = response.data!.map((e) => e.id).toSet();
+            });
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint("Gagal memuat status like: $e");
+    }
+  }
+
+  Future<void> _handleToggleLike(int audioId) async {
+    final bool isLiked = _likedAudioIds.contains(audioId);
+
+    // OPTIMISTIC UPDATE: Ubah tampilan duluan biar terasa cepat
+    setState(() {
+      if (isLiked) {
+        _likedAudioIds.remove(audioId);
+      } else {
+        _likedAudioIds.add(audioId);
+      }
+    });
+
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('auth_token');
 
       if (token != null) {
-        await _likeController.likeAudio(token, audioId);
+        if (isLiked) {
+          // Kalau tadinya liked, berarti sekarang mau UNLIKE
+          await _likeController.unlikeAudio(token, audioId);
+        } else {
+          // Kalau tadinya belum liked, berarti sekarang mau LIKE
+          await _likeController.likeAudio(token, audioId);
+        }
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Status Like berhasil diperbarui"),
-              duration: Duration(seconds: 1),
+            SnackBar(
+              content: Text(
+                isLiked ? "Dihapus dari favorit" : "Ditambahkan ke favorit",
+              ),
+              duration: const Duration(seconds: 1),
             ),
           );
         }
       } else {
+        // Kalau token null, kembalikan state karena gagal
+        _revertState(audioId, isLiked);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Silakan login terlebih dahulu")),
@@ -41,11 +93,26 @@ class _BottomBarState extends State<BottomBar> {
         }
       }
     } catch (e) {
+      // Jika error API, kembalikan tampilan ke status semula
+      _revertState(audioId, isLiked);
       if (mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text("Gagal: $e")));
       }
+    }
+  }
+
+  // Fungsi helper untuk mengembalikan state jika error
+  void _revertState(int audioId, bool wasLiked) {
+    if (mounted) {
+      setState(() {
+        if (wasLiked) {
+          _likedAudioIds.add(audioId);
+        } else {
+          _likedAudioIds.remove(audioId);
+        }
+      });
     }
   }
 
@@ -59,9 +126,12 @@ class _BottomBarState extends State<BottomBar> {
           builder: (context, currentAudio, child) {
             if (currentAudio == null) return const SizedBox.shrink();
 
+            // Cek apakah audio yang sedang diputar ada di daftar like
+            final bool isLiked = _likedAudioIds.contains(currentAudio.id);
+
             return GestureDetector(
               onTap: () {
-                context.push('/player/${currentAudio.id}');
+                context.push('/player', extra: currentAudio);
               },
               child: Container(
                 margin: EdgeInsets.fromLTRB(8.w, 0, 8.w, 8.h),
@@ -126,16 +196,20 @@ class _BottomBarState extends State<BottomBar> {
                           ],
                         ),
                       ),
+                      // --- TOMBOL LIKE YANG SUDAH DINAMIS ---
                       IconButton(
                         icon: Icon(
-                          Icons.favorite_border,
-                          color: Colors.white,
+                          isLiked ? Icons.favorite : Icons.favorite_border,
+                          color: isLiked
+                              ? Colors.green
+                              : Colors.white, // Ubah warna
                           size: 24.sp,
                         ),
                         onPressed: () {
-                          _handleLike(currentAudio.id);
+                          _handleToggleLike(currentAudio.id);
                         },
                       ),
+                      // -------------------------------------
                       StreamBuilder<PlayerState>(
                         stream: _audioManager.player.playerStateStream,
                         builder: (context, snapshot) {
