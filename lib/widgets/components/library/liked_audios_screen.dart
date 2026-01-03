@@ -67,6 +67,32 @@ class _LikedAudiosScreenState extends State<LikedAudiosScreen> {
     }
   }
 
+  Future<void> _unlikeAudio(int index) async {
+    final audio = _likedAudios[index];
+
+    setState(() {
+      _likedAudios.removeAt(index);
+    });
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('auth_token');
+
+      if (token != null) {
+        await _controller.unlikeAudio(token, audio.id);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _likedAudios.insert(index, audio);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Gagal menghapus dari favorit")),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +141,10 @@ class _LikedAudiosScreenState extends State<LikedAudiosScreen> {
               itemCount: _likedAudios.length,
               itemBuilder: (context, index) {
                 final audio = _likedAudios[index];
+                final dateDisplay = audio.createdAt.contains('T')
+                    ? audio.createdAt.split('T')[0]
+                    : audio.createdAt;
+
                 return Container(
                   margin: EdgeInsets.only(bottom: 12.h),
                   child: ListTile(
@@ -124,11 +154,22 @@ class _LikedAudiosScreenState extends State<LikedAudiosScreen> {
                       height: 50.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.r),
-                        image: DecorationImage(
-                          image: NetworkImage(audio.thumbnail),
-                          fit: BoxFit.cover,
-                        ),
+                        color: Colors.grey[800],
+                        image: audio.thumbnail.isNotEmpty
+                            ? DecorationImage(
+                                image: NetworkImage(audio.thumbnail),
+                                fit: BoxFit.cover,
+                                onError: (exception, stackTrace) {},
+                              )
+                            : null,
                       ),
+                      child: audio.thumbnail.isEmpty
+                          ? Icon(
+                              Icons.music_note,
+                              color: Colors.white,
+                              size: 24.r,
+                            )
+                          : null,
                     ),
                     title: Text(
                       audio.title,
@@ -141,7 +182,7 @@ class _LikedAudiosScreenState extends State<LikedAudiosScreen> {
                       ),
                     ),
                     subtitle: Text(
-                      "Kajian • ${audio.createdAt}",
+                      "Kajian • $dateDisplay",
                       style: TextStyle(
                         color: Colors.grey[400],
                         fontSize: 12.sp,
@@ -149,7 +190,7 @@ class _LikedAudiosScreenState extends State<LikedAudiosScreen> {
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.favorite, color: Colors.green),
-                      onPressed: () {},
+                      onPressed: () => _unlikeAudio(index),
                     ),
                     onTap: () {
                       context.push('/player', extra: audio);

@@ -9,6 +9,11 @@ class LikeController {
     return await _service.toggleLike(token, audioId);
   }
 
+  // Tambahkan ini
+  Future<bool> unlikeAudio(String token, int audioId) async {
+    return await _service.unlikeAudio(token, audioId);
+  }
+
   Future<AudioResponse> getLikedAudios(String token) async {
     return await _service.getLikedAudios(token);
   }
