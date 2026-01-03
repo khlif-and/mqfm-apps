@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/player/player_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/player/add_to_playlist_sheet.dart';
@@ -7,7 +8,7 @@ class PlayerDialogHelper {
   static void showPlaylistBottomSheet(BuildContext context, PlayerLogic logic) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
       ),
@@ -32,7 +33,7 @@ class PlayerDialogHelper {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF242424),
+          backgroundColor: AppColors.surfaceHeader,
           title: const Text(
             "Buat Playlist Baru",
             style: TextStyle(color: Colors.white),

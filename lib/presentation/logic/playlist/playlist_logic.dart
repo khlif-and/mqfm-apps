@@ -36,13 +36,13 @@ class PlaylistLogic extends ChangeNotifier {
         );
         notifyListeners();
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       errorMessage = "Terjadi kesalahan koneksi. Pastikan internet lancar.";
       isLoading = false;
       LogHelper.error(
         "PlaylistLogic",
-        "Exception fetching playlists",
-        e as StackTrace?,
+        "Exception fetching playlists: $e",
+        stackTrace,
       );
       notifyListeners();
     }

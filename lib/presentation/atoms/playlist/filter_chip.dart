@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FilterChipAtom extends StatelessWidget {
@@ -11,7 +12,7 @@ class FilterChipAtom extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF2A2A2A),
+        color: AppColors.surfaceHighlight,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: Colors.transparent),
       ),

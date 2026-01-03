@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/atoms/player/player_background.dart';
 import 'package:mqfm_apps/presentation/logic/player/player_logic.dart';
@@ -56,7 +57,7 @@ class _PlayerPageState extends State<PlayerPage> {
           builder: (context, child) {
             if (logic.isLoading) {
               return const Center(
-                child: CircularProgressIndicator(color: Colors.white),
+                child: CircularProgressIndicator(color: AppColors.textWhite),
               );
             }
 
@@ -64,7 +65,7 @@ class _PlayerPageState extends State<PlayerPage> {
               return const Center(
                 child: Text(
                   "Audio tidak ditemukan",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColors.textWhite),
                 ),
               );
             }

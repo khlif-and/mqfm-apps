@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/controller/audio/audio_controller.dart';
 import 'package:mqfm_apps/model/audio/audio_model.dart';
@@ -103,7 +104,7 @@ class _VerticalContentListState extends State<VerticalContentList> {
                   width: 60.r,
                   height: 60.r,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFD9D9D9),
+                    color: AppColors.placeholder,
                     borderRadius: BorderRadius.circular(12.r),
                     image: DecorationImage(
                       image: (audio.thumbnail.isNotEmpty)

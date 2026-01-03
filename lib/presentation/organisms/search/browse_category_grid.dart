@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/molecules/search/browse_card.dart';
 
@@ -30,27 +31,27 @@ class BrowseCategoryGrid extends StatelessWidget {
           children: const [
             BrowseCard(
               title: 'Music',
-              color: Color(0xFFE91E63),
+              color: AppColors.catPink,
               imageAsset: 'assets/images/img_card.jpg',
             ),
             BrowseCard(
               title: 'Podcasts',
-              color: Color(0xFF00695C),
+              color: AppColors.catTeal,
               imageAsset: 'assets/images/img_card.jpg',
             ),
             BrowseCard(
               title: 'Live Events',
-              color: Color(0xFF7B1FA2),
+              color: AppColors.catPurple,
               imageAsset: 'assets/images/img_card.jpg',
             ),
             BrowseCard(
               title: 'K-Pop ON!\n(온) Hub',
-              color: Color(0xFF1565C0),
+              color: AppColors.catBlue,
               imageAsset: 'assets/images/img_card.jpg',
             ),
             BrowseCard(
               title: 'Wrapped\nLive Ind...',
-              color: Color(0xFFBF360C),
+              color: AppColors.catOrange,
               imageAsset: 'assets/images/img_card.jpg',
             ),
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomPasswordField extends StatefulWidget {
   final TextEditingController controller;
@@ -23,7 +23,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF161616),
+        color: AppColors.surfaceDark,
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: TextFormField(

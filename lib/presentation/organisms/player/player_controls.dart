@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -79,7 +80,7 @@ class PlayerControls extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.shuffle, color: const Color(0xFF1DB954), size: 26.r),
+            Icon(Icons.shuffle, color: AppColors.primaryClassic, size: 26.r),
             Icon(Icons.skip_previous, color: Colors.white, size: 42.r),
             StreamBuilder<PlayerState>(
               stream: player.playerStateStream,

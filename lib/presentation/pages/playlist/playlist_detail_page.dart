@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/logic/playlist/playlist_detail_logic.dart';
@@ -32,12 +33,12 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
           onPressed: () => context.pop(),
         ),
       ),
@@ -46,7 +47,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
         builder: (context, child) {
           if (logic.isLoading) {
             return const Center(
-              child: CircularProgressIndicator(color: Colors.green),
+              child: CircularProgressIndicator(color: AppColors.primaryClassic),
             );
           }
 
@@ -54,7 +55,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
             return Center(
               child: Text(
                 logic.errorMessage!,
-                style: TextStyle(color: Colors.red, fontSize: 16.sp),
+                style: TextStyle(color: AppColors.error, fontSize: 16.sp),
               ),
             );
           }
@@ -63,7 +64,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
             return Center(
               child: Text(
                 "Playlist tidak ditemukan",
-                style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                style: TextStyle(color: AppColors.textWhite, fontSize: 16.sp),
               ),
             );
           }
