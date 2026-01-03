@@ -24,9 +24,20 @@ class _VerticalContentListState extends State<VerticalContentList> {
     _fetchAudios();
   }
 
+  @override
+  void didUpdateWidget(VerticalContentList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedCategoryId != widget.selectedCategoryId) {
+      _fetchAudios();
+    }
+  }
+
   Future<void> _fetchAudios() async {
+    setState(() => _isLoading = true);
     try {
-      final response = await _audioController.getAllAudios();
+      final response = await _audioController.getAudiosByCategory(
+        widget.selectedCategoryId,
+      );
       if (mounted) {
         if (response.status == 200 && response.data != null) {
           setState(() {
@@ -34,7 +45,10 @@ class _VerticalContentListState extends State<VerticalContentList> {
             _isLoading = false;
           });
         } else {
-          setState(() => _isLoading = false);
+          setState(() {
+            _allAudios = [];
+            _isLoading = false;
+          });
         }
       }
     } catch (e) {
@@ -50,11 +64,7 @@ class _VerticalContentListState extends State<VerticalContentList> {
       );
     }
 
-    List<Audio> categoryFiltered = (widget.selectedCategoryId == 0)
-        ? _allAudios
-        : _allAudios
-              .where((e) => e.categoryId == widget.selectedCategoryId)
-              .toList();
+    List<Audio> categoryFiltered = _allAudios;
 
     if (categoryFiltered.isEmpty) return const SizedBox();
 

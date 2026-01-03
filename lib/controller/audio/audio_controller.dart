@@ -12,6 +12,21 @@ class AudioController {
     return await _service.getAudioById(id);
   }
 
+  Future<AudioResponse> getAudiosByCategory(int categoryId) async {
+    final response = await getAllAudios();
+
+    if (response.status == 200 && response.data != null) {
+      if (categoryId == 0) return response; // 0 = All
+
+      final filtered = response.data!
+          .where((audio) => audio.categoryId == categoryId)
+          .toList();
+
+      return AudioResponse(status: 200, message: "Success", data: filtered);
+    }
+    return response;
+  }
+
   Future<AudioResponse> searchAudios(String query) async {
     return await _service.searchAudios(query);
   }
