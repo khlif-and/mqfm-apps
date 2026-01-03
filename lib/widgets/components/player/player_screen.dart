@@ -257,9 +257,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
             ),
             TextButton(
               onPressed: () async {
-                if (nameController.text.isNotEmpty && _audioData != null) {
+                if (nameController.text.isNotEmpty) {
                   Navigator.pop(context);
-                  _createNewPlaylist(nameController.text);
+                  await _createNewPlaylist(nameController.text);
                 }
               },
               child: const Text("Buat", style: TextStyle(color: Colors.green)),
@@ -272,21 +272,19 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   Future<void> _createNewPlaylist(String name) async {
     try {
-      if (_audioData == null) return;
-
-      final response = await _playlistController.createPlaylist(
-        name: name,
-        audioId: _audioData!.id,
-      );
+      final response = await _playlistController.createPlaylist(name: name);
 
       if (mounted) {
-        if (response.status == 201) {
+        if (response.status == 201 || response.status == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text("Playlist '$name' berhasil dibuat!"),
               backgroundColor: Colors.green,
             ),
           );
+
+          setState(() {});
+          _showPlaylistBottomSheet();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
