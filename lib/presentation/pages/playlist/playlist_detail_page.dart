@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/controller/playlist/playlist_controller.dart';
-import 'package:mqfm_apps/model/playlist/playlist_model.dart';
-import 'package:mqfm_apps/presentation/molecules/playlist/playlist_track_tile.dart';
+import 'package:mqfm_apps/presentation/logic/playlist/playlist_detail_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/playlist/playlist_detail_header.dart';
+import 'package:mqfm_apps/presentation/organisms/playlist/playlist_track_list.dart';
 
 class PlaylistDetailPage extends StatefulWidget {
   final String playlistId;
@@ -16,43 +15,18 @@ class PlaylistDetailPage extends StatefulWidget {
 }
 
 class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
-  final PlaylistController _controller = PlaylistController();
-  Playlist? _playlist;
-  bool _isLoading = true;
-  String? _errorMessage;
+  final PlaylistDetailLogic logic = PlaylistDetailLogic();
 
   @override
   void initState() {
     super.initState();
-    _fetchPlaylistDetail();
+    logic.fetchPlaylistDetail(widget.playlistId);
   }
 
-  Future<void> _fetchPlaylistDetail() async {
-    try {
-      final id = int.tryParse(widget.playlistId) ?? 0;
-      final response = await _controller.getDetailPlaylist(id);
-
-      if (mounted) {
-        if (response.status == 200 && response.data != null) {
-          setState(() {
-            _playlist = response.data;
-            _isLoading = false;
-          });
-        } else {
-          setState(() {
-            _errorMessage = "Gagal: ${response.message}";
-            _isLoading = false;
-          });
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _errorMessage = "Error: $e";
-          _isLoading = false;
-        });
-      }
-    }
+  @override
+  void dispose() {
+    logic.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,46 +41,46 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.green))
-          : _errorMessage != null
-          ? Center(
+      body: ListenableBuilder(
+        listenable: logic,
+        builder: (context, child) {
+          if (logic.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.green),
+            );
+          }
+
+          if (logic.errorMessage != null) {
+            return Center(
               child: Text(
-                _errorMessage!,
+                logic.errorMessage!,
                 style: TextStyle(color: Colors.red, fontSize: 16.sp),
               ),
-            )
-          : _playlist == null
-          ? Center(
+            );
+          }
+
+          if (logic.playlist == null) {
+            return Center(
               child: Text(
                 "Playlist tidak ditemukan",
                 style: TextStyle(color: Colors.white, fontSize: 16.sp),
               ),
-            )
-          : SingleChildScrollView(
-              padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PlaylistDetailHeader(playlist: _playlist!),
-                  SizedBox(height: 24.h),
-                  if (_playlist!.audios.isEmpty)
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 20.h),
-                        child: Text(
-                          "Belum ada audio di playlist ini.",
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-                      ),
-                    )
-                  else
-                    ..._playlist!.audios.map(
-                      (audio) => PlaylistTrackTile(audio: audio),
-                    ),
-                ],
-              ),
+            );
+          }
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PlaylistDetailHeader(playlist: logic.playlist!),
+                SizedBox(height: 24.h),
+                PlaylistTrackList(audios: logic.playlist!.audios),
+              ],
             ),
+          );
+        },
+      ),
     );
   }
 }

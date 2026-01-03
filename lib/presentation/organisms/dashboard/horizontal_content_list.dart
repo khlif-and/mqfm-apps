@@ -24,9 +24,20 @@ class _HorizontalContentListState extends State<HorizontalContentList> {
     _fetchAudios();
   }
 
+  @override
+  void didUpdateWidget(HorizontalContentList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedCategoryId != widget.selectedCategoryId) {
+      _fetchAudios();
+    }
+  }
+
   Future<void> _fetchAudios() async {
+    setState(() => _isLoading = true);
     try {
-      final response = await _audioController.getAllAudios();
+      final response = await _audioController.getAudiosByCategory(
+        widget.selectedCategoryId,
+      );
       if (mounted) {
         if (response.status == 200 && response.data != null) {
           setState(() {
@@ -34,7 +45,10 @@ class _HorizontalContentListState extends State<HorizontalContentList> {
             _isLoading = false;
           });
         } else {
-          setState(() => _isLoading = false);
+          setState(() {
+            _allAudios = [];
+            _isLoading = false;
+          });
         }
       }
     } catch (e) {
@@ -50,11 +64,7 @@ class _HorizontalContentListState extends State<HorizontalContentList> {
       );
     }
 
-    List<Audio> filteredList = (widget.selectedCategoryId == 0)
-        ? _allAudios
-        : _allAudios
-              .where((audio) => audio.categoryId == widget.selectedCategoryId)
-              .toList();
+    List<Audio> filteredList = _allAudios;
 
     if (filteredList.isEmpty) {
       return SizedBox(

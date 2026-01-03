@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/controller/auth/auth_controller.dart';
-import 'package:mqfm_apps/presentation/atoms/common/custom_textfield.dart';
-import 'package:mqfm_apps/presentation/molecules/auth/email_field.dart';
-import 'package:mqfm_apps/presentation/molecules/auth/password_field.dart';
+import 'package:mqfm_apps/presentation/atoms/auth/register_button.dart';
+import 'package:mqfm_apps/presentation/atoms/auth/register_title.dart';
+import 'package:mqfm_apps/presentation/logic/auth/register_logic.dart';
+import 'package:mqfm_apps/presentation/organisms/auth/register_form_section.dart';
+import 'package:mqfm_apps/utils/helpers/message_helper.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,70 +15,40 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _authController = AuthController();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
+  final RegisterLogic logic = RegisterLogic();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    logic.dispose();
     super.dispose();
   }
 
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    final success = await logic.register(
+      _usernameController.text,
+      _emailController.text,
+      _passwordController.text,
+    );
 
-    try {
-      final response = await _authController.register(
-        _usernameController.text,
-        _emailController.text,
-        _passwordController.text,
-      );
+    if (!mounted) return;
 
-      if (!mounted) return;
-
-      if (response.status == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Berhasil: ${response.message}"),
-            backgroundColor: Colors.green,
-          ),
-        );
-        context.go('/login-form');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Gagal: ${response.message}"),
-            backgroundColor: Colors.orange,
-          ),
-        );
+    if (success) {
+      if (logic.successMessage != null) {
+        MessageHelper.showSuccess(context, logic.successMessage!);
       }
-    } catch (e) {
-      if (!mounted) return;
-
-      String errorMessage = e.toString().replaceAll("Exception: ", "");
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Error: $errorMessage"),
-          backgroundColor: Colors.red,
-          duration: const Duration(seconds: 4),
-        ),
-      );
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
+      context.go('/login-form');
+    } else {
+      if (logic.errorMessage != null) {
+        MessageHelper.showError(context, logic.errorMessage!);
       }
     }
   }
@@ -103,95 +74,22 @@ class _RegisterPageState extends State<RegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 10.h),
-                Center(
-                  child: Text(
-                    "Buat Akun",
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                const RegisterTitle(),
                 SizedBox(height: 40.h),
-                Text(
-                  "Username",
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                CustomTextField(
-                  controller: _usernameController,
-                  hintText: "Username",
-                  prefixIcon: const Icon(
-                    Icons.person_outline,
-                    color: Colors.white70,
-                  ),
-                  // Note: CustomTextField in commons might need adjustments if the styling was very specific in auth_fields
-                  // But we use the one we created in atoms/common which has prefixIcon support.
-                ),
-                SizedBox(height: 20.h),
-                Text(
-                  "Email",
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                CustomEmailField(controller: _emailController),
-                SizedBox(height: 20.h),
-                Text(
-                  "Password",
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                CustomPasswordField(controller: _passwordController),
-                SizedBox(height: 8.h),
-                Text(
-                  "semua data akun anda akan kami konfirmasi.",
-                  style: TextStyle(color: Colors.grey, fontSize: 10.sp),
+                RegisterFormSection(
+                  usernameController: _usernameController,
+                  emailController: _emailController,
+                  passwordController: _passwordController,
                 ),
                 SizedBox(height: 60.h),
-                Center(
-                  child: SizedBox(
-                    width: 180.w,
-                    height: 48.h,
-                    child: OutlinedButton(
-                      onPressed: _isLoading ? null : _handleRegister,
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.white54, width: 1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                        ),
-                        foregroundColor: Colors.white,
-                      ),
-                      child: _isLoading
-                          ? SizedBox(
-                              height: 20.h,
-                              width: 20.h,
-                              child: const CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : Text(
-                              "Daftar",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16.sp,
-                              ),
-                            ),
-                    ),
-                  ),
+                ListenableBuilder(
+                  listenable: logic,
+                  builder: (context, child) {
+                    return RegisterButton(
+                      isLoading: logic.isLoading,
+                      onPressed: logic.isLoading ? null : _handleRegister,
+                    );
+                  },
                 ),
                 SizedBox(height: 20.h),
               ],
