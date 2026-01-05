@@ -44,9 +44,25 @@ class _SidebarProfileState extends State<SidebarProfile> {
                   return ValueListenableBuilder<UserData?>(
                     valueListenable: UserManager.instance.currentUserNotifier,
                     builder: (context, userData, child) {
+                      // Parse hex color from backend
+                      Color bgColor = const Color(0xFF8B5A3C);
+                      if (userData?.avatarColor != null) {
+                        try {
+                          String hex = userData!.avatarColor!.replaceFirst(
+                            '#',
+                            '',
+                          );
+                          bgColor = Color(int.parse('FF$hex', radix: 16));
+                        } catch (_) {}
+                      }
+
                       return Row(
                         children: [
-                          ProfileAvatar(size: 40.r),
+                          ProfileAvatar(
+                            size: 40.r,
+                            text: userData?.initials ?? "?",
+                            backgroundColor: bgColor,
+                          ),
                           SizedBox(width: 12.w),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

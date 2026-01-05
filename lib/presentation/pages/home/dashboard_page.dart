@@ -9,6 +9,7 @@ import 'package:mqfm_apps/presentation/organisms/dashboard/menu_grid.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/vertical_content_list.dart';
 import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/profile/sidebar_profile.dart';
+import 'package:mqfm_apps/utils/manager/user_manager.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -19,6 +20,12 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   final DashboardLogic logic = DashboardLogic();
+
+  @override
+  void initState() {
+    super.initState();
+    UserManager.instance.fetchUser();
+  }
 
   @override
   void dispose() {

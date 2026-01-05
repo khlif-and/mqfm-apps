@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,7 +77,59 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 SizedBox(height: 10.h),
                 const RegisterTitle(),
-                SizedBox(height: 40.h),
+                SizedBox(height: 20.h),
+                Center(
+                  child: ListenableBuilder(
+                    listenable: logic,
+                    builder: (context, child) {
+                      return GestureDetector(
+                        onTap: logic.pickImage,
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: 100.r,
+                              height: 100.r,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[800],
+                                shape: BoxShape.circle,
+                                image: logic.selectedImage != null
+                                    ? DecorationImage(
+                                        image: FileImage(logic.selectedImage!),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
+                              ),
+                              child: logic.selectedImage == null
+                                  ? Icon(
+                                      Icons.person,
+                                      size: 50.r,
+                                      color: Colors.white,
+                                    )
+                                  : null,
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                padding: EdgeInsets.all(6.r),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.primaryClassic,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  size: 16.r,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 30.h),
                 RegisterFormSection(
                   usernameController: _usernameController,
                   emailController: _emailController,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:mqfm_apps/model/auth/auth_model.dart';
 
@@ -12,16 +13,54 @@ class AuthService {
   static const String baseUrl = '$domainUrl/api/user/auth';
 
   // --- REGISTER ---
+  // --- REGISTER ---
+  // --- REGISTER ---
   Future<AuthResponse> register(
     String username,
     String email,
     String password,
+    File? profilePicture,
   ) async {
-    return _postRequest('$baseUrl/register', {
-      'username': username,
-      'email': email,
-      'password': password,
-    });
+    try {
+      final url = '$baseUrl/register';
+      log("POST Multipart Request ke: $url");
+
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.fields.addAll({
+        'username': username,
+        'email': email,
+        'password': password,
+      });
+
+      if (profilePicture != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'profile_picture',
+            profilePicture.path,
+          ),
+        );
+      }
+
+      request.headers.addAll({'ngrok-skip-browser-warning': 'true'});
+
+      http.StreamedResponse streamedResponse = await request.send();
+      final responseBody = await streamedResponse.stream.bytesToString();
+
+      log("Status: ${streamedResponse.statusCode}");
+      log("Body: $responseBody");
+
+      if (responseBody.isNotEmpty) {
+        final json = jsonDecode(responseBody);
+        return AuthResponse.fromJson(json);
+      } else {
+        throw Exception(
+          "Server Error: Balasan kosong (Status ${streamedResponse.statusCode})",
+        );
+      }
+    } catch (e) {
+      log("Error Koneksi: $e");
+      throw Exception(e.toString());
+    }
   }
 
   // --- LOGIN ---
