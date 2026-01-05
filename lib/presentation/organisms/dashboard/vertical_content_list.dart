@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/controller/audio/audio_controller.dart';
 import 'package:mqfm_apps/model/audio/audio_model.dart';
 
@@ -98,52 +99,68 @@ class _VerticalContentListState extends State<VerticalContentList> {
           separatorBuilder: (context, index) => SizedBox(height: 12.h),
           itemBuilder: (context, index) {
             final audio = finalShowList[index];
-            return Row(
-              children: [
-                Container(
-                  width: 60.r,
-                  height: 60.r,
-                  decoration: BoxDecoration(
-                    color: AppColors.placeholder,
-                    borderRadius: BorderRadius.circular(12.r),
-                    image: DecorationImage(
-                      image: (audio.thumbnail.isNotEmpty)
-                          ? NetworkImage(audio.thumbnail) as ImageProvider
-                          : const AssetImage('assets/images/img_card.jpg'),
-                      fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                context.push('/player/${audio.id}');
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 60.r,
+                    height: 60.r,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12.r),
+                      child: (audio.thumbnail.isNotEmpty)
+                          ? Image.network(
+                              audio.thumbnail,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Image.asset(
+                                    'assets/images/img_card.jpg',
+                                    fit: BoxFit.cover,
+                                  ),
+                            )
+                          : Image.asset(
+                              'assets/images/img_card.jpg',
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        audio.title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          audio.title,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        audio.description,
-                        style: TextStyle(color: Colors.grey, fontSize: 12.sp),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                        SizedBox(height: 4.h),
+                        Text(
+                          audio.description,
+                          style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.more_vert, color: Colors.white, size: 24.sp),
-                ),
-              ],
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                      size: 24.sp,
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),

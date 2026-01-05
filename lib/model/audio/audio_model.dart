@@ -1,3 +1,5 @@
+import 'package:mqfm_apps/utils/api_constants.dart';
+
 class AudioResponse {
   final int status;
   final String message;
@@ -54,8 +56,7 @@ class Audio {
   });
 
   factory Audio.fromJson(Map<String, dynamic> json) {
-    const String domainUrl =
-        'https://angella-nevoid-becalmingly.ngrok-free.dev';
+    const String domainUrl = ApiConstants.baseUrl;
 
     String fixUrl(String? path) {
       if (path == null || path.isEmpty) return "";
@@ -78,5 +79,18 @@ class Audio {
       createdAt: json['created_at'] ?? "",
       updatedAt: json['updated_at'] ?? "",
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'audio_url': audioUrl,
+      'thumbnail': thumbnail,
+      'category_id': categoryId,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
   }
 }

@@ -5,6 +5,7 @@ import 'package:mqfm_apps/controller/playlist/playlist_controller.dart';
 import 'package:mqfm_apps/model/audio/audio_model.dart';
 import 'package:mqfm_apps/utils/manager/audio_player_manager.dart';
 import 'package:mqfm_apps/utils/helpers/log_helper.dart';
+import 'package:mqfm_apps/utils/helpers/preferences_helper.dart';
 
 class PlayerLogic extends ChangeNotifier {
   final AudioController _audioController = AudioController();
@@ -55,22 +56,24 @@ class PlayerLogic extends ChangeNotifier {
       _audioManager.currentAudioNotifier.value = audioData;
 
       if (_audioManager.currentAudioId == id) {
-        if (!player.playing) {
-          player.play();
-        }
+        // Jika ID sama dan sedang pause, jangan auto play.
+        // Biarkan user yang memulai jika mau.
       } else {
         await player.stop();
+        LogHelper.info(
+          "PlayerLogic",
+          "Attempting to play URL: ${audioData!.audioUrl}",
+        );
         await player.setUrl(audioData!.audioUrl);
         player.play();
         _audioManager.currentAudioId = id;
       }
-    } catch (e) {
+
+      // Simpan ke history (Recently Played)
+      await PreferencesHelper.savePlayedAudio(audioData!);
+    } catch (e, stackTrace) {
       errorMessage = "Gagal putar: $e";
-      LogHelper.error(
-        "PlayerLogic",
-        "Player init error",
-        e as StackTrace?,
-      ); // Cast might fail if e is not stacktrace
+      LogHelper.error("PlayerLogic", "Player init error", stackTrace);
       notifyListeners();
     }
   }

@@ -71,26 +71,38 @@ class _PlayerPageState extends State<PlayerPage> {
             }
 
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10.h),
               child: Column(
                 children: [
-                  const PlayerHeader(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: const PlayerHeader(),
+                  ),
                   const Spacer(),
-                  PlayerDisk(imageUrl: logic.audioData!.thumbnail),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: PlayerDisk(imageUrl: logic.audioData!.thumbnail),
+                  ),
                   const Spacer(),
-                  PlayerTrackInfo(
-                    title: logic.audioData!.title,
-                    description: logic.audioData!.description,
-                    onAddToPlaylist: () =>
-                        PlayerDialogHelper.showPlaylistBottomSheet(
-                          context,
-                          logic,
-                        ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: PlayerTrackInfo(
+                      title: logic.audioData!.title,
+                      description: logic.audioData!.description,
+                      onAddToPlaylist: () =>
+                          PlayerDialogHelper.showPlaylistBottomSheet(
+                            context,
+                            logic,
+                          ),
+                    ),
                   ),
                   SizedBox(height: 24.h),
                   PlayerControls(player: logic.player),
                   SizedBox(height: 30.h),
-                  const PlayerBottomActions(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: const PlayerBottomActions(),
+                  ),
                   SizedBox(height: 20.h),
                 ],
               ),

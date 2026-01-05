@@ -42,10 +42,14 @@ class _DashboardPageState extends State<DashboardPage> {
                 onCategorySelected: logic.selectCategory,
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.w),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await logic.fetchCategories(refresh: true);
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (logic.isLoading)
                           const Padding(
@@ -53,20 +57,35 @@ class _DashboardPageState extends State<DashboardPage> {
                             child: LinearProgressIndicator(color: Colors.green),
                           ),
 
-                        MenuGrid(selectedCategoryId: logic.currentCategoryId),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: MenuGrid(
+                            selectedCategoryId: logic.currentCategoryId,
+                          ),
+                        ),
 
                         SizedBox(height: 24.h),
-                        const QuoteCard(),
-                        SizedBox(height: 24.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: QuoteCard(
+                            key: ValueKey("quote-${logic.refreshVersion}"),
+                          ),
+                        ),
+                        SizedBox(height: 32.h),
 
                         HorizontalContentList(
+                          key: ValueKey("horizontal-${logic.refreshVersion}"),
                           selectedCategoryId: logic.currentCategoryId,
                         ),
 
                         SizedBox(height: 24.h),
 
-                        VerticalContentList(
-                          selectedCategoryId: logic.currentCategoryId,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: VerticalContentList(
+                            key: ValueKey("vertical-${logic.refreshVersion}"),
+                            selectedCategoryId: logic.currentCategoryId,
+                          ),
                         ),
 
                         SizedBox(height: 30.h),

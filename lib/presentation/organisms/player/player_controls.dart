@@ -51,7 +51,7 @@ class PlayerControls extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -77,66 +77,75 @@ class PlayerControls extends StatelessWidget {
           },
         ),
         SizedBox(height: 10.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(Icons.shuffle, color: AppColors.primaryClassic, size: 26.r),
-            Icon(Icons.skip_previous, color: Colors.white, size: 42.r),
-            StreamBuilder<PlayerState>(
-              stream: player.playerStateStream,
-              builder: (context, snapshot) {
-                final playerState = snapshot.data;
-                final processingState = playerState?.processingState;
-                final playing = playerState?.playing;
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(Icons.shuffle, color: AppColors.primaryClassic, size: 26.r),
+              Icon(Icons.skip_previous, color: Colors.white, size: 42.r),
+              StreamBuilder<PlayerState>(
+                stream: player.playerStateStream,
+                builder: (context, snapshot) {
+                  final playerState = snapshot.data;
+                  final processingState = playerState?.processingState;
+                  final playing = playerState?.playing;
 
-                if (processingState == ProcessingState.loading ||
-                    processingState == ProcessingState.buffering) {
-                  return Container(
-                    height: 72.r,
-                    width: 72.r,
-                    padding: EdgeInsets.all(20.r),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const CircularProgressIndicator(color: Colors.black),
-                  );
-                } else if (playing != true) {
-                  return GestureDetector(
-                    onTap: player.play,
-                    child: Container(
+                  if (processingState == ProcessingState.loading ||
+                      processingState == ProcessingState.buffering) {
+                    return Container(
                       height: 72.r,
                       width: 72.r,
+                      padding: EdgeInsets.all(20.r),
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(
-                        Icons.play_arrow,
+                      child: const CircularProgressIndicator(
                         color: Colors.black,
-                        size: 38.r,
                       ),
-                    ),
-                  );
-                } else {
-                  return GestureDetector(
-                    onTap: player.pause,
-                    child: Container(
-                      height: 72.r,
-                      width: 72.r,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
+                    );
+                  } else if (playing != true) {
+                    return GestureDetector(
+                      onTap: player.play,
+                      child: Container(
+                        height: 72.r,
+                        width: 72.r,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.play_arrow,
+                          color: Colors.black,
+                          size: 38.r,
+                        ),
                       ),
-                      child: Icon(Icons.pause, color: Colors.black, size: 38.r),
-                    ),
-                  );
-                }
-              },
-            ),
-            Icon(Icons.skip_next, color: Colors.white, size: 42.r),
-            Icon(Icons.timer_outlined, color: Colors.white, size: 26.r),
-          ],
+                    );
+                  } else {
+                    return GestureDetector(
+                      onTap: player.pause,
+                      child: Container(
+                        height: 72.r,
+                        width: 72.r,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.pause,
+                          color: Colors.black,
+                          size: 38.r,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
+              Icon(Icons.skip_next, color: Colors.white, size: 42.r),
+              Icon(Icons.timer_outlined, color: Colors.white, size: 26.r),
+            ],
+          ),
         ),
       ],
     );

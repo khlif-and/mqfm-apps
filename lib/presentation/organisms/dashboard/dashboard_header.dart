@@ -19,15 +19,11 @@ class DashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(
-        top: 50.h,
-        bottom: 16.h,
-        left: 16.w,
-        right: 16.w,
-      ),
+      padding: EdgeInsets.only(top: 50.h, bottom: 16.h),
       decoration: const BoxDecoration(color: AppColors.background),
       child: Row(
         children: [
+          SizedBox(width: 16.w),
           GestureDetector(
             onTap: () {
               Scaffold.of(context).openDrawer();
@@ -44,6 +40,7 @@ class DashboardHeader extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.only(right: 16.w),
               child: Row(
                 children: List.generate(categories.length, (index) {
                   return GestureDetector(
