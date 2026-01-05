@@ -25,7 +25,10 @@ class UserData {
   final String role;
   final String createdAt;
   final String updatedAt;
-  final String? token; // <-- TAMBAHAN: Field Token (Nullable)
+  final String? token;
+  final String? initials;
+  final String? avatarColor;
+  final String? profilePicture;
 
   UserData({
     required this.id,
@@ -34,7 +37,10 @@ class UserData {
     required this.role,
     required this.createdAt,
     required this.updatedAt,
-    this.token, // <-- Tambahkan di constructor
+    this.token,
+    this.initials,
+    this.avatarColor,
+    this.profilePicture,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) {
@@ -45,7 +51,10 @@ class UserData {
       role: json['role'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      token: json['token'], // <-- Ambil token dari JSON
+      token: json['token'],
+      initials: json['initials'],
+      avatarColor: json['avatar_color'],
+      profilePicture: json['profile_picture'],
     );
   }
 
@@ -57,7 +66,10 @@ class UserData {
       'role': role,
       'created_at': createdAt,
       'updated_at': updatedAt,
-      'token': token, // <-- Masukkan ke JSON
+      'token': token,
+      'initials': initials,
+      'avatar_color': avatarColor,
+      'profile_picture': profilePicture,
     };
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:mqfm_apps/model/auth/auth_model.dart';
 import 'package:mqfm_apps/service/auth/auth_service.dart';
 
@@ -9,8 +10,14 @@ class AuthController {
     String username,
     String email,
     String password,
+    File? profilePicture,
   ) async {
-    return await _authService.register(username, email, password);
+    return await _authService.register(
+      username,
+      email,
+      password,
+      profilePicture,
+    );
   }
 
   // --- LOGIN ---
