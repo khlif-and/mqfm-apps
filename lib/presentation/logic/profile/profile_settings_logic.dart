@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/controller/auth/auth_controller.dart';
 import 'package:mqfm_apps/utils/helpers/log_helper.dart';
+import 'package:mqfm_apps/utils/manager/user_manager.dart';
 import 'package:mqfm_apps/utils/helpers/preferences_helper.dart';
 
 class ProfileSettingsLogic extends ChangeNotifier {
@@ -21,6 +22,7 @@ class ProfileSettingsLogic extends ChangeNotifier {
         LogHelper.info("ProfileSettingsLogic", "Attempting logout");
         await _authController.logout(token);
         await PreferencesHelper.removeToken();
+        UserManager.instance.clear();
 
         message = "Berhasil keluar";
         LogHelper.success("ProfileSettingsLogic", "Logout successful");

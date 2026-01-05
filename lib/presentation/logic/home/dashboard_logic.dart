@@ -18,9 +18,10 @@ class DashboardLogic extends ChangeNotifier {
 
   int selectedIndex = 0;
   bool isLoading = true;
+  int refreshVersion = 0; // Key to force rebuild of children
 
   DashboardLogic() {
-    _fetchCategories();
+    fetchCategories();
   }
 
   void selectCategory(int index) {
@@ -30,9 +31,28 @@ class DashboardLogic extends ChangeNotifier {
 
   int get currentCategoryId => categories[selectedIndex].id;
 
-  Future<void> _fetchCategories() async {
+  Future<void> fetchCategories({bool refresh = false}) async {
     try {
-      LogHelper.info("DashboardLogic", "Fetching categories...");
+      LogHelper.info(
+        "DashboardLogic",
+        "${refresh ? 'Refreshing' : 'Fetching'} categories...",
+      );
+
+      if (refresh) {
+        refreshVersion++; // Increment version to trigger rebuilds
+        categories = [
+          Category(
+            id: 0,
+            name: "Semua",
+            description: "All",
+            createdAt: "",
+            updatedAt: "",
+          ),
+        ];
+        isLoading = true;
+        notifyListeners();
+      }
+
       final response = await _categoryController.getAllCategories();
 
       if (response.status == 200 && response.data != null) {
@@ -44,8 +64,6 @@ class DashboardLogic extends ChangeNotifier {
         );
         notifyListeners();
       } else {
-        // Silently fail or log, strictly following original which only logged "Gagal..." in debugPrint
-        // But logic sets isLoading false on failure in original.
         isLoading = false;
         LogHelper.error(
           "DashboardLogic",
@@ -53,12 +71,8 @@ class DashboardLogic extends ChangeNotifier {
         );
         notifyListeners();
       }
-    } catch (e, stackTrace) {
-      LogHelper.error(
-        "DashboardLogic",
-        "Exception fetching categories",
-        stackTrace,
-      );
+    } catch (e) {
+      LogHelper.error("DashboardLogic", "Exception fetching categories: $e");
       isLoading = false;
       notifyListeners();
     }

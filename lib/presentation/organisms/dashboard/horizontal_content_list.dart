@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/controller/audio/audio_controller.dart';
@@ -82,18 +82,22 @@ class _HorizontalContentListState extends State<HorizontalContentList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Di Dengar Oleh Pengguna",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Text(
+            "Di Dengar Oleh Pengguna",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         SizedBox(height: 16.h),
         SizedBox(
           height: 210.h,
           child: ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,
             itemCount: filteredList.length,
             separatorBuilder: (context, index) => SizedBox(width: 16.w),
@@ -109,20 +113,25 @@ class _HorizontalContentListState extends State<HorizontalContentList> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 140.r,
                         width: 140.r,
-                        decoration: BoxDecoration(
-                          color: AppColors.placeholder,
+                        child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.r),
-                          image: DecorationImage(
-                            image: (audio.thumbnail.isNotEmpty)
-                                ? NetworkImage(audio.thumbnail) as ImageProvider
-                                : const AssetImage(
-                                    'assets/images/img_card.jpg',
-                                  ),
-                            fit: BoxFit.cover,
-                          ),
+                          child: (audio.thumbnail.isNotEmpty)
+                              ? Image.network(
+                                  audio.thumbnail,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Image.asset(
+                                        'assets/images/img_card.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                )
+                              : Image.asset(
+                                  'assets/images/img_card.jpg',
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       SizedBox(height: 8.h),
