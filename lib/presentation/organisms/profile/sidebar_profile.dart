@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/model/auth/auth_model.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar.dart';
@@ -8,7 +7,16 @@ import 'package:mqfm_apps/utils/manager/user_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SidebarProfile extends StatefulWidget {
-  const SidebarProfile({super.key});
+  final GlobalKey? profileSectionKey;
+  final GlobalKey? menuSectionKey;
+  final GlobalKey? settingsKey;
+
+  const SidebarProfile({
+    super.key,
+    this.profileSectionKey,
+    this.menuSectionKey,
+    this.settingsKey,
+  });
 
   @override
   State<SidebarProfile> createState() => _SidebarProfileState();
@@ -18,7 +26,6 @@ class _SidebarProfileState extends State<SidebarProfile> {
   @override
   void initState() {
     super.initState();
-    // Fetch user data when sidebar initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UserManager.instance.fetchUser();
     });
@@ -27,25 +34,33 @@ class _SidebarProfileState extends State<SidebarProfile> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color(0xFF121218),
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16.w, top: 20.h, bottom: 20.h),
+            Container(
+              key: widget.profileSectionKey,
+              padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 24.h),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFF1A1A2E),
+                    const Color(0xFF16213E).withOpacity(0.8),
+                  ],
+                ),
+              ),
               child: ValueListenableBuilder<bool>(
                 valueListenable: UserManager.instance.isLoadingNotifier,
                 builder: (context, isLoading, _) {
-                  if (isLoading) {
-                    return _buildShimmerLoading();
-                  }
+                  if (isLoading) return _buildProfileShimmer();
 
                   return ValueListenableBuilder<UserData?>(
                     valueListenable: UserManager.instance.currentUserNotifier,
                     builder: (context, userData, child) {
-                      // Parse hex color from backend
-                      Color bgColor = const Color(0xFF8B5A3C);
+                      Color bgColor = const Color(0xFF6C63FF);
                       if (userData?.avatarColor != null) {
                         try {
                           String hex = userData!.avatarColor!.replaceFirst(
@@ -56,33 +71,52 @@ class _SidebarProfileState extends State<SidebarProfile> {
                         } catch (_) {}
                       }
 
-                      return Row(
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ProfileAvatar(
-                            size: 40.r,
+                            size: 56.r,
                             text: userData?.initials ?? "?",
                             backgroundColor: bgColor,
+                            textColor: Colors.white,
                           ),
-                          SizedBox(width: 12.w),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                userData?.email ?? "Guest",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                          SizedBox(height: 16.h),
+                          Text(
+                            userData?.username ?? 'Guest',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: -0.3,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            userData?.email ?? '',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              userData?.role ?? 'User',
+                              style: TextStyle(
+                                color: const Color(0xFF9D8DF1),
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w600,
                               ),
-                              Text(
-                                "View profile",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 10.sp,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       );
@@ -91,69 +125,118 @@ class _SidebarProfileState extends State<SidebarProfile> {
                 },
               ),
             ),
-            Divider(
-              color: Colors.grey.withOpacity(0.3),
-              height: 1.h,
-              thickness: 1,
+
+            SizedBox(height: 8.h),
+
+            Container(
+              key: widget.menuSectionKey,
+              child: Column(
+                children: [
+                  _buildMenuItem(
+                    icon: Icons.person_outline_rounded,
+                    title: 'Profil Saya',
+                    onTap: () {},
+                  ),
+                  _buildMenuItem(
+                    icon: Icons.history_rounded,
+                    title: 'Riwayat Dengar',
+                    onTap: () {},
+                  ),
+                  _buildMenuItem(
+                    icon: Icons.favorite_border_rounded,
+                    title: 'Kajian Favorit',
+                    onTap: () {},
+                  ),
+                  _buildMenuItem(
+                    icon: Icons.download_outlined,
+                    title: 'Unduhan',
+                    onTap: () {},
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 10.h),
-            _buildMenuItem(Icons.add, "Add account"),
-            _buildMenuItem(Icons.flash_on_outlined, "What's new"),
-            _buildMenuItem(Icons.history, "Recents"),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+              child: Divider(
+                color: Colors.white.withOpacity(0.08),
+                thickness: 1,
+              ),
+            ),
+
             _buildMenuItem(
-              Icons.settings_outlined,
-              "Settings and privacy",
+              key: widget.settingsKey,
+              icon: Icons.settings_outlined,
+              title: 'Pengaturan',
               onTap: () {
                 context.push('/settings');
               },
             ),
-            SizedBox(height: 20.h),
+            _buildMenuItem(
+              icon: Icons.help_outline_rounded,
+              title: 'Bantuan & FAQ',
+              onTap: () {},
+            ),
+            _buildMenuItem(
+              icon: Icons.info_outline_rounded,
+              title: 'Tentang Aplikasi',
+              onTap: () {},
+            ),
+
+            const Spacer(),
+
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Messages",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    "Share what you love with friends, right on Spotify.",
-                    style: TextStyle(color: Colors.grey, fontSize: 12.sp),
-                  ),
-                  SizedBox(height: 16.h),
-                  Row(
-                    children: [
-                      Container(
-                        width: 40.r,
-                        height: 40.r,
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceHighlight,
-                          borderRadius: BorderRadius.circular(20.r),
-                        ),
-                        child: Icon(
-                          Icons.edit_outlined,
-                          color: Colors.white,
-                          size: 20.sp,
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Text(
-                        "New message",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 24.h),
+              child: Container(
+                padding: EdgeInsets.all(16.r),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      const Color(0xFF1E1E2E),
+                      const Color(0xFF2A2A3A).withOpacity(0.6),
                     ],
                   ),
-                ],
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.06),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.mosque_rounded,
+                      color: const Color(0xFF9D8DF1),
+                      size: 28.sp,
+                    ),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'MQFM Podcast',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            'Dengarkan kajian kapan saja',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.4),
+                              fontSize: 11.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -162,59 +245,77 @@ class _SidebarProfileState extends State<SidebarProfile> {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String title, {VoidCallback? onTap}) {
-    return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-      minLeadingWidth: 20.w,
-      leading: Icon(icon, color: Colors.white, size: 24.sp),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
+  Widget _buildMenuItem({
+    required IconData icon,
+    required String title,
+    VoidCallback? onTap,
+    GlobalKey? key,
+  }) {
+    return InkWell(
+      key: key,
+      onTap: onTap ?? () {},
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.white.withOpacity(0.7), size: 22.sp),
+            SizedBox(width: 16.w),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.85),
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+                letterSpacing: -0.1,
+              ),
+            ),
+          ],
         ),
       ),
-      onTap: onTap ?? () {},
     );
   }
 
-  Widget _buildShimmerLoading() {
+  Widget _buildProfileShimmer() {
     return Shimmer.fromColors(
       baseColor: Colors.grey[800]!,
-      highlightColor: Colors.grey[700]!,
-      child: Row(
+      highlightColor: Colors.grey[600]!,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 40.r,
-            height: 40.r,
+            width: 56.r,
+            height: 56.r,
             decoration: const BoxDecoration(
               color: Colors.black,
               shape: BoxShape.circle,
             ),
           ),
-          SizedBox(width: 12.w),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 120.w,
-                height: 16.sp,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Container(
-                width: 80.w,
-                height: 10.sp,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-              ),
-            ],
+          SizedBox(height: 16.h),
+          Container(
+            width: 140.w,
+            height: 18.h,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(4.r),
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Container(
+            width: 180.w,
+            height: 12.h,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(4.r),
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Container(
+            width: 50.w,
+            height: 20.h,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(20.r),
+            ),
           ),
         ],
       ),

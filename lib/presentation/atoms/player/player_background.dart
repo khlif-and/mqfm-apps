@@ -9,17 +9,7 @@ class PlayerBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppColors.playerGradient1,
-            AppColors.playerGradient2,
-            AppColors.playerGradient3,
-          ],
-        ),
-      ),
+      decoration: const BoxDecoration(color: AppColors.background),
       child: SafeArea(child: child),
     );
   }

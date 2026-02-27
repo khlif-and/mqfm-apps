@@ -9,6 +9,19 @@ class PlaylistLogic extends ChangeNotifier {
   List<Playlist> playlists = [];
   bool isLoading = true;
   String? errorMessage;
+  String _searchQuery = '';
+
+  List<Playlist> get filteredPlaylists {
+    if (_searchQuery.isEmpty) return playlists;
+    return playlists
+        .where((p) => p.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .toList();
+  }
+
+  void onSearchChanged(String query) {
+    _searchQuery = query;
+    notifyListeners();
+  }
 
   Future<void> fetchPlaylists() async {
     isLoading = true;
