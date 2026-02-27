@@ -10,6 +10,9 @@ import 'package:mqfm_apps/presentation/organisms/dashboard/vertical_content_list
 import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/profile/sidebar_profile.dart';
 import 'package:mqfm_apps/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/presentation/molecules/guide_tour/guide_tour_targets.dart';
+import 'package:mqfm_apps/presentation/molecules/guide_tour/sidebar_tour_targets.dart';
+import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -20,11 +23,35 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   final DashboardLogic logic = DashboardLogic();
+  final GlobalKey _profileKey = GlobalKey();
+  final GlobalKey _categoryKey = GlobalKey();
+  final GlobalKey _menuGridKey = GlobalKey();
+  final GlobalKey _quoteKey = GlobalKey();
+  final GlobalKey _horizontalListKey = GlobalKey();
+  final GlobalKey _verticalListKey = GlobalKey();
+  final GlobalKey _sidebarProfileKey = GlobalKey();
+  final GlobalKey _sidebarMenuKey = GlobalKey();
+  final GlobalKey _sidebarSettingsKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     UserManager.instance.fetchUser();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final targets = buildDashboardTargets(
+        profileKey: _profileKey,
+        categoryKey: _categoryKey,
+        menuGridKey: _menuGridKey,
+        quoteKey: _quoteKey,
+        horizontalListKey: _horizontalListKey,
+        verticalListKey: _verticalListKey,
+      );
+      GuideTourManager.showTourIfNeeded(
+        context: context,
+        targets: targets,
+        tourKey: 'dashboard_tour_shown',
+      );
+    });
   }
 
   @override
@@ -37,7 +64,27 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      drawer: const SidebarProfile(),
+      onDrawerChanged: (isOpened) {
+        if (isOpened) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final sidebarTargets = buildSidebarTargets(
+              profileSectionKey: _sidebarProfileKey,
+              menuSectionKey: _sidebarMenuKey,
+              settingsKey: _sidebarSettingsKey,
+            );
+            GuideTourManager.showTourIfNeeded(
+              context: context,
+              targets: sidebarTargets,
+              tourKey: 'sidebar_tour_shown',
+            );
+          });
+        }
+      },
+      drawer: SidebarProfile(
+        profileSectionKey: _sidebarProfileKey,
+        menuSectionKey: _sidebarMenuKey,
+        settingsKey: _sidebarSettingsKey,
+      ),
       body: ListenableBuilder(
         listenable: logic,
         builder: (context, child) {
@@ -47,6 +94,8 @@ class _DashboardPageState extends State<DashboardPage> {
                 categories: logic.categories.map((e) => e.name).toList(),
                 selectedIndex: logic.selectedIndex,
                 onCategorySelected: logic.selectCategory,
+                profileKey: _profileKey,
+                categoryKey: _categoryKey,
               ),
               Expanded(
                 child: RefreshIndicator(
@@ -67,6 +116,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: MenuGrid(
+                            key: _menuGridKey,
                             selectedCategoryId: logic.currentCategoryId,
                           ),
                         ),
@@ -74,24 +124,33 @@ class _DashboardPageState extends State<DashboardPage> {
                         SizedBox(height: 24.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: QuoteCard(
-                            key: ValueKey("quote-${logic.refreshVersion}"),
+                          child: Container(
+                            key: _quoteKey,
+                            child: QuoteCard(
+                              key: ValueKey("quote-${logic.refreshVersion}"),
+                            ),
                           ),
                         ),
                         SizedBox(height: 32.h),
 
-                        HorizontalContentList(
-                          key: ValueKey("horizontal-${logic.refreshVersion}"),
-                          selectedCategoryId: logic.currentCategoryId,
+                        Container(
+                          key: _horizontalListKey,
+                          child: HorizontalContentList(
+                            key: ValueKey("horizontal-${logic.refreshVersion}"),
+                            selectedCategoryId: logic.currentCategoryId,
+                          ),
                         ),
 
                         SizedBox(height: 24.h),
 
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: VerticalContentList(
-                            key: ValueKey("vertical-${logic.refreshVersion}"),
-                            selectedCategoryId: logic.currentCategoryId,
+                        Container(
+                          key: _verticalListKey,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: VerticalContentList(
+                              key: ValueKey("vertical-${logic.refreshVersion}"),
+                              selectedCategoryId: logic.currentCategoryId,
+                            ),
                           ),
                         ),
 

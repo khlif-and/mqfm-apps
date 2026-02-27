@@ -10,12 +10,16 @@ class DashboardHeader extends StatelessWidget {
   final List<String> categories;
   final int selectedIndex;
   final Function(int) onCategorySelected;
+  final GlobalKey? profileKey;
+  final GlobalKey? categoryKey;
 
   const DashboardHeader({
     super.key,
     required this.categories,
     required this.selectedIndex,
     required this.onCategorySelected,
+    this.profileKey,
+    this.categoryKey,
   });
 
   @override
@@ -28,6 +32,7 @@ class DashboardHeader extends StatelessWidget {
         children: [
           SizedBox(width: 16.w),
           GestureDetector(
+            key: profileKey,
             onTap: () {
               Scaffold.of(context).openDrawer();
             },
@@ -76,6 +81,7 @@ class DashboardHeader extends StatelessWidget {
           SizedBox(width: 12.w),
 
           Expanded(
+            key: categoryKey,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.only(right: 16.w),

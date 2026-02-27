@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/search/search_logic.dart';
-import 'package:mqfm_apps/presentation/molecules/search/search_input_bar.dart';
+import 'package:mqfm_apps/presentation/molecules/guide_tour/search_tour_targets.dart';
+import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
 import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/search/browse_category_grid.dart';
 import 'package:mqfm_apps/presentation/organisms/search/discover_horizontal_list.dart';
@@ -20,22 +21,33 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final SearchLogic logic = SearchLogic();
   final TextEditingController _searchController = TextEditingController();
+  final GlobalKey _profileKey = GlobalKey();
+  final GlobalKey _searchBarKey = GlobalKey();
+  final GlobalKey _mixedKey = GlobalKey();
+  final GlobalKey _discoverKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     logic.addListener(_onLogicChange);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final targets = buildSearchTargets(
+        profileKey: _profileKey,
+        searchBarKey: _searchBarKey,
+        mixedKey: _mixedKey,
+        discoverKey: _discoverKey,
+      );
+      GuideTourManager.showTourIfNeeded(
+        context: context,
+        targets: targets,
+        tourKey: 'search_tour_shown',
+      );
+    });
   }
 
   void _onLogicChange() {
     if (logic.errorMessage != null && mounted) {
       MessageHelper.showError(context, logic.errorMessage!);
-      // Reset error message so it doesn't show again (this needs a setter in logic or just handle transiently)
-      // Since logic fields are public, ideally logic has a consume method.
-      // For now, allow it to just show.
-      // Ideally logic should clear it, but SearchLogic is simple.
-      // I'll leave it as is, but duplicate snacks might appear if notify called again.
-      // Better to check change.
     }
   }
 
@@ -56,16 +68,11 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SearchHeader(),
-                  SizedBox(height: 24.h),
-                  SearchInputBar(
-                    controller: _searchController,
-                    onChanged: logic.onSearchChanged,
-                  ),
-                ],
+              child: SearchHeader(
+                controller: _searchController,
+                onChanged: logic.onSearchChanged,
+                profileKey: _profileKey,
+                searchBarKey: _searchBarKey,
               ),
             ),
             Expanded(
@@ -89,9 +96,15 @@ class _SearchPageState extends State<SearchPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const BrowseCategoryGrid(),
+                        Container(
+                          key: _mixedKey,
+                          child: const BrowseCategoryGrid(),
+                        ),
                         SizedBox(height: 32.h),
-                        const DiscoverHorizontalList(),
+                        Container(
+                          key: _discoverKey,
+                          child: const DiscoverHorizontalList(),
+                        ),
                         SizedBox(height: 30.h),
                       ],
                     ),

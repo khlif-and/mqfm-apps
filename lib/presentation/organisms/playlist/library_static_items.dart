@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/library_item.dart';
@@ -13,18 +12,26 @@ class LibraryStaticItems extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.import_export, color: Colors.white, size: 18.r),
+            Icon(
+              Icons.swap_vert_rounded,
+              color: const Color(0xFFB3B3B3),
+              size: 22.r,
+            ),
             SizedBox(width: 8.w),
             Text(
               'Terbaru',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const Spacer(),
-            Icon(Icons.grid_view, color: Colors.white, size: 18.r),
+            Icon(
+              Icons.grid_view_outlined,
+              color: const Color(0xFFB3B3B3),
+              size: 22.r,
+            ),
           ],
         ),
         SizedBox(height: 16.h),
@@ -41,12 +48,15 @@ class LibraryStaticItems extends StatelessWidget {
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [AppColors.gradientBlue, AppColors.gradientGreen],
+                  colors: [
+                    Color(0xFF450AF5),
+                    Color(0xFFC4EFD9),
+                  ], // Spotify-like gradient for liked songs
                 ),
-                borderRadius: BorderRadius.circular(4.r),
+                borderRadius: BorderRadius.circular(2.r),
               ),
               child: Center(
-                child: Icon(Icons.favorite, color: Colors.white, size: 24.r),
+                child: Icon(Icons.favorite, color: Colors.white, size: 28.r),
               ),
             ),
           ),
@@ -56,15 +66,14 @@ class LibraryStaticItems extends StatelessWidget {
           subtitle: 'Diupdate hari ini',
           customImage: Container(
             decoration: BoxDecoration(
-              color: AppColors
-                  .catPurple, // Closest match to 5E35B1 (Deep Purple 600)
-              borderRadius: BorderRadius.circular(4.r),
+              color: const Color(0xFF0D72EA), // Vibrant blue
+              borderRadius: BorderRadius.circular(2.r),
             ),
             child: Center(
               child: Icon(
-                Icons.notifications_active,
-                color: AppColors.primaryClassic,
-                size: 24.r,
+                Icons.notifications_active_rounded,
+                color: Colors.white,
+                size: 28.r,
               ),
             ),
           ),

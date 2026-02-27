@@ -1,12 +1,114 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/presentation/molecules/search/discover_card.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/controller/audio/audio_controller.dart';
+import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
+import 'package:shimmer/shimmer.dart';
 
-class DiscoverHorizontalList extends StatelessWidget {
+class DiscoverHorizontalList extends StatefulWidget {
   const DiscoverHorizontalList({super.key});
 
   @override
+  State<DiscoverHorizontalList> createState() => _DiscoverHorizontalListState();
+}
+
+class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
+  final AudioController _audioController = AudioController();
+  List<Audio> _audios = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAudios();
+  }
+
+  Future<void> _fetchAudios() async {
+    try {
+      final response = await _audioController.getAllAudios();
+      if (mounted && response.status == 200 && response.data != null) {
+        setState(() {
+          _audios = response.data!;
+          _isLoading = false;
+        });
+      } else {
+        if (mounted) setState(() => _isLoading = false);
+      }
+    } catch (e) {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Shimmer.fromColors(
+            baseColor: Colors.grey[800]!,
+            highlightColor: Colors.grey[600]!,
+            child: Container(
+              width: 180.w,
+              height: 18.h,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(4.r),
+              ),
+            ),
+          ),
+          SizedBox(height: 16.h),
+          ...List.generate(4, (_) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: 12.h),
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[800]!,
+                highlightColor: Colors.grey[600]!,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 52.w,
+                      height: 52.w,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(2.r),
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: 14.h,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          Container(
+                            width: 100.w,
+                            height: 12.h,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+        ],
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,28 +121,107 @@ class DiscoverHorizontalList extends StatelessWidget {
           ),
         ),
         SizedBox(height: 16.h),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              DiscoverCard(
-                imageAsset: 'assets/images/img_card.jpg',
-                tag: '#chill',
-              ),
-              SizedBox(width: 16.w),
-              DiscoverCard(
-                imageAsset: 'assets/images/img_card.jpg',
-                tag: '#cinnamon',
-              ),
-              SizedBox(width: 16.w),
-              DiscoverCard(
-                imageAsset: 'assets/images/img_card.jpg',
-                tag: '#hope',
-              ),
-            ],
+        if (_audios.isEmpty)
+          const EmptyStateCard(
+            message: 'Belum ada data saat ini',
+            icon: Icons.explore_off_rounded,
+          )
+        else
+          ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _audios.length,
+            itemBuilder: (context, index) {
+              return _DiscoverTrackTile(audio: _audios[index]);
+            },
+          ),
+      ],
+    );
+  }
+}
+
+class _DiscoverTrackTile extends StatelessWidget {
+  final Audio audio;
+
+  const _DiscoverTrackTile({required this.audio});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        context.push('/player/${audio.id}');
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10.h),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(0.15),
+              width: 0.5,
+            ),
           ),
         ),
-      ],
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 52.w,
+              height: 52.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2.r),
+                image: DecorationImage(
+                  image: (audio.thumbnail.isNotEmpty)
+                      ? NetworkImage(audio.thumbnail)
+                      : const AssetImage('assets/images/img_card.jpg')
+                            as ImageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    audio.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(
+                    audio.description,
+                    style: TextStyle(
+                      color: const Color(0xFFB3B3B3),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.more_vert,
+                color: const Color(0xFFB3B3B3),
+                size: 24.sp,
+              ),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
