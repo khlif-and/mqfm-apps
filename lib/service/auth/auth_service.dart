@@ -169,4 +169,53 @@ class AuthService {
       throw Exception(e.toString());
     }
   }
+
+  Future<AuthResponse> updateProfile(
+    String token,
+    int userId, {
+    String? username,
+    File? profilePicture,
+  }) async {
+    try {
+      final url = '$baseUrl/update/$userId';
+      log("PUT Multipart Request ke: $url");
+
+      var request = http.MultipartRequest('PUT', Uri.parse(url));
+      request.headers.addAll({
+        'ngrok-skip-browser-warning': 'true',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (username != null && username.isNotEmpty) {
+        request.fields['username'] = username;
+      }
+
+      if (profilePicture != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'profile_picture',
+            profilePicture.path,
+          ),
+        );
+      }
+
+      http.StreamedResponse streamedResponse = await request.send();
+      final responseBody = await streamedResponse.stream.bytesToString();
+
+      log("Status: ${streamedResponse.statusCode}");
+      log("Body: $responseBody");
+
+      if (responseBody.isNotEmpty) {
+        final json = jsonDecode(responseBody);
+        return AuthResponse.fromJson(json);
+      } else {
+        throw Exception(
+          "Server Error: Balasan kosong (Status ${streamedResponse.statusCode})",
+        );
+      }
+    } catch (e) {
+      log("Error Koneksi: $e");
+      throw Exception(e.toString());
+    }
+  }
 }

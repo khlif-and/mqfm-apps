@@ -34,4 +34,18 @@ class AuthController {
   Future<AuthResponse> logout(String token) async {
     return await _authService.logout(token);
   }
+
+  Future<AuthResponse> updateProfile(
+    String token,
+    int userId, {
+    String? username,
+    File? profilePicture,
+  }) async {
+    return await _authService.updateProfile(
+      token,
+      userId,
+      username: username,
+      profilePicture: profilePicture,
+    );
+  }
 }

@@ -88,4 +88,32 @@ class AudioService {
       throw Exception(e.toString());
     }
   }
+
+  Future<PlayHistoryResponse> getPlayHistory(String token) async {
+    try {
+      final url = '$domainUrl/api/user/history/';
+      log("GET Request ke: $url");
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'ngrok-skip-browser-warning': 'true',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      log("Status History: ${response.statusCode}");
+
+      if (response.statusCode == 200 && response.body.isNotEmpty) {
+        final json = jsonDecode(response.body);
+        return PlayHistoryResponse.fromJson(json);
+      } else {
+        throw Exception("Gagal memuat history: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("Error Service History: $e");
+      throw Exception(e.toString());
+    }
+  }
 }

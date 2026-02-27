@@ -94,3 +94,50 @@ class Audio {
     };
   }
 }
+
+class PlayHistory {
+  final int id;
+  final int userId;
+  final int audioId;
+  final int playCount;
+  final String playedAt;
+  final String createdAt;
+
+  PlayHistory({
+    required this.id,
+    required this.userId,
+    required this.audioId,
+    required this.playCount,
+    required this.playedAt,
+    required this.createdAt,
+  });
+
+  factory PlayHistory.fromJson(Map<String, dynamic> json) {
+    return PlayHistory(
+      id: json['id'],
+      userId: json['user_id'],
+      audioId: json['audio_id'],
+      playCount: json['play_count'] ?? 1,
+      playedAt: json['played_at'] ?? "",
+      createdAt: json['created_at'] ?? "",
+    );
+  }
+}
+
+class PlayHistoryResponse {
+  final int status;
+  final String message;
+  final List<PlayHistory>? data;
+
+  PlayHistoryResponse({required this.status, required this.message, this.data});
+
+  factory PlayHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return PlayHistoryResponse(
+      status: json['status'],
+      message: json['message'],
+      data: json['data'] != null
+          ? (json['data'] as List).map((i) => PlayHistory.fromJson(i)).toList()
+          : null,
+    );
+  }
+}
