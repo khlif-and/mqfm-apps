@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/login_button.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/login_title.dart';
+import 'package:mqfm_apps/presentation/atoms/common/google_auth_card.dart';
+import 'package:mqfm_apps/presentation/atoms/common/google_sign_in_button.dart';
 import 'package:mqfm_apps/presentation/logic/auth/login_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/auth/login_form_section.dart';
 import 'package:mqfm_apps/utils/helpers/message_helper.dart';
@@ -51,6 +53,20 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<void> _handleGoogleSignIn() async {
+    final success = await logic.signInWithGoogle();
+
+    if (!mounted) return;
+
+    if (success) {
+      context.go('/dashboard');
+    } else {
+      if (logic.errorMessage != null) {
+        GoogleAuthCard.showError(context, logic.errorMessage!);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +101,45 @@ class _LoginPageState extends State<LoginPage> {
                     return LoginButton(
                       isLoading: logic.isLoading,
                       onPressed: logic.isLoading ? null : _handleLogin,
+                    );
+                  },
+                ),
+                SizedBox(height: 24.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: AppColors.textSecondary.withValues(alpha: 0.3),
+                        thickness: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Text(
+                        'atau',
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: AppColors.textSecondary.withValues(alpha: 0.3),
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24.h),
+                ListenableBuilder(
+                  listenable: logic,
+                  builder: (context, child) {
+                    return GoogleSignInButton(
+                      isLoading: logic.isGoogleLoading,
+                      onPressed: logic.isGoogleLoading
+                          ? null
+                          : _handleGoogleSignIn,
                     );
                   },
                 ),

@@ -1,10 +1,12 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/register_button.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/register_title.dart';
+import 'package:mqfm_apps/presentation/atoms/common/google_auth_card.dart';
+import 'package:mqfm_apps/presentation/atoms/common/google_sign_in_button.dart';
+import 'package:mqfm_apps/presentation/logic/auth/login_logic.dart';
 import 'package:mqfm_apps/presentation/logic/auth/register_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/auth/register_form_section.dart';
 import 'package:mqfm_apps/utils/helpers/message_helper.dart';
@@ -18,6 +20,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final RegisterLogic logic = RegisterLogic();
+  final LoginLogic googleLogic = LoginLogic();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -29,6 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _passwordController.dispose();
     logic.dispose();
+    googleLogic.dispose();
     super.dispose();
   }
 
@@ -51,6 +55,20 @@ class _RegisterPageState extends State<RegisterPage> {
     } else {
       if (logic.errorMessage != null) {
         MessageHelper.showError(context, logic.errorMessage!);
+      }
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    final success = await googleLogic.signInWithGoogle();
+
+    if (!mounted) return;
+
+    if (success) {
+      context.go('/dashboard');
+    } else {
+      if (googleLogic.errorMessage != null) {
+        GoogleAuthCard.showError(context, googleLogic.errorMessage!);
       }
     }
   }
@@ -142,6 +160,45 @@ class _RegisterPageState extends State<RegisterPage> {
                     return RegisterButton(
                       isLoading: logic.isLoading,
                       onPressed: logic.isLoading ? null : _handleRegister,
+                    );
+                  },
+                ),
+                SizedBox(height: 24.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: AppColors.textSecondary.withValues(alpha: 0.3),
+                        thickness: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Text(
+                        'atau',
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: AppColors.textSecondary.withValues(alpha: 0.3),
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24.h),
+                ListenableBuilder(
+                  listenable: googleLogic,
+                  builder: (context, child) {
+                    return GoogleSignInButton(
+                      isLoading: googleLogic.isGoogleLoading,
+                      onPressed: googleLogic.isGoogleLoading
+                          ? null
+                          : _handleGoogleSignIn,
                     );
                   },
                 ),

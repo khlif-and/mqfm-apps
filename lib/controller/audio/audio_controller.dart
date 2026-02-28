@@ -30,4 +30,8 @@ class AudioController {
   Future<AudioResponse> searchAudios(String query) async {
     return await _service.searchAudios(query);
   }
+
+  Future<PlayHistoryResponse> getPlayHistory(String token) async {
+    return await _service.getPlayHistory(token);
+  }
 }

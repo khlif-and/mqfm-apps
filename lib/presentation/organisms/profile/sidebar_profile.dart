@@ -135,12 +135,18 @@ class _SidebarProfileState extends State<SidebarProfile> {
                   _buildMenuItem(
                     icon: Icons.person_outline_rounded,
                     title: 'Profil Saya',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context);
+                      context.push('/edit-profile');
+                    },
                   ),
                   _buildMenuItem(
                     icon: Icons.history_rounded,
                     title: 'Riwayat Dengar',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context);
+                      context.push('/history');
+                    },
                   ),
                   _buildMenuItem(
                     icon: Icons.favorite_border_rounded,

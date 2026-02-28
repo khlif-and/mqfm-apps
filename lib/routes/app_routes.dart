@@ -10,6 +10,8 @@ import 'package:mqfm_apps/presentation/pages/profile/profile_settings_page.dart'
 import 'package:mqfm_apps/presentation/pages/player/player_page.dart';
 import 'package:mqfm_apps/presentation/pages/search/search_page.dart';
 import 'package:mqfm_apps/presentation/pages/library/liked_audios_page.dart';
+import 'package:mqfm_apps/presentation/pages/history/history_page.dart';
+import 'package:mqfm_apps/presentation/pages/profile/edit_profile_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
@@ -72,6 +74,16 @@ final GoRouter appRouter = GoRouter(
       path: '/favorites',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: LikedAudiosPage()),
+    ),
+    GoRoute(
+      path: '/history',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: HistoryPage()),
+    ),
+    GoRoute(
+      path: '/edit-profile',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: EditProfilePage()),
     ),
   ],
 );

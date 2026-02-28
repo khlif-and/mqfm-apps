@@ -5,7 +5,6 @@ import 'package:mqfm_apps/service/auth/auth_service.dart';
 class AuthController {
   final AuthService _authService = AuthService();
 
-  // --- REGISTER ---
   Future<AuthResponse> register(
     String username,
     String email,
@@ -20,18 +19,33 @@ class AuthController {
     );
   }
 
-  // --- LOGIN ---
   Future<AuthResponse> login(String email, String password) async {
     return await _authService.login(email, password);
   }
 
-  // --- ME (CEK PROFILE) ---
+  Future<AuthResponse> signInWithGoogle() async {
+    return await _authService.signInWithGoogle();
+  }
+
   Future<AuthResponse> me(String token) async {
     return await _authService.me(token);
   }
 
-  // --- LOGOUT (BARU) ---
   Future<AuthResponse> logout(String token) async {
     return await _authService.logout(token);
+  }
+
+  Future<AuthResponse> updateProfile(
+    String token,
+    int userId, {
+    String? username,
+    File? profilePicture,
+  }) async {
+    return await _authService.updateProfile(
+      token,
+      userId,
+      username: username,
+      profilePicture: profilePicture,
+    );
   }
 }
