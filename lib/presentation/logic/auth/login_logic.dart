@@ -7,6 +7,7 @@ class LoginLogic extends ChangeNotifier {
   final AuthController _authController = AuthController();
 
   bool isLoading = false;
+  bool isGoogleLoading = false;
   String? errorMessage;
   String? successMessage;
 
@@ -42,6 +43,49 @@ class LoginLogic extends ChangeNotifier {
           "Error Koneksi: ${e.toString().replaceAll("Exception: ", "")}";
       LogHelper.error("LoginLogic", "Exception during login", stackTrace);
       isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> signInWithGoogle() async {
+    isGoogleLoading = true;
+    errorMessage = null;
+    successMessage = null;
+    notifyListeners();
+
+    try {
+      LogHelper.info("LoginLogic", "Attempting Google sign-in");
+      final response = await _authController.signInWithGoogle();
+
+      if (response.status == 200) {
+        if (response.data?.token != null) {
+          await PreferencesHelper.saveToken(response.data!.token!);
+        }
+
+        successMessage = "Login Berhasil! Hai ${response.data?.username}";
+        LogHelper.success("LoginLogic", "Google sign-in successful");
+        isGoogleLoading = false;
+        notifyListeners();
+        return true;
+      } else {
+        errorMessage = "Gagal Masuk: ${response.message}";
+        LogHelper.error(
+          "LoginLogic",
+          "Google sign-in failed: ${response.message}",
+        );
+        isGoogleLoading = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e, stackTrace) {
+      errorMessage = "Error: ${e.toString().replaceAll("Exception: ", "")}";
+      LogHelper.error(
+        "LoginLogic",
+        "Exception during Google sign-in",
+        stackTrace,
+      );
+      isGoogleLoading = false;
       notifyListeners();
       return false;
     }
