@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/molecules/profile/settings_tile.dart';
 
 class SettingsList extends StatelessWidget {
@@ -45,7 +46,7 @@ class SettingsList extends StatelessWidget {
           onTap: () {},
         ),
         SettingsTile(
-          icon: Icons.arrow_circle_down_outlined,
+          icon: Icons.data_usage_outlined,
           title: 'Data-saving and offline',
           subtitle: 'Data saver mode • Downloads over cellular',
           onTap: () {},
@@ -63,10 +64,16 @@ class SettingsList extends StatelessWidget {
           onTap: () {},
         ),
         SettingsTile(
+          icon: Icons.help_outline_rounded,
+          title: 'Bantuan & FAQ',
+          subtitle: 'Panduan Ekstensif',
+          onTap: () => context.push('/help'),
+        ),
+        SettingsTile(
           icon: Icons.info_outline,
-          title: 'About and support',
-          subtitle: 'Version • Privacy Policy',
-          onTap: () {},
+          title: 'Tentang Aplikasi',
+          subtitle: 'Versi • Info Aplikasi',
+          onTap: () => context.push('/about'),
         ),
       ],
     );

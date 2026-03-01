@@ -41,17 +41,12 @@ class _SidebarProfileState extends State<SidebarProfile> {
           children: [
             Container(
               key: widget.profileSectionKey,
-              padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 24.h),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    const Color(0xFF1A1A2E),
-                    const Color(0xFF16213E).withOpacity(0.8),
-                  ],
-                ),
-              ),
+              padding: EdgeInsets.fromLTRB(
+                20.w,
+                48.h,
+                20.w,
+                24.h,
+              ), // adjusted padding for without background box
               child: ValueListenableBuilder<bool>(
                 valueListenable: UserManager.instance.isLoadingNotifier,
                 builder: (context, isLoading, _) {
@@ -99,25 +94,6 @@ class _SidebarProfileState extends State<SidebarProfile> {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          SizedBox(height: 4.h),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.08),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Text(
-                              userData?.role ?? 'User',
-                              style: TextStyle(
-                                color: const Color(0xFF9D8DF1),
-                                fontSize: 11.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
                         ],
                       );
                     },
@@ -136,7 +112,6 @@ class _SidebarProfileState extends State<SidebarProfile> {
                     icon: Icons.person_outline_rounded,
                     title: 'Profil Saya',
                     onTap: () {
-                      Navigator.pop(context);
                       context.push('/edit-profile');
                     },
                   ),
@@ -144,7 +119,6 @@ class _SidebarProfileState extends State<SidebarProfile> {
                     icon: Icons.history_rounded,
                     title: 'Riwayat Dengar',
                     onTap: () {
-                      Navigator.pop(context);
                       context.push('/history');
                     },
                   ),
@@ -156,7 +130,9 @@ class _SidebarProfileState extends State<SidebarProfile> {
                   _buildMenuItem(
                     icon: Icons.download_outlined,
                     title: 'Unduhan',
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/downloads');
+                    },
                   ),
                 ],
               ),
@@ -181,12 +157,16 @@ class _SidebarProfileState extends State<SidebarProfile> {
             _buildMenuItem(
               icon: Icons.help_outline_rounded,
               title: 'Bantuan & FAQ',
-              onTap: () {},
+              onTap: () {
+                context.push('/help');
+              },
             ),
             _buildMenuItem(
               icon: Icons.info_outline_rounded,
               title: 'Tentang Aplikasi',
-              onTap: () {},
+              onTap: () {
+                context.push('/about');
+              },
             ),
 
             const Spacer(),
