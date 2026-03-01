@@ -194,6 +194,7 @@ class AuthService {
     String token,
     int userId, {
     String? username,
+    String? email,
     File? profilePicture,
   }) async {
     try {
@@ -208,6 +209,10 @@ class AuthService {
 
       if (username != null && username.isNotEmpty) {
         request.fields['username'] = username;
+      }
+
+      if (email != null && email.isNotEmpty) {
+        request.fields['email'] = email;
       }
 
       if (profilePicture != null) {

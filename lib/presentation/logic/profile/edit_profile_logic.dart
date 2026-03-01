@@ -12,7 +12,11 @@ class EditProfileLogic extends ChangeNotifier {
   String? successMessage;
   String? errorMessage;
 
-  Future<bool> updateProfile({String? username, File? profilePicture}) async {
+  Future<bool> updateProfile({
+    String? username,
+    String? email,
+    File? profilePicture,
+  }) async {
     isLoading = true;
     successMessage = null;
     errorMessage = null;
@@ -38,6 +42,7 @@ class EditProfileLogic extends ChangeNotifier {
         token,
         user.id,
         username: username,
+        email: email,
         profilePicture: profilePicture,
       );
 

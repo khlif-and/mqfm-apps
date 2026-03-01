@@ -39,12 +39,14 @@ class AuthController {
     String token,
     int userId, {
     String? username,
+    String? email,
     File? profilePicture,
   }) async {
     return await _authService.updateProfile(
       token,
       userId,
       username: username,
+      email: email,
       profilePicture: profilePicture,
     );
   }

@@ -11,6 +11,9 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
+  final bool readOnly;
+  final TextStyle? style;
+  final EdgeInsetsGeometry? contentPadding;
 
   const CustomTextField({
     super.key,
@@ -21,6 +24,9 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.validator,
+    this.readOnly = false,
+    this.style,
+    this.contentPadding,
   });
 
   @override
@@ -28,18 +34,21 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      readOnly: readOnly,
       keyboardType: keyboardType,
       validator: validator,
-      style: AppStyles.bodyLarge,
+      style: style ?? AppStyles.bodyLarge,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: AppStyles.inputHint,
         filled: true,
         fillColor: AppColors.inputBackground,
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: AppDims.w16,
-          vertical: AppDims.h16,
-        ),
+        contentPadding:
+            contentPadding ??
+            EdgeInsets.symmetric(
+              horizontal: AppDims.w16,
+              vertical: AppDims.h16,
+            ),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
