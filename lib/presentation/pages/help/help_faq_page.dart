@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/presentation/molecules/common/custom_app_bar.dart';
+import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/faq/faq_contact_buttons.dart';
 import 'package:mqfm_apps/presentation/organisms/faq/faq_list.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';

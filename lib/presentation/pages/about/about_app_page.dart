@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/presentation/organisms/about/about_content.dart';
-import 'package:mqfm_apps/presentation/molecules/common/custom_app_bar.dart';
+import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
 
 class AboutAppPage extends StatelessWidget {

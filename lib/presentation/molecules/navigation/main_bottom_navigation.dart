@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/presentation/pages/shell/main_shell_page.dart';
 
 class MainBottomNavigation extends StatelessWidget {
-  const MainBottomNavigation({super.key});
+  final int currentIndex;
+
+  const MainBottomNavigation({super.key, this.currentIndex = 0});
 
   @override
   Widget build(BuildContext context) {
+    final shellState = MainShellPage.of(context);
+
     return Container(
       color: AppColors.background,
       padding: EdgeInsets.only(top: 12.h, bottom: 16.h),
@@ -18,25 +23,22 @@ class MainBottomNavigation extends StatelessWidget {
             context,
             Icons.home_filled,
             'home',
-            true, // Logic for active state? User's original code had 'true' hardcoded for home...?
-            // Actually, generic BottomBar usually highlights based on route.
-            // But user provided code: `_buildNavItem(Icons.home_filled, 'home', true, ...)`
-            // I will preserve exact behavior for now, logic can be improved later if requested.
-            () => context.go('/dashboard'),
+            currentIndex == 0,
+            () => shellState?.switchTab(0),
           ),
           _buildNavItem(
             context,
             Icons.search,
             'search',
-            false,
-            () => context.push('/search'),
+            currentIndex == 1,
+            () => shellState?.switchTab(1),
           ),
           _buildNavItem(
             context,
             Icons.queue_music,
             'playlist',
-            false,
-            () => context.push('/playlist'),
+            currentIndex == 2,
+            () => shellState?.switchTab(2),
           ),
           _buildNavItem(
             context,
@@ -55,9 +57,10 @@ class MainBottomNavigation extends StatelessWidget {
     IconData icon,
     String label,
     bool isActive,
-    VoidCallback onTap,
+    VoidCallback? onTap,
   ) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,

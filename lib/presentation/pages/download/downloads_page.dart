@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/presentation/molecules/common/custom_app_bar.dart';
+import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
 import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
 import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:shimmer/shimmer.dart';

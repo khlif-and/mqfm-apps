@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/home/dashboard_logic.dart';
 import 'package:mqfm_apps/presentation/molecules/dashboard/quote_card.dart';
@@ -7,11 +6,7 @@ import 'package:mqfm_apps/presentation/organisms/dashboard/dashboard_header.dart
 import 'package:mqfm_apps/presentation/organisms/dashboard/horizontal_content_list.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/menu_grid.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/vertical_content_list.dart';
-import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
-import 'package:mqfm_apps/presentation/organisms/profile/sidebar_profile.dart';
-import 'package:mqfm_apps/utils/manager/user_manager.dart';
 import 'package:mqfm_apps/presentation/molecules/guide_tour/guide_tour_targets.dart';
-import 'package:mqfm_apps/presentation/molecules/guide_tour/sidebar_tour_targets.dart';
 import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -29,14 +24,10 @@ class _DashboardPageState extends State<DashboardPage> {
   final GlobalKey _quoteKey = GlobalKey();
   final GlobalKey _horizontalListKey = GlobalKey();
   final GlobalKey _verticalListKey = GlobalKey();
-  final GlobalKey _sidebarProfileKey = GlobalKey();
-  final GlobalKey _sidebarMenuKey = GlobalKey();
-  final GlobalKey _sidebarSettingsKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    UserManager.instance.fetchUser();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final targets = buildDashboardTargets(
         profileKey: _profileKey,
@@ -62,109 +53,78 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      onDrawerChanged: (isOpened) {
-        if (isOpened) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            final sidebarTargets = buildSidebarTargets(
-              profileSectionKey: _sidebarProfileKey,
-              menuSectionKey: _sidebarMenuKey,
-              settingsKey: _sidebarSettingsKey,
-            );
-            GuideTourManager.showTourIfNeeded(
-              context: context,
-              targets: sidebarTargets,
-              tourKey: 'sidebar_tour_shown',
-            );
-          });
-        }
-      },
-      drawer: SidebarProfile(
-        profileSectionKey: _sidebarProfileKey,
-        menuSectionKey: _sidebarMenuKey,
-        settingsKey: _sidebarSettingsKey,
-      ),
-      body: ListenableBuilder(
-        listenable: logic,
-        builder: (context, child) {
-          return Column(
-            children: [
-              DashboardHeader(
-                categories: logic.categories.map((e) => e.name).toList(),
-                selectedIndex: logic.selectedIndex,
-                onCategorySelected: logic.selectCategory,
-                profileKey: _profileKey,
-                categoryKey: _categoryKey,
-              ),
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    await logic.fetchCategories(refresh: true);
-                  },
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (logic.isLoading)
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 20),
-                            child: LinearProgressIndicator(color: Colors.green),
+    return ListenableBuilder(
+      listenable: logic,
+      builder: (context, child) {
+        return Column(
+          children: [
+            DashboardHeader(
+              categories: logic.categories.map((e) => e.name).toList(),
+              selectedIndex: logic.selectedIndex,
+              onCategorySelected: logic.selectCategory,
+              profileKey: _profileKey,
+              categoryKey: _categoryKey,
+            ),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await logic.fetchCategories(refresh: true);
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (logic.isLoading)
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: LinearProgressIndicator(color: Colors.green),
+                        ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: MenuGrid(
+                          key: _menuGridKey,
+                          selectedCategoryId: logic.currentCategoryId,
+                        ),
+                      ),
+                      SizedBox(height: 24.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Container(
+                          key: _quoteKey,
+                          child: QuoteCard(
+                            key: ValueKey("quote-${logic.refreshVersion}"),
                           ),
-
-                        Padding(
+                        ),
+                      ),
+                      SizedBox(height: 32.h),
+                      Container(
+                        key: _horizontalListKey,
+                        child: HorizontalContentList(
+                          key: ValueKey("horizontal-${logic.refreshVersion}"),
+                          selectedCategoryId: logic.currentCategoryId,
+                        ),
+                      ),
+                      SizedBox(height: 24.h),
+                      Container(
+                        key: _verticalListKey,
+                        child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: MenuGrid(
-                            key: _menuGridKey,
+                          child: VerticalContentList(
+                            key: ValueKey("vertical-${logic.refreshVersion}"),
                             selectedCategoryId: logic.currentCategoryId,
                           ),
                         ),
-
-                        SizedBox(height: 24.h),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: Container(
-                            key: _quoteKey,
-                            child: QuoteCard(
-                              key: ValueKey("quote-${logic.refreshVersion}"),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 32.h),
-
-                        Container(
-                          key: _horizontalListKey,
-                          child: HorizontalContentList(
-                            key: ValueKey("horizontal-${logic.refreshVersion}"),
-                            selectedCategoryId: logic.currentCategoryId,
-                          ),
-                        ),
-
-                        SizedBox(height: 24.h),
-
-                        Container(
-                          key: _verticalListKey,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: VerticalContentList(
-                              key: ValueKey("vertical-${logic.refreshVersion}"),
-                              selectedCategoryId: logic.currentCategoryId,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(height: 30.h),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 30.h),
+                    ],
                   ),
                 ),
               ),
-            ],
-          );
-        },
-      ),
-      bottomNavigationBar: const BottomBar(),
+            ),
+          ],
+        );
+      },
     );
   }
 }
