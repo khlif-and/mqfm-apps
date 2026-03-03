@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/model/auth/auth_model.dart';
-import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar_builder.dart';
 import 'package:mqfm_apps/utils/manager/user_manager.dart';
 
 class LibraryHeader extends StatefulWidget {
@@ -30,25 +29,12 @@ class _LibraryHeaderState extends State<LibraryHeader> {
     return ValueListenableBuilder<UserData?>(
       valueListenable: UserManager.instance.currentUserNotifier,
       builder: (context, userData, child) {
-        Color bgColor = AppColors.placeholder;
-        if (userData?.avatarColor != null) {
-          try {
-            String hex = userData!.avatarColor!.replaceFirst('#', '');
-            bgColor = Color(int.parse('FF$hex', radix: 16));
-          } catch (_) {}
-        }
-
         return Column(
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ProfileAvatar(
-                  size: 40.r,
-                  text: userData?.initials ?? "?",
-                  backgroundColor: bgColor,
-                  textColor: Colors.white,
-                ),
+                ProfileAvatarBuilder(size: 40),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PlayerDisk extends StatelessWidget {
   final String imageUrl;
@@ -13,12 +14,6 @@ class PlayerDisk extends StatelessWidget {
       width: 340.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
-        image: DecorationImage(
-          image: (imageUrl.isNotEmpty)
-              ? NetworkImage(imageUrl) as ImageProvider
-              : const AssetImage('assets/images/img_card.jpg'),
-          fit: BoxFit.cover,
-        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
@@ -26,6 +21,28 @@ class PlayerDisk extends StatelessWidget {
             offset: Offset(0, 10.h),
           ),
         ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.r),
+        child: imageUrl.isNotEmpty
+            ? CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: Colors.grey[800],
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white54,
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  'assets/images/img_card.jpg',
+                  fit: BoxFit.cover,
+                ),
+              )
+            : Image.asset('assets/images/img_card.jpg', fit: BoxFit.cover),
       ),
     );
   }

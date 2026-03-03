@@ -23,6 +23,15 @@ class PlayerLogic extends ChangeNotifier {
   Future<void> fetchDetailAudio(String audioId) async {
     try {
       final id = int.tryParse(audioId) ?? 0;
+
+      if (_audioManager.currentAudioId == id &&
+          _audioManager.currentAudioNotifier.value != null) {
+        audioData = _audioManager.currentAudioNotifier.value;
+        isLoading = false;
+        notifyListeners();
+        return;
+      }
+
       LogHelper.info("PlayerLogic", "Fetching audio details for ID: $id");
 
       final response = await _audioController.getDetailAudio(id);
@@ -32,8 +41,6 @@ class PlayerLogic extends ChangeNotifier {
         isLoading = false;
         LogHelper.success("PlayerLogic", "Fetched audio: ${audioData!.title}");
         notifyListeners();
-
-        // Initialize Player
         _initPlayer(id);
       } else {
         errorMessage = response.message;
@@ -56,21 +63,17 @@ class PlayerLogic extends ChangeNotifier {
       _audioManager.currentAudioNotifier.value = audioData;
 
       if (_audioManager.currentAudioId == id) {
-        // Jika ID sama dan sedang pause, jangan auto play.
-        // Biarkan user yang memulai jika mau.
-      } else {
-        await player.stop();
-        LogHelper.info(
-          "PlayerLogic",
-          "Attempting to play URL: ${audioData!.audioUrl}",
-        );
-        await player.setUrl(audioData!.audioUrl);
-        player.play();
-        _audioManager.currentAudioId = id;
+        return;
       }
 
-      // Simpan ke history (Recently Played)
-      await PreferencesHelper.savePlayedAudio(audioData!);
+      _audioManager.currentAudioId = id;
+
+      await player.stop();
+      final duration = await player.setUrl(audioData!.audioUrl);
+      LogHelper.info("PlayerLogic", "Audio loaded, duration: $duration");
+      player.play();
+
+      PreferencesHelper.savePlayedAudio(audioData!);
     } catch (e, stackTrace) {
       errorMessage = "Gagal putar: $e";
       LogHelper.error("PlayerLogic", "Player init error", stackTrace);
@@ -103,10 +106,6 @@ class PlayerLogic extends ChangeNotifier {
 
   Future<bool> addAudioToPlaylist(int playlistId, String playlistName) async {
     if (audioData == null) return false;
-
-    // Reset messages only handled by UI logic in this case?
-    // Usually cleaner to return status, let UI show SnackBar.
-    // logic.successMessage will be read by UI.
 
     try {
       LogHelper.info(

@@ -3,12 +3,10 @@ import 'package:mqfm_apps/presentation/pages/splash/splash_page.dart';
 import 'package:mqfm_apps/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:mqfm_apps/presentation/pages/auth/register_page.dart';
 import 'package:mqfm_apps/presentation/pages/auth/login_page.dart';
-import 'package:mqfm_apps/presentation/pages/home/dashboard_page.dart';
-import 'package:mqfm_apps/presentation/pages/playlist/playlist_page.dart';
-import 'package:mqfm_apps/presentation/pages/playlist/playlist_detail_page.dart';
+import 'package:mqfm_apps/presentation/pages/shell/main_shell_page.dart';
 import 'package:mqfm_apps/presentation/pages/profile/profile_settings_page.dart';
 import 'package:mqfm_apps/presentation/pages/player/player_page.dart';
-import 'package:mqfm_apps/presentation/pages/search/search_page.dart';
+import 'package:mqfm_apps/presentation/pages/playlist/playlist_detail_page.dart';
 import 'package:mqfm_apps/presentation/pages/library/liked_audios_page.dart';
 import 'package:mqfm_apps/presentation/pages/history/history_page.dart';
 import 'package:mqfm_apps/presentation/pages/profile/edit_profile_page.dart';
@@ -42,7 +40,17 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/dashboard',
       pageBuilder: (context, state) =>
-          const NoTransitionPage(child: DashboardPage()),
+          const NoTransitionPage(child: MainShellPage()),
+    ),
+    GoRoute(
+      path: '/search',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: MainShellPage(initialIndex: 1)),
+    ),
+    GoRoute(
+      path: '/playlist',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: MainShellPage(initialIndex: 2)),
     ),
     GoRoute(
       path: '/settings',
@@ -55,16 +63,6 @@ final GoRouter appRouter = GoRouter(
         final id = state.pathParameters['id']!;
         return NoTransitionPage(child: PlayerPage(audioId: id));
       },
-    ),
-    GoRoute(
-      path: '/search',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: SearchPage()),
-    ),
-    GoRoute(
-      path: '/playlist',
-      pageBuilder: (context, state) =>
-          const NoTransitionPage(child: PlaylistPage()),
     ),
     GoRoute(
       path: '/playlist/:id',

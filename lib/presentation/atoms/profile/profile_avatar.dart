@@ -6,34 +6,56 @@ class ProfileAvatar extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final String text;
+  final String? profilePictureUrl;
 
   const ProfileAvatar({
     super.key,
     this.size = 40,
-    this.backgroundColor = const Color(
-      0xFF8B5A3C,
-    ), // Default to Brown (Sidebar style)
+    this.backgroundColor = const Color(0xFF8B5A3C),
     this.textColor = Colors.white,
     this.text = "K",
+    this.profilePictureUrl,
   });
 
   @override
   Widget build(BuildContext context) {
+    final hasImage = profilePictureUrl != null && profilePictureUrl!.isNotEmpty;
+
     return Container(
       width: size.w,
       height: size.w,
       decoration: BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColor,
-            fontSize:
-                (size * 0.45).sp, // Responsive font size based on container
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      child: hasImage
+          ? ClipOval(
+              child: Image.network(
+                profilePictureUrl!,
+                width: size.w,
+                height: size.w,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: (size * 0.45).sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
+          : Center(
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: (size * 0.45).sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
     );
   }
 }

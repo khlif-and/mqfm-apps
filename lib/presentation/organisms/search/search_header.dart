@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/model/auth/auth_model.dart';
-import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar_builder.dart';
 
 class SearchHeader extends StatelessWidget {
   final TextEditingController? controller;
@@ -29,28 +26,7 @@ class SearchHeader extends StatelessWidget {
           children: [
             Row(
               children: [
-                ValueListenableBuilder<UserData?>(
-                  key: profileKey,
-                  valueListenable: UserManager.instance.currentUserNotifier,
-                  builder: (context, userData, child) {
-                    Color bgColor = AppColors.placeholder;
-                    if (userData?.avatarColor != null) {
-                      try {
-                        String hex = userData!.avatarColor!.replaceFirst(
-                          '#',
-                          '',
-                        );
-                        bgColor = Color(int.parse('FF$hex', radix: 16));
-                      } catch (_) {}
-                    }
-                    return ProfileAvatar(
-                      size: 32.r,
-                      text: userData?.initials ?? "?",
-                      backgroundColor: bgColor,
-                      textColor: Colors.white,
-                    );
-                  },
-                ),
+                ProfileAvatarBuilder(size: 32, widgetKey: profileKey),
                 SizedBox(width: 12.w),
                 Text(
                   'Search',

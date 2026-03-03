@@ -74,6 +74,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
                             text: userData?.initials ?? "?",
                             backgroundColor: bgColor,
                             textColor: Colors.white,
+                            profilePictureUrl: userData?.profilePicture,
                           ),
                           SizedBox(height: 16.h),
                           Text(

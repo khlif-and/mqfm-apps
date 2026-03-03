@@ -3,10 +3,18 @@ import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 
-class PlayerControls extends StatelessWidget {
+class PlayerControls extends StatefulWidget {
   final AudioPlayer player;
 
   const PlayerControls({super.key, required this.player});
+
+  @override
+  State<PlayerControls> createState() => _PlayerControlsState();
+}
+
+class _PlayerControlsState extends State<PlayerControls> {
+  bool _isSeeking = false;
+  double _seekValue = 0;
 
   String _formatDuration(Duration? duration) {
     if (duration == null) return '--:--';
@@ -20,15 +28,17 @@ class PlayerControls extends StatelessWidget {
     return Column(
       children: [
         StreamBuilder<Duration>(
-          stream: player.positionStream,
+          stream: widget.player.positionStream,
           builder: (context, snapshot) {
             final position = snapshot.data ?? Duration.zero;
-            final duration = player.duration ?? Duration.zero;
+            final duration = widget.player.duration ?? Duration.zero;
 
-            double sliderValue = position.inSeconds.toDouble();
-            double maxDuration = duration.inSeconds.toDouble();
+            double maxDuration = duration.inMilliseconds.toDouble();
             if (maxDuration <= 0) maxDuration = 1;
-            if (sliderValue > maxDuration) sliderValue = maxDuration;
+
+            double sliderValue = _isSeeking
+                ? _seekValue
+                : position.inMilliseconds.toDouble().clamp(0, maxDuration);
 
             return Column(
               children: [
@@ -45,8 +55,17 @@ class PlayerControls extends StatelessWidget {
                     min: 0,
                     max: maxDuration,
                     value: sliderValue,
+                    onChangeStart: (value) {
+                      _isSeeking = true;
+                    },
                     onChanged: (value) {
-                      player.seek(Duration(seconds: value.toInt()));
+                      setState(() {
+                        _seekValue = value;
+                      });
+                    },
+                    onChangeEnd: (value) {
+                      _isSeeking = false;
+                      widget.player.seek(Duration(milliseconds: value.toInt()));
                     },
                   ),
                 ),
@@ -56,7 +75,11 @@ class PlayerControls extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        _formatDuration(position),
+                        _formatDuration(
+                          _isSeeking
+                              ? Duration(milliseconds: _seekValue.toInt())
+                              : position,
+                        ),
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.7),
                           fontSize: 12.sp,
@@ -85,7 +108,7 @@ class PlayerControls extends StatelessWidget {
               Icon(Icons.shuffle, color: AppColors.primaryClassic, size: 26.r),
               Icon(Icons.skip_previous, color: Colors.white, size: 42.r),
               StreamBuilder<PlayerState>(
-                stream: player.playerStateStream,
+                stream: widget.player.playerStateStream,
                 builder: (context, snapshot) {
                   final playerState = snapshot.data;
                   final processingState = playerState?.processingState;
@@ -107,7 +130,7 @@ class PlayerControls extends StatelessWidget {
                     );
                   } else if (playing != true) {
                     return GestureDetector(
-                      onTap: player.play,
+                      onTap: widget.player.play,
                       child: Container(
                         height: 72.r,
                         width: 72.r,
@@ -124,7 +147,7 @@ class PlayerControls extends StatelessWidget {
                     );
                   } else {
                     return GestureDetector(
-                      onTap: player.pause,
+                      onTap: widget.player.pause,
                       child: Container(
                         height: 72.r,
                         width: 72.r,

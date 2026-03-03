@@ -6,7 +6,9 @@ import 'package:mqfm_apps/utils/helpers/message_helper.dart';
 import 'package:mqfm_apps/utils/manager/audio_player_manager.dart';
 
 class BottomBar extends StatefulWidget {
-  const BottomBar({super.key});
+  final int currentIndex;
+
+  const BottomBar({super.key, this.currentIndex = 0});
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -29,10 +31,7 @@ class _BottomBarState extends State<BottomBar> {
           logic.message!.contains("Silakan login")) {
         MessageHelper.showError(context, logic.message!);
       } else {
-        MessageHelper.showSuccess(
-          context,
-          logic.message!,
-        ); // Or standard snackbar
+        MessageHelper.showSuccess(context, logic.message!);
       }
     }
   }
@@ -40,7 +39,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   void dispose() {
     logic.removeListener(_onLogicChange);
-    logic.dispose(); // ChangeNotifier dispose
+    logic.dispose();
     super.dispose();
   }
 
@@ -50,7 +49,7 @@ class _BottomBarState extends State<BottomBar> {
       mainAxisSize: MainAxisSize.min,
       children: [
         MiniPlayer(logic: logic, audioManager: audioManager),
-        const MainBottomNavigation(),
+        MainBottomNavigation(currentIndex: widget.currentIndex),
       ],
     );
   }

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/search/search_logic.dart';
 import 'package:mqfm_apps/presentation/molecules/guide_tour/search_tour_targets.dart';
 import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
-import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/search/browse_category_grid.dart';
 import 'package:mqfm_apps/presentation/organisms/search/discover_horizontal_list.dart';
 import 'package:mqfm_apps/presentation/organisms/search/search_header.dart';
@@ -61,61 +60,57 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-              child: SearchHeader(
-                controller: _searchController,
-                onChanged: logic.onSearchChanged,
-                profileKey: _profileKey,
-                searchBarKey: _searchBarKey,
-              ),
+    return SafeArea(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            child: SearchHeader(
+              controller: _searchController,
+              onChanged: logic.onSearchChanged,
+              profileKey: _profileKey,
+              searchBarKey: _searchBarKey,
             ),
-            Expanded(
-              child: ListenableBuilder(
-                listenable: logic,
-                builder: (context, child) {
-                  if (logic.isLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.textWhite,
-                      ),
-                    );
-                  }
-
-                  if (logic.isSearching) {
-                    return SearchResultList(results: logic.searchResults);
-                  }
-
-                  return SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          key: _mixedKey,
-                          child: const BrowseCategoryGrid(),
-                        ),
-                        SizedBox(height: 32.h),
-                        Container(
-                          key: _discoverKey,
-                          child: const DiscoverHorizontalList(),
-                        ),
-                        SizedBox(height: 30.h),
-                      ],
+          ),
+          Expanded(
+            child: ListenableBuilder(
+              listenable: logic,
+              builder: (context, child) {
+                if (logic.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.textWhite,
                     ),
                   );
-                },
-              ),
+                }
+
+                if (logic.isSearching) {
+                  return SearchResultList(results: logic.searchResults);
+                }
+
+                return SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        key: _mixedKey,
+                        child: const BrowseCategoryGrid(),
+                      ),
+                      SizedBox(height: 32.h),
+                      Container(
+                        key: _discoverKey,
+                        child: const DiscoverHorizontalList(),
+                      ),
+                      SizedBox(height: 30.h),
+                    ],
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-      bottomNavigationBar: const BottomBar(),
     );
   }
 }

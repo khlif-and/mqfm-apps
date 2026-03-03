@@ -43,8 +43,14 @@ class EditProfileForm extends StatelessWidget {
                   backgroundColor: AppColors.surface,
                   backgroundImage: selectedImage != null
                       ? FileImage(selectedImage!)
+                      : (user?.profilePicture != null &&
+                            user!.profilePicture!.isNotEmpty)
+                      ? NetworkImage(user!.profilePicture!) as ImageProvider
                       : null,
-                  child: selectedImage == null
+                  child:
+                      selectedImage == null &&
+                          (user?.profilePicture == null ||
+                              user!.profilePicture!.isEmpty)
                       ? Text(
                           user?.initials ?? "?",
                           style: TextStyle(
