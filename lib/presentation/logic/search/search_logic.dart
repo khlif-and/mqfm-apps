@@ -1,47 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/controller/audio/audio_controller.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
-import 'package:mqfm_apps/utils/helpers/log_helper.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
 
 class SearchLogic extends ChangeNotifier {
-  final AudioController _audioController = AudioController();
+  final AudioRepository _audioRepository = getIt<AudioRepository>();
 
-  List<Audio> searchResults = [];
-  bool isSearching = false;
+  List<AudioEntity> searchResults = [];
   bool isLoading = false;
+  bool isSearching = false;
   String? errorMessage;
 
   void onSearchChanged(String query) {
-    if (query.isEmpty) {
-      isSearching = false;
+    search(query);
+  }
+
+  Future<void> search(String query) async {
+    if (query.trim().isEmpty) {
       searchResults = [];
-      errorMessage = null;
+      isSearching = false;
       notifyListeners();
       return;
     }
 
-    isSearching = true;
     isLoading = true;
+    isSearching = true;
     errorMessage = null;
     notifyListeners();
 
-    _performSearch(query);
-  }
-
-  Future<void> _performSearch(String query) async {
-    try {
-      LogHelper.info("SearchLogic", "Searching for: $query");
-      final response = await _audioController.searchAudios(query);
-      searchResults = response.data ?? [];
-      isLoading = false;
-      LogHelper.success("SearchLogic", "Found ${searchResults.length} results");
-      notifyListeners();
-    } catch (e, stackTrace) {
-      isLoading = false;
-      searchResults = [];
-      errorMessage = e.toString();
-      LogHelper.error("SearchLogic", "Search failed", stackTrace);
-      notifyListeners();
-    }
+    final result = await _audioRepository.searchAudios(query);
+    result.fold(
+      (error) {
+        errorMessage = error;
+        isLoading = false;
+        notifyListeners();
+      },
+      (audios) {
+        searchResults = audios;
+        isLoading = false;
+        notifyListeners();
+      },
+    );
   }
 }

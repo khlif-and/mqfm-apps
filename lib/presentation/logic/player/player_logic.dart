@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:mqfm_apps/controller/audio/audio_controller.dart';
-import 'package:mqfm_apps/controller/playlist/playlist_controller.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
-import 'package:mqfm_apps/utils/manager/audio_player_manager.dart';
-import 'package:mqfm_apps/utils/helpers/log_helper.dart';
-import 'package:mqfm_apps/utils/helpers/preferences_helper.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
+import 'package:mqfm_apps/features/playlist/domain/repositories/playlist_repository.dart';
+import 'package:mqfm_apps/core/utils/manager/audio_player_manager.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
 class PlayerLogic extends ChangeNotifier {
-  final AudioController _audioController = AudioController();
-  final PlaylistController _playlistController = PlaylistController();
+  final AudioRepository _audioRepository = getIt<AudioRepository>();
+  final PlaylistRepository _playlistRepository = getIt<PlaylistRepository>();
   final AudioPlayerManager _audioManager = AudioPlayerManager();
 
-  AudioPlayer get player => _audioManager.player;
-  PlaylistController get playlistController => _playlistController;
+  AudioPlayerManager get audioManager => _audioManager;
 
-  Audio? audioData;
+  AudioEntity? audioData;
   bool isLoading = true;
   String? errorMessage;
   String? successMessage;
@@ -32,26 +30,23 @@ class PlayerLogic extends ChangeNotifier {
         return;
       }
 
-      LogHelper.info("PlayerLogic", "Fetching audio details for ID: $id");
-
-      final response = await _audioController.getDetailAudio(id);
-
-      if (response.status == 200 && response.data != null) {
-        audioData = response.data;
-        isLoading = false;
-        LogHelper.success("PlayerLogic", "Fetched audio: ${audioData!.title}");
-        notifyListeners();
-        _initPlayer(id);
-      } else {
-        errorMessage = response.message;
-        isLoading = false;
-        LogHelper.error("PlayerLogic", "Failed to fetch audio: $errorMessage");
-        notifyListeners();
-      }
-    } catch (e, stackTrace) {
+      final result = await _audioRepository.getAudioById(id);
+      result.fold(
+        (error) {
+          errorMessage = error;
+          isLoading = false;
+          notifyListeners();
+        },
+        (audio) {
+          audioData = audio;
+          isLoading = false;
+          notifyListeners();
+          _initPlayer(id);
+        },
+      );
+    } catch (e) {
       errorMessage = "Gagal memuat audio";
       isLoading = false;
-      LogHelper.error("PlayerLogic", "Exception fetching audio", stackTrace);
       notifyListeners();
     }
   }
@@ -62,21 +57,17 @@ class PlayerLogic extends ChangeNotifier {
     try {
       _audioManager.currentAudioNotifier.value = audioData;
 
-      if (_audioManager.currentAudioId == id) {
-        return;
-      }
+      if (_audioManager.currentAudioId == id) return;
 
       _audioManager.currentAudioId = id;
 
-      await player.stop();
-      final duration = await player.setUrl(audioData!.audioUrl);
-      LogHelper.info("PlayerLogic", "Audio loaded, duration: $duration");
-      player.play();
+      await _audioManager.player.stop();
+      await _audioManager.player.setUrl(audioData!.audioUrl);
+      _audioManager.player.play();
 
       PreferencesHelper.savePlayedAudio(audioData!);
-    } catch (e, stackTrace) {
+    } catch (e) {
       errorMessage = "Gagal putar: $e";
-      LogHelper.error("PlayerLogic", "Player init error", stackTrace);
       notifyListeners();
     }
   }
@@ -86,50 +77,39 @@ class PlayerLogic extends ChangeNotifier {
     successMessage = null;
     notifyListeners();
 
-    try {
-      final response = await _playlistController.createPlaylist(name: name);
-      if (response.status == 201 || response.status == 200) {
+    final result = await _playlistRepository.createPlaylist(name);
+    return result.fold(
+      (error) {
+        errorMessage = "Gagal: $error";
+        notifyListeners();
+        return false;
+      },
+      (playlist) {
         successMessage = "Playlist '$name' berhasil dibuat!";
         notifyListeners();
         return true;
-      } else {
-        errorMessage = "Gagal: ${response.message}";
-        notifyListeners();
-        return false;
-      }
-    } catch (e) {
-      errorMessage = "Error: $e";
-      notifyListeners();
-      return false;
-    }
+      },
+    );
   }
 
   Future<bool> addAudioToPlaylist(int playlistId, String playlistName) async {
     if (audioData == null) return false;
 
-    try {
-      LogHelper.info(
-        "PlayerLogic",
-        "Adding audio ${audioData!.id} to playlist $playlistId",
-      );
-      final success = await _playlistController.addAudioToPlaylist(
-        playlistId: playlistId,
-        audioId: audioData!.id,
-      );
-
-      if (success) {
+    final result = await _playlistRepository.addAudioToPlaylist(
+      playlistId,
+      audioData!.id,
+    );
+    return result.fold(
+      (error) {
+        errorMessage = error;
+        notifyListeners();
+        return false;
+      },
+      (_) {
         successMessage = "Berhasil ditambahkan ke '$playlistName'";
         notifyListeners();
         return true;
-      } else {
-        errorMessage = "Gagal menambahkan audio";
-        notifyListeners();
-        return false;
-      }
-    } catch (e) {
-      errorMessage = e.toString().replaceAll("Exception:", "").trim();
-      notifyListeners();
-      return false;
-    }
+      },
+    );
   }
 }

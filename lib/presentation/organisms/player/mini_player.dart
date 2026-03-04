@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/presentation/logic/navigation/bottom_bar_logic.dart';
-import 'package:mqfm_apps/utils/manager/audio_player_manager.dart';
+import 'package:mqfm_apps/core/utils/manager/audio_player_manager.dart';
 
 class MiniPlayer extends StatelessWidget {
   final BottomBarLogic logic;
@@ -19,17 +19,14 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Audio?>(
+    return ValueListenableBuilder<AudioEntity?>(
       valueListenable: audioManager.currentAudioNotifier,
       builder: (context, currentAudio, child) {
         if (currentAudio == null) return const SizedBox.shrink();
 
-        // Use ListenableBuilder to rebuild when logic state changes (like status)
         return ListenableBuilder(
           listenable: logic,
           builder: (context, _) {
-            final bool isLiked = logic.isLiked(currentAudio.id);
-
             return GestureDetector(
               onTap: () {
                 context.push('/player/${currentAudio.id}');
@@ -99,8 +96,10 @@ class MiniPlayer extends StatelessWidget {
                       ),
                       IconButton(
                         icon: Icon(
-                          isLiked ? Icons.favorite : Icons.favorite_border,
-                          color: isLiked ? Colors.green : Colors.white,
+                          logic.isLiked
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: logic.isLiked ? Colors.green : Colors.white,
                           size: 24.sp,
                         ),
                         onPressed: () {

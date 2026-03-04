@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/molecules/about/about_header.dart';
 import 'package:mqfm_apps/presentation/molecules/about/about_link_button.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 
 class AboutContent extends StatelessWidget {
   const AboutContent({super.key});

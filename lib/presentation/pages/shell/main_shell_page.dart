@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/profile/sidebar_profile.dart';
 import 'package:mqfm_apps/presentation/pages/home/dashboard_page.dart';
@@ -6,8 +7,8 @@ import 'package:mqfm_apps/presentation/pages/playlist/playlist_page.dart';
 import 'package:mqfm_apps/presentation/pages/search/search_page.dart';
 import 'package:mqfm_apps/presentation/molecules/guide_tour/sidebar_tour_targets.dart';
 import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
 
 class MainShellPage extends StatefulWidget {
   final int initialIndex;
@@ -39,7 +40,14 @@ class MainShellPageState extends State<MainShellPage> {
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
-    UserManager.instance.fetchUser();
+    _validateAndFetchUser();
+  }
+
+  Future<void> _validateAndFetchUser() async {
+    final isValid = await UserManager.instance.fetchUser();
+    if (!isValid && mounted) {
+      context.go('/onboarding');
+    }
   }
 
   void switchTab(int index) {

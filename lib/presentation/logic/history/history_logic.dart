@@ -1,59 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/controller/audio/audio_controller.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
-import 'package:mqfm_apps/utils/helpers/log_helper.dart';
-import 'package:mqfm_apps/utils/helpers/preferences_helper.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
 
 class HistoryLogic extends ChangeNotifier {
-  final AudioController _controller = AudioController();
-  List<PlayHistory> histories = [];
+  final AudioRepository _audioRepository = getIt<AudioRepository>();
+
+  List<PlayHistoryEntity> histories = [];
   bool isLoading = true;
   String? errorMessage;
 
   HistoryLogic() {
-    _fetchHistory();
+    fetchHistory();
   }
 
-  Future<void> _fetchHistory() async {
+  Future<void> fetchHistory() async {
     isLoading = true;
     errorMessage = null;
     notifyListeners();
 
-    try {
-      final String? token = await PreferencesHelper.getToken();
-
-      if (token == null) {
-        errorMessage = "Silakan login terlebih dahulu";
+    final result = await _audioRepository.getPlayHistory();
+    result.fold(
+      (error) {
+        errorMessage = error;
         isLoading = false;
         notifyListeners();
-        return;
-      }
-
-      LogHelper.info("HistoryLogic", "Fetching play history...");
-      final response = await _controller.getPlayHistory(token);
-
-      if (response.status == 200 && response.data != null) {
-        histories = response.data!;
+      },
+      (data) {
+        histories = data;
         isLoading = false;
-        LogHelper.success(
-          "HistoryLogic",
-          "Fetched ${histories.length} history items",
-        );
         notifyListeners();
-      } else {
-        errorMessage = response.message;
-        isLoading = false;
-        LogHelper.error(
-          "HistoryLogic",
-          "Failed to get history: ${response.message}",
-        );
-        notifyListeners();
-      }
-    } catch (e, stackTrace) {
-      errorMessage = "Gagal memuat data. Periksa koneksi internet.";
-      isLoading = false;
-      LogHelper.error("HistoryLogic", "Exception fetching history", stackTrace);
-      notifyListeners();
-    }
+      },
+    );
   }
 }

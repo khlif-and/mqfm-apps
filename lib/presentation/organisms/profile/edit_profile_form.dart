@@ -2,13 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/profile/edit_profile_logic.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/model/auth/auth_model.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
 import 'package:mqfm_apps/presentation/atoms/common/custom_textfield.dart';
 import 'package:mqfm_apps/presentation/atoms/common/custom_button.dart';
 
 class EditProfileForm extends StatelessWidget {
-  final UserData? user;
+  final UserEntity? user;
   final EditProfileLogic logic;
   final TextEditingController usernameController;
   final TextEditingController emailController;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/model/playlist/playlist_model.dart';
+import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
 import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/library_item.dart';
 import 'package:shimmer/shimmer.dart';
@@ -9,7 +9,7 @@ import 'package:shimmer/shimmer.dart';
 class LibraryPlaylistList extends StatelessWidget {
   final bool isLoading;
   final String? errorMessage;
-  final List<Playlist> playlists;
+  final List<PlaylistEntity> playlists;
 
   const LibraryPlaylistList({
     super.key,

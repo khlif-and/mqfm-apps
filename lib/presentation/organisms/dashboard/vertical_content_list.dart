@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/controller/audio/audio_controller.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
 
 class VerticalContentList extends StatefulWidget {
   final int selectedCategoryId;
@@ -16,8 +16,8 @@ class VerticalContentList extends StatefulWidget {
 }
 
 class _VerticalContentListState extends State<VerticalContentList> {
-  final AudioController _audioController = AudioController();
-  List<Audio> _allAudios = [];
+  final AudioRepository _audioRepository = getIt<AudioRepository>();
+  List<AudioEntity> _allAudios = [];
   bool _isLoading = true;
 
   @override
@@ -37,21 +37,24 @@ class _VerticalContentListState extends State<VerticalContentList> {
   Future<void> _fetchAudios() async {
     setState(() => _isLoading = true);
     try {
-      final response = await _audioController.getAudiosByCategory(
-        widget.selectedCategoryId,
-      );
+      final result = await _audioRepository.getAudios();
       if (mounted) {
-        if (response.status == 200 && response.data != null) {
-          setState(() {
-            _allAudios = response.data!;
-            _isLoading = false;
-          });
-        } else {
-          setState(() {
+        result.fold(
+          (error) => setState(() {
             _allAudios = [];
             _isLoading = false;
-          });
-        }
+          }),
+          (audios) => setState(() {
+            _allAudios = audios
+                .where(
+                  (a) =>
+                      widget.selectedCategoryId == 0 ||
+                      a.categoryId == widget.selectedCategoryId,
+                )
+                .toList();
+            _isLoading = false;
+          }),
+        );
       }
     } catch (e) {
       if (mounted) setState(() => _isLoading = false);
@@ -66,18 +69,18 @@ class _VerticalContentListState extends State<VerticalContentList> {
       );
     }
 
-    List<Audio> categoryFiltered = _allAudios;
+    List<AudioEntity> categoryFiltered = _allAudios;
 
     if (categoryFiltered.isEmpty) return const SizedBox();
 
-    List<Audio> displayList = List.from(categoryFiltered);
+    List<AudioEntity> displayList = List.from(categoryFiltered);
     final now = DateTime.now();
     int seed = (now.year * 10000) + (now.month * 100) + now.day;
     final random = Random(seed);
     displayList.shuffle(random);
 
     int takeCount = displayList.length < 3 ? displayList.length : 3;
-    List<Audio> finalShowList = displayList.take(takeCount).toList();
+    List<AudioEntity> finalShowList = displayList.take(takeCount).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

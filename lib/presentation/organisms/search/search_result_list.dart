@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 
 class SearchResultList extends StatelessWidget {
-  final List<Audio> results;
+  final List<AudioEntity> results;
 
   const SearchResultList({super.key, required this.results});
 

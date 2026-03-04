@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/logic/playlist/playlist_detail_logic.dart';
@@ -21,7 +21,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
   @override
   void initState() {
     super.initState();
-    logic.fetchPlaylistDetail(widget.playlistId);
+    logic.fetchPlaylistDetail(int.tryParse(widget.playlistId) ?? 0);
   }
 
   @override

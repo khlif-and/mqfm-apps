@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/logic/search/search_logic.dart';
 import 'package:mqfm_apps/presentation/molecules/guide_tour/search_tour_targets.dart';
@@ -8,7 +8,7 @@ import 'package:mqfm_apps/presentation/organisms/search/browse_category_grid.dar
 import 'package:mqfm_apps/presentation/organisms/search/discover_horizontal_list.dart';
 import 'package:mqfm_apps/presentation/organisms/search/search_header.dart';
 import 'package:mqfm_apps/presentation/organisms/search/search_result_list.dart';
-import 'package:mqfm_apps/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

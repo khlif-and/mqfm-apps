@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:go_router/go_router.dart';
 
 class LikedAudioTile extends StatelessWidget {
-  final Audio audio;
+  final AudioEntity audio;
   final VoidCallback onUnlike;
 
   const LikedAudioTile({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/utils/app_styles.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FaqContactButtons extends StatelessWidget {

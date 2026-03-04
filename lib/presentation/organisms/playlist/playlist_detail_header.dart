@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/model/playlist/playlist_model.dart';
+import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
 
 class PlaylistDetailHeader extends StatelessWidget {
-  final Playlist playlist;
+  final PlaylistEntity playlist;
 
   const PlaylistDetailHeader({super.key, required this.playlist});
 

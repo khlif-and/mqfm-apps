@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/register_button.dart';
@@ -9,7 +9,7 @@ import 'package:mqfm_apps/presentation/atoms/common/google_sign_in_button.dart';
 import 'package:mqfm_apps/presentation/logic/auth/login_logic.dart';
 import 'package:mqfm_apps/presentation/logic/auth/register_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/auth/register_form_section.dart';
-import 'package:mqfm_apps/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -43,6 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _usernameController.text,
       _emailController.text,
       _passwordController.text,
+      logic.selectedImage,
     );
 
     if (!mounted) return;

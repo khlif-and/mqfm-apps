@@ -1,57 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/controller/auth/auth_controller.dart';
-import 'package:mqfm_apps/utils/helpers/log_helper.dart';
-import 'package:mqfm_apps/utils/manager/user_manager.dart';
-import 'package:mqfm_apps/utils/helpers/preferences_helper.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
+import 'package:mqfm_apps/features/auth/domain/repositories/auth_repository.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
 class ProfileSettingsLogic extends ChangeNotifier {
-  final AuthController _authController = AuthController();
+  final AuthRepository _authRepository = getIt<AuthRepository>();
 
-  bool isLoading = false;
-  String? message; // For SnackBar feedback (success/error)
+  UserEntity? user;
+  bool isLoading = true;
+  String? errorMessage;
+  String? message;
 
-  Future<bool> logout() async {
+  ProfileSettingsLogic() {
+    fetchProfile();
+  }
+
+  Future<void> fetchProfile() async {
     isLoading = true;
-    message = null;
+    errorMessage = null;
     notifyListeners();
 
-    try {
-      final String? token = await PreferencesHelper.getToken();
-
-      if (token != null) {
-        LogHelper.info("ProfileSettingsLogic", "Attempting logout");
-        await _authController.logout(token);
-        await PreferencesHelper.removeToken();
-        UserManager.instance.clear();
-
-        message = "Berhasil keluar";
-        LogHelper.success("ProfileSettingsLogic", "Logout successful");
+    final result = await _authRepository.me();
+    result.fold(
+      (error) {
+        errorMessage = error;
         isLoading = false;
         notifyListeners();
-        return true;
-      } else {
-        // Local logout (token missing)
-        await PreferencesHelper.removeToken();
-        LogHelper.info(
-          "ProfileSettingsLogic",
-          "Token missing, local logout performed",
-        );
+      },
+      (data) {
+        user = data;
         isLoading = false;
         notifyListeners();
-        return true;
-      }
-    } catch (e, stackTrace) {
-      LogHelper.error("ProfileSettingsLogic", "Logout error", stackTrace);
-      // Force logout on error? Usually safer to clear token anyway if desired,
-      // but let's follow original logic: it caught error but didn't return 'false' explicitly in original 'finally' block handling.
-      // Original logic: catch print error, finally isLoading=false, go('/login-form').
-      // So effectively it always succeeds in navigating away.
+      },
+    );
+  }
 
-      // I will allow it to return true so UI navigates.
-      await PreferencesHelper.removeToken(); // Ensure token is gone
-      isLoading = false;
-      notifyListeners();
-      return true;
-    }
+  Future<bool> logout() async {
+    final result = await _authRepository.logout();
+    await PreferencesHelper.removeToken();
+    await PreferencesHelper.clearAll();
+    message = "Berhasil logout";
+    notifyListeners();
+    return result.fold((error) => true, (msg) => true);
   }
 }

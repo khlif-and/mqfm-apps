@@ -1,55 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/controller/playlist/playlist_controller.dart';
-import 'package:mqfm_apps/model/playlist/playlist_model.dart';
-import 'package:mqfm_apps/utils/helpers/log_helper.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
+import 'package:mqfm_apps/features/playlist/domain/repositories/playlist_repository.dart';
 
 class PlaylistDetailLogic extends ChangeNotifier {
-  final PlaylistController _controller = PlaylistController();
+  final PlaylistRepository _playlistRepository = getIt<PlaylistRepository>();
 
-  Playlist? playlist;
+  PlaylistEntity? playlist;
   bool isLoading = true;
   String? errorMessage;
 
-  Future<void> fetchPlaylistDetail(String playlistId) async {
+  Future<void> fetchDetail(int id) async {
     isLoading = true;
     errorMessage = null;
     notifyListeners();
 
-    try {
-      final id = int.tryParse(playlistId) ?? 0;
-      LogHelper.info(
-        "PlaylistDetailLogic",
-        "Fetching playlist detail for ID: $id",
-      );
-
-      final response = await _controller.getDetailPlaylist(id);
-
-      if (response.status == 200 && response.data != null) {
-        playlist = response.data;
+    final result = await _playlistRepository.getDetailPlaylist(id);
+    result.fold(
+      (error) {
+        errorMessage = error;
         isLoading = false;
-        LogHelper.success(
-          "PlaylistDetailLogic",
-          "Fetched playlist: ${playlist!.name}",
-        );
         notifyListeners();
-      } else {
-        errorMessage = "Gagal: ${response.message}";
+      },
+      (data) {
+        playlist = data;
         isLoading = false;
-        LogHelper.error(
-          "PlaylistDetailLogic",
-          "Failed to fetch: $errorMessage",
-        );
         notifyListeners();
-      }
-    } catch (e) {
-      errorMessage = "Error: $e";
-      isLoading = false;
-      LogHelper.error(
-        "PlaylistDetailLogic",
-        "Exception fetching playlist",
-        e as StackTrace?,
-      );
-      notifyListeners();
-    }
+      },
+    );
+  }
+
+  Future<void> fetchPlaylistDetail(int id) async {
+    await fetchDetail(id);
   }
 }
