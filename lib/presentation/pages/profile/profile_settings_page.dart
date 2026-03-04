@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/logout_button.dart';
 import 'package:mqfm_apps/presentation/logic/profile/profile_settings_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/profile/settings_list.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
 
 class ProfileSettingsPage extends StatefulWidget {
   const ProfileSettingsPage({super.key});

@@ -68,7 +68,7 @@ class _DashboardPageState extends State<DashboardPage> {
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  await logic.fetchCategories(refresh: true);
+                  await logic.fetchCategories();
                 },
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),

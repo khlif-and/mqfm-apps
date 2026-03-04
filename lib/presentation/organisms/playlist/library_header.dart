@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/model/auth/auth_model.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar_builder.dart';
-import 'package:mqfm_apps/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
 
 class LibraryHeader extends StatefulWidget {
   final ValueChanged<String>? onSearchChanged;
@@ -26,7 +26,7 @@ class _LibraryHeaderState extends State<LibraryHeader> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<UserData?>(
+    return ValueListenableBuilder<UserEntity?>(
       valueListenable: UserManager.instance.currentUserNotifier,
       builder: (context, userData, child) {
         return Column(

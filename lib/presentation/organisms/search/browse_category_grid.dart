@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/controller/audio/audio_controller.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
 import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/molecules/search/mixed_card.dart';
 import 'package:shimmer/shimmer.dart';
@@ -14,8 +15,8 @@ class BrowseCategoryGrid extends StatefulWidget {
 }
 
 class _BrowseCategoryGridState extends State<BrowseCategoryGrid> {
-  final AudioController _audioController = AudioController();
-  List<Audio> _audios = [];
+  final AudioRepository _audioRepository = getIt<AudioRepository>();
+  List<AudioEntity> _audios = [];
   bool _isLoading = true;
 
   @override
@@ -26,22 +27,26 @@ class _BrowseCategoryGridState extends State<BrowseCategoryGrid> {
 
   Future<void> _fetchAudios() async {
     try {
-      final response = await _audioController.getAllAudios();
-      if (mounted && response.status == 200 && response.data != null) {
-        setState(() {
-          _audios = response.data!;
-          _isLoading = false;
-        });
-      } else {
-        if (mounted) setState(() => _isLoading = false);
+      final result = await _audioRepository.getAudios();
+      if (mounted) {
+        result.fold(
+          (error) => setState(() => _isLoading = false),
+          (audios) => setState(() {
+            _audios = audios;
+            _isLoading = false;
+          }),
+        );
       }
     } catch (e) {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  List<List<Audio>> _groupAudios(List<Audio> audios, int groupSize) {
-    List<List<Audio>> groups = [];
+  List<List<AudioEntity>> _groupAudios(
+    List<AudioEntity> audios,
+    int groupSize,
+  ) {
+    List<List<AudioEntity>> groups = [];
     for (int i = 0; i < audios.length; i += groupSize) {
       int end = (i + groupSize > audios.length) ? audios.length : i + groupSize;
       groups.add(audios.sublist(i, end));

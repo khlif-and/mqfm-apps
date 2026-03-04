@@ -9,7 +9,7 @@ import 'package:mqfm_apps/presentation/organisms/player/player_dialog_helper.dar
 import 'package:mqfm_apps/presentation/organisms/player/player_disk.dart';
 import 'package:mqfm_apps/presentation/organisms/player/player_header.dart';
 import 'package:mqfm_apps/presentation/organisms/player/player_track_info.dart';
-import 'package:mqfm_apps/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PlayerPage extends StatefulWidget {
@@ -228,7 +228,7 @@ class _PlayerPageState extends State<PlayerPage> {
                     ),
                   ),
                   SizedBox(height: 24.h),
-                  PlayerControls(player: logic.player),
+                  PlayerControls(player: logic.audioManager.player),
                   SizedBox(height: 30.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/utils/manager/user_manager.dart';
-import 'package:mqfm_apps/utils/helpers/preferences_helper.dart';
-import 'package:mqfm_apps/utils/helpers/log_helper.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
+import 'package:mqfm_apps/core/utils/helpers/log_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -32,13 +32,11 @@ class _SplashScreenState extends State<SplashScreen> {
     if (token != null && token.isNotEmpty) {
       LogHelper.info("SplashScreen", "Fetching user...");
       try {
-        await UserManager.instance.fetchUser();
-        if (UserManager.instance.currentUser != null) {
+        isTokenValid = await UserManager.instance.fetchUser();
+        if (isTokenValid) {
           LogHelper.success("SplashScreen", "User valid");
-          isTokenValid = true;
         } else {
           LogHelper.info("SplashScreen", "User invalid/expired");
-          await PreferencesHelper.removeToken();
         }
       } catch (e) {
         LogHelper.error("SplashScreen", "Error fetching user: $e");

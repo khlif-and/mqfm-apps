@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/controller/auth/auth_controller.dart';
-import 'package:mqfm_apps/utils/helpers/log_helper.dart';
-import 'package:mqfm_apps/utils/helpers/preferences_helper.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/auth/domain/repositories/auth_repository.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
 class LoginLogic extends ChangeNotifier {
-  final AuthController _authController = AuthController();
+  final AuthRepository _authRepository = getIt<AuthRepository>();
 
   bool isLoading = false;
   bool isGoogleLoading = false;
@@ -17,35 +17,24 @@ class LoginLogic extends ChangeNotifier {
     successMessage = null;
     notifyListeners();
 
-    try {
-      LogHelper.info("LoginLogic", "Attempting login for $email");
-      final response = await _authController.login(email, password);
-
-      if (response.status == 200) {
-        if (response.data?.token != null) {
-          await PreferencesHelper.saveToken(response.data!.token!);
-        }
-
-        successMessage = "Login Berhasil! Hai ${response.data?.username}";
-        LogHelper.success("LoginLogic", "Login successful for $email");
-        isLoading = false;
-        notifyListeners();
-        return true;
-      } else {
-        errorMessage = "Gagal Masuk: ${response.message}";
-        LogHelper.error("LoginLogic", "Login failed: ${response.message}");
+    final result = await _authRepository.login(email, password);
+    return result.fold(
+      (error) {
+        errorMessage = "Gagal Masuk: $error";
         isLoading = false;
         notifyListeners();
         return false;
-      }
-    } catch (e, stackTrace) {
-      errorMessage =
-          "Error Koneksi: ${e.toString().replaceAll("Exception: ", "")}";
-      LogHelper.error("LoginLogic", "Exception during login", stackTrace);
-      isLoading = false;
-      notifyListeners();
-      return false;
-    }
+      },
+      (user) async {
+        if (user.token != null) {
+          await PreferencesHelper.saveToken(user.token!);
+        }
+        successMessage = "Login Berhasil! Hai ${user.username}";
+        isLoading = false;
+        notifyListeners();
+        return true;
+      },
+    );
   }
 
   Future<bool> signInWithGoogle() async {
@@ -54,40 +43,23 @@ class LoginLogic extends ChangeNotifier {
     successMessage = null;
     notifyListeners();
 
-    try {
-      LogHelper.info("LoginLogic", "Attempting Google sign-in");
-      final response = await _authController.signInWithGoogle();
-
-      if (response.status == 200) {
-        if (response.data?.token != null) {
-          await PreferencesHelper.saveToken(response.data!.token!);
-        }
-
-        successMessage = "Login Berhasil! Hai ${response.data?.username}";
-        LogHelper.success("LoginLogic", "Google sign-in successful");
-        isGoogleLoading = false;
-        notifyListeners();
-        return true;
-      } else {
-        errorMessage = "Gagal Masuk: ${response.message}";
-        LogHelper.error(
-          "LoginLogic",
-          "Google sign-in failed: ${response.message}",
-        );
+    final result = await _authRepository.signInWithGoogle();
+    return result.fold(
+      (error) {
+        errorMessage = "Gagal Masuk: $error";
         isGoogleLoading = false;
         notifyListeners();
         return false;
-      }
-    } catch (e, stackTrace) {
-      errorMessage = "Error: ${e.toString().replaceAll("Exception: ", "")}";
-      LogHelper.error(
-        "LoginLogic",
-        "Exception during Google sign-in",
-        stackTrace,
-      );
-      isGoogleLoading = false;
-      notifyListeners();
-      return false;
-    }
+      },
+      (user) async {
+        if (user.token != null) {
+          await PreferencesHelper.saveToken(user.token!);
+        }
+        successMessage = "Login Berhasil! Hai ${user.username}";
+        isGoogleLoading = false;
+        notifyListeners();
+        return true;
+      },
+    );
   }
 }

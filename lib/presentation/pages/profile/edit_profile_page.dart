@@ -5,9 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mqfm_apps/presentation/atoms/common/image_picker_bottom_sheet.dart';
 import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
 import 'package:mqfm_apps/presentation/logic/profile/edit_profile_logic.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/utils/helpers/message_helper.dart';
-import 'package:mqfm_apps/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
 import 'package:mqfm_apps/presentation/organisms/profile/edit_profile_form.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -68,6 +68,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final username = _usernameController.text.trim();
     final email = _emailController.text.trim();
     final success = await logic.updateProfile(
+      UserManager.instance.currentUser?.id ?? 0,
       username: username.isNotEmpty ? username : null,
       email: email.isNotEmpty ? email : null,
       profilePicture: _selectedImage,

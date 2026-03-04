@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/presentation/molecules/history/history_audio_tile.dart';
 
 class HistoryAudioList extends StatelessWidget {
-  final List<PlayHistory> histories;
+  final List<PlayHistoryEntity> histories;
 
   const HistoryAudioList({super.key, required this.histories});
 

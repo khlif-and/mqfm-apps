@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/controller/playlist/playlist_controller.dart';
-import 'package:mqfm_apps/model/playlist/playlist_model.dart';
-import 'package:mqfm_apps/utils/helpers/log_helper.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
+import 'package:mqfm_apps/features/playlist/domain/repositories/playlist_repository.dart';
 
 class PlaylistLogic extends ChangeNotifier {
-  final PlaylistController _controller = PlaylistController();
+  final PlaylistRepository _playlistRepository = getIt<PlaylistRepository>();
 
-  List<Playlist> playlists = [];
+  List<PlaylistEntity> playlists = [];
+  List<PlaylistEntity> filteredPlaylists = [];
   bool isLoading = true;
   String? errorMessage;
   String _searchQuery = '';
 
-  List<Playlist> get filteredPlaylists {
-    if (_searchQuery.isEmpty) return playlists;
-    return playlists
-        .where((p) => p.name.toLowerCase().contains(_searchQuery.toLowerCase()))
-        .toList();
+  PlaylistLogic() {
+    fetchPlaylists();
   }
 
   void onSearchChanged(String query) {
-    _searchQuery = query;
+    _searchQuery = query.toLowerCase();
+    if (_searchQuery.isEmpty) {
+      filteredPlaylists = List.from(playlists);
+    } else {
+      filteredPlaylists = playlists
+          .where((p) => p.name.toLowerCase().contains(_searchQuery))
+          .toList();
+    }
     notifyListeners();
   }
 
@@ -28,36 +33,19 @@ class PlaylistLogic extends ChangeNotifier {
     errorMessage = null;
     notifyListeners();
 
-    try {
-      LogHelper.info("PlaylistLogic", "Fetching playlists...");
-      final response = await _controller.getAllPlaylists();
-
-      if (response.status == 200 && response.data != null) {
-        playlists = response.data!;
+    final result = await _playlistRepository.getPlaylists();
+    result.fold(
+      (error) {
+        errorMessage = error;
         isLoading = false;
-        LogHelper.success(
-          "PlaylistLogic",
-          "Fetched ${playlists.length} playlists",
-        );
         notifyListeners();
-      } else {
-        errorMessage = "Gagal memuat data: ${response.message}";
+      },
+      (data) {
+        playlists = data;
+        filteredPlaylists = List.from(data);
         isLoading = false;
-        LogHelper.error(
-          "PlaylistLogic",
-          "Failed to load playlists: $errorMessage",
-        );
         notifyListeners();
-      }
-    } catch (e, stackTrace) {
-      errorMessage = "Terjadi kesalahan koneksi. Pastikan internet lancar.";
-      isLoading = false;
-      LogHelper.error(
-        "PlaylistLogic",
-        "Exception fetching playlists: $e",
-        stackTrace,
-      );
-      notifyListeners();
-    }
+      },
+    );
   }
 }

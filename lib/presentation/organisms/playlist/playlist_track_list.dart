@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/playlist_track_tile.dart';
 
 class PlaylistTrackList extends StatelessWidget {
-  final List<Audio> audios;
+  final List<AudioEntity> audios;
 
   const PlaylistTrackList({super.key, required this.audios});
 

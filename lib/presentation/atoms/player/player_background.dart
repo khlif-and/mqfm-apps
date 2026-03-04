@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 
 class PlayerBackground extends StatelessWidget {
   final Widget child;

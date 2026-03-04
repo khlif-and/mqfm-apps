@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/model/auth/auth_model.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar.dart';
-import 'package:mqfm_apps/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SidebarProfile extends StatefulWidget {
@@ -52,7 +52,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
                 builder: (context, isLoading, _) {
                   if (isLoading) return _buildProfileShimmer();
 
-                  return ValueListenableBuilder<UserData?>(
+                  return ValueListenableBuilder<UserEntity?>(
                     valueListenable: UserManager.instance.currentUserNotifier,
                     builder: (context, userData, child) {
                       Color bgColor = const Color(0xFF6C63FF);

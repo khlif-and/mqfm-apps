@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/faq/faq_contact_buttons.dart';
 import 'package:mqfm_apps/presentation/organisms/faq/faq_list.dart';
-import 'package:mqfm_apps/utils/app_colors.dart';
-import 'package:mqfm_apps/utils/app_styles.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_styles.dart';
 
 class HelpFaqPage extends StatelessWidget {
   const HelpFaqPage({super.key});

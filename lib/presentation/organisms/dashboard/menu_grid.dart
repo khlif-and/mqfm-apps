@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/model/audio/audio_model.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
-import 'package:mqfm_apps/utils/helpers/preferences_helper.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MenuGrid extends StatefulWidget {
@@ -104,7 +104,7 @@ class _MenuGridState extends State<MenuGrid> {
   Widget build(BuildContext context) {
     if (_isLoading) return _buildShimmer();
 
-    return ValueListenableBuilder<List<Audio>>(
+    return ValueListenableBuilder<List<AudioEntity>>(
       valueListenable: PreferencesHelper.historyNotifier,
       builder: (context, historyAudios, child) {
         if (historyAudios.isEmpty) {
@@ -158,7 +158,7 @@ class _MenuGridState extends State<MenuGrid> {
 }
 
 class _QuickPickTile extends StatelessWidget {
-  final Audio audio;
+  final AudioEntity audio;
 
   const _QuickPickTile({required this.audio});
 
