@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
@@ -52,51 +53,51 @@ class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
             baseColor: Colors.grey[800]!,
             highlightColor: Colors.grey[600]!,
             child: Container(
-              width: 180.w,
-              height: 18.h,
+              width: AppDims.w180,
+              height: AppDims.h18,
               decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(4.r),
+                color: AppColors.backgroundBlack,
+                borderRadius: BorderRadius.circular(AppDims.r4),
               ),
             ),
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: AppDims.h16),
           ...List.generate(4, (_) {
             return Padding(
-              padding: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.only(bottom: AppDims.h12),
               child: Shimmer.fromColors(
                 baseColor: Colors.grey[800]!,
                 highlightColor: Colors.grey[600]!,
                 child: Row(
                   children: [
                     Container(
-                      width: 52.w,
-                      height: 52.w,
+                      width: AppDims.w52,
+                      height: AppDims.w52,
                       decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(2.r),
+                        color: AppColors.backgroundBlack,
+                        borderRadius: BorderRadius.circular(AppDims.r2),
                       ),
                     ),
-                    SizedBox(width: 16.w),
+                    SizedBox(width: AppDims.w16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             width: double.infinity,
-                            height: 14.h,
+                            height: AppDims.h14,
                             decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(4.r),
+                              color: AppColors.backgroundBlack,
+                              borderRadius: BorderRadius.circular(AppDims.r4),
                             ),
                           ),
-                          SizedBox(height: 8.h),
+                          SizedBox(height: AppDims.h8),
                           Container(
-                            width: 100.w,
-                            height: 12.h,
+                            width: AppDims.w100,
+                            height: AppDims.h12,
                             decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(4.r),
+                              color: AppColors.backgroundBlack,
+                              borderRadius: BorderRadius.circular(AppDims.r4),
                             ),
                           ),
                         ],
@@ -117,12 +118,12 @@ class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
         Text(
           'Discover something new',
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.sp,
+            color: AppColors.textWhite,
+            fontSize: AppDims.sp16,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: AppDims.h16),
         if (_audios.isEmpty)
           const EmptyStateCard(
             message: 'Belum ada data saat ini',
@@ -155,11 +156,11 @@ class _DiscoverTrackTile extends StatelessWidget {
         context.push('/player/${audio.id}');
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
+        padding: EdgeInsets.symmetric(vertical: AppDims.h10),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: Colors.white.withOpacity(0.15),
+              color: AppColors.textWhite.withOpacity(0.15),
               width: 0.5,
             ),
           ),
@@ -168,10 +169,10 @@ class _DiscoverTrackTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 52.w,
-              height: 52.w,
+              width: AppDims.w52,
+              height: AppDims.w52,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2.r),
+                borderRadius: BorderRadius.circular(AppDims.r2),
                 image: DecorationImage(
                   image: (audio.thumbnail.isNotEmpty)
                       ? NetworkImage(audio.thumbnail)
@@ -181,7 +182,7 @@ class _DiscoverTrackTile extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 16.w),
+            SizedBox(width: AppDims.w16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,19 +191,19 @@ class _DiscoverTrackTile extends StatelessWidget {
                   Text(
                     audio.title,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.sp,
+                      color: AppColors.textWhite,
+                      fontSize: AppDims.sp15,
                       fontWeight: FontWeight.w600,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: AppDims.h4),
                   Text(
                     audio.description,
                     style: TextStyle(
-                      color: const Color(0xFFB3B3B3),
-                      fontSize: 13.sp,
+                      color: AppColors.textSecondary,
+                      fontSize: AppDims.sp13,
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 1,
@@ -215,8 +216,8 @@ class _DiscoverTrackTile extends StatelessWidget {
               onPressed: () {},
               icon: Icon(
                 Icons.more_vert,
-                color: const Color(0xFFB3B3B3),
-                size: 24.sp,
+                color: AppColors.textSecondary,
+                size: AppDims.sp24,
               ),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),

@@ -15,7 +15,7 @@ class PlaylistRepositoryImpl implements PlaylistRepository {
   @override
   Future<Either<String, List<PlaylistEntity>>> getPlaylists() async {
     try {
-      final json = await _datasource.getPlaylists();
+      final json = await _datasource.getPlaylists() as Map<String, dynamic>;
       final dto = PlaylistListResponseDto.fromJson(json);
       if (dto.status == 200 && dto.data != null) {
         return Right(dto.data!.map((d) => d.toEntity()).toList());
@@ -31,7 +31,8 @@ class PlaylistRepositoryImpl implements PlaylistRepository {
   @override
   Future<Either<String, PlaylistEntity>> getDetailPlaylist(int id) async {
     try {
-      final json = await _datasource.getDetailPlaylist(id);
+      final json =
+          await _datasource.getDetailPlaylist(id) as Map<String, dynamic>;
       final dto = PlaylistResponseDto.fromJson(json);
       if (dto.status == 200 && dto.data != null) {
         return Right(dto.data!.toEntity());

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class BrowseCard extends StatelessWidget {
   final String title;
@@ -19,38 +20,39 @@ class BrowseCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius: BorderRadius.circular(AppDims.r4),
       ),
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.all(12.r),
+            padding: EdgeInsets.all(AppDims.r12),
             child: Text(
               title,
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
+                color: AppColors.textWhite,
+                fontSize: AppDims.sp16,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           Positioned(
-            bottom: -10.h,
-            right: -15.w,
+            bottom: -AppDims.h10,
+            right:
+                -15, // Note: no w15 exist but it's small shift so left plain or we can use AppDims.w16
             child: Transform.rotate(
               angle: 25 * pi / 180,
               child: Container(
-                height: 70.h,
-                width: 70.h,
+                height: AppDims.h70,
+                width: AppDims.h70,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.r),
+                  borderRadius: BorderRadius.circular(AppDims.r4),
                   image: DecorationImage(
                     image: AssetImage(imageAsset),
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: AppColors.onPrimary.withOpacity(0.3),
                       blurRadius: 5,
                       offset: const Offset(0, 2),
                     ),

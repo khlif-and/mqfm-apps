@@ -3,7 +3,7 @@ import 'package:mqfm_apps/presentation/logic/navigation/bottom_bar_logic.dart';
 import 'package:mqfm_apps/presentation/molecules/navigation/main_bottom_navigation.dart';
 import 'package:mqfm_apps/presentation/organisms/player/mini_player.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
-import 'package:mqfm_apps/core/utils/manager/audio_player_manager.dart';
+import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 
 class BottomBar extends StatefulWidget {
   final int currentIndex;

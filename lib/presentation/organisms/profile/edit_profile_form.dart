@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/presentation/logic/profile/edit_profile_logic.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
@@ -30,16 +30,19 @@ class EditProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppDims.w24,
+        vertical: AppDims.h16,
+      ),
       child: Column(
         children: [
-          SizedBox(height: 16.h),
+          SizedBox(height: AppDims.h16),
           GestureDetector(
             onTap: onPickImage,
             child: Stack(
               children: [
                 CircleAvatar(
-                  radius: 50.r,
+                  radius: AppDims.r50,
                   backgroundColor: AppColors.surface,
                   backgroundImage: selectedImage != null
                       ? FileImage(selectedImage!)
@@ -54,8 +57,8 @@ class EditProfileForm extends StatelessWidget {
                       ? Text(
                           user?.initials ?? "?",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 28.sp,
+                            color: AppColors.textWhite,
+                            fontSize: AppDims.sp28,
                             fontWeight: FontWeight.bold,
                           ),
                         )
@@ -65,7 +68,7 @@ class EditProfileForm extends StatelessWidget {
                   bottom: 0,
                   right: 0,
                   child: Container(
-                    padding: EdgeInsets.all(6.r),
+                    padding: EdgeInsets.all(AppDims.r6),
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       shape: BoxShape.circle,
@@ -73,64 +76,70 @@ class EditProfileForm extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.camera_alt_rounded,
-                      color: Colors.black,
-                      size: 16.r,
+                      color: AppColors.backgroundBlack,
+                      size: AppDims.r16,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 32.h),
+          SizedBox(height: AppDims.h32),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               "Username",
               style: TextStyle(
                 color: AppColors.textSecondary,
-                fontSize: 13.sp,
+                fontSize: AppDims.sp13,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: AppDims.h8),
           CustomTextField(
             controller: usernameController,
             hintText: "Masukkan username baru",
-            style: TextStyle(color: Colors.white, fontSize: 15.sp),
+            style: TextStyle(
+              color: AppColors.textWhite,
+              fontSize: AppDims.sp15,
+            ),
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 14.h,
+              horizontal: AppDims.w16,
+              vertical: AppDims.h14,
             ),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: AppDims.h12),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               "Email",
               style: TextStyle(
                 color: AppColors.textSecondary,
-                fontSize: 13.sp,
+                fontSize: AppDims.sp13,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: AppDims.h8),
           CustomTextField(
             hintText: "Email",
             controller: emailController,
-            style: TextStyle(color: Colors.white, fontSize: 15.sp),
+            style: TextStyle(
+              color: AppColors.textWhite,
+              fontSize: AppDims.sp15,
+            ),
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 14.h,
+              horizontal: AppDims.w16,
+              vertical: AppDims.h14,
             ),
           ),
-          SizedBox(height: 40.h),
+          SizedBox(height: AppDims.h40),
           CustomButton(
             text: "Simpan",
             isLoading: logic.isLoading,
             onPressed: onSave,
-            height: 48.h,
+            height: AppDims.h48,
           ),
         ],
       ),

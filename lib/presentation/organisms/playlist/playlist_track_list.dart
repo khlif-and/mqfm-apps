@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/playlist_track_tile.dart';
 
@@ -13,10 +14,10 @@ class PlaylistTrackList extends StatelessWidget {
     if (audios.isEmpty) {
       return Center(
         child: Padding(
-          padding: EdgeInsets.only(top: 20.h),
+          padding: EdgeInsets.only(top: AppDims.h20),
           child: Text(
             "Belum ada audio di playlist ini.",
-            style: TextStyle(color: Colors.grey[600]),
+            style: const TextStyle(color: AppColors.textSecondary),
           ),
         ),
       );

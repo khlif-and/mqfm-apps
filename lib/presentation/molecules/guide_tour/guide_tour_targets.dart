@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:mqfm_apps/presentation/atoms/guide_tour/guide_tour_content.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 List<TargetFocus> buildDashboardTargets({
   required GlobalKey profileKey,
@@ -31,7 +32,7 @@ List<TargetFocus> buildDashboardTargets({
       keyTarget: categoryKey,
       alignSkip: Alignment.bottomRight,
       shape: ShapeLightFocus.RRect,
-      radius: 10,
+      radius: AppDims.r10,
       contents: [
         TargetContent(
           align: ContentAlign.bottom,
@@ -48,7 +49,7 @@ List<TargetFocus> buildDashboardTargets({
       keyTarget: menuGridKey,
       alignSkip: Alignment.bottomRight,
       shape: ShapeLightFocus.RRect,
-      radius: 10,
+      radius: AppDims.r10,
       contents: [
         TargetContent(
           align: ContentAlign.bottom,
@@ -65,7 +66,7 @@ List<TargetFocus> buildDashboardTargets({
       keyTarget: quoteKey,
       alignSkip: Alignment.bottomRight,
       shape: ShapeLightFocus.RRect,
-      radius: 10,
+      radius: AppDims.r10,
       contents: [
         TargetContent(
           align: ContentAlign.bottom,
@@ -81,7 +82,7 @@ List<TargetFocus> buildDashboardTargets({
       keyTarget: horizontalListKey,
       alignSkip: Alignment.topRight,
       shape: ShapeLightFocus.RRect,
-      radius: 10,
+      radius: AppDims.r10,
       contents: [
         TargetContent(
           align: ContentAlign.top,
@@ -98,7 +99,7 @@ List<TargetFocus> buildDashboardTargets({
       keyTarget: verticalListKey,
       alignSkip: Alignment.topRight,
       shape: ShapeLightFocus.RRect,
-      radius: 10,
+      radius: AppDims.r10,
       contents: [
         TargetContent(
           align: ContentAlign.top,

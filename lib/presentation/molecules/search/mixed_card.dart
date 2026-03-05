@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class MixedCard extends StatelessWidget {
   final String description;
@@ -26,8 +27,8 @@ class MixedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 140.w,
-      margin: EdgeInsets.only(right: 16.w),
+      width: AppDims.w140,
+      margin: EdgeInsets.only(right: AppDims.w16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,11 +36,11 @@ class MixedCard extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                width: 140.w,
-                height: 140.w,
+                width: AppDims.w140,
+                height: AppDims.w140,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
+                  borderRadius: BorderRadius.circular(AppDims.r8),
                 ),
                 child: imageUrls.length == 4
                     ? Column(
@@ -69,29 +70,33 @@ class MixedCard extends StatelessWidget {
                       ),
               ),
               Container(
-                width: 40.w,
-                height: 40.w,
+                width: AppDims.w40,
+                height: AppDims.w40,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: AppColors.onPrimary.withOpacity(0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
                   ],
                 ),
-                child: Icon(Icons.play_arrow, color: Colors.black, size: 28.sp),
+                child: Icon(
+                  Icons.play_arrow,
+                  color: AppColors.onPrimary,
+                  size: AppDims.sp28,
+                ),
               ),
             ],
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: AppDims.h12),
           Text(
             description,
             style: TextStyle(
-              color: Colors.grey[400],
-              fontSize: 13.sp,
+              color: AppColors.textWhite.withOpacity(0.4),
+              fontSize: AppDims.sp13,
               height: 1.4,
             ),
             maxLines: 2,

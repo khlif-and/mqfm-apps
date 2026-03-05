@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_styles.dart';
 
 class AboutLinkButton extends StatelessWidget {
@@ -21,25 +21,35 @@ class AboutLinkButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(AppDims.r12),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppDims.w16,
+            vertical: AppDims.h12,
+          ),
           decoration: BoxDecoration(
             color: AppColors.surfaceHighlight.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+            borderRadius: BorderRadius.circular(AppDims.r12),
+            border: Border.all(
+              color: AppColors.textWhite.withOpacity(0.05),
+              width: 1,
+            ),
           ),
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(8.r),
+                padding: EdgeInsets.all(AppDims.r8),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8.r),
+                  borderRadius: BorderRadius.circular(AppDims.r8),
                 ),
-                child: Icon(icon, color: AppColors.primaryClassic, size: 20.sp),
+                child: Icon(
+                  icon,
+                  color: AppColors.primaryClassic,
+                  size: AppDims.sp20,
+                ),
               ),
-              SizedBox(width: 16.w),
+              SizedBox(width: AppDims.w16),
               Expanded(
                 child: Text(
                   title,
@@ -52,7 +62,7 @@ class AboutLinkButton extends StatelessWidget {
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: AppColors.textSecondary.withOpacity(0.5),
-                size: 16.sp,
+                size: AppDims.sp16,
               ),
             ],
           ),

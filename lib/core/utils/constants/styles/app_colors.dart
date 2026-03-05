@@ -18,6 +18,12 @@ class AppColors {
   static const Color inputBorder = Color(
     0xFF282828,
   ); // Same as bg for clean look
+
+  // Search bar specific colors
+  static const Color searchBarBg = Color(0xFF2E2424);
+  static const Color searchBarBorder = Color(0xFF4A4040);
+  static const Color searchIconColor = Color(0xFF9E8E8E);
+
   static const Color error = Color(0xFFFF5252);
   static const Color success = Color(0xFF4CAF50);
 

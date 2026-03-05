@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar_builder.dart';
 
 class SearchHeader extends StatelessWidget {
@@ -27,56 +28,60 @@ class SearchHeader extends StatelessWidget {
             Row(
               children: [
                 ProfileAvatarBuilder(size: 32, widgetKey: profileKey),
-                SizedBox(width: 12.w),
+                SizedBox(width: AppDims.w12),
                 Text(
                   'Search',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.sp,
+                    color: AppColors.textWhite,
+                    fontSize: AppDims.sp24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            Icon(Icons.camera_alt_outlined, color: Colors.white, size: 28.r),
+            Icon(
+              Icons.camera_alt_outlined,
+              color: AppColors.textWhite,
+              size: AppDims.r28,
+            ),
           ],
         ),
-        SizedBox(height: 20.h),
+        SizedBox(height: AppDims.h20),
         Container(
           key: searchBarKey,
-          height: 44.h,
+          height: AppDims.h44,
           decoration: BoxDecoration(
-            color: const Color(0xFF2E2424),
-            borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(color: const Color(0xFF4A4040), width: 1),
+            color: AppColors.searchBarBg,
+            borderRadius: BorderRadius.circular(AppDims.r10),
+            border: Border.all(color: AppColors.searchBarBorder, width: 1),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
           child: Row(
             children: [
               Icon(
                 Icons.search_rounded,
-                color: const Color(0xFF9E8E8E),
-                size: 22.sp,
+                color: AppColors.searchIconColor,
+                size: AppDims.sp22,
               ),
-              SizedBox(width: 12.w),
+              SizedBox(width: AppDims.w12),
               Expanded(
                 child: TextField(
                   controller: controller,
                   onChanged: onChanged,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15.sp,
+                    color: AppColors.textWhite,
+                    fontSize: AppDims.sp15,
                     fontWeight: FontWeight.w400,
                   ),
                   decoration: InputDecoration(
                     hintText: 'Search your podcast',
                     hintStyle: TextStyle(
-                      color: const Color(0xFF9E8E8E),
-                      fontSize: 15.sp,
+                      color: AppColors.searchIconColor,
+                      fontSize: AppDims.sp15,
                       fontWeight: FontWeight.w400,
                     ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(bottom: 4.h),
+                    contentPadding: EdgeInsets.only(bottom: AppDims.h4),
                   ),
                 ),
               ),

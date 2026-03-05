@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar_builder.dart';
-import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/presentation/logic/profile/profile_pic_logic.dart';
 
 class LibraryHeader extends StatefulWidget {
   final ValueChanged<String>? onSearchChanged;
@@ -29,35 +31,37 @@ class _LibraryHeaderState extends State<LibraryHeader> {
     return ValueListenableBuilder<UserEntity?>(
       valueListenable: UserManager.instance.currentUserNotifier,
       builder: (context, userData, child) {
+        final displayUsername = ProfilePicLogic.getDisplayUsername(userData);
+
         return Column(
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ProfileAvatarBuilder(size: 40),
-                SizedBox(width: 12.w),
+                SizedBox(width: AppDims.w12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        userData?.username ?? 'User',
+                        displayUsername,
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.sp,
+                          color: AppColors.textWhite,
+                          fontSize: AppDims.sp18,
                           fontWeight: FontWeight.bold,
                           letterSpacing: -0.5,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 2.h),
+                      SizedBox(height: AppDims.h2),
                       Text(
                         'Enjoy your music!',
                         style: TextStyle(
-                          color: const Color(0xFFB3B3B3),
-                          fontSize: 13.sp,
+                          color: AppColors.textSecondary,
+                          fontSize: AppDims.sp13,
                           fontWeight: FontWeight.w400,
                         ),
                         maxLines: 1,
@@ -79,19 +83,19 @@ class _LibraryHeaderState extends State<LibraryHeader> {
                   },
                   icon: Icon(
                     _isSearching ? Icons.close : Icons.search_outlined,
-                    color: const Color(0xFFB3B3B3),
-                    size: 26.sp,
+                    color: AppColors.textSecondary,
+                    size: AppDims.sp26,
                   ),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
-                SizedBox(width: 16.w),
+                SizedBox(width: AppDims.w16),
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
                     Icons.more_vert,
-                    color: const Color(0xFFB3B3B3),
-                    size: 26.sp,
+                    color: AppColors.textSecondary,
+                    size: AppDims.sp26,
                   ),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -99,42 +103,42 @@ class _LibraryHeaderState extends State<LibraryHeader> {
               ],
             ),
             if (_isSearching) ...[
-              SizedBox(height: 16.h),
+              SizedBox(height: AppDims.h16),
               Container(
-                height: 44.h,
+                height: AppDims.h44,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2E2424),
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: const Color(0xFF4A4040), width: 1),
+                  color: AppColors.inputBackground,
+                  borderRadius: BorderRadius.circular(AppDims.r10),
+                  border: Border.all(color: AppColors.inputBorder, width: 1),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                 child: Row(
                   children: [
                     Icon(
                       Icons.search_rounded,
-                      color: const Color(0xFF9E8E8E),
-                      size: 22.sp,
+                      color: AppColors.textSecondary,
+                      size: AppDims.sp22,
                     ),
-                    SizedBox(width: 12.w),
+                    SizedBox(width: AppDims.w12),
                     Expanded(
                       child: TextField(
                         controller: _searchController,
                         autofocus: true,
                         onChanged: widget.onSearchChanged,
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15.sp,
+                          color: AppColors.textWhite,
+                          fontSize: AppDims.sp15,
                           fontWeight: FontWeight.w400,
                         ),
                         decoration: InputDecoration(
                           hintText: 'Search playlist...',
                           hintStyle: TextStyle(
-                            color: const Color(0xFF9E8E8E),
-                            fontSize: 15.sp,
+                            color: AppColors.textSecondary,
+                            fontSize: AppDims.sp15,
                             fontWeight: FontWeight.w400,
                           ),
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(bottom: 4.h),
+                          contentPadding: EdgeInsets.only(bottom: AppDims.h4),
                         ),
                       ),
                     ),
