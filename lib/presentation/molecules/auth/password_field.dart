@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/helpers/validators.dart';
+import 'package:mqfm_apps/presentation/atoms/auth/suffix_password_icon.dart';
 
 class CustomPasswordField extends StatefulWidget {
   final TextEditingController controller;
@@ -17,54 +19,52 @@ class CustomPasswordField extends StatefulWidget {
 }
 
 class _CustomPasswordFieldState extends State<CustomPasswordField> {
-  bool _obscureText = true;
+  final ValueNotifier<bool> _obscureTextNotifier = ValueNotifier<bool>(true);
+
+  @override
+  void dispose() {
+    _obscureTextNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surfaceDark,
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(AppDims.r8),
       ),
-      child: TextFormField(
-        controller: widget.controller,
-        obscureText: _obscureText,
-        style: const TextStyle(color: Colors.white),
-        cursorColor: AppColors.primary,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Password tidak boleh kosong';
-          }
-          if (value.length < 6) {
-            return 'Password minimal 6 karakter';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          hintStyle: const TextStyle(color: Colors.white54),
-          prefixIcon: const Icon(Icons.lock_outline, color: Colors.white70),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _obscureText
-                  ? Icons.visibility_outlined
-                  : Icons.visibility_off_outlined,
-              color: Colors.white54,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: _obscureTextNotifier,
+        builder: (context, isObscure, child) {
+          return TextFormField(
+            controller: widget.controller,
+            obscureText: isObscure,
+            style: const TextStyle(color: AppColors.textWhite),
+            cursorColor: AppColors.primary,
+            validator: Validators.validatePassword,
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              hintStyle: TextStyle(
+                color: AppColors.textWhite.withOpacity(0.54),
+              ),
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                color: AppColors.textWhite.withOpacity(0.7),
+              ),
+              suffixIcon: SuffixPasswordIcon(
+                obscureTextNotifier: _obscureTextNotifier,
+              ),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: AppDims.w16,
+                vertical: AppDims.h14,
+              ),
+              isDense: true,
+              errorStyle: const TextStyle(color: AppColors.error),
             ),
-            onPressed: () {
-              setState(() {
-                _obscureText = !_obscureText;
-              });
-            },
-          ),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 14.h,
-          ),
-          isDense: true,
-          errorStyle: const TextStyle(color: Colors.redAccent),
-        ),
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class DiscoverCard extends StatelessWidget {
   final String imageAsset;
@@ -13,10 +14,10 @@ class DiscoverCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 220.h,
-          width: 150.w,
+          height: AppDims.h220,
+          width: AppDims.w150,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(AppDims.r8),
             image: DecorationImage(
               image: AssetImage(imageAsset),
               fit: BoxFit.cover,
@@ -25,17 +26,17 @@ class DiscoverCard extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
-                bottom: 12.h,
-                left: 12.w,
+                bottom: AppDims.h12,
+                left: AppDims.w12,
                 child: Text(
                   tag,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
+                    color: AppColors.textWhite,
+                    fontSize: AppDims.sp14,
                     fontWeight: FontWeight.bold,
                     shadows: [
                       Shadow(
-                        color: Colors.black.withOpacity(0.5),
+                        color: AppColors.onPrimary.withOpacity(0.5),
                         blurRadius: 4,
                       ),
                     ],

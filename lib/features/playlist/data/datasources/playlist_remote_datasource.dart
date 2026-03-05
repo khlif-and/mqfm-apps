@@ -9,8 +9,8 @@ abstract class PlaylistRemoteDatasource {
       _PlaylistRemoteDatasource;
 
   @GET('/api/user/playlists/')
-  Future<Map<String, dynamic>> getPlaylists();
+  Future<dynamic> getPlaylists();
 
   @GET('/api/user/playlists/{id}')
-  Future<Map<String, dynamic>> getDetailPlaylist(@Path('id') int id);
+  Future<dynamic> getDetailPlaylist(@Path('id') int id);
 }

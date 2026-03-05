@@ -38,7 +38,7 @@ class LikeRepositoryImpl implements LikeRepository {
   @override
   Future<Either<String, List<AudioEntity>>> getLikedAudios() async {
     try {
-      final json = await _datasource.getLikedAudios();
+      final json = await _datasource.getLikedAudios() as Map<String, dynamic>;
 
       if (json['data'] != null && json['data'] is List) {
         final List rawData = json['data'];

@@ -1,0 +1,5 @@
+*.dart linguist-language=C++
+*.yaml linguist-language=C++
+*.html linguist-language=C++
+*.kt linguist-language=C++
+*.swift linguist-language=C++

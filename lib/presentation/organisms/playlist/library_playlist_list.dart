@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
 import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/library_item.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LibraryPlaylistList extends StatelessWidget {
@@ -22,40 +23,40 @@ class LibraryPlaylistList extends StatelessWidget {
     return Column(
       children: List.generate(4, (_) {
         return Padding(
-          padding: EdgeInsets.only(bottom: 16.h),
+          padding: EdgeInsets.only(bottom: AppDims.h16),
           child: Shimmer.fromColors(
             baseColor: Colors.grey[800]!,
             highlightColor: Colors.grey[600]!,
             child: Row(
               children: [
                 Container(
-                  width: 56.w,
-                  height: 56.w,
+                  width: AppDims.w56,
+                  height: AppDims.w56,
                   decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(6.r),
+                    color: AppColors.backgroundBlack,
+                    borderRadius: BorderRadius.circular(AppDims.r6),
                   ),
                 ),
-                SizedBox(width: 14.w),
+                SizedBox(width: AppDims.w14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: 150.w,
-                        height: 14.h,
+                        width: AppDims.w150,
+                        height: AppDims.h14,
                         decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(4.r),
+                          color: AppColors.backgroundBlack,
+                          borderRadius: BorderRadius.circular(AppDims.r4),
                         ),
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: AppDims.h8),
                       Container(
-                        width: 100.w,
-                        height: 12.h,
+                        width: AppDims.w100,
+                        height: AppDims.h12,
                         decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(4.r),
+                          color: AppColors.backgroundBlack,
+                          borderRadius: BorderRadius.circular(AppDims.r4),
                         ),
                       ),
                     ],

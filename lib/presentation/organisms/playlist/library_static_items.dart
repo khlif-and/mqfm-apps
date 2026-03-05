@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/library_item.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LibraryStaticItems extends StatelessWidget {
   const LibraryStaticItems({super.key});
@@ -14,27 +15,27 @@ class LibraryStaticItems extends StatelessWidget {
           children: [
             Icon(
               Icons.swap_vert_rounded,
-              color: const Color(0xFFB3B3B3),
-              size: 22.r,
+              color: AppColors.textSecondary,
+              size: AppDims.r22,
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: AppDims.w8),
             Text(
               'Terbaru',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
+                color: AppColors.textWhite,
+                fontSize: AppDims.sp14,
                 fontWeight: FontWeight.w600,
               ),
             ),
             const Spacer(),
             Icon(
               Icons.grid_view_outlined,
-              color: const Color(0xFFB3B3B3),
-              size: 22.r,
+              color: AppColors.textSecondary,
+              size: AppDims.r22,
             ),
           ],
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: AppDims.h16),
         InkWell(
           onTap: () {
             context.push('/favorites');
@@ -53,10 +54,14 @@ class LibraryStaticItems extends StatelessWidget {
                     Color(0xFFC4EFD9),
                   ], // Spotify-like gradient for liked songs
                 ),
-                borderRadius: BorderRadius.circular(2.r),
+                borderRadius: BorderRadius.circular(AppDims.r2),
               ),
               child: Center(
-                child: Icon(Icons.favorite, color: Colors.white, size: 28.r),
+                child: Icon(
+                  Icons.favorite,
+                  color: AppColors.textWhite,
+                  size: AppDims.r28,
+                ),
               ),
             ),
           ),
@@ -67,13 +72,13 @@ class LibraryStaticItems extends StatelessWidget {
           customImage: Container(
             decoration: BoxDecoration(
               color: const Color(0xFF0D72EA), // Vibrant blue
-              borderRadius: BorderRadius.circular(2.r),
+              borderRadius: BorderRadius.circular(AppDims.r2),
             ),
             child: Center(
               child: Icon(
                 Icons.notifications_active_rounded,
-                color: Colors.white,
-                size: 28.r,
+                color: AppColors.textWhite,
+                size: AppDims.r28,
               ),
             ),
           ),

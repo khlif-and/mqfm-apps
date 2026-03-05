@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/presentation/molecules/auth/email_field.dart';
 import 'package:mqfm_apps/presentation/molecules/auth/password_field.dart';
 
@@ -21,28 +22,31 @@ class LoginFormSection extends StatelessWidget {
         Text(
           "Email",
           style: TextStyle(
-            fontSize: 15.sp,
+            fontSize: AppDims.sp15,
             fontWeight: FontWeight.w600,
-            color: Colors.white,
+            color: AppColors.textWhite,
           ),
         ),
-        SizedBox(height: 10.h),
+        SizedBox(height: AppDims.h10),
         CustomEmailField(controller: emailController),
-        SizedBox(height: 20.h),
+        SizedBox(height: AppDims.h20),
         Text(
           "Password",
           style: TextStyle(
-            fontSize: 15.sp,
+            fontSize: AppDims.sp15,
             fontWeight: FontWeight.w600,
-            color: Colors.white,
+            color: AppColors.textWhite,
           ),
         ),
-        SizedBox(height: 10.h),
+        SizedBox(height: AppDims.h10),
         CustomPasswordField(controller: passwordController),
-        SizedBox(height: 8.h),
+        SizedBox(height: AppDims.h8),
         Text(
           "Pastikan email dan password anda benar.",
-          style: TextStyle(color: Colors.grey, fontSize: 10.sp),
+          style: TextStyle(
+            color: AppColors.textSecondary,
+            fontSize: AppDims.sp10,
+          ),
         ),
       ],
     );

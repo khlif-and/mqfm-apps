@@ -8,7 +8,7 @@ import 'package:mqfm_apps/presentation/pages/search/search_page.dart';
 import 'package:mqfm_apps/presentation/molecules/guide_tour/sidebar_tour_targets.dart';
 import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
-import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
 
 class MainShellPage extends StatefulWidget {
   final int initialIndex;

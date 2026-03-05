@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/presentation/molecules/about/about_header.dart';
 import 'package:mqfm_apps/presentation/molecules/about/about_link_button.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
@@ -10,17 +10,17 @@ class AboutContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.all(AppDims.w20),
       physics: const BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20.h),
+          SizedBox(height: AppDims.h20),
           const AboutHeader(),
-          SizedBox(height: 40.h),
+          SizedBox(height: AppDims.h40),
 
           Container(
-            padding: EdgeInsets.all(24.w),
+            padding: EdgeInsets.all(AppDims.w24),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -30,14 +30,14 @@ class AboutContent extends StatelessWidget {
                   AppColors.surfaceHighlight.withOpacity(0.3),
                 ],
               ),
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(AppDims.r20),
               border: Border.all(
-                color: Colors.white.withOpacity(0.05),
+                color: AppColors.textWhite.withOpacity(0.05),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: AppColors.backgroundBlack.withOpacity(0.2),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -51,26 +51,26 @@ class AboutContent extends StatelessWidget {
                     Icon(
                       Icons.diversity_3_rounded,
                       color: AppColors.primaryClassic,
-                      size: 24.sp,
+                      size: AppDims.sp24,
                     ),
-                    SizedBox(width: 12.w),
+                    SizedBox(width: AppDims.w12),
                     Text(
                       'Sarana Dakwah Digital',
                       style: TextStyle(
-                        fontSize: 18.sp,
+                        fontSize: AppDims.sp18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColors.textWhite,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: AppDims.h16),
                 Text(
                   'Sajian program inspiratif meliputi murattal Al-Qur\'an, kajian keislaman, talkshow pendidikan, hingga hiburan positif yang dirancang untuk menemani aktivitas harian Anda. \n\nMenghadirkan nilai kebaikan di setiap frekuensi, agar dapat menjadi teman setia dalam membangun peradaban yang berakhlak.',
                   style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: AppDims.sp14,
                     height: 1.6,
-                    color: Colors.white.withOpacity(0.7),
+                    color: AppColors.textWhite.withOpacity(0.7),
                   ),
                   textAlign: TextAlign.justify,
                 ),
@@ -78,19 +78,19 @@ class AboutContent extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 24.h),
+          SizedBox(height: AppDims.h24),
 
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 4.w, bottom: 12.h),
+                padding: EdgeInsets.only(left: AppDims.w4, bottom: AppDims.h12),
                 child: Text(
                   'Lebih Dekat Dengan Kami',
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: AppDims.sp16,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white.withOpacity(0.9),
+                    color: AppColors.textWhite.withOpacity(0.9),
                   ),
                 ),
               ),
@@ -99,13 +99,13 @@ class AboutContent extends StatelessWidget {
                 title: 'Kunjungi Website Kami',
                 onTap: () {},
               ),
-              SizedBox(height: 12.h),
+              SizedBox(height: AppDims.h12),
               AboutLinkButton(
                 icon: Icons.camera_alt_outlined,
                 title: 'Instagram @mqfmnetwork',
                 onTap: () {},
               ),
-              SizedBox(height: 12.h),
+              SizedBox(height: AppDims.h12),
               AboutLinkButton(
                 icon: Icons.play_circle_outline_rounded,
                 title: 'YouTube MQFM Jogja',
@@ -114,16 +114,16 @@ class AboutContent extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 48.h),
+          SizedBox(height: AppDims.h48),
 
           Text(
             '© 2026 MQFM Network. All rights reserved.',
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: AppDims.sp12,
               color: AppColors.textSecondary.withOpacity(0.5),
             ),
           ),
-          SizedBox(height: 32.h),
+          SizedBox(height: AppDims.h32),
         ],
       ),
     );

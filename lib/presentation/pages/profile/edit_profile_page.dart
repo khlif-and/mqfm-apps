@@ -7,7 +7,7 @@ import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
 import 'package:mqfm_apps/presentation/logic/profile/edit_profile_logic.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
-import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:mqfm_apps/presentation/organisms/profile/edit_profile_form.dart';
 
 class EditProfilePage extends StatefulWidget {

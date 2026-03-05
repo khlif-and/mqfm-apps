@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 
@@ -15,11 +16,18 @@ class SearchResultList extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.search_off, color: Colors.grey, size: 64.r),
-            SizedBox(height: 16.h),
+            Icon(
+              Icons.search_off,
+              color: AppColors.textSecondary,
+              size: AppDims.r64,
+            ),
+            SizedBox(height: AppDims.h16),
             Text(
               "No results found",
-              style: TextStyle(color: Colors.white, fontSize: 16.sp),
+              style: TextStyle(
+                color: AppColors.textWhite,
+                fontSize: AppDims.sp16,
+              ),
             ),
           ],
         ),
@@ -27,7 +35,7 @@ class SearchResultList extends StatelessWidget {
     }
 
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
       itemCount: results.length,
       itemBuilder: (context, index) {
         final audio = results[index];
@@ -36,19 +44,19 @@ class SearchResultList extends StatelessWidget {
             context.push('/player/${audio.id}');
           },
           child: Container(
-            margin: EdgeInsets.only(bottom: 12.h),
-            padding: EdgeInsets.all(8.r),
+            margin: EdgeInsets.only(bottom: AppDims.h12),
+            padding: EdgeInsets.all(AppDims.r8),
             decoration: BoxDecoration(
-              color: Colors.grey[900],
-              borderRadius: BorderRadius.circular(8.r),
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppDims.r8),
             ),
             child: Row(
               children: [
                 Container(
-                  height: 50.w,
-                  width: 50.w,
+                  height: AppDims.w50,
+                  width: AppDims.w50,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.r),
+                    borderRadius: BorderRadius.circular(AppDims.r4),
                     image: DecorationImage(
                       image: audio.thumbnail.isNotEmpty
                           ? NetworkImage(audio.thumbnail) as ImageProvider
@@ -57,7 +65,7 @@ class SearchResultList extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 12.w),
+                SizedBox(width: AppDims.w12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,24 +73,31 @@ class SearchResultList extends StatelessWidget {
                       Text(
                         audio.title,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textWhite,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14.sp,
+                          fontSize: AppDims.sp14,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: AppDims.h4),
                       Text(
                         audio.description,
-                        style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: AppDims.sp12,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
-                Icon(Icons.play_circle_fill, color: Colors.white, size: 30.r),
+                Icon(
+                  Icons.play_circle_fill,
+                  color: AppColors.textWhite,
+                  size: AppDims.r30,
+                ),
               ],
             ),
           ),

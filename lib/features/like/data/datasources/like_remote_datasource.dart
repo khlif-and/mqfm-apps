@@ -17,5 +17,5 @@ abstract class LikeRemoteDatasource {
   Future<void> unlikeAudio(@Path('audioId') int audioId);
 
   @GET('/api/user/likes/')
-  Future<Map<String, dynamic>> getLikedAudios();
+  Future<dynamic> getLikedAudios();
 }

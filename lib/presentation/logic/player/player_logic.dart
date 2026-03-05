@@ -3,7 +3,7 @@ import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
 import 'package:mqfm_apps/features/playlist/domain/repositories/playlist_repository.dart';
-import 'package:mqfm_apps/core/utils/manager/audio_player_manager.dart';
+import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
 class PlayerLogic extends ChangeNotifier {

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
-import 'package:mqfm_apps/core/utils/manager/user_manager.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProfileAvatarBuilder extends StatelessWidget {

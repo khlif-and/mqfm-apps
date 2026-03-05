@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/presentation/logic/navigation/bottom_bar_logic.dart';
-import 'package:mqfm_apps/core/utils/manager/audio_player_manager.dart';
+import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 
 class MiniPlayer extends StatelessWidget {
   final BottomBarLogic logic;

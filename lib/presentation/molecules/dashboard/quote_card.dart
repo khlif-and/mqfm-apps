@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class QuoteCard extends StatelessWidget {
   const QuoteCard({super.key});
@@ -8,10 +9,10 @@ class QuoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 180.h,
-      padding: EdgeInsets.all(20.w),
+      height: AppDims.h180,
+      padding: EdgeInsets.all(AppDims.w20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(AppDims.r12),
         image: const DecorationImage(
           image: AssetImage('assets/images/img_card.jpg'),
           fit: BoxFit.cover,
@@ -23,16 +24,16 @@ class QuoteCard extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: Container(
-              width: 32.r,
-              height: 32.r,
+              width: AppDims.r32,
+              height: AppDims.r32,
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: AppColors.textWhite,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.arrow_outward,
-                color: Colors.black,
-                size: 18.sp,
+                color: AppColors.onPrimary,
+                size: AppDims.sp18,
               ),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class PlaylistDetailHeader extends StatelessWidget {
   final PlaylistEntity playlist;
@@ -13,10 +14,10 @@ class PlaylistDetailHeader extends StatelessWidget {
       children: [
         Center(
           child: Container(
-            width: 200.w,
-            height: 200.w,
+            width: AppDims.w200,
+            height: AppDims.w200,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
+              borderRadius: BorderRadius.circular(AppDims.r8),
               image: DecorationImage(
                 image: (playlist.imageUrl.isNotEmpty)
                     ? NetworkImage(playlist.imageUrl)
@@ -26,27 +27,30 @@ class PlaylistDetailHeader extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  blurRadius: 20.r,
+                  color: AppColors.backgroundBlack.withOpacity(0.5),
+                  blurRadius: AppDims.r20,
                   offset: const Offset(0, 10),
                 ),
               ],
             ),
           ),
         ),
-        SizedBox(height: 24.h),
+        SizedBox(height: AppDims.h24),
         Text(
           playlist.name,
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 24.sp,
+            color: AppColors.textWhite,
+            fontSize: AppDims.sp24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: AppDims.h8),
         Text(
           "Dibuat oleh User #${playlist.userId}",
-          style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
+          style: TextStyle(
+            color: AppColors.textSecondary,
+            fontSize: AppDims.sp14,
+          ),
         ),
       ],
     );
