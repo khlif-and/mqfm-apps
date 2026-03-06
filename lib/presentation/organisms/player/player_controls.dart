@@ -48,9 +48,9 @@ class _PlayerControlsState extends State<PlayerControls> {
                     trackHeight: AppDims.h2,
                     thumbShape: RoundSliderThumbShape(enabledThumbRadius: AppDims.r6),
                     overlayShape: RoundSliderOverlayShape(overlayRadius: AppDims.r14),
-                    activeTrackColor: Colors.white,
-                    inactiveTrackColor: Colors.white.withOpacity(0.3),
-                    thumbColor: Colors.white,
+                    activeTrackColor: AppColors.textWhite,
+                    inactiveTrackColor: AppColors.textWhite.withValues(alpha: 0.3),
+                    thumbColor: AppColors.textWhite,
                   ),
                   child: Slider(
                     min: 0,
@@ -82,14 +82,14 @@ class _PlayerControlsState extends State<PlayerControls> {
                               : position,
                         ),
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.7),
+                          color: AppColors.textWhite.withValues(alpha: 0.7),
                           fontSize: AppDims.sp12,
                         ),
                       ),
                       Text(
                         _formatDuration(duration),
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.7),
+                          color: AppColors.textWhite.withValues(alpha: 0.7),
                           fontSize: AppDims.sp12,
                         ),
                       ),
@@ -107,7 +107,7 @@ class _PlayerControlsState extends State<PlayerControls> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Icon(Icons.shuffle, color: AppColors.primaryClassic, size: AppDims.r26),
-              Icon(Icons.skip_previous, color: Colors.white, size: AppDims.r42),
+              Icon(Icons.skip_previous, color: AppColors.textWhite, size: AppDims.r42),
               StreamBuilder<PlayerState>(
                 stream: widget.player.playerStateStream,
                 builder: (context, snapshot) {
@@ -122,11 +122,11 @@ class _PlayerControlsState extends State<PlayerControls> {
                       width: AppDims.r72,
                       padding: EdgeInsets.all(AppDims.r20),
                       decoration: const BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.textWhite,
                         shape: BoxShape.circle,
                       ),
                       child: const CircularProgressIndicator(
-                        color: Colors.black,
+                        color: AppColors.backgroundBlack,
                       ),
                     );
                   } else if (playing != true) {
@@ -136,12 +136,12 @@ class _PlayerControlsState extends State<PlayerControls> {
                         height: AppDims.r72,
                         width: AppDims.r72,
                         decoration: const BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.textWhite,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.play_arrow,
-                          color: Colors.black,
+                          color: AppColors.backgroundBlack,
                           size: AppDims.r38,
                         ),
                       ),
@@ -153,12 +153,12 @@ class _PlayerControlsState extends State<PlayerControls> {
                         height: AppDims.r72,
                         width: AppDims.r72,
                         decoration: const BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.textWhite,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.pause,
-                          color: Colors.black,
+                          color: AppColors.backgroundBlack,
                           size: AppDims.r38,
                         ),
                       ),
@@ -166,8 +166,8 @@ class _PlayerControlsState extends State<PlayerControls> {
                   }
                 },
               ),
-              Icon(Icons.skip_next, color: Colors.white, size: AppDims.r42),
-              Icon(Icons.timer_outlined, color: Colors.white, size: AppDims.r26),
+              Icon(Icons.skip_next, color: AppColors.textWhite, size: AppDims.r42),
+              Icon(Icons.timer_outlined, color: AppColors.textWhite, size: AppDims.r26),
             ],
           ),
         ),

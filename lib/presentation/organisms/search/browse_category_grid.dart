@@ -63,8 +63,8 @@ class _BrowseCategoryGridState extends State<BrowseCategoryGrid> {
         children: [
           SizedBox(height: AppDims.h12),
           Shimmer.fromColors(
-            baseColor: Colors.grey[800]!,
-            highlightColor: Colors.grey[600]!,
+            baseColor: AppColors.shimmerBase,
+            highlightColor: AppColors.shimmerHighlight,
             child: Container(
               width: AppDims.w130,
               height: AppDims.h20,
@@ -82,8 +82,8 @@ class _BrowseCategoryGridState extends State<BrowseCategoryGrid> {
                 return Padding(
                   padding: EdgeInsets.only(right: AppDims.w16),
                   child: Shimmer.fromColors(
-                    baseColor: Colors.grey[800]!,
-                    highlightColor: Colors.grey[600]!,
+                    baseColor: AppColors.shimmerBase,
+                    highlightColor: AppColors.shimmerHighlight,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

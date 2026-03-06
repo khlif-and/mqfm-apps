@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MenuGrid extends StatefulWidget {
@@ -39,13 +40,13 @@ class _MenuGridState extends State<MenuGrid> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Shimmer.fromColors(
-          baseColor: Colors.grey[800]!,
-          highlightColor: Colors.grey[600]!,
+          baseColor: AppColors.shimmerBase,
+          highlightColor: AppColors.shimmerHighlight,
           child: Container(
             width: AppDims.w120,
             height: AppDims.h18,
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: AppColors.backgroundBlack,
               borderRadius: BorderRadius.circular(AppDims.r4),
             ),
           ),
@@ -55,15 +56,15 @@ class _MenuGridState extends State<MenuGrid> {
           return Padding(
             padding: EdgeInsets.only(bottom: AppDims.h12),
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[800]!,
-              highlightColor: Colors.grey[600]!,
+              baseColor: AppColors.shimmerBase,
+              highlightColor: AppColors.shimmerHighlight,
               child: Row(
                 children: [
                   Container(
                     width: AppDims.w52,
                     height: AppDims.w52,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: AppColors.backgroundBlack,
                       borderRadius: BorderRadius.circular(AppDims.r6),
                     ),
                   ),
@@ -76,7 +77,7 @@ class _MenuGridState extends State<MenuGrid> {
                           width: double.infinity,
                           height: AppDims.h14,
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: AppColors.backgroundBlack,
                             borderRadius: BorderRadius.circular(AppDims.r4),
                           ),
                         ),
@@ -85,7 +86,7 @@ class _MenuGridState extends State<MenuGrid> {
                           width: AppDims.w100,
                           height: AppDims.h12,
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: AppColors.backgroundBlack,
                             borderRadius: BorderRadius.circular(AppDims.r4),
                           ),
                         ),
@@ -115,7 +116,7 @@ class _MenuGridState extends State<MenuGrid> {
               Text(
                 'Quick Pick',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontSize: AppDims.sp16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -135,7 +136,7 @@ class _MenuGridState extends State<MenuGrid> {
             Text(
               'Quick Pick',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.textWhite,
                 fontSize: AppDims.sp16,
                 fontWeight: FontWeight.bold,
               ),
@@ -174,7 +175,7 @@ class _QuickPickTile extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: Colors.white.withOpacity(0.15),
+              color: AppColors.textWhite.withValues(alpha: 0.15),
               width: 0.5,
             ),
           ),
@@ -204,7 +205,7 @@ class _QuickPickTile extends StatelessWidget {
                   Text(
                     audio.title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textWhite,
                       fontSize: AppDims.sp15,
                       fontWeight: FontWeight.w600,
                     ),

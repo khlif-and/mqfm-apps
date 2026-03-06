@@ -6,6 +6,7 @@ import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_bloc.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_event.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_state.dart';
@@ -92,7 +93,7 @@ class _SearchPageState extends State<SearchPage> {
                       return const Center(child: CircularProgressIndicator(color: AppColors.textWhite));
                     }
                     if (_isSearching) {
-                      final results = state.maybeWhen(loaded: (audios) => audios, orElse: () => []);
+                      final results = state.maybeWhen(loaded: (audios) => audios, orElse: () => <AudioEntity>[]);
                       return SearchResultList(results: results);
                     }
                     return SingleChildScrollView(
