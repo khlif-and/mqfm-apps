@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqfm_apps/features/auth/domain/repositories/auth_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:mqfm_apps/features/auth/presentation/bloc/register_bloc/register_event.dart';
 import 'package:mqfm_apps/features/auth/presentation/bloc/register_bloc/register_state.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
+@injectable
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final AuthRepository _authRepository;
+  final IAuthRepository _authRepository;
 
   RegisterBloc(this._authRepository) : super(const RegisterState.initial()) {
     on<RegisterSubmitted>(_onRegister);

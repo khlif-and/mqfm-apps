@@ -35,6 +35,7 @@ dependencies:
   flutter_bloc: ^9.1.0
   get_it: ^8.0.3
   dartz: ^0.10.1
+  injectable: ^2.7.1+4
 
 dev_dependencies:
   flutter_test:
@@ -44,6 +45,7 @@ dev_dependencies:
   freezed: ^2.5.8
   retrofit_generator: 9.1.8
   build_runner: ^2.4.15
+  injectable_generator: ^2.7.0
 
 flutter:
   uses-material-design: true

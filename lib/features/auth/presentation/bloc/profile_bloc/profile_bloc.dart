@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqfm_apps/features/auth/domain/repositories/auth_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:mqfm_apps/features/auth/presentation/bloc/profile_bloc/profile_event.dart';
 import 'package:mqfm_apps/features/auth/presentation/bloc/profile_bloc/profile_state.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
+@injectable
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final AuthRepository _authRepository;
+  final IAuthRepository _authRepository;
 
   ProfileBloc(this._authRepository) : super(const ProfileState.initial()) {
     on<ProfileFetch>(_onFetch);

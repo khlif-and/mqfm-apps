@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
@@ -21,7 +22,7 @@ class _MenuGridState extends State<MenuGrid> {
   @override
   void initState() {
     super.initState();
-    _initHistory();
+    Future.microtask(_initHistory);
   }
 
   Future<void> _initHistory() async {
@@ -41,51 +42,51 @@ class _MenuGridState extends State<MenuGrid> {
           baseColor: Colors.grey[800]!,
           highlightColor: Colors.grey[600]!,
           child: Container(
-            width: 120.w,
-            height: 18.h,
+            width: AppDims.w120,
+            height: AppDims.h18,
             decoration: BoxDecoration(
               color: Colors.black,
-              borderRadius: BorderRadius.circular(4.r),
+              borderRadius: BorderRadius.circular(AppDims.r4),
             ),
           ),
         ),
-        SizedBox(height: 14.h),
+        SizedBox(height: AppDims.h14),
         ...List.generate(3, (_) {
           return Padding(
-            padding: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.only(bottom: AppDims.h12),
             child: Shimmer.fromColors(
               baseColor: Colors.grey[800]!,
               highlightColor: Colors.grey[600]!,
               child: Row(
                 children: [
                   Container(
-                    width: 52.w,
-                    height: 52.w,
+                    width: AppDims.w52,
+                    height: AppDims.w52,
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(6.r),
+                      borderRadius: BorderRadius.circular(AppDims.r6),
                     ),
                   ),
-                  SizedBox(width: 16.w),
+                  SizedBox(width: AppDims.w16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           width: double.infinity,
-                          height: 14.h,
+                          height: AppDims.h14,
                           decoration: BoxDecoration(
                             color: Colors.black,
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(AppDims.r4),
                           ),
                         ),
-                        SizedBox(height: 8.h),
+                        SizedBox(height: AppDims.h8),
                         Container(
-                          width: 100.w,
-                          height: 12.h,
+                          width: AppDims.w100,
+                          height: AppDims.h12,
                           decoration: BoxDecoration(
                             color: Colors.black,
-                            borderRadius: BorderRadius.circular(4.r),
+                            borderRadius: BorderRadius.circular(AppDims.r4),
                           ),
                         ),
                       ],
@@ -115,11 +116,11 @@ class _MenuGridState extends State<MenuGrid> {
                 'Quick Pick',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16.sp,
+                  fontSize: AppDims.sp16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 14.h),
+              SizedBox(height: AppDims.h14),
               const EmptyStateCard(
                 message: 'Belum ada data saat ini',
                 icon: Icons.headphones_rounded,
@@ -135,11 +136,11 @@ class _MenuGridState extends State<MenuGrid> {
               'Quick Pick',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16.sp,
+                fontSize: AppDims.sp16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 14.h),
+            SizedBox(height: AppDims.h14),
             ListView.builder(
               shrinkWrap: true,
               padding: EdgeInsets.zero,
@@ -169,7 +170,7 @@ class _QuickPickTile extends StatelessWidget {
         context.push('/player/${audio.id}');
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
+        padding: EdgeInsets.symmetric(vertical: AppDims.h10),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -182,10 +183,10 @@ class _QuickPickTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 52.w,
-              height: 52.w,
+              width: AppDims.w52,
+              height: AppDims.w52,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6.r),
+                borderRadius: BorderRadius.circular(AppDims.r6),
                 image: DecorationImage(
                   image: (audio.thumbnail.isNotEmpty)
                       ? NetworkImage(audio.thumbnail) as ImageProvider
@@ -194,7 +195,7 @@ class _QuickPickTile extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 16.w),
+            SizedBox(width: AppDims.w16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,18 +205,18 @@ class _QuickPickTile extends StatelessWidget {
                     audio.title,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 15.sp,
+                      fontSize: AppDims.sp15,
                       fontWeight: FontWeight.w600,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: AppDims.h4),
                   Text(
                     audio.description,
                     style: TextStyle(
                       color: const Color(0xFFB3B3B3),
-                      fontSize: 13.sp,
+                      fontSize: AppDims.sp13,
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 1,
@@ -229,7 +230,7 @@ class _QuickPickTile extends StatelessWidget {
               icon: Icon(
                 Icons.more_vert,
                 color: const Color(0xFFB3B3B3),
-                size: 24.sp,
+                size: AppDims.sp24,
               ),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),

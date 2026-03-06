@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
@@ -32,29 +33,29 @@ class MiniPlayer extends StatelessWidget {
                 context.push('/player/${currentAudio.id}');
               },
               child: Container(
-                margin: EdgeInsets.fromLTRB(8.w, 0, 8.w, 8.h),
+                margin: EdgeInsets.fromLTRB(AppDims.w8, 0, AppDims.w8, AppDims.h8),
                 decoration: BoxDecoration(
                   color: AppColors.progressBar,
-                  borderRadius: BorderRadius.circular(6.r),
+                  borderRadius: BorderRadius.circular(AppDims.r6),
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.background,
-                      blurRadius: 20.r,
-                      spreadRadius: 2.r,
-                      offset: Offset(0, 10.h),
+                      blurRadius: AppDims.r20,
+                      spreadRadius: AppDims.r2,
+                      offset: Offset(0, AppDims.h10),
                     ),
                   ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(8.w),
+                  padding: EdgeInsets.all(AppDims.w8),
                   child: Row(
                     children: [
                       Container(
-                        width: 38.w,
-                        height: 38.w,
+                        width: AppDims.w38,
+                        height: AppDims.w38,
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(4.r),
+                          borderRadius: BorderRadius.circular(AppDims.r4),
                           image: DecorationImage(
                             image: (currentAudio.thumbnail.isNotEmpty)
                                 ? NetworkImage(currentAudio.thumbnail)
@@ -66,7 +67,7 @@ class MiniPlayer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 12.w),
+                      SizedBox(width: AppDims.w12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,17 +77,17 @@ class MiniPlayer extends StatelessWidget {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14.sp,
+                                fontSize: AppDims.sp14,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(height: 2.h),
+                            SizedBox(height: AppDims.h2),
                             Text(
                               currentAudio.description,
                               style: TextStyle(
                                 color: Colors.white70,
-                                fontSize: 12.sp,
+                                fontSize: AppDims.sp12,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -100,7 +101,7 @@ class MiniPlayer extends StatelessWidget {
                               ? Icons.favorite
                               : Icons.favorite_border,
                           color: logic.isLiked ? Colors.green : Colors.white,
-                          size: 24.sp,
+                          size: AppDims.sp24,
                         ),
                         onPressed: () {
                           logic.toggleLike(currentAudio.id);
@@ -116,8 +117,8 @@ class MiniPlayer extends StatelessWidget {
                           if (processingState == ProcessingState.loading ||
                               processingState == ProcessingState.buffering) {
                             return SizedBox(
-                              width: 32.sp,
-                              height: 32.sp,
+                              width: AppDims.sp32,
+                              height: AppDims.sp32,
                               child: const Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: CircularProgressIndicator(
@@ -134,7 +135,7 @@ class MiniPlayer extends StatelessWidget {
                                   ? Icons.pause
                                   : Icons.play_arrow,
                               color: Colors.white,
-                              size: 32.sp,
+                              size: AppDims.sp32,
                             ),
                             onPressed: () {
                               if (playing == true) {

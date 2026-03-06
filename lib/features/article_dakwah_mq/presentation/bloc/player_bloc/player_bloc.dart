@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
+import 'package:mqfm_apps/features/audio/domain/repositories/i_audio_repository.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/player_bloc/player_event.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/player_bloc/player_state.dart';
 
 class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
-  final AudioRepository _audioRepository;
+  final IAudioRepository _audioRepository;
 
   PlayerBloc(this._audioRepository) : super(const PlayerState.initial()) {
     on<PlayerLoadAudio>(_onLoadAudio);

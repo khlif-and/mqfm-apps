@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
-import 'package:mqfm_apps/features/like/domain/repositories/like_repository.dart';
+import 'package:mqfm_apps/features/like/domain/repositories/i_like_repository.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
 class BottomBarLogic extends ChangeNotifier {
-  final LikeRepository _likeRepository = getIt<LikeRepository>();
+  final ILikeRepository _likeRepository = getIt<ILikeRepository>();
 
   bool isLiked = false;
   String? message;

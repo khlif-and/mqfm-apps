@@ -22,38 +22,3 @@ Map<String, dynamic> _$CategoryDtoToJson(CategoryDto instance) =>
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
     };
-
-CategoryResponseDto _$CategoryResponseDtoFromJson(Map<String, dynamic> json) =>
-    CategoryResponseDto(
-      status: (json['status'] as num).toInt(),
-      message: json['message'] as String,
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => CategoryDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$CategoryResponseDtoToJson(
-  CategoryResponseDto instance,
-) => <String, dynamic>{
-  'status': instance.status,
-  'message': instance.message,
-  'data': instance.data,
-};
-
-SingleCategoryResponseDto _$SingleCategoryResponseDtoFromJson(
-  Map<String, dynamic> json,
-) => SingleCategoryResponseDto(
-  status: (json['status'] as num).toInt(),
-  message: json['message'] as String,
-  data: json['data'] == null
-      ? null
-      : CategoryDto.fromJson(json['data'] as Map<String, dynamic>),
-);
-
-Map<String, dynamic> _$SingleCategoryResponseDtoToJson(
-  SingleCategoryResponseDto instance,
-) => <String, dynamic>{
-  'status': instance.status,
-  'message': instance.message,
-  'data': instance.data,
-};

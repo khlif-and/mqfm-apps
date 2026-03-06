@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
+import 'package:mqfm_apps/features/audio/domain/repositories/i_audio_repository.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_event.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_state.dart';
 
 class AudioListBloc extends Bloc<AudioListEvent, AudioListState> {
-  final AudioRepository _audioRepository;
+  final IAudioRepository _audioRepository;
 
   AudioListBloc(this._audioRepository) : super(const AudioListState.initial()) {
     on<AudioListFetch>(_onFetch);

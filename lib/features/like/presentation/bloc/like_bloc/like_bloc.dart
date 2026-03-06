@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/like/domain/repositories/like_repository.dart';
+import 'package:mqfm_apps/features/like/domain/repositories/i_like_repository.dart';
 import 'package:mqfm_apps/features/like/presentation/bloc/like_bloc/like_event.dart';
 import 'package:mqfm_apps/features/like/presentation/bloc/like_bloc/like_state.dart';
 
+@injectable
 class LikeBloc extends Bloc<LikeEvent, LikeState> {
-  final LikeRepository _likeRepository;
+  final ILikeRepository _likeRepository;
   List<AudioEntity> _likedAudios = [];
 
   LikeBloc(this._likeRepository) : super(const LikeState.initial()) {

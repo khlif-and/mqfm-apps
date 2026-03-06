@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class ImagePickerBottomSheet extends StatelessWidget {
   final Function(ImageSource) onImageSourceSelected;
@@ -19,7 +20,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
       context: context,
       backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppDims.r16)),
       ),
       builder: (BuildContext context) {
         return ImagePickerBottomSheet(
@@ -33,27 +34,27 @@ class ImagePickerBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
+        padding: EdgeInsets.symmetric(vertical: AppDims.h24, horizontal: AppDims.w16),
         child: Wrap(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
+              padding: EdgeInsets.only(bottom: AppDims.h16, left: AppDims.w16),
               child: Text(
                 'Pilih Gambar Profil',
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.sp,
+                  color: AppColors.textWhite,
+                  fontSize: AppDims.sp18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             ListTile(
               contentPadding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-                vertical: 8.h,
+                horizontal: AppDims.w16,
+                vertical: AppDims.h8,
               ),
               leading: Container(
-                padding: EdgeInsets.all(10.r),
+                padding: EdgeInsets.all(AppDims.r10),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withOpacity(0.15),
                   shape: BoxShape.circle,
@@ -65,11 +66,11 @@ class ImagePickerBottomSheet extends StatelessWidget {
               ),
               title: Text(
                 'Galeri',
-                style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp16),
               ),
               subtitle: Text(
                 'Pilih foto dari perangkat',
-                style: TextStyle(color: Colors.grey[500], fontSize: 12.sp),
+                style: TextStyle(color: AppColors.textMuted, fontSize: AppDims.sp12),
               ),
               onTap: () {
                 Navigator.of(context).pop();
@@ -78,11 +79,11 @@ class ImagePickerBottomSheet extends StatelessWidget {
             ),
             ListTile(
               contentPadding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-                vertical: 8.h,
+                horizontal: AppDims.w16,
+                vertical: AppDims.h8,
               ),
               leading: Container(
-                padding: EdgeInsets.all(10.r),
+                padding: EdgeInsets.all(AppDims.r10),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withOpacity(0.15),
                   shape: BoxShape.circle,
@@ -91,11 +92,11 @@ class ImagePickerBottomSheet extends StatelessWidget {
               ),
               title: Text(
                 'Kamera',
-                style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp16),
               ),
               subtitle: Text(
                 'Ambil foto baru',
-                style: TextStyle(color: Colors.grey[500], fontSize: 12.sp),
+                style: TextStyle(color: AppColors.textMuted, fontSize: AppDims.sp12),
               ),
               onTap: () {
                 Navigator.of(context).pop();

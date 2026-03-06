@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LogoutButton extends StatelessWidget {
   final bool isLoading;
@@ -14,30 +17,30 @@ class LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: 48,
+        height: AppDims.h48,
         child: ElevatedButton(
           onPressed: isLoading ? null : onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
+            backgroundColor: AppColors.textWhite,
+            foregroundColor: AppColors.onPrimary,
             elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 32),
+            padding: EdgeInsets.symmetric(horizontal: AppDims.w32),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(AppDims.r24),
             ),
           ),
           child: isLoading
-              ? const SizedBox(
-                  height: 20,
-                  width: 20,
+              ? SizedBox(
+                  height: AppDims.h20,
+                  width: AppDims.h20,
                   child: CircularProgressIndicator(
-                    color: Colors.black,
+                    color: AppColors.onPrimary,
                     strokeWidth: 2,
                   ),
                 )
-              : const Text(
+              : Text(
                   'Log out',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: AppDims.sp16, fontWeight: FontWeight.bold),
                 ),
         ),
       ),

@@ -15,6 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+AudioEntity _$AudioEntityFromJson(Map<String, dynamic> json) {
+  return _AudioEntity.fromJson(json);
+}
+
 /// @nodoc
 mixin _$AudioEntity {
   int get id => throw _privateConstructorUsedError;
@@ -25,6 +29,9 @@ mixin _$AudioEntity {
   int get categoryId => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
   String get updatedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this AudioEntity to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of AudioEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -200,7 +207,7 @@ class __$$AudioEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$AudioEntityImpl implements _AudioEntity {
   const _$AudioEntityImpl({
     required this.id,
@@ -212,6 +219,9 @@ class _$AudioEntityImpl implements _AudioEntity {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  factory _$AudioEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AudioEntityImplFromJson(json);
 
   @override
   final int id;
@@ -256,6 +266,7 @@ class _$AudioEntityImpl implements _AudioEntity {
                 other.updatedAt == updatedAt));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
@@ -276,6 +287,11 @@ class _$AudioEntityImpl implements _AudioEntity {
   @pragma('vm:prefer-inline')
   _$$AudioEntityImplCopyWith<_$AudioEntityImpl> get copyWith =>
       __$$AudioEntityImplCopyWithImpl<_$AudioEntityImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AudioEntityImplToJson(this);
+  }
 }
 
 abstract class _AudioEntity implements AudioEntity {
@@ -289,6 +305,9 @@ abstract class _AudioEntity implements AudioEntity {
     required final String createdAt,
     required final String updatedAt,
   }) = _$AudioEntityImpl;
+
+  factory _AudioEntity.fromJson(Map<String, dynamic> json) =
+      _$AudioEntityImpl.fromJson;
 
   @override
   int get id;
@@ -315,6 +334,10 @@ abstract class _AudioEntity implements AudioEntity {
       throw _privateConstructorUsedError;
 }
 
+PlayHistoryEntity _$PlayHistoryEntityFromJson(Map<String, dynamic> json) {
+  return _PlayHistoryEntity.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PlayHistoryEntity {
   int get id => throw _privateConstructorUsedError;
@@ -323,6 +346,9 @@ mixin _$PlayHistoryEntity {
   int get playCount => throw _privateConstructorUsedError;
   String get playedAt => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this PlayHistoryEntity to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of PlayHistoryEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -474,7 +500,7 @@ class __$$PlayHistoryEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PlayHistoryEntityImpl implements _PlayHistoryEntity {
   const _$PlayHistoryEntityImpl({
     required this.id,
@@ -484,6 +510,9 @@ class _$PlayHistoryEntityImpl implements _PlayHistoryEntity {
     required this.playedAt,
     required this.createdAt,
   });
+
+  factory _$PlayHistoryEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlayHistoryEntityImplFromJson(json);
 
   @override
   final int id;
@@ -519,6 +548,7 @@ class _$PlayHistoryEntityImpl implements _PlayHistoryEntity {
                 other.createdAt == createdAt));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
@@ -540,6 +570,11 @@ class _$PlayHistoryEntityImpl implements _PlayHistoryEntity {
         this,
         _$identity,
       );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PlayHistoryEntityImplToJson(this);
+  }
 }
 
 abstract class _PlayHistoryEntity implements PlayHistoryEntity {
@@ -551,6 +586,9 @@ abstract class _PlayHistoryEntity implements PlayHistoryEntity {
     required final String playedAt,
     required final String createdAt,
   }) = _$PlayHistoryEntityImpl;
+
+  factory _PlayHistoryEntity.fromJson(Map<String, dynamic> json) =
+      _$PlayHistoryEntityImpl.fromJson;
 
   @override
   int get id;

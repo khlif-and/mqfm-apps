@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqfm_apps/features/categories/domain/repositories/category_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/categories/domain/repositories/i_category_repository.dart';
 import 'package:mqfm_apps/features/categories/presentation/bloc/category_bloc/category_event.dart';
 import 'package:mqfm_apps/features/categories/presentation/bloc/category_bloc/category_state.dart';
 
+@injectable
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  final CategoryRepository _categoryRepository;
+  final ICategoryRepository _categoryRepository;
 
   CategoryBloc(this._categoryRepository)
     : super(const CategoryState.initial()) {

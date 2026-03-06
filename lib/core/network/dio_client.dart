@@ -5,15 +5,19 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioClient {
   static Dio? _dio;
+  static Dio? _dioScraping;
 
   static Dio get instance {
-    _dio ??= _createDio();
+    _dio ??= _createDio(dotenv.env['BASE_URL'] ?? '');
     return _dio!;
   }
 
-  static Dio _createDio() {
-    final baseUrl = dotenv.env['BASE_URL'] ?? '';
+  static Dio get scrapingInstance {
+    _dioScraping ??= _createDio(dotenv.env['BASE_URL_SCRAPING'] ?? '');
+    return _dioScraping!;
+  }
 
+  static Dio _createDio(String baseUrl) {
     final dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,

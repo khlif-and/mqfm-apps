@@ -29,13 +29,13 @@ class ProfileAvatarBuilder extends StatelessWidget {
         builder: (context, isLoading, _) {
           if (isLoading) {
             return Shimmer.fromColors(
-              baseColor: Colors.grey[800]!,
-              highlightColor: Colors.grey[600]!,
+              baseColor: AppColors.shimmerBase,
+              highlightColor: AppColors.shimmerHighlight,
               child: Container(
                 width: size.r,
                 height: size.r,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
+                decoration: BoxDecoration(
+                  color: AppColors.onPrimary,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -55,7 +55,7 @@ class ProfileAvatarBuilder extends StatelessWidget {
                 size: size,
                 text: userData?.initials ?? "?",
                 backgroundColor: bgColor,
-                textColor: Colors.white,
+                textColor: AppColors.textWhite,
                 profilePictureUrl: userData?.profilePicture,
               );
             },

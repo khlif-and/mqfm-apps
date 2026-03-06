@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
-import 'package:mqfm_apps/features/auth/domain/repositories/auth_repository.dart';
+import 'package:mqfm_apps/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:mqfm_apps/core/utils/helpers/log_helper.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
@@ -26,7 +26,7 @@ class UserManager {
 
       isLoadingNotifier.value = true;
       LogHelper.info("UserManager", "Fetching user profile...");
-      final result = await getIt<AuthRepository>().me();
+      final result = await getIt<IAuthRepository>().me();
 
       return result.fold(
         (error) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 
@@ -13,10 +15,10 @@ class PlaylistTrackTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Container(
-        width: 48.w,
-        height: 48.w,
+        width: AppDims.w48,
+        height: AppDims.w48,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(AppDims.r4),
           image: DecorationImage(
             image: (audio.thumbnail.isNotEmpty)
                 ? NetworkImage(audio.thumbnail)
@@ -29,8 +31,8 @@ class PlaylistTrackTile extends StatelessWidget {
       title: Text(
         audio.title,
         style: TextStyle(
-          color: Colors.white,
-          fontSize: 16.sp,
+          color: AppColors.textWhite,
+          fontSize: AppDims.sp16,
           fontWeight: FontWeight.w500,
         ),
         maxLines: 1,
@@ -38,7 +40,7 @@ class PlaylistTrackTile extends StatelessWidget {
       ),
       subtitle: Text(
         audio.description,
-        style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+        style: TextStyle(color: AppColors.textLight, fontSize: AppDims.sp12),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

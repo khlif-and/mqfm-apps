@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LibraryItem extends StatelessWidget {
   final String title;
@@ -25,19 +26,19 @@ class LibraryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16.h),
+      margin: EdgeInsets.only(bottom: AppDims.h16),
       child: Row(
         children: [
           SizedBox(
-            width: 64.w,
-            height: 64.w,
+            width: AppDims.w64,
+            height: AppDims.w64,
             child:
                 customImage ??
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: isRoundImage
-                        ? BorderRadius.circular(32.r)
-                        : BorderRadius.circular(4.r),
+                        ? BorderRadius.circular(AppDims.r32)
+                        : BorderRadius.circular(AppDims.r4),
                     image: DecorationImage(
                       image: (imageUrl != null && imageUrl!.isNotEmpty)
                           ? NetworkImage(imageUrl!) as ImageProvider
@@ -49,7 +50,7 @@ class LibraryItem extends StatelessWidget {
                   ),
                 ),
           ),
-          SizedBox(width: 12.w),
+          SizedBox(width: AppDims.w12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,12 +58,12 @@ class LibraryItem extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
+                    color: AppColors.textWhite,
+                    fontSize: AppDims.sp16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(height: 4.h),
+                SizedBox(height: AppDims.h4),
                 Row(
                   children: [
                     if (isPinned) ...[
@@ -71,16 +72,16 @@ class LibraryItem extends StatelessWidget {
                         child: Icon(
                           Icons.push_pin,
                           color: AppColors.primaryClassic,
-                          size: 12.r,
+                          size: AppDims.r12,
                         ),
                       ),
-                      SizedBox(width: 4.w),
+                      SizedBox(width: AppDims.w4),
                     ],
                     Text(
                       subtitle,
                       style: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: 13.sp,
+                        color: AppColors.textLight,
+                        fontSize: AppDims.sp13,
                       ),
                     ),
                   ],

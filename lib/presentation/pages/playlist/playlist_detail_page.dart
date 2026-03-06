@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/logic/playlist/playlist_detail_logic.dart';
@@ -35,10 +36,10 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: Icon(Icons.arrow_back, color: AppColors.textWhite),
           onPressed: () => context.pop(),
         ),
       ),
@@ -55,7 +56,7 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
             return Center(
               child: Text(
                 logic.errorMessage!,
-                style: TextStyle(color: AppColors.error, fontSize: 16.sp),
+                style: TextStyle(color: AppColors.error, fontSize: AppDims.sp16),
               ),
             );
           }
@@ -64,18 +65,18 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
             return Center(
               child: Text(
                 "Playlist tidak ditemukan",
-                style: TextStyle(color: AppColors.textWhite, fontSize: 16.sp),
+                style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp16),
               ),
             );
           }
 
           return SingleChildScrollView(
-            padding: EdgeInsets.all(16.w),
+            padding: EdgeInsets.all(AppDims.w16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PlaylistDetailHeader(playlist: logic.playlist!),
-                SizedBox(height: 24.h),
+                SizedBox(height: AppDims.h24),
                 PlaylistTrackList(audios: logic.playlist!.audios),
               ],
             ),

@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:mqfm_apps/core/models/base_response.dart';
+import 'package:mqfm_apps/features/auth/data/models/login_request.dart';
 import 'package:mqfm_apps/features/auth/data/models/user_dto.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -10,14 +12,15 @@ abstract class AuthRemoteDatasource {
       _AuthRemoteDatasource;
 
   @POST('/api/user/auth/login')
-  Future<AuthResponseDto> login(@Body() Map<String, dynamic> body);
+  Future<BaseResponse<UserDto>> login(@Body() LoginRequest body);
 
   @POST('/api/user/auth/google')
-  Future<AuthResponseDto> googleLogin(@Body() Map<String, dynamic> body);
+  Future<BaseResponse<UserDto>> googleLogin(
+      @Body() Map<String, dynamic> body);
 
   @GET('/api/user/auth/me')
-  Future<AuthResponseDto> me();
+  Future<BaseResponse<UserDto>> me();
 
   @POST('/api/user/auth/logout')
-  Future<AuthResponseDto> logout();
+  Future<BaseResponse<dynamic>> logout();
 }

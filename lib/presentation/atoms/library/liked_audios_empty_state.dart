@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LikedAudiosEmptyState extends StatelessWidget {
   const LikedAudiosEmptyState({super.key});
@@ -10,11 +12,11 @@ class LikedAudiosEmptyState extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.favorite_border, size: 64.r, color: Colors.grey),
-          SizedBox(height: 16.h),
+          Icon(Icons.favorite_border, size: AppDims.r64, color: AppColors.textMuted),
+          SizedBox(height: AppDims.h16),
           Text(
             "Belum ada kajian yang disukai",
-            style: TextStyle(color: Colors.grey[400], fontSize: 14.sp),
+            style: TextStyle(color: AppColors.textLight, fontSize: AppDims.sp14),
           ),
         ],
       ),

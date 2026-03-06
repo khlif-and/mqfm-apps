@@ -31,19 +31,3 @@ Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
   'avatar_color': instance.avatarColor,
   'profile_picture': instance.profilePicture,
 };
-
-AuthResponseDto _$AuthResponseDtoFromJson(Map<String, dynamic> json) =>
-    AuthResponseDto(
-      status: (json['status'] as num).toInt(),
-      message: json['message'] as String,
-      data: json['data'] == null
-          ? null
-          : UserDto.fromJson(json['data'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$AuthResponseDtoToJson(AuthResponseDto instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-    };

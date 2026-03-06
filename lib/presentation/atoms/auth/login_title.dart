@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LoginTitle extends StatelessWidget {
   const LoginTitle({super.key});
@@ -10,9 +12,9 @@ class LoginTitle extends StatelessWidget {
       child: Text(
         "Login Akun",
         style: TextStyle(
-          fontSize: 20.sp,
+          fontSize: AppDims.sp20,
           fontWeight: FontWeight.w700,
-          color: Colors.white,
+          color: AppColors.textWhite,
         ),
       ),
     );

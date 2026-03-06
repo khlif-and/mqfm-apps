@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,15 +22,15 @@ class LikedAudioTile extends StatelessWidget {
         : audio.createdAt;
 
     return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
+      margin: EdgeInsets.only(bottom: AppDims.h12),
       child: ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Container(
-          width: 50.w,
-          height: 50.w,
+          width: AppDims.w50,
+          height: AppDims.w50,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4.r),
-            color: Colors.grey[800],
+            borderRadius: BorderRadius.circular(AppDims.r4),
+            color: AppColors.shimmerBase,
             image: audio.thumbnail.isNotEmpty
                 ? DecorationImage(
                     image: NetworkImage(audio.thumbnail),
@@ -38,7 +40,7 @@ class LikedAudioTile extends StatelessWidget {
                 : null,
           ),
           child: audio.thumbnail.isEmpty
-              ? Icon(Icons.music_note, color: Colors.white, size: 24.r)
+              ? Icon(Icons.music_note, color: AppColors.textWhite, size: AppDims.r24)
               : null,
         ),
         title: Text(
@@ -46,17 +48,17 @@ class LikedAudioTile extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 14.sp,
+            color: AppColors.textWhite,
+            fontSize: AppDims.sp14,
             fontWeight: FontWeight.w500,
           ),
         ),
         subtitle: Text(
           "Kajian • $dateDisplay",
-          style: TextStyle(color: Colors.grey[400], fontSize: 12.sp),
+          style: TextStyle(color: AppColors.textLight, fontSize: AppDims.sp12),
         ),
         trailing: IconButton(
-          icon: const Icon(Icons.favorite, color: Colors.green),
+          icon: Icon(Icons.favorite, color: AppColors.success),
           onPressed: onUnlike,
         ),
         onTap: () {

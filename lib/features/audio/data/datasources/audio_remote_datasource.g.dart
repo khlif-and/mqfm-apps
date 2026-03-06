@@ -18,12 +18,12 @@ class _AudioRemoteDatasource implements AudioRemoteDatasource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<AudioResponseDto> getAudios() async {
+  Future<BaseResponse<List<AudioDto>>> getAudios() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<AudioResponseDto>(
+    final _options = _setStreamType<BaseResponse<List<AudioDto>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -34,9 +34,18 @@ class _AudioRemoteDatasource implements AudioRemoteDatasource {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AudioResponseDto _value;
+    late BaseResponse<List<AudioDto>> _value;
     try {
-      _value = AudioResponseDto.fromJson(_result.data!);
+      _value = BaseResponse<List<AudioDto>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<AudioDto>(
+                    (i) => AudioDto.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -45,12 +54,12 @@ class _AudioRemoteDatasource implements AudioRemoteDatasource {
   }
 
   @override
-  Future<SingleAudioResponseDto> getAudioById(int id) async {
+  Future<BaseResponse<AudioDto>> getAudioById(int id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<SingleAudioResponseDto>(
+    final _options = _setStreamType<BaseResponse<AudioDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -61,9 +70,12 @@ class _AudioRemoteDatasource implements AudioRemoteDatasource {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SingleAudioResponseDto _value;
+    late BaseResponse<AudioDto> _value;
     try {
-      _value = SingleAudioResponseDto.fromJson(_result.data!);
+      _value = BaseResponse<AudioDto>.fromJson(
+        _result.data!,
+        (json) => AudioDto.fromJson(json as Map<String, dynamic>),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -72,12 +84,12 @@ class _AudioRemoteDatasource implements AudioRemoteDatasource {
   }
 
   @override
-  Future<AudioResponseDto> searchAudios(String query) async {
+  Future<BaseResponse<List<AudioDto>>> searchAudios(String query) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'q': query};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<AudioResponseDto>(
+    final _options = _setStreamType<BaseResponse<List<AudioDto>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -88,9 +100,18 @@ class _AudioRemoteDatasource implements AudioRemoteDatasource {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AudioResponseDto _value;
+    late BaseResponse<List<AudioDto>> _value;
     try {
-      _value = AudioResponseDto.fromJson(_result.data!);
+      _value = BaseResponse<List<AudioDto>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<AudioDto>(
+                    (i) => AudioDto.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -99,12 +120,12 @@ class _AudioRemoteDatasource implements AudioRemoteDatasource {
   }
 
   @override
-  Future<PlayHistoryResponseDto> getPlayHistory() async {
+  Future<BaseResponse<List<PlayHistoryDto>>> getPlayHistory() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PlayHistoryResponseDto>(
+    final _options = _setStreamType<BaseResponse<List<PlayHistoryDto>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -115,9 +136,18 @@ class _AudioRemoteDatasource implements AudioRemoteDatasource {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PlayHistoryResponseDto _value;
+    late BaseResponse<List<PlayHistoryDto>> _value;
     try {
-      _value = PlayHistoryResponseDto.fromJson(_result.data!);
+      _value = BaseResponse<List<PlayHistoryDto>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<PlayHistoryDto>(
+                    (i) => PlayHistoryDto.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

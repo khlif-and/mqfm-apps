@@ -2,9 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:mqfm_apps/features/audio/data/datasources/audio_remote_datasource.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/audio/domain/repositories/i_audio_repository.dart';
 
-class AudioRepositoryImpl implements AudioRepository {
+@LazySingleton(as: IAudioRepository)
+class AudioRepositoryImpl implements IAudioRepository {
   final AudioRemoteDatasource _datasource;
 
   AudioRepositoryImpl(this._datasource);

@@ -3,13 +3,17 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mqfm_apps/core/models/base_response.dart';
 import 'package:mqfm_apps/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:mqfm_apps/features/auth/data/models/login_request.dart';
 import 'package:mqfm_apps/features/auth/data/models/user_dto.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
-import 'package:mqfm_apps/features/auth/domain/repositories/auth_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide MultipartFile;
 
-class AuthRepositoryImpl implements AuthRepository {
+@LazySingleton(as: IAuthRepository)
+class AuthRepositoryImpl implements IAuthRepository {
   final AuthRemoteDatasource _datasource;
   final Dio _dio;
 
@@ -21,10 +25,9 @@ class AuthRepositoryImpl implements AuthRepository {
     String password,
   ) async {
     try {
-      final response = await _datasource.login({
-        'email': email,
-        'password': password,
-      });
+      final response = await _datasource.login(
+        LoginRequest(email: email, password: password),
+      );
       if (response.status == 200 && response.data != null) {
         return Right(response.data!.toEntity());
       }
@@ -57,7 +60,10 @@ class AuthRepositoryImpl implements AuthRepository {
         data: formData,
       );
 
-      final dto = AuthResponseDto.fromJson(response.data);
+      final dto = BaseResponse<UserDto>.fromJson(
+        response.data,
+        (json) => UserDto.fromJson(json as Map<String, dynamic>),
+      );
       if (dto.status == 200 && dto.data != null) {
         return Right(dto.data!.toEntity());
       }
@@ -159,7 +165,10 @@ class AuthRepositoryImpl implements AuthRepository {
         data: formData,
       );
 
-      final dto = AuthResponseDto.fromJson(response.data);
+      final dto = BaseResponse<UserDto>.fromJson(
+        response.data,
+        (json) => UserDto.fromJson(json as Map<String, dynamic>),
+      );
       if (dto.status == 200 && dto.data != null) {
         return Right(dto.data!.toEntity());
       }

@@ -1,135 +1,88 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
+import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
+import 'package:mqfm_apps/presentation/atoms/common/shimmer_box.dart';
 
-class VerticalContentList extends StatefulWidget {
-  final int selectedCategoryId;
+class VerticalContentList extends StatelessWidget {
+  final List<AudioEntity> audios;
+  final bool isLoading;
 
-  const VerticalContentList({super.key, required this.selectedCategoryId});
-
-  @override
-  State<VerticalContentList> createState() => _VerticalContentListState();
-}
-
-class _VerticalContentListState extends State<VerticalContentList> {
-  final AudioRepository _audioRepository = getIt<AudioRepository>();
-  List<AudioEntity> _allAudios = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchAudios();
-  }
-
-  @override
-  void didUpdateWidget(VerticalContentList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedCategoryId != widget.selectedCategoryId) {
-      _fetchAudios();
-    }
-  }
-
-  Future<void> _fetchAudios() async {
-    setState(() => _isLoading = true);
-    try {
-      final result = await _audioRepository.getAudios();
-      if (mounted) {
-        result.fold(
-          (error) => setState(() {
-            _allAudios = [];
-            _isLoading = false;
-          }),
-          (audios) => setState(() {
-            _allAudios = audios
-                .where(
-                  (a) =>
-                      widget.selectedCategoryId == 0 ||
-                      a.categoryId == widget.selectedCategoryId,
-                )
-                .toList();
-            _isLoading = false;
-          }),
-        );
-      }
-    } catch (e) {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
+  const VerticalContentList({
+    super.key,
+    required this.audios,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: Colors.white),
+    if (isLoading) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: List.generate(3, (index) => Padding(
+          padding: EdgeInsets.only(bottom: AppDims.h12),
+          child: Row(
+            children: [
+              ShimmerBox(width: AppDims.r60, height: AppDims.r60, borderRadius: AppDims.r12),
+              SizedBox(width: AppDims.w12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ShimmerBox(width: AppDims.w200, height: AppDims.h14),
+                  SizedBox(height: AppDims.h4),
+                  ShimmerBox(width: AppDims.w140, height: AppDims.h12),
+                ],
+              ),
+            ],
+          ),
+        )),
       );
     }
 
-    List<AudioEntity> categoryFiltered = _allAudios;
+    if (audios.isEmpty) return const SizedBox();
 
-    if (categoryFiltered.isEmpty) return const SizedBox();
-
-    List<AudioEntity> displayList = List.from(categoryFiltered);
+    List<AudioEntity> displayList = List.from(audios);
     final now = DateTime.now();
     int seed = (now.year * 10000) + (now.month * 100) + now.day;
-    final random = Random(seed);
-    displayList.shuffle(random);
-
-    int takeCount = displayList.length < 3 ? displayList.length : 3;
-    List<AudioEntity> finalShowList = displayList.take(takeCount).toList();
+    displayList.shuffle(Random(seed));
+    final finalList = displayList.take(displayList.length < 3 ? displayList.length : 3).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Di Pilih Oleh Pengguna",
+          AppStrings.editorPicks,
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.sp,
+            color: AppColors.textWhite,
+            fontSize: AppDims.sp18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: AppDims.h16),
         ListView.separated(
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: finalShowList.length,
-          separatorBuilder: (context, index) => SizedBox(height: 12.h),
+          itemCount: finalList.length,
+          separatorBuilder: (_, __) => SizedBox(height: AppDims.h12),
           itemBuilder: (context, index) {
-            final audio = finalShowList[index];
+            final audio = finalList[index];
             return GestureDetector(
-              onTap: () {
-                context.push('/player/${audio.id}');
-              },
+              onTap: () => context.push('/player/${audio.id}'),
               child: Row(
                 children: [
-                  SizedBox(
-                    width: 60.r,
-                    height: 60.r,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.r),
-                      child: (audio.thumbnail.isNotEmpty)
-                          ? Image.network(
-                              audio.thumbnail,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Image.asset(
-                                    'assets/images/img_card.jpg',
-                                    fit: BoxFit.cover,
-                                  ),
-                            )
-                          : Image.asset(
-                              'assets/images/img_card.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                    ),
+                  AppNetworkImage(
+                    url: audio.thumbnail,
+                    width: AppDims.r60,
+                    height: AppDims.r60,
+                    borderRadius: AppDims.r12,
                   ),
-                  SizedBox(width: 12.w),
+                  SizedBox(width: AppDims.w12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,17 +90,17 @@ class _VerticalContentListState extends State<VerticalContentList> {
                         Text(
                           audio.title,
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
+                            color: AppColors.textWhite,
+                            fontSize: AppDims.sp14,
                             fontWeight: FontWeight.w600,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(height: 4.h),
+                        SizedBox(height: AppDims.h4),
                         Text(
                           audio.description,
-                          style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+                          style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp12),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -156,11 +109,7 @@ class _VerticalContentListState extends State<VerticalContentList> {
                   ),
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: Colors.white,
-                      size: 24.sp,
-                    ),
+                    icon: Icon(Icons.more_vert, color: AppColors.textWhite, size: AppDims.sp24),
                   ),
                 ],
               ),
@@ -171,3 +120,4 @@ class _VerticalContentListState extends State<VerticalContentList> {
     );
   }
 }
+

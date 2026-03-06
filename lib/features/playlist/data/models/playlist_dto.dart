@@ -54,39 +54,3 @@ class PlaylistDto {
     );
   }
 }
-
-@JsonSerializable()
-class PlaylistListResponseDto {
-  final int status;
-  final String message;
-  final List<PlaylistDto>? data;
-
-  const PlaylistListResponseDto({
-    required this.status,
-    required this.message,
-    this.data,
-  });
-
-  factory PlaylistListResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$PlaylistListResponseDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PlaylistListResponseDtoToJson(this);
-}
-
-@JsonSerializable()
-class PlaylistResponseDto {
-  final int status;
-  final String message;
-  final PlaylistDto? data;
-
-  const PlaylistResponseDto({
-    required this.status,
-    required this.message,
-    this.data,
-  });
-
-  factory PlaylistResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$PlaylistResponseDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PlaylistResponseDtoToJson(this);
-}

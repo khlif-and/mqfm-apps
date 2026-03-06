@@ -15,9 +15,3 @@ Map<String, dynamic> _$LikeDtoToJson(LikeDto instance) => <String, dynamic>{
   'status': instance.status,
   'message': instance.message,
 };
-
-LikeRequestDto _$LikeRequestDtoFromJson(Map<String, dynamic> json) =>
-    LikeRequestDto(audioId: (json['audio_id'] as num).toInt());
-
-Map<String, dynamic> _$LikeRequestDtoToJson(LikeRequestDto instance) =>
-    <String, dynamic>{'audio_id': instance.audioId};

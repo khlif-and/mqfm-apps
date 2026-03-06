@@ -1,80 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/domain/repositories/audio_repository.dart';
+import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
+import 'package:mqfm_apps/presentation/atoms/common/shimmer_box.dart';
 
-class HorizontalContentList extends StatefulWidget {
-  final int selectedCategoryId;
+class HorizontalContentList extends StatelessWidget {
+  final List<AudioEntity> audios;
+  final bool isLoading;
 
-  const HorizontalContentList({super.key, required this.selectedCategoryId});
-
-  @override
-  State<HorizontalContentList> createState() => _HorizontalContentListState();
-}
-
-class _HorizontalContentListState extends State<HorizontalContentList> {
-  final AudioRepository _audioRepository = getIt<AudioRepository>();
-  List<AudioEntity> _allAudios = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchAudios();
-  }
-
-  @override
-  void didUpdateWidget(HorizontalContentList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedCategoryId != widget.selectedCategoryId) {
-      _fetchAudios();
-    }
-  }
-
-  Future<void> _fetchAudios() async {
-    setState(() => _isLoading = true);
-    try {
-      final result = await _audioRepository.getAudios();
-      if (mounted) {
-        result.fold(
-          (error) => setState(() {
-            _allAudios = [];
-            _isLoading = false;
-          }),
-          (audios) => setState(() {
-            _allAudios = audios
-                .where(
-                  (a) =>
-                      widget.selectedCategoryId == 0 ||
-                      a.categoryId == widget.selectedCategoryId,
-                )
-                .toList();
-            _isLoading = false;
-          }),
-        );
-      }
-    } catch (e) {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
+  const HorizontalContentList({
+    super.key,
+    required this.audios,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: Colors.white),
+    if (isLoading) {
+      return SizedBox(
+        height: AppDims.h210,
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
+          scrollDirection: Axis.horizontal,
+          itemCount: 5,
+          separatorBuilder: (_, __) => SizedBox(width: AppDims.w16),
+          itemBuilder: (_, __) => SizedBox(
+            width: AppDims.w140,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ShimmerBox(width: AppDims.r140, height: AppDims.r140, borderRadius: AppDims.r8),
+                SizedBox(height: AppDims.h8),
+                ShimmerBox(width: AppDims.w120, height: AppDims.h12),
+                SizedBox(height: AppDims.h4),
+                ShimmerBox(width: AppDims.w80, height: AppDims.h10),
+              ],
+            ),
+          ),
+        ),
       );
     }
 
-    if (_allAudios.isEmpty) {
+    if (audios.isEmpty) {
       return SizedBox(
-        height: 50.h,
+        height: AppDims.h50,
         child: Center(
           child: Text(
-            "Belum ada konten di kategori ini",
-            style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+            AppStrings.noCategoryContent,
+            style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp12),
           ),
         ),
       );
@@ -84,72 +61,54 @@ class _HorizontalContentListState extends State<HorizontalContentList> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
           child: Text(
-            "Di Dengar Oleh Pengguna",
+            AppStrings.audiencePicks,
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.sp,
+              color: AppColors.textWhite,
+              fontSize: AppDims.sp18,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: AppDims.h16),
         SizedBox(
-          height: 210.h,
+          height: AppDims.h210,
           child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
             scrollDirection: Axis.horizontal,
-            itemCount: _allAudios.length,
-            separatorBuilder: (context, index) => SizedBox(width: 16.w),
+            itemCount: audios.length,
+            separatorBuilder: (_, __) => SizedBox(width: AppDims.w16),
             itemBuilder: (context, index) {
-              final audio = _allAudios[index];
-
+              final audio = audios[index];
               return GestureDetector(
-                onTap: () {
-                  context.push('/player/${audio.id}');
-                },
+                onTap: () => context.push('/player/${audio.id}'),
                 child: SizedBox(
-                  width: 140.w,
+                  width: AppDims.w140,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 140.r,
-                        width: 140.r,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r),
-                          child: (audio.thumbnail.isNotEmpty)
-                              ? Image.network(
-                                  audio.thumbnail,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Image.asset(
-                                        'assets/images/img_card.jpg',
-                                        fit: BoxFit.cover,
-                                      ),
-                                )
-                              : Image.asset(
-                                  'assets/images/img_card.jpg',
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
+                      AppNetworkImage(
+                        url: audio.thumbnail,
+                        width: AppDims.r140,
+                        height: AppDims.r140,
+                        borderRadius: AppDims.r8,
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: AppDims.h8),
                       Text(
                         audio.title,
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12.sp,
+                          color: AppColors.textWhite,
+                          fontSize: AppDims.sp12,
                           fontWeight: FontWeight.w600,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: AppDims.h4),
                       Text(
                         audio.description,
-                        style: TextStyle(color: Colors.grey, fontSize: 10.sp),
+                        style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp10),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -164,3 +123,4 @@ class _HorizontalContentListState extends State<HorizontalContentList> {
     );
   }
 }
+

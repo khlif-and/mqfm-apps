@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 import 'package:mqfm_apps/core/utils/helpers/log_helper.dart';
@@ -64,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Center(
-        child: Image.asset('assets/images/img_splash.png', width: 200.w),
+        child: Image.asset('assets/images/img_splash.png', width: AppDims.w200),
       ),
     );
   }

@@ -15,6 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+UserEntity _$UserEntityFromJson(Map<String, dynamic> json) {
+  return _UserEntity.fromJson(json);
+}
+
 /// @nodoc
 mixin _$UserEntity {
   int get id => throw _privateConstructorUsedError;
@@ -27,6 +31,9 @@ mixin _$UserEntity {
   String? get initials => throw _privateConstructorUsedError;
   String? get avatarColor => throw _privateConstructorUsedError;
   String? get profilePicture => throw _privateConstructorUsedError;
+
+  /// Serializes this UserEntity to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of UserEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -226,7 +233,7 @@ class __$$UserEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$UserEntityImpl implements _UserEntity {
   const _$UserEntityImpl({
     required this.id,
@@ -240,6 +247,9 @@ class _$UserEntityImpl implements _UserEntity {
     this.avatarColor,
     this.profilePicture,
   });
+
+  factory _$UserEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserEntityImplFromJson(json);
 
   @override
   final int id;
@@ -290,6 +300,7 @@ class _$UserEntityImpl implements _UserEntity {
                 other.profilePicture == profilePicture));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
@@ -312,6 +323,11 @@ class _$UserEntityImpl implements _UserEntity {
   @pragma('vm:prefer-inline')
   _$$UserEntityImplCopyWith<_$UserEntityImpl> get copyWith =>
       __$$UserEntityImplCopyWithImpl<_$UserEntityImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserEntityImplToJson(this);
+  }
 }
 
 abstract class _UserEntity implements UserEntity {
@@ -327,6 +343,9 @@ abstract class _UserEntity implements UserEntity {
     final String? avatarColor,
     final String? profilePicture,
   }) = _$UserEntityImpl;
+
+  factory _UserEntity.fromJson(Map<String, dynamic> json) =
+      _$UserEntityImpl.fromJson;
 
   @override
   int get id;

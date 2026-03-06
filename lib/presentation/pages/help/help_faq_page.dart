@@ -4,6 +4,7 @@ import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/faq/faq_contact_buttons.dart';
 import 'package:mqfm_apps/presentation/organisms/faq/faq_list.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_styles.dart';
 
 class HelpFaqPage extends StatelessWidget {
@@ -18,7 +19,7 @@ class HelpFaqPage extends StatelessWidget {
         backgroundColor: AppColors.background,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(24.w),
+        padding: EdgeInsets.all(AppDims.w24),
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +28,7 @@ class HelpFaqPage extends StatelessWidget {
               'Pertanyaan Seputar Aplikasi',
               style: AppStyles.titleLarge.copyWith(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: AppDims.h8),
             Text(
               'Temukan jawaban dari semua hal yang sering ditanyakan oleh pengguna.',
               style: AppStyles.bodyMedium.copyWith(
@@ -35,17 +36,17 @@ class HelpFaqPage extends StatelessWidget {
                 height: 1.5,
               ),
             ),
-            SizedBox(height: 32.h),
+            SizedBox(height: AppDims.h32),
 
             // 12 FAQs List
             const FaqList(),
 
-            SizedBox(height: 48.h),
+            SizedBox(height: AppDims.h48),
 
             // Contact Support
             const FaqContactButtons(),
 
-            SizedBox(height: 48.h),
+            SizedBox(height: AppDims.h48),
           ],
         ),
       ),

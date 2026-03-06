@@ -1,92 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/presentation/atoms/library/liked_audios_empty_state.dart';
-import 'package:mqfm_apps/presentation/logic/library/liked_audios_logic.dart';
-import 'package:mqfm_apps/presentation/organisms/library/liked_audios_list.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/features/like/presentation/bloc/like_bloc/like_bloc.dart';
+import 'package:mqfm_apps/features/like/presentation/bloc/like_bloc/like_event.dart';
+import 'package:mqfm_apps/features/like/presentation/bloc/like_bloc/like_state.dart';
+import 'package:mqfm_apps/presentation/atoms/library/liked_audios_empty_state.dart';
+import 'package:mqfm_apps/presentation/organisms/library/liked_audios_list.dart';
 
-class LikedAudiosPage extends StatefulWidget {
+class LikedAudiosPage extends StatelessWidget {
   const LikedAudiosPage({super.key});
 
   @override
-  State<LikedAudiosPage> createState() => _LikedAudiosPageState();
-}
-
-class _LikedAudiosPageState extends State<LikedAudiosPage> {
-  final LikedAudiosLogic logic = LikedAudiosLogic();
-
-  @override
-  void initState() {
-    super.initState();
-    logic.addListener(_onLogicChange);
-  }
-
-  void _onLogicChange() {
-    if (mounted) {
-      if (logic.snackBarMessage != null) {
-        MessageHelper.showError(context, logic.snackBarMessage!);
-        // Logic should conceptually clear this, but assuming it transiently sets it.
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    logic.removeListener(_onLogicChange);
-    logic.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => context.pop(),
-        ),
-        title: Text(
-          "Kajian Favorit",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      body: ListenableBuilder(
-        listenable: logic,
-        builder: (context, child) {
-          if (logic.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: Colors.green),
-            );
-          }
-
-          if (logic.errorMessage != null) {
-            return Center(
-              child: Text(
-                logic.errorMessage!,
-                style: const TextStyle(color: Colors.red),
+    return BlocProvider(
+      create: (_) => getIt<LikeBloc>()..add(const LikeEvent.fetchLiked()),
+      child: BlocConsumer<LikeBloc, LikeState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            error: (message) => MessageHelper.showError(context, message),
+          );
+        },
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            appBar: AppBar(
+              backgroundColor: AppColors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: AppColors.textWhite),
+                onPressed: () => context.pop(),
               ),
-            );
-          }
-
-          if (logic.likedAudios.isEmpty) {
-            return const LikedAudiosEmptyState();
-          }
-
-          return LikedAudiosList(
-            audios: logic.likedAudios,
-            onUnlike: logic.unlikeAudio,
+              title: Text(
+                AppStrings.favoriteAudiosTitle,
+                style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            body: state.when(
+              initial: () => const Center(child: CircularProgressIndicator(color: AppColors.success)),
+              loading: () => const Center(child: CircularProgressIndicator(color: AppColors.success)),
+              loaded: (audios) {
+                if (audios.isEmpty) return const LikedAudiosEmptyState();
+                return LikedAudiosList(
+                  audios: audios,
+                  onUnlike: (index) => context.read<LikeBloc>().add(LikeEvent.unlike(audioId: audios[index].id, index: index)),
+                );
+              },
+              toggled: (_) => const SizedBox.shrink(),
+              error: (message) => Center(child: Text(message, style: TextStyle(color: AppColors.error))),
+            ),
           );
         },
       ),
     );
   }
 }
+

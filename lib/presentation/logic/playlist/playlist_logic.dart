@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
-import 'package:mqfm_apps/features/playlist/domain/repositories/playlist_repository.dart';
+import 'package:mqfm_apps/features/playlist/domain/repositories/i_playlist_repository.dart';
 
 class PlaylistLogic extends ChangeNotifier {
-  final PlaylistRepository _playlistRepository = getIt<PlaylistRepository>();
+  final IPlaylistRepository _playlistRepository = getIt<IPlaylistRepository>();
 
   List<PlaylistEntity> playlists = [];
   List<PlaylistEntity> filteredPlaylists = [];

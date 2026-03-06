@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/pages/shell/main_shell_page.dart';
@@ -15,7 +16,7 @@ class MainBottomNavigation extends StatelessWidget {
 
     return Container(
       color: AppColors.background,
-      padding: EdgeInsets.only(top: 12.h, bottom: 16.h),
+      padding: EdgeInsets.only(top: AppDims.h12, bottom: AppDims.h16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -65,13 +66,13 @@ class MainBottomNavigation extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: isActive ? Colors.white : Colors.grey, size: 26.sp),
-          SizedBox(height: 4.h),
+          Icon(icon, color: isActive ? AppColors.textWhite : AppColors.textMuted, size: AppDims.sp26),
+          SizedBox(height: AppDims.h4),
           Text(
             label,
             style: TextStyle(
-              color: isActive ? Colors.white : Colors.grey,
-              fontSize: 11.sp,
+              color: isActive ? AppColors.textWhite : AppColors.textMuted,
+              fontSize: AppDims.sp11,
               fontWeight: FontWeight.w500,
             ),
           ),

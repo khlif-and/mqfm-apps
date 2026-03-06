@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LoginButton extends StatelessWidget {
   final bool isLoading;
@@ -15,23 +17,23 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 180.w,
-        height: 48.h,
+        width: AppDims.w180,
+        height: AppDims.h48,
         child: OutlinedButton(
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.white54, width: 1),
+            side: BorderSide(color: AppColors.textWhiteFaint, width: 1),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.r),
+              borderRadius: BorderRadius.circular(AppDims.r30),
             ),
-            foregroundColor: Colors.white,
+            foregroundColor: AppColors.textWhite,
           ),
           child: isLoading
               ? SizedBox(
-                  height: 20.h,
-                  width: 20.h,
-                  child: const CircularProgressIndicator(
-                    color: Colors.white,
+                  height: AppDims.h20,
+                  width: AppDims.h20,
+                  child: CircularProgressIndicator(
+                    color: AppColors.textWhite,
                     strokeWidth: 2,
                   ),
                 )
@@ -39,7 +41,7 @@ class LoginButton extends StatelessWidget {
                   "Masuk",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
+                    fontSize: AppDims.sp16,
                   ),
                 ),
         ),
