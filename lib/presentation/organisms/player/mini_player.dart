@@ -54,7 +54,7 @@ class MiniPlayer extends StatelessWidget {
                         width: AppDims.w38,
                         height: AppDims.w38,
                         decoration: BoxDecoration(
-                          color: Colors.grey[300],
+                          color: AppColors.shimmerBase,
                           borderRadius: BorderRadius.circular(AppDims.r4),
                           image: DecorationImage(
                             image: (currentAudio.thumbnail.isNotEmpty)
@@ -75,7 +75,7 @@ class MiniPlayer extends StatelessWidget {
                             Text(
                               currentAudio.title,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppColors.textWhite,
                                 fontWeight: FontWeight.bold,
                                 fontSize: AppDims.sp14,
                               ),
@@ -86,7 +86,7 @@ class MiniPlayer extends StatelessWidget {
                             Text(
                               currentAudio.description,
                               style: TextStyle(
-                                color: Colors.white70,
+                                color: AppColors.textSecondary,
                                 fontSize: AppDims.sp12,
                               ),
                               maxLines: 1,
@@ -100,7 +100,7 @@ class MiniPlayer extends StatelessWidget {
                           logic.isLiked
                               ? Icons.favorite
                               : Icons.favorite_border,
-                          color: logic.isLiked ? Colors.green : Colors.white,
+                          color: logic.isLiked ? AppColors.success : AppColors.textWhite,
                           size: AppDims.sp24,
                         ),
                         onPressed: () {
@@ -122,7 +122,7 @@ class MiniPlayer extends StatelessWidget {
                               child: const Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: CircularProgressIndicator(
-                                  color: Colors.white,
+                                  color: AppColors.textWhite,
                                   strokeWidth: 2,
                                 ),
                               ),
@@ -134,7 +134,7 @@ class MiniPlayer extends StatelessWidget {
                               (playing == true)
                                   ? Icons.pause
                                   : Icons.play_arrow,
-                              color: Colors.white,
+                              color: AppColors.textWhite,
                               size: AppDims.sp32,
                             ),
                             onPressed: () {

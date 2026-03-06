@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar.dart';
 import 'package:mqfm_apps/core/manager/user_manager.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SidebarProfile extends StatefulWidget {
@@ -74,14 +75,14 @@ class _SidebarProfileState extends State<SidebarProfile> {
                             size: AppDims.r56,
                             text: userData?.initials ?? "?",
                             backgroundColor: bgColor,
-                            textColor: Colors.white,
+                            textColor: AppColors.textWhite,
                             profilePictureUrl: userData?.profilePicture,
                           ),
                           SizedBox(height: AppDims.h16),
                           Text(
                             userData?.username ?? 'Guest',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColors.textWhite,
                               fontSize: AppDims.sp20,
                               fontWeight: FontWeight.bold,
                               letterSpacing: -0.3,
@@ -91,7 +92,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
                           Text(
                             userData?.email ?? '',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
+                              color: AppColors.textWhite.withValues(alpha: 0.5),
                               fontSize: AppDims.sp13,
                               fontWeight: FontWeight.w400,
                             ),
@@ -143,7 +144,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppDims.w20, vertical: AppDims.h4),
               child: Divider(
-                color: Colors.white.withOpacity(0.08),
+                color: AppColors.textWhite.withValues(alpha: 0.08),
                 thickness: 1,
               ),
             ),
@@ -188,7 +189,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
                   ),
                   borderRadius: BorderRadius.circular(AppDims.r12),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.06),
+                    color: AppColors.textWhite.withValues(alpha: 0.06),
                     width: 1,
                   ),
                 ),
@@ -207,7 +208,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
                           Text(
                             'MQFM Podcast',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColors.textWhite,
                               fontSize: AppDims.sp13,
                               fontWeight: FontWeight.w700,
                             ),
@@ -216,7 +217,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
                           Text(
                             'Dengarkan kajian kapan saja',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.4),
+                              color: AppColors.textWhite.withValues(alpha: 0.4),
                               fontSize: AppDims.sp11,
                             ),
                           ),
@@ -246,12 +247,12 @@ class _SidebarProfileState extends State<SidebarProfile> {
         padding: EdgeInsets.symmetric(horizontal: AppDims.w20, vertical: AppDims.h14),
         child: Row(
           children: [
-            Icon(icon, color: Colors.white.withOpacity(0.7), size: AppDims.sp22),
+            Icon(icon, color: AppColors.textWhite.withValues(alpha: 0.7), size: AppDims.sp22),
             SizedBox(width: AppDims.w16),
             Text(
               title,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.85),
+                color: AppColors.textWhite.withValues(alpha: 0.85),
                 fontSize: AppDims.sp15,
                 fontWeight: FontWeight.w500,
                 letterSpacing: -0.1,
@@ -265,8 +266,8 @@ class _SidebarProfileState extends State<SidebarProfile> {
 
   Widget _buildProfileShimmer() {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[800]!,
-      highlightColor: Colors.grey[600]!,
+      baseColor: AppColors.shimmerBase,
+      highlightColor: AppColors.shimmerHighlight,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -274,7 +275,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
             width: AppDims.r56,
             height: AppDims.r56,
             decoration: const BoxDecoration(
-              color: Colors.black,
+              color: AppColors.backgroundBlack,
               shape: BoxShape.circle,
             ),
           ),
@@ -283,7 +284,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
             width: AppDims.w140,
             height: AppDims.h18,
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: AppColors.backgroundBlack,
               borderRadius: BorderRadius.circular(AppDims.r4),
             ),
           ),
@@ -292,7 +293,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
             width: AppDims.w180,
             height: AppDims.h12,
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: AppColors.backgroundBlack,
               borderRadius: BorderRadius.circular(AppDims.r4),
             ),
           ),
@@ -301,7 +302,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
             width: AppDims.w50,
             height: AppDims.h20,
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: AppColors.backgroundBlack,
               borderRadius: BorderRadius.circular(AppDims.r20),
             ),
           ),

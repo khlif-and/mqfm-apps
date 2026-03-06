@@ -8,6 +8,7 @@ import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_bloc.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_event.dart';
 import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_state.dart';
+import 'package:mqfm_apps/features/categories/domain/entities/category_entity.dart';
 import 'package:mqfm_apps/features/categories/presentation/bloc/category_bloc/category_bloc.dart';
 import 'package:mqfm_apps/features/categories/presentation/bloc/category_bloc/category_event.dart';
 import 'package:mqfm_apps/features/categories/presentation/bloc/category_bloc/category_state.dart';
@@ -128,7 +129,7 @@ class _DashboardViewState extends State<_DashboardView> {
       builder: (context, categoryState) {
         final categories = categoryState.maybeWhen(
           loaded: (cats) => cats,
-          orElse: () => [],
+          orElse: () => <CategoryEntity>[],
         );
         final isCategoryLoading = categoryState is CategoryLoading;
 

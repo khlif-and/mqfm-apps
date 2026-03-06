@@ -50,8 +50,8 @@ class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Shimmer.fromColors(
-            baseColor: Colors.grey[800]!,
-            highlightColor: Colors.grey[600]!,
+            baseColor: AppColors.shimmerBase,
+            highlightColor: AppColors.shimmerHighlight,
             child: Container(
               width: AppDims.w180,
               height: AppDims.h18,
@@ -66,8 +66,8 @@ class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
             return Padding(
               padding: EdgeInsets.only(bottom: AppDims.h12),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[800]!,
-                highlightColor: Colors.grey[600]!,
+                baseColor: AppColors.shimmerBase,
+                highlightColor: AppColors.shimmerHighlight,
                 child: Row(
                   children: [
                     Container(
