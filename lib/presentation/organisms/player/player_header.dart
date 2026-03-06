@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,7 +16,7 @@ class PlayerHeader extends StatelessWidget {
           child: Icon(
             Icons.keyboard_arrow_down,
             color: Colors.white,
-            size: 30.r,
+            size: AppDims.r30,
           ),
         ),
         Column(
@@ -24,7 +25,7 @@ class PlayerHeader extends StatelessWidget {
               'PLAYING FROM PLAYLIST',
               style: TextStyle(
                 color: Colors.white70,
-                fontSize: 10.sp,
+                fontSize: AppDims.sp10,
                 letterSpacing: 1.2,
               ),
             ),
@@ -33,12 +34,12 @@ class PlayerHeader extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
+                fontSize: AppDims.sp14,
               ),
             ),
           ],
         ),
-        Icon(Icons.more_vert, color: Colors.white, size: 24.r),
+        Icon(Icons.more_vert, color: Colors.white, size: AppDims.r24),
       ],
     );
   }

@@ -28,40 +28,6 @@ Map<String, dynamic> _$AudioDtoToJson(AudioDto instance) => <String, dynamic>{
   'updated_at': instance.updatedAt,
 };
 
-AudioResponseDto _$AudioResponseDtoFromJson(Map<String, dynamic> json) =>
-    AudioResponseDto(
-      status: (json['status'] as num).toInt(),
-      message: json['message'] as String,
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => AudioDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$AudioResponseDtoToJson(AudioResponseDto instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-    };
-
-SingleAudioResponseDto _$SingleAudioResponseDtoFromJson(
-  Map<String, dynamic> json,
-) => SingleAudioResponseDto(
-  status: (json['status'] as num).toInt(),
-  message: json['message'] as String,
-  data: json['data'] == null
-      ? null
-      : AudioDto.fromJson(json['data'] as Map<String, dynamic>),
-);
-
-Map<String, dynamic> _$SingleAudioResponseDtoToJson(
-  SingleAudioResponseDto instance,
-) => <String, dynamic>{
-  'status': instance.status,
-  'message': instance.message,
-  'data': instance.data,
-};
-
 PlayHistoryDto _$PlayHistoryDtoFromJson(Map<String, dynamic> json) =>
     PlayHistoryDto(
       id: (json['id'] as num).toInt(),
@@ -81,21 +47,3 @@ Map<String, dynamic> _$PlayHistoryDtoToJson(PlayHistoryDto instance) =>
       'played_at': instance.playedAt,
       'created_at': instance.createdAt,
     };
-
-PlayHistoryResponseDto _$PlayHistoryResponseDtoFromJson(
-  Map<String, dynamic> json,
-) => PlayHistoryResponseDto(
-  status: (json['status'] as num).toInt(),
-  message: json['message'] as String,
-  data: (json['data'] as List<dynamic>?)
-      ?.map((e) => PlayHistoryDto.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
-
-Map<String, dynamic> _$PlayHistoryResponseDtoToJson(
-  PlayHistoryResponseDto instance,
-) => <String, dynamic>{
-  'status': instance.status,
-  'message': instance.message,
-  'data': instance.data,
-};

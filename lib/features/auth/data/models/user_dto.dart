@@ -53,21 +53,3 @@ class UserDto {
     );
   }
 }
-
-@JsonSerializable()
-class AuthResponseDto {
-  final int status;
-  final String message;
-  final UserDto? data;
-
-  const AuthResponseDto({
-    required this.status,
-    required this.message,
-    this.data,
-  });
-
-  factory AuthResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$AuthResponseDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AuthResponseDtoToJson(this);
-}

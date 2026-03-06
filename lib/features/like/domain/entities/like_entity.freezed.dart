@@ -15,10 +15,17 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+LikeEntity _$LikeEntityFromJson(Map<String, dynamic> json) {
+  return _LikeEntity.fromJson(json);
+}
+
 /// @nodoc
 mixin _$LikeEntity {
   int get status => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
+
+  /// Serializes this LikeEntity to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of LikeEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -110,9 +117,12 @@ class __$$LikeEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$LikeEntityImpl implements _LikeEntity {
   const _$LikeEntityImpl({required this.status, required this.message});
+
+  factory _$LikeEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LikeEntityImplFromJson(json);
 
   @override
   final int status;
@@ -133,6 +143,7 @@ class _$LikeEntityImpl implements _LikeEntity {
             (identical(other.message, message) || other.message == message));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, message);
 
@@ -143,6 +154,11 @@ class _$LikeEntityImpl implements _LikeEntity {
   @pragma('vm:prefer-inline')
   _$$LikeEntityImplCopyWith<_$LikeEntityImpl> get copyWith =>
       __$$LikeEntityImplCopyWithImpl<_$LikeEntityImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LikeEntityImplToJson(this);
+  }
 }
 
 abstract class _LikeEntity implements LikeEntity {
@@ -150,6 +166,9 @@ abstract class _LikeEntity implements LikeEntity {
     required final int status,
     required final String message,
   }) = _$LikeEntityImpl;
+
+  factory _LikeEntity.fromJson(Map<String, dynamic> json) =
+      _$LikeEntityImpl.fromJson;
 
   @override
   int get status;

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
 import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DownloadsPage extends StatefulWidget {
@@ -32,55 +33,55 @@ class _DownloadsPageState extends State<DownloadsPage> {
 
   Widget _buildShimmerLoading() {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: AppDims.w20, vertical: AppDims.h16),
       itemCount: 6,
       itemBuilder: (context, index) {
         return Padding(
-          padding: EdgeInsets.only(bottom: 16.h),
+          padding: EdgeInsets.only(bottom: AppDims.h16),
           child: Shimmer.fromColors(
-            baseColor: Colors.grey[850]!,
-            highlightColor: Colors.grey[800]!,
+            baseColor: AppColors.shimmerBaseDark,
+            highlightColor: AppColors.shimmerBase,
             child: Row(
               children: [
                 Container(
-                  width: 64.r,
-                  height: 64.r,
+                  width: AppDims.r64,
+                  height: AppDims.r64,
                   decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(8.r),
+                    color: AppColors.onPrimary,
+                    borderRadius: BorderRadius.circular(AppDims.r8),
                   ),
                 ),
-                SizedBox(width: 16.w),
+                SizedBox(width: AppDims.w16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 14.h,
+                        height: AppDims.h14,
                         decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(4.r),
+                          color: AppColors.onPrimary,
+                          borderRadius: BorderRadius.circular(AppDims.r4),
                         ),
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: AppDims.h8),
                       Container(
-                        width: 120.w,
-                        height: 12.h,
+                        width: AppDims.w120,
+                        height: AppDims.h12,
                         decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(4.r),
+                          color: AppColors.onPrimary,
+                          borderRadius: BorderRadius.circular(AppDims.r4),
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: 16.w),
+                SizedBox(width: AppDims.w16),
                 Container(
-                  width: 32.r,
-                  height: 32.r,
+                  width: AppDims.r32,
+                  height: AppDims.r32,
                   decoration: const BoxDecoration(
-                    color: Colors.black,
+                    color: AppColors.onPrimary,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -107,7 +108,7 @@ class _DownloadsPageState extends State<DownloadsPage> {
                 ? _buildShimmerLoading()
                 : Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
                       child: const EmptyStateCard(
                         icon: Icons.cloud_download_outlined,
                         message:

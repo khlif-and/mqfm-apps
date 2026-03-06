@@ -18,13 +18,13 @@ class _LikeRemoteDatasource implements LikeRemoteDatasource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<LikeDto> toggleLike(Map<String, dynamic> body) async {
+  Future<BaseResponse<dynamic>> toggleLike(ToggleLikeRequest body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
-    final _options = _setStreamType<LikeDto>(
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<BaseResponse<dynamic>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -35,9 +35,12 @@ class _LikeRemoteDatasource implements LikeRemoteDatasource {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late LikeDto _value;
+    late BaseResponse<dynamic> _value;
     try {
-      _value = LikeDto.fromJson(_result.data!);
+      _value = BaseResponse<dynamic>.fromJson(
+        _result.data!,
+        (json) => json as dynamic,
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

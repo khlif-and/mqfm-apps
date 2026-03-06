@@ -36,7 +36,7 @@ class _FaqAccordionItemState extends State<FaqAccordionItem>
         ),
       ),
       child: Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        data: Theme.of(context).copyWith(dividerColor: AppColors.transparent),
         child: ExpansionTile(
           onExpansionChanged: (expanded) {
             setState(() {

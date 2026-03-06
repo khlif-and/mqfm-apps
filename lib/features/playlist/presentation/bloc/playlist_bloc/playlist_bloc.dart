@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqfm_apps/features/playlist/domain/repositories/playlist_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/playlist/domain/repositories/i_playlist_repository.dart';
 import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_event.dart';
 import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_state.dart';
 
+@injectable
 class PlaylistBloc extends Bloc<PlaylistEvent, PlaylistState> {
-  final PlaylistRepository _playlistRepository;
+  final IPlaylistRepository _playlistRepository;
 
   PlaylistBloc(this._playlistRepository)
     : super(const PlaylistState.initial()) {

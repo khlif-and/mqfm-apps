@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar_builder.dart';
 
@@ -23,39 +24,39 @@ class DashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(top: 50.h, bottom: 16.h),
+      padding: EdgeInsets.only(top: AppDims.h50, bottom: AppDims.h16),
       decoration: const BoxDecoration(color: AppColors.background),
       child: Row(
         children: [
-          SizedBox(width: 16.w),
+          SizedBox(width: AppDims.w16),
           ProfileAvatarBuilder(size: 32, widgetKey: profileKey),
-          SizedBox(width: 12.w),
+          SizedBox(width: AppDims.w12),
           Expanded(
             key: categoryKey,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.only(right: 16.w),
+              padding: EdgeInsets.only(right: AppDims.w16),
               child: Row(
                 children: List.generate(categories.length, (index) {
                   return GestureDetector(
                     onTap: () => onCategorySelected(index),
                     child: Container(
-                      margin: EdgeInsets.only(right: 8.w),
+                      margin: EdgeInsets.only(right: AppDims.w8),
                       padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 6.h,
+                        horizontal: AppDims.w16,
+                        vertical: AppDims.h6,
                       ),
                       decoration: BoxDecoration(
                         color: index == selectedIndex
                             ? AppColors.primaryLight
                             : AppColors.cardBackground,
-                        borderRadius: BorderRadius.circular(20.r),
+                        borderRadius: BorderRadius.circular(AppDims.r20),
                       ),
                       child: Text(
                         categories[index],
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 12.sp,
+                          fontSize: AppDims.sp12,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

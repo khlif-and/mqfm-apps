@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
 import 'dart:io';
 
-abstract class AuthRepository {
+abstract class IAuthRepository {
   Future<Either<String, UserEntity>> login(String email, String password);
   Future<Either<String, UserEntity>> register(
     String username,

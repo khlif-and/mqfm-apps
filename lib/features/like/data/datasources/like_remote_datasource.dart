@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:mqfm_apps/features/audio/data/models/audio_dto.dart';
-import 'package:mqfm_apps/features/like/data/models/like_dto.dart';
+import 'package:mqfm_apps/core/models/base_response.dart';
+import 'package:mqfm_apps/features/like/data/models/toggle_like_request.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'like_remote_datasource.g.dart';
@@ -11,7 +11,7 @@ abstract class LikeRemoteDatasource {
       _LikeRemoteDatasource;
 
   @POST('/api/user/likes/')
-  Future<LikeDto> toggleLike(@Body() Map<String, dynamic> body);
+  Future<BaseResponse<dynamic>> toggleLike(@Body() ToggleLikeRequest body);
 
   @DELETE('/api/user/likes/{audioId}')
   Future<void> unlikeAudio(@Path('audioId') int audioId);

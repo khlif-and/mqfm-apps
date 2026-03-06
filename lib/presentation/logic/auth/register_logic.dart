@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
-import 'package:mqfm_apps/features/auth/domain/repositories/auth_repository.dart';
+import 'package:mqfm_apps/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
 class RegisterLogic extends ChangeNotifier {
-  final AuthRepository _authRepository = getIt<AuthRepository>();
+  final IAuthRepository _authRepository = getIt<IAuthRepository>();
   final ImagePicker _picker = ImagePicker();
 
   bool isLoading = false;

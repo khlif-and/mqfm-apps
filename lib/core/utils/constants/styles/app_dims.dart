@@ -46,8 +46,23 @@ class AppDims {
   static double w180 = 180.w;
   static double w200 = 200.w;
 
+  // Additional Widths
+  static double w38 = 38.w;
+  static double w48 = 48.w;
+  static double w64 = 64.w;
+  static double w80 = 80.w;
+  static double w250 = 250.w;
+  static double w280 = 280.w;
+  static double w340 = 340.w;
+
   static double h180 = 180.h;
+  static double h210 = 210.h;
   static double h220 = 220.h;
+
+  // Additional Heights
+  static double h30 = 30.h;
+  static double h50 = 50.h;
+  static double h60 = 60.h;
 
   // Font Sizes
   static double sp10 = 10.sp;
@@ -63,6 +78,10 @@ class AppDims {
   static double sp26 = 26.sp;
   static double sp28 = 28.sp;
   static double sp32 = 32.sp;
+
+  // Additional Font Sizes
+  static double sp11 = 11.sp;
+  static double sp48 = 48.sp;
 
   // Radius
   static double r2 = 2.r;
@@ -80,4 +99,16 @@ class AppDims {
   static double r32 = 32.r;
   static double r50 = 50.r;
   static double r64 = 64.r;
+
+  // Additional Radius
+  static double r14 = 14.r;
+  static double r24 = 24.r;
+  static double r26 = 26.r;
+  static double r38 = 38.r;
+  static double r42 = 42.r;
+  static double r56 = 56.r;
+  static double r60 = 60.r;
+  static double r72 = 72.r;
+  static double r100 = 100.r;
+  static double r140 = 140.r;
 }

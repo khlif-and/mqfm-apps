@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -10,20 +11,20 @@ class PlayerDisk extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 340.w,
-      width: 340.w,
+      height: AppDims.w340,
+      width: AppDims.w340,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(AppDims.r8),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
-            blurRadius: 20.r,
-            offset: Offset(0, 10.h),
+            blurRadius: AppDims.r20,
+            offset: Offset(0, AppDims.h10),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(AppDims.r8),
         child: imageUrl.isNotEmpty
             ? CachedNetworkImage(
                 imageUrl: imageUrl,

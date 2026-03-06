@@ -15,6 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+PlaylistEntity _$PlaylistEntityFromJson(Map<String, dynamic> json) {
+  return _PlaylistEntity.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PlaylistEntity {
   int get id => throw _privateConstructorUsedError;
@@ -24,6 +28,9 @@ mixin _$PlaylistEntity {
   List<AudioEntity> get audios => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
   String get updatedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this PlaylistEntity to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of PlaylistEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -187,7 +194,7 @@ class __$$PlaylistEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PlaylistEntityImpl implements _PlaylistEntity {
   const _$PlaylistEntityImpl({
     required this.id,
@@ -198,6 +205,9 @@ class _$PlaylistEntityImpl implements _PlaylistEntity {
     required this.createdAt,
     required this.updatedAt,
   }) : _audios = audios;
+
+  factory _$PlaylistEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlaylistEntityImplFromJson(json);
 
   @override
   final int id;
@@ -242,6 +252,7 @@ class _$PlaylistEntityImpl implements _PlaylistEntity {
                 other.updatedAt == updatedAt));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
@@ -264,6 +275,11 @@ class _$PlaylistEntityImpl implements _PlaylistEntity {
         this,
         _$identity,
       );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PlaylistEntityImplToJson(this);
+  }
 }
 
 abstract class _PlaylistEntity implements PlaylistEntity {
@@ -276,6 +292,9 @@ abstract class _PlaylistEntity implements PlaylistEntity {
     required final String createdAt,
     required final String updatedAt,
   }) = _$PlaylistEntityImpl;
+
+  factory _PlaylistEntity.fromJson(Map<String, dynamic> json) =
+      _$PlaylistEntityImpl.fromJson;
 
   @override
   int get id;

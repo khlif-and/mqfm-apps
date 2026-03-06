@@ -58,42 +58,6 @@ class AudioDto {
 }
 
 @JsonSerializable()
-class AudioResponseDto {
-  final int status;
-  final String message;
-  final List<AudioDto>? data;
-
-  const AudioResponseDto({
-    required this.status,
-    required this.message,
-    this.data,
-  });
-
-  factory AudioResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$AudioResponseDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AudioResponseDtoToJson(this);
-}
-
-@JsonSerializable()
-class SingleAudioResponseDto {
-  final int status;
-  final String message;
-  final AudioDto? data;
-
-  const SingleAudioResponseDto({
-    required this.status,
-    required this.message,
-    this.data,
-  });
-
-  factory SingleAudioResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$SingleAudioResponseDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SingleAudioResponseDtoToJson(this);
-}
-
-@JsonSerializable()
 class PlayHistoryDto {
   final int id;
   @JsonKey(name: 'user_id')
@@ -131,22 +95,4 @@ class PlayHistoryDto {
       createdAt: createdAt,
     );
   }
-}
-
-@JsonSerializable()
-class PlayHistoryResponseDto {
-  final int status;
-  final String message;
-  final List<PlayHistoryDto>? data;
-
-  const PlayHistoryResponseDto({
-    required this.status,
-    required this.message,
-    this.data,
-  });
-
-  factory PlayHistoryResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$PlayHistoryResponseDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PlayHistoryResponseDtoToJson(this);
 }

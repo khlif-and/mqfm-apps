@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
@@ -25,55 +26,55 @@ class _HistoryPageState extends State<HistoryPage> {
 
   Widget _buildShimmer() {
     return ListView.builder(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(AppDims.r16),
       itemCount: 6,
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
-          baseColor: Colors.grey[800]!,
-          highlightColor: Colors.grey[600]!,
+            baseColor: AppColors.shimmerBase,
+            highlightColor: AppColors.shimmerHighlight,
           child: Container(
-            margin: EdgeInsets.only(bottom: 12.h),
+            margin: EdgeInsets.only(bottom: AppDims.h12),
             child: Row(
               children: [
                 Container(
-                  width: 50.w,
-                  height: 50.w,
+                  width: AppDims.w50,
+                  height: AppDims.w50,
                   decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(4.r),
+                    color: AppColors.onPrimary,
+                    borderRadius: BorderRadius.circular(AppDims.r4),
                   ),
                 ),
-                SizedBox(width: 16.w),
+                SizedBox(width: AppDims.w16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 14.h,
+                        height: AppDims.h14,
                         decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(4.r),
+                          color: AppColors.onPrimary,
+                          borderRadius: BorderRadius.circular(AppDims.r4),
                         ),
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: AppDims.h8),
                       Container(
-                        width: 120.w,
-                        height: 12.h,
+                        width: AppDims.w120,
+                        height: AppDims.h12,
                         decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(4.r),
+                          color: AppColors.onPrimary,
+                          borderRadius: BorderRadius.circular(AppDims.r4),
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: 16.w),
+                SizedBox(width: AppDims.w16),
                 Container(
-                  width: 32.w,
-                  height: 32.w,
+                  width: AppDims.w32,
+                  height: AppDims.w32,
                   decoration: const BoxDecoration(
-                    color: Colors.black,
+                    color: AppColors.onPrimary,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -90,17 +91,17 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: AppColors.textWhite),
           onPressed: () => context.pop(),
         ),
         title: Text(
           "Riwayat Pemutaran",
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.sp,
+            color: AppColors.textWhite,
+            fontSize: AppDims.sp18,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -115,7 +116,7 @@ class _HistoryPageState extends State<HistoryPage> {
           if (logic.errorMessage != null) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
                 child: EmptyStateCard(
                   message: logic.errorMessage!,
                   icon: Icons.wifi_off_rounded,
@@ -127,7 +128,7 @@ class _HistoryPageState extends State<HistoryPage> {
           if (logic.histories.isEmpty) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
                 child: const EmptyStateCard(
                   message: 'Belum ada riwayat pemutaran',
                   icon: Icons.history_rounded,

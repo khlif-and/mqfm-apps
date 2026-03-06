@@ -19,16 +19,3 @@ class LikeDto {
     return LikeEntity(status: status, message: message);
   }
 }
-
-@JsonSerializable()
-class LikeRequestDto {
-  @JsonKey(name: 'audio_id')
-  final int audioId;
-
-  const LikeRequestDto({required this.audioId});
-
-  factory LikeRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$LikeRequestDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LikeRequestDtoToJson(this);
-}

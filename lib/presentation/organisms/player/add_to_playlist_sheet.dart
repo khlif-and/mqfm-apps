@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/core/di/injection.dart';
-import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
-import 'package:mqfm_apps/features/playlist/domain/repositories/playlist_repository.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
+import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_bloc.dart';
+import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_event.dart';
+import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_state.dart';
+import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
 
 class AddToPlaylistSheet extends StatefulWidget {
-  final Function(int playlistId, String playlistName) onPlaylistSelected;
+  final int audioId;
   final VoidCallback onCreateNewPlaylist;
 
   const AddToPlaylistSheet({
     super.key,
-    required this.onPlaylistSelected,
+    required this.audioId,
     required this.onCreateNewPlaylist,
   });
 
@@ -19,72 +24,55 @@ class AddToPlaylistSheet extends StatefulWidget {
 }
 
 class _AddToPlaylistSheetState extends State<AddToPlaylistSheet> {
-  final PlaylistRepository _playlistRepository = getIt<PlaylistRepository>();
-  List<PlaylistEntity> _playlists = [];
-  bool _isLoading = true;
-
   @override
   void initState() {
     super.initState();
-    _fetchPlaylists();
-  }
-
-  Future<void> _fetchPlaylists() async {
-    final result = await _playlistRepository.getPlaylists();
-    if (mounted) {
-      result.fold(
-        (error) => setState(() => _isLoading = false),
-        (playlists) => setState(() {
-          _playlists = playlists;
-          _isLoading = false;
-        }),
-      );
-    }
+    context.read<PlaylistBloc>().add(const PlaylistEvent.fetch());
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(AppDims.w16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
             child: Container(
-              width: 40.w,
-              height: 4.h,
+              width: AppDims.w40,
+              height: AppDims.h4,
               decoration: BoxDecoration(
-                color: Colors.grey[600],
-                borderRadius: BorderRadius.circular(2.r),
+                color: AppColors.textMuted,
+                borderRadius: BorderRadius.circular(AppDims.r2),
               ),
             ),
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: AppDims.h16),
           Text(
-            "Tambahkan ke Playlist",
+            AppStrings.addToPlaylist,
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.sp,
+              color: AppColors.textWhite,
+              fontSize: AppDims.sp18,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: AppDims.h16),
           ListTile(
             leading: Container(
-              width: 48.w,
-              height: 48.w,
+              width: AppDims.w48,
+              height: AppDims.w48,
               decoration: BoxDecoration(
-                color: Colors.grey[800],
-                borderRadius: BorderRadius.circular(4.r),
+                color: AppColors.shimmerBase,
+                borderRadius: BorderRadius.circular(AppDims.r4),
               ),
-              child: Icon(Icons.add, color: Colors.white, size: 28.r),
+              child: Icon(Icons.add, color: AppColors.textWhite, size: AppDims.r28),
             ),
             title: Text(
-              "Playlist Baru",
+              AppStrings.newPlaylist,
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
+                color: AppColors.textWhite,
+                fontSize: AppDims.sp16,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -93,65 +81,62 @@ class _AddToPlaylistSheetState extends State<AddToPlaylistSheet> {
               widget.onCreateNewPlaylist();
             },
           ),
-          const Divider(color: Colors.grey),
+          Divider(color: AppColors.textSecondary),
           Expanded(
-            child: _isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(color: Colors.white),
-                  )
-                : _playlists.isEmpty
-                ? Center(
-                    child: Text(
-                      "Belum ada playlist",
-                      style: TextStyle(color: Colors.grey[400]),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: _playlists.length,
-                    itemBuilder: (context, index) {
-                      final playlist = _playlists[index];
-                      return ListTile(
-                        leading: Container(
-                          width: 48.w,
-                          height: 48.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.r),
-                            image: DecorationImage(
-                              image: (playlist.imageUrl.isNotEmpty)
-                                  ? NetworkImage(playlist.imageUrl)
-                                        as ImageProvider
-                                  : const AssetImage(
-                                      'assets/images/img_card.jpg',
-                                    ),
-                              fit: BoxFit.cover,
+            child: BlocBuilder<PlaylistBloc, PlaylistState>(
+              builder: (context, state) {
+                return state.when(
+                  initial: () => const SizedBox.shrink(),
+                  loading: () => const Center(child: CircularProgressIndicator(color: AppColors.textWhite)),
+                  loaded: (playlists) {
+                    if (playlists.isEmpty) {
+                      return Center(
+                        child: Text(AppStrings.noPlaylist, style: TextStyle(color: AppColors.textSecondary)),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: playlists.length,
+                      itemBuilder: (context, index) {
+                        final playlist = playlists[index];
+                        return ListTile(
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(AppDims.r4),
+                            child: AppNetworkImage(
+                              url: playlist.imageUrl,
+                              width: AppDims.w48,
+                              height: AppDims.w48,
                             ),
                           ),
-                        ),
-                        title: Text(
-                          playlist.name,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
+                          title: Text(
+                            playlist.name,
+                            style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp14, fontWeight: FontWeight.w500),
                           ),
-                        ),
-                        subtitle: Text(
-                          "${playlist.audios.length} audio",
-                          style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize: 12.sp,
+                          subtitle: Text(
+                            "${playlist.audios.length} ${AppStrings.audioCount}",
+                            style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp12),
                           ),
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                          widget.onPlaylistSelected(playlist.id, playlist.name);
-                        },
-                      );
-                    },
-                  ),
+                          onTap: () {
+                            Navigator.pop(context);
+                            context.read<PlaylistBloc>().add(PlaylistEvent.addAudio(
+                              playlistId: playlist.id,
+                              audioId: widget.audioId,
+                            ));
+                          },
+                        );
+                      },
+                    );
+                  },
+                  detailLoaded: (_) => const SizedBox.shrink(),
+                  created: (_) => const SizedBox.shrink(),
+                  audioAdded: () => const SizedBox.shrink(),
+                  error: (message) => Center(child: Text(message, style: TextStyle(color: AppColors.error))),
+                );
+              },
+            ),
           ),
         ],
       ),
     );
   }
 }
+

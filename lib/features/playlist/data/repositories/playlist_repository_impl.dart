@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:mqfm_apps/core/models/base_response.dart';
 import 'package:mqfm_apps/features/playlist/data/datasources/playlist_remote_datasource.dart';
 import 'package:mqfm_apps/features/playlist/data/models/playlist_dto.dart';
 import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
-import 'package:mqfm_apps/features/playlist/domain/repositories/playlist_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/playlist/domain/repositories/i_playlist_repository.dart';
 
-class PlaylistRepositoryImpl implements PlaylistRepository {
+@LazySingleton(as: IPlaylistRepository)
+class PlaylistRepositoryImpl implements IPlaylistRepository {
   final PlaylistRemoteDatasource _datasource;
   final Dio _dio;
 
@@ -16,7 +19,12 @@ class PlaylistRepositoryImpl implements PlaylistRepository {
   Future<Either<String, List<PlaylistEntity>>> getPlaylists() async {
     try {
       final json = await _datasource.getPlaylists() as Map<String, dynamic>;
-      final dto = PlaylistListResponseDto.fromJson(json);
+      final dto = BaseResponse<List<PlaylistDto>>.fromJson(
+        json,
+        (json) => (json as List)
+            .map((e) => PlaylistDto.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
       if (dto.status == 200 && dto.data != null) {
         return Right(dto.data!.map((d) => d.toEntity()).toList());
       }
@@ -33,7 +41,10 @@ class PlaylistRepositoryImpl implements PlaylistRepository {
     try {
       final json =
           await _datasource.getDetailPlaylist(id) as Map<String, dynamic>;
-      final dto = PlaylistResponseDto.fromJson(json);
+      final dto = BaseResponse<PlaylistDto>.fromJson(
+        json,
+        (json) => PlaylistDto.fromJson(json as Map<String, dynamic>),
+      );
       if (dto.status == 200 && dto.data != null) {
         return Right(dto.data!.toEntity());
       }
@@ -59,7 +70,10 @@ class PlaylistRepositoryImpl implements PlaylistRepository {
       final formData = FormData.fromMap(fields);
       final response = await _dio.post('/api/user/playlists/', data: formData);
 
-      final dto = PlaylistResponseDto.fromJson(response.data);
+      final dto = BaseResponse<PlaylistDto>.fromJson(
+        response.data,
+        (json) => PlaylistDto.fromJson(json as Map<String, dynamic>),
+      );
       if (dto.status == 200 || dto.status == 201) {
         if (dto.data != null) {
           return Right(dto.data!.toEntity());

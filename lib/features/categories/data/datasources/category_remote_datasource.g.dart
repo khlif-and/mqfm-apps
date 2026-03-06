@@ -18,12 +18,12 @@ class _CategoryRemoteDatasource implements CategoryRemoteDatasource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<CategoryResponseDto> getCategories() async {
+  Future<BaseResponse<List<CategoryDto>>> getCategories() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<CategoryResponseDto>(
+    final _options = _setStreamType<BaseResponse<List<CategoryDto>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -34,9 +34,18 @@ class _CategoryRemoteDatasource implements CategoryRemoteDatasource {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late CategoryResponseDto _value;
+    late BaseResponse<List<CategoryDto>> _value;
     try {
-      _value = CategoryResponseDto.fromJson(_result.data!);
+      _value = BaseResponse<List<CategoryDto>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<CategoryDto>(
+                    (i) => CategoryDto.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -45,12 +54,12 @@ class _CategoryRemoteDatasource implements CategoryRemoteDatasource {
   }
 
   @override
-  Future<SingleCategoryResponseDto> getCategoryById(int id) async {
+  Future<BaseResponse<CategoryDto>> getCategoryById(int id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<SingleCategoryResponseDto>(
+    final _options = _setStreamType<BaseResponse<CategoryDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -61,9 +70,12 @@ class _CategoryRemoteDatasource implements CategoryRemoteDatasource {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late SingleCategoryResponseDto _value;
+    late BaseResponse<CategoryDto> _value;
     try {
-      _value = SingleCategoryResponseDto.fromJson(_result.data!);
+      _value = BaseResponse<CategoryDto>.fromJson(
+        _result.data!,
+        (json) => CategoryDto.fromJson(json as Map<String, dynamic>),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

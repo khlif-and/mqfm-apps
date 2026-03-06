@@ -23,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
               const Spacer(),
               Image.asset(
                 'assets/images/img_splash.png',
-                width: 250.w, // Increased size
+                width: AppDims.w250, // Increased size
                 fit: BoxFit.contain,
               ),
 
@@ -35,7 +35,7 @@ class OnboardingScreen extends StatelessWidget {
                   color: AppColors.textWhite,
                   fontWeight: FontWeight.bold,
                   height: 1.3,
-                  fontSize: 18.sp,
+                  fontSize: AppDims.sp18,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -45,7 +45,7 @@ class OnboardingScreen extends StatelessWidget {
                   color: AppColors.textWhite,
                   fontWeight: FontWeight.bold,
                   height: 1.3,
-                  fontSize: 18.sp,
+                  fontSize: AppDims.sp18,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -68,7 +68,7 @@ class OnboardingScreen extends StatelessWidget {
                 onPressed: () {
                   context.push('/login-form');
                 },
-                backgroundColor: Colors.transparent,
+                backgroundColor: AppColors.transparent,
                 textColor: AppColors.textWhite,
                 borderColor: AppColors.textSecondary,
               ),

@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqfm_apps/features/auth/domain/repositories/auth_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:mqfm_apps/features/auth/presentation/bloc/login_bloc/login_event.dart';
 import 'package:mqfm_apps/features/auth/presentation/bloc/login_bloc/login_state.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
+@injectable
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AuthRepository _authRepository;
+  final IAuthRepository _authRepository;
 
   LoginBloc(this._authRepository) : super(const LoginState.initial()) {
     on<LoginSubmitted>(_onLogin);

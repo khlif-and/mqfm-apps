@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/like/domain/repositories/like_repository.dart';
+import 'package:mqfm_apps/features/like/domain/repositories/i_like_repository.dart';
 
 class LikedAudiosLogic extends ChangeNotifier {
-  final LikeRepository _likeRepository = getIt<LikeRepository>();
+  final ILikeRepository _likeRepository = getIt<ILikeRepository>();
 
   List<AudioEntity> likedAudios = [];
   bool isLoading = true;

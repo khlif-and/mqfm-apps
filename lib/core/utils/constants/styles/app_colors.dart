@@ -54,4 +54,26 @@ class AppColors {
   static const Color playerGradient1 = Color(0xFFB94E4E);
   static const Color playerGradient2 = Color(0xFF682A2A);
   static const Color playerGradient3 = Color(0xFF1E1C1C);
+
+  // Transparency & Overlays
+  static const Color transparent = Colors.transparent;
+  static const Color barrierDark = Colors.black54;
+  static const Color textWhiteFaint = Colors.white54;
+  static const Color textWhiteSubdued = Colors.white70;
+
+  // Muted / Subdued Text
+  static const Color textMuted = Color(0xFF9E9E9E);
+  static const Color textLight = Color(0xFFBDBDBD);
+
+  // Shimmer
+  static const Color shimmerBase = Color(0xFF424242);
+  static const Color shimmerHighlight = Color(0xFF757575);
+  static const Color shimmerBaseDark = Color(0xFF303030);
+
+  // Surface Variants
+  static const Color surfaceDim = Color(0xFF1A1A1A);
+  static const Color iconMuted = Color(0xFF4A4A4A);
+
+  // Avatar
+  static const Color avatarBrown = Color(0xFF8B5A3C);
 }

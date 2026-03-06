@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PlayerTrackInfo extends StatelessWidget {
@@ -27,18 +28,18 @@ class PlayerTrackInfo extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 22.sp,
+                  fontSize: AppDims.sp22,
                   fontWeight: FontWeight.bold,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: AppDims.h4),
               Text(
                 description,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.7),
-                  fontSize: 16.sp,
+                  fontSize: AppDims.sp16,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -51,7 +52,7 @@ class PlayerTrackInfo extends StatelessWidget {
           child: Icon(
             Icons.add_circle_outline,
             color: Colors.white,
-            size: 28.r,
+            size: AppDims.r28,
           ),
         ),
       ],

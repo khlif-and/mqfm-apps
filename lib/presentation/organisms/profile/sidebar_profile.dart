@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -42,10 +43,10 @@ class _SidebarProfileState extends State<SidebarProfile> {
             Container(
               key: widget.profileSectionKey,
               padding: EdgeInsets.fromLTRB(
-                20.w,
-                48.h,
-                20.w,
-                24.h,
+                AppDims.w20,
+                AppDims.h48,
+                AppDims.w20,
+                AppDims.h24,
               ), // adjusted padding for without background box
               child: ValueListenableBuilder<bool>(
                 valueListenable: UserManager.instance.isLoadingNotifier,
@@ -70,28 +71,28 @@ class _SidebarProfileState extends State<SidebarProfile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ProfileAvatar(
-                            size: 56.r,
+                            size: AppDims.r56,
                             text: userData?.initials ?? "?",
                             backgroundColor: bgColor,
                             textColor: Colors.white,
                             profilePictureUrl: userData?.profilePicture,
                           ),
-                          SizedBox(height: 16.h),
+                          SizedBox(height: AppDims.h16),
                           Text(
                             userData?.username ?? 'Guest',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20.sp,
+                              fontSize: AppDims.sp20,
                               fontWeight: FontWeight.bold,
                               letterSpacing: -0.3,
                             ),
                           ),
-                          SizedBox(height: 4.h),
+                          SizedBox(height: AppDims.h4),
                           Text(
                             userData?.email ?? '',
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.5),
-                              fontSize: 13.sp,
+                              fontSize: AppDims.sp13,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -103,7 +104,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
               ),
             ),
 
-            SizedBox(height: 8.h),
+            SizedBox(height: AppDims.h8),
 
             Container(
               key: widget.menuSectionKey,
@@ -140,7 +141,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
             ),
 
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+              padding: EdgeInsets.symmetric(horizontal: AppDims.w20, vertical: AppDims.h4),
               child: Divider(
                 color: Colors.white.withOpacity(0.08),
                 thickness: 1,
@@ -173,9 +174,9 @@ class _SidebarProfileState extends State<SidebarProfile> {
             const Spacer(),
 
             Padding(
-              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 24.h),
+              padding: EdgeInsets.fromLTRB(AppDims.w20, 0, AppDims.w20, AppDims.h24),
               child: Container(
-                padding: EdgeInsets.all(16.r),
+                padding: EdgeInsets.all(AppDims.r16),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
@@ -185,7 +186,7 @@ class _SidebarProfileState extends State<SidebarProfile> {
                       const Color(0xFF2A2A3A).withOpacity(0.6),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(AppDims.r12),
                   border: Border.all(
                     color: Colors.white.withOpacity(0.06),
                     width: 1,
@@ -196,9 +197,9 @@ class _SidebarProfileState extends State<SidebarProfile> {
                     Icon(
                       Icons.mosque_rounded,
                       color: const Color(0xFF9D8DF1),
-                      size: 28.sp,
+                      size: AppDims.sp28,
                     ),
-                    SizedBox(width: 12.w),
+                    SizedBox(width: AppDims.w12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,16 +208,16 @@ class _SidebarProfileState extends State<SidebarProfile> {
                             'MQFM Podcast',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 13.sp,
+                              fontSize: AppDims.sp13,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: 2.h),
+                          SizedBox(height: AppDims.h2),
                           Text(
                             'Dengarkan kajian kapan saja',
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.4),
-                              fontSize: 11.sp,
+                              fontSize: AppDims.sp11,
                             ),
                           ),
                         ],
@@ -242,16 +243,16 @@ class _SidebarProfileState extends State<SidebarProfile> {
       key: key,
       onTap: onTap ?? () {},
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(horizontal: AppDims.w20, vertical: AppDims.h14),
         child: Row(
           children: [
-            Icon(icon, color: Colors.white.withOpacity(0.7), size: 22.sp),
-            SizedBox(width: 16.w),
+            Icon(icon, color: Colors.white.withOpacity(0.7), size: AppDims.sp22),
+            SizedBox(width: AppDims.w16),
             Text(
               title,
               style: TextStyle(
                 color: Colors.white.withOpacity(0.85),
-                fontSize: 15.sp,
+                fontSize: AppDims.sp15,
                 fontWeight: FontWeight.w500,
                 letterSpacing: -0.1,
               ),
@@ -270,38 +271,38 @@ class _SidebarProfileState extends State<SidebarProfile> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 56.r,
-            height: 56.r,
+            width: AppDims.r56,
+            height: AppDims.r56,
             decoration: const BoxDecoration(
               color: Colors.black,
               shape: BoxShape.circle,
             ),
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: AppDims.h16),
           Container(
-            width: 140.w,
-            height: 18.h,
+            width: AppDims.w140,
+            height: AppDims.h18,
             decoration: BoxDecoration(
               color: Colors.black,
-              borderRadius: BorderRadius.circular(4.r),
+              borderRadius: BorderRadius.circular(AppDims.r4),
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: AppDims.h8),
           Container(
-            width: 180.w,
-            height: 12.h,
+            width: AppDims.w180,
+            height: AppDims.h12,
             decoration: BoxDecoration(
               color: Colors.black,
-              borderRadius: BorderRadius.circular(4.r),
+              borderRadius: BorderRadius.circular(AppDims.r4),
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: AppDims.h8),
           Container(
-            width: 50.w,
-            height: 20.h,
+            width: AppDims.w50,
+            height: AppDims.h20,
             decoration: BoxDecoration(
               color: Colors.black,
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(AppDims.r20),
             ),
           ),
         ],

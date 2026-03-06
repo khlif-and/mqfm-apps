@@ -3,10 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:mqfm_apps/features/audio/data/models/audio_dto.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
 import 'package:mqfm_apps/features/like/data/datasources/like_remote_datasource.dart';
+import 'package:mqfm_apps/features/like/data/models/toggle_like_request.dart';
 import 'package:mqfm_apps/features/like/domain/entities/like_entity.dart';
-import 'package:mqfm_apps/features/like/domain/repositories/like_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/like/domain/repositories/i_like_repository.dart';
 
-class LikeRepositoryImpl implements LikeRepository {
+@LazySingleton(as: ILikeRepository)
+class LikeRepositoryImpl implements ILikeRepository {
   final LikeRemoteDatasource _datasource;
 
   LikeRepositoryImpl(this._datasource);
@@ -14,8 +17,13 @@ class LikeRepositoryImpl implements LikeRepository {
   @override
   Future<Either<String, LikeEntity>> toggleLike(int audioId) async {
     try {
-      final response = await _datasource.toggleLike({'audio_id': audioId});
-      return Right(response.toEntity());
+      final response = await _datasource.toggleLike(
+        ToggleLikeRequest(audioId: audioId),
+      );
+      return Right(LikeEntity(
+        status: response.status,
+        message: response.message,
+      ));
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {

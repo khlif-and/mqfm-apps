@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 
 class ProfileAvatar extends StatelessWidget {
   final double size;
@@ -11,8 +12,8 @@ class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({
     super.key,
     this.size = 40,
-    this.backgroundColor = const Color(0xFF8B5A3C),
-    this.textColor = Colors.white,
+    this.backgroundColor = AppColors.avatarBrown,
+    this.textColor = AppColors.textWhite,
     this.text = "K",
     this.profilePictureUrl,
   });

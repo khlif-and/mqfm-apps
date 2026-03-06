@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class GuideTourContent extends StatelessWidget {
   final String title;
@@ -21,14 +23,14 @@ class GuideTourContent extends StatelessWidget {
           title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 20.sp,
+            color: AppColors.textWhite,
+            fontSize: AppDims.sp20,
           ),
         ),
-        SizedBox(height: 10.h),
+        SizedBox(height: AppDims.h10),
         Text(
           description,
-          style: TextStyle(color: Colors.white70, fontSize: 14.sp),
+          style: TextStyle(color: AppColors.textWhiteSubdued, fontSize: AppDims.sp14),
         ),
       ],
     );

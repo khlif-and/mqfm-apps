@@ -2,9 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:mqfm_apps/features/categories/data/datasources/category_remote_datasource.dart';
 import 'package:mqfm_apps/features/categories/domain/entities/category_entity.dart';
-import 'package:mqfm_apps/features/categories/domain/repositories/category_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/categories/domain/repositories/i_category_repository.dart';
 
-class CategoryRepositoryImpl implements CategoryRepository {
+@LazySingleton(as: ICategoryRepository)
+class CategoryRepositoryImpl implements ICategoryRepository {
   final CategoryRemoteDatasource _datasource;
 
   CategoryRepositoryImpl(this._datasource);

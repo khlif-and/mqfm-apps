@@ -15,6 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
+CategoryEntity _$CategoryEntityFromJson(Map<String, dynamic> json) {
+  return _CategoryEntity.fromJson(json);
+}
+
 /// @nodoc
 mixin _$CategoryEntity {
   int get id => throw _privateConstructorUsedError;
@@ -22,6 +26,9 @@ mixin _$CategoryEntity {
   String get description => throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
   String? get updatedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this CategoryEntity to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of CategoryEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -161,7 +168,7 @@ class __$$CategoryEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$CategoryEntityImpl implements _CategoryEntity {
   const _$CategoryEntityImpl({
     required this.id,
@@ -170,6 +177,9 @@ class _$CategoryEntityImpl implements _CategoryEntity {
     this.createdAt,
     this.updatedAt,
   });
+
+  factory _$CategoryEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CategoryEntityImplFromJson(json);
 
   @override
   final int id;
@@ -202,6 +212,7 @@ class _$CategoryEntityImpl implements _CategoryEntity {
                 other.updatedAt == updatedAt));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, name, description, createdAt, updatedAt);
@@ -216,6 +227,11 @@ class _$CategoryEntityImpl implements _CategoryEntity {
         this,
         _$identity,
       );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CategoryEntityImplToJson(this);
+  }
 }
 
 abstract class _CategoryEntity implements CategoryEntity {
@@ -226,6 +242,9 @@ abstract class _CategoryEntity implements CategoryEntity {
     final String? createdAt,
     final String? updatedAt,
   }) = _$CategoryEntityImpl;
+
+  factory _CategoryEntity.fromJson(Map<String, dynamic> json) =
+      _$CategoryEntityImpl.fromJson;
 
   @override
   int get id;

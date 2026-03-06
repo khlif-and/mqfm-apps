@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,14 +43,14 @@ class FaqContactButtons extends StatelessWidget {
           'Butuh Bantuan Lebih Lanjut?',
           style: AppStyles.titleMedium.copyWith(fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: AppDims.h8),
         Text(
           'Jangan ragu menghubungi kami apabila Anda punya kendala penggunaan aplikasi.',
           style: AppStyles.bodyMedium.copyWith(
             color: Colors.white.withOpacity(0.6),
           ),
         ),
-        SizedBox(height: 20.h),
+        SizedBox(height: AppDims.h20),
         Row(
           children: [
             Expanded(
@@ -60,7 +61,7 @@ class FaqContactButtons extends StatelessWidget {
                 onTap: _launchWhatsApp,
               ),
             ),
-            SizedBox(width: 16.w),
+            SizedBox(width: AppDims.w16),
             Expanded(
               child: _buildContactButton(
                 icon: Icons.email_outlined,
@@ -85,18 +86,18 @@ class FaqContactButtons extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(AppDims.r16),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 16.h),
+          padding: EdgeInsets.symmetric(vertical: AppDims.h16),
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(16.r),
+            borderRadius: BorderRadius.circular(AppDims.r16),
             border: Border.all(color: color.withOpacity(0.3), width: 1),
           ),
           child: Column(
             children: [
-              Icon(icon, color: color, size: 28.sp),
-              SizedBox(height: 8.h),
+              Icon(icon, color: color, size: AppDims.sp28),
+              SizedBox(height: AppDims.h8),
               Text(
                 title,
                 style: AppStyles.bodyMedium.copyWith(
