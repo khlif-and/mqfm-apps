@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/library_item.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LibraryStaticItems extends StatelessWidget {
-  const LibraryStaticItems({super.key});
+  final VoidCallback? onFavoritesTap;
+
+  const LibraryStaticItems({super.key, this.onFavoritesTap});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,7 @@ class LibraryStaticItems extends StatelessWidget {
         ),
         SizedBox(height: AppDims.h16),
         InkWell(
-          onTap: () {
-            context.push('/favorites');
-          },
+          onTap: onFavoritesTap,
           child: LibraryItem(
             title: 'Kajian Favorit',
             subtitle: 'Playlist • 12 audio',

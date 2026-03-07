@@ -1,9 +1,10 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
+import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/logic/history/history_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/history/history_audio_list.dart';
 import 'package:shimmer/shimmer.dart';
@@ -137,7 +138,10 @@ class _HistoryPageState extends State<HistoryPage> {
             );
           }
 
-          return HistoryAudioList(histories: logic.histories);
+          return HistoryAudioList(
+            histories: logic.histories,
+            onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+          );
         },
       ),
     );

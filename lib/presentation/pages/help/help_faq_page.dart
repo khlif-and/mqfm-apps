@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
-import 'package:mqfm_apps/presentation/organisms/faq/faq_contact_buttons.dart';
+import 'package:mqfm_apps/presentation/molecules/common/custom_app_bar.dart';
+import 'package:mqfm_apps/presentation/molecules/faq/faq_contact_buttons.dart';
 import 'package:mqfm_apps/presentation/organisms/faq/faq_list.dart';
+import 'package:mqfm_apps/presentation/logic/faq/faq_contact_logic.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_styles.dart';
@@ -44,7 +45,10 @@ class HelpFaqPage extends StatelessWidget {
             SizedBox(height: AppDims.h48),
 
             // Contact Support
-            const FaqContactButtons(),
+            FaqContactButtons(
+              onWhatsAppPressed: FaqContactLogic.launchWhatsApp,
+              onEmailPressed: FaqContactLogic.launchEmail,
+            ),
 
             SizedBox(height: AppDims.h48),
           ],

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesHelper {

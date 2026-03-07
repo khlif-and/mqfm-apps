@@ -1,51 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/core/di/injection.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/domain/repositories/i_audio_repository.dart';
-import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:shimmer/shimmer.dart';
 
-class DiscoverHorizontalList extends StatefulWidget {
-  const DiscoverHorizontalList({super.key});
+class DiscoverHorizontalList extends StatelessWidget {
+  final List<AudioEntity> audios;
+  final bool isLoading;
+  final void Function(int audioId)? onAudioTap;
 
-  @override
-  State<DiscoverHorizontalList> createState() => _DiscoverHorizontalListState();
-}
-
-class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
-  final IAudioRepository _audioRepository = getIt<IAudioRepository>();
-  List<AudioEntity> _audios = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchAudios();
-  }
-
-  Future<void> _fetchAudios() async {
-    try {
-      final result = await _audioRepository.getAudios();
-      if (mounted) {
-        result.fold(
-          (error) => setState(() => _isLoading = false),
-          (audios) => setState(() {
-            _audios = audios;
-            _isLoading = false;
-          }),
-        );
-      }
-    } catch (e) {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
+  const DiscoverHorizontalList({
+    super.key,
+    required this.audios,
+    required this.isLoading,
+    this.onAudioTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
+    if (isLoading) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -124,7 +98,7 @@ class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
           ),
         ),
         SizedBox(height: AppDims.h16),
-        if (_audios.isEmpty)
+        if (audios.isEmpty)
           const EmptyStateCard(
             message: 'Belum ada data saat ini',
             icon: Icons.explore_off_rounded,
@@ -134,9 +108,9 @@ class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: _audios.length,
+            itemCount: audios.length,
             itemBuilder: (context, index) {
-              return _DiscoverTrackTile(audio: _audios[index]);
+              return _DiscoverTrackTile(audio: audios[index], onTap: onAudioTap != null ? () => onAudioTap!(audios[index].id) : null);
             },
           ),
       ],
@@ -146,15 +120,14 @@ class _DiscoverHorizontalListState extends State<DiscoverHorizontalList> {
 
 class _DiscoverTrackTile extends StatelessWidget {
   final AudioEntity audio;
+  final VoidCallback? onTap;
 
-  const _DiscoverTrackTile({required this.audio});
+  const _DiscoverTrackTile({required this.audio, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        context.push('/player/${audio.id}');
-      },
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: AppDims.h10),
         decoration: BoxDecoration(

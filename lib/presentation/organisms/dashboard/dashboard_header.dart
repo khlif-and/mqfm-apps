@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mqfm_apps/presentation/atoms/profile/profile_avatar_builder.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
+import 'package:mqfm_apps/presentation/molecules/profile/profile_avatar_builder.dart';
 
 class DashboardHeader extends StatelessWidget {
   final List<String> categories;
@@ -10,6 +11,9 @@ class DashboardHeader extends StatelessWidget {
   final Function(int) onCategorySelected;
   final GlobalKey? profileKey;
   final GlobalKey? categoryKey;
+  final UserEntity? userData;
+  final bool isUserLoading;
+  final VoidCallback? onAvatarTap;
 
   const DashboardHeader({
     super.key,
@@ -18,6 +22,9 @@ class DashboardHeader extends StatelessWidget {
     required this.onCategorySelected,
     this.profileKey,
     this.categoryKey,
+    this.userData,
+    this.isUserLoading = false,
+    this.onAvatarTap,
   });
 
   @override
@@ -29,7 +36,7 @@ class DashboardHeader extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(width: AppDims.w16),
-          ProfileAvatarBuilder(size: 32, widgetKey: profileKey),
+          ProfileAvatarBuilder(size: 32, widgetKey: profileKey, userData: userData, isLoading: isUserLoading, onTap: onAvatarTap),
           SizedBox(width: AppDims.w12),
           Expanded(
             key: categoryKey,

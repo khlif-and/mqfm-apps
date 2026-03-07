@@ -1,19 +1,23 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/presentation/pages/shell/main_shell_page.dart';
 
 class MainBottomNavigation extends StatelessWidget {
   final int currentIndex;
+  final ValueChanged<int>? onTabSelected;
+  final VoidCallback? onFavoritesTap;
 
-  const MainBottomNavigation({super.key, this.currentIndex = 0});
+  const MainBottomNavigation({
+    super.key,
+    this.currentIndex = 0,
+    this.onTabSelected,
+    this.onFavoritesTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final shellState = MainShellPage.of(context);
-
     return Container(
       color: AppColors.background,
       padding: EdgeInsets.only(top: AppDims.h12, bottom: AppDims.h16),
@@ -25,28 +29,28 @@ class MainBottomNavigation extends StatelessWidget {
             Icons.home_filled,
             'home',
             currentIndex == 0,
-            () => shellState?.switchTab(0),
+            () => onTabSelected?.call(0),
           ),
           _buildNavItem(
             context,
             Icons.search,
             'search',
             currentIndex == 1,
-            () => shellState?.switchTab(1),
+            () => onTabSelected?.call(1),
           ),
           _buildNavItem(
             context,
             Icons.queue_music,
             'playlist',
             currentIndex == 2,
-            () => shellState?.switchTab(2),
+            () => onTabSelected?.call(2),
           ),
           _buildNavItem(
             context,
             Icons.favorite_border,
             'like',
             false,
-            () => context.push('/favorites'),
+            onFavoritesTap,
           ),
         ],
       ),

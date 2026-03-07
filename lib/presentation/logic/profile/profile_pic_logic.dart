@@ -1,4 +1,4 @@
-import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
 
 class ProfilePicLogic {
   static String getDisplayUsername(UserEntity? userData) {

@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/player_bloc/player_bloc.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/player_bloc/player_event.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/player_bloc/player_state.dart';
-import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_bloc.dart';
-import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/features/audio/applications/player_bloc/player_bloc.dart';
+import 'package:mqfm_apps/features/audio/applications/player_bloc/player_event.dart';
+import 'package:mqfm_apps/features/audio/applications/player_bloc/player_state.dart';
+import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_bloc.dart';
+import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/atoms/common/shimmer_box.dart';
 import 'package:mqfm_apps/presentation/atoms/player/player_background.dart';
-import 'package:mqfm_apps/presentation/molecules/player/player_bottom_actions.dart';
+import 'package:mqfm_apps/presentation/atoms/player/player_bottom_actions.dart';
 import 'package:mqfm_apps/presentation/organisms/player/player_controls.dart';
-import 'package:mqfm_apps/presentation/organisms/player/player_dialog_helper.dart';
-import 'package:mqfm_apps/presentation/organisms/player/player_disk.dart';
-import 'package:mqfm_apps/presentation/organisms/player/player_header.dart';
-import 'package:mqfm_apps/presentation/organisms/player/player_track_info.dart';
+import 'package:mqfm_apps/presentation/logic/player/player_dialog_helper.dart';
+import 'package:mqfm_apps/presentation/atoms/player/player_disk.dart';
+import 'package:mqfm_apps/presentation/molecules/player/player_header.dart';
+import 'package:mqfm_apps/presentation/molecules/player/player_track_info.dart';
 
 class PlayerPage extends StatefulWidget {
   final String audioId;
@@ -124,7 +125,7 @@ class _PlayerPageState extends State<PlayerPage> {
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                        child: const PlayerHeader(),
+                        child: PlayerHeader(onBack: () => context.pop()),
                       ),
                       const Spacer(),
                       Padding(
@@ -156,7 +157,7 @@ class _PlayerPageState extends State<PlayerPage> {
                   child: Column(
                     children: [
                       SizedBox(height: AppDims.h10),
-                      const PlayerHeader(),
+                      PlayerHeader(onBack: () => context.pop()),
                       const Spacer(),
                       const EmptyStateCard(message: AppStrings.audioNotFound, icon: Icons.music_off_rounded),
                       const Spacer(),

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
-import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
-import 'package:mqfm_apps/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
+import 'package:mqfm_apps/features/auth/domain/interfaces/i_user_repository.dart';
 import 'package:mqfm_apps/core/utils/helpers/log_helper.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
@@ -15,6 +15,11 @@ class UserManager {
   final ValueNotifier<bool> isLoadingNotifier = ValueNotifier(false);
 
   UserEntity? get currentUser => currentUserNotifier.value;
+
+  void setUser(UserEntity user) {
+    currentUserNotifier.value = user;
+    LogHelper.success("UserManager", "User set: ${user.email}");
+  }
 
   Future<bool> fetchUser() async {
     try {
@@ -35,8 +40,13 @@ class UserManager {
           return false;
         },
         (user) {
-          currentUserNotifier.value = user;
-          LogHelper.success("UserManager", "User fetched: ${user.email}");
+          // Preserve profilePicture from previous login response if /me doesn't return it
+          final existingPicture = currentUserNotifier.value?.profilePicture;
+          final updatedUser = (user.profilePicture == null && existingPicture != null)
+              ? user.copyWith(profilePicture: existingPicture)
+              : user;
+          currentUserNotifier.value = updatedUser;
+          LogHelper.success("UserManager", "User fetched: ${updatedUser.email}");
           return true;
         },
       );

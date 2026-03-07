@@ -52,4 +52,7 @@ flutter:
 
   assets:
     - .env
+    - .env.dev
+    - .env.staging
+    - .env.prod
     - assets/images/

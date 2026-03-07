@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/logic/navigation/bottom_bar_logic.dart';
 import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 
 class MiniPlayer extends StatelessWidget {
   final BottomBarLogic logic;
   final AudioPlayerManager audioManager;
+  final void Function(int audioId)? onTap;
 
   const MiniPlayer({
     super.key,
     required this.logic,
     required this.audioManager,
+    this.onTap,
   });
 
   @override
@@ -29,9 +30,7 @@ class MiniPlayer extends StatelessWidget {
           listenable: logic,
           builder: (context, _) {
             return GestureDetector(
-              onTap: () {
-                context.push('/player/${currentAudio.id}');
-              },
+              onTap: () => onTap?.call(currentAudio.id),
               child: Container(
                 margin: EdgeInsets.fromLTRB(AppDims.w8, 0, AppDims.w8, AppDims.h8),
                 decoration: BoxDecoration(

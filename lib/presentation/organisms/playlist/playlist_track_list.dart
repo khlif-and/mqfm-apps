@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/playlist_track_tile.dart';
 
 class PlaylistTrackList extends StatelessWidget {
   final List<AudioEntity> audios;
+  final void Function(int audioId)? onAudioTap;
 
-  const PlaylistTrackList({super.key, required this.audios});
+  const PlaylistTrackList({super.key, required this.audios, this.onAudioTap});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,10 @@ class PlaylistTrackList extends StatelessWidget {
     }
 
     return Column(
-      children: audios.map((audio) => PlaylistTrackTile(audio: audio)).toList(),
+      children: audios.map((audio) => PlaylistTrackTile(
+        audio: audio,
+        onTap: onAudioTap != null ? () => onAudioTap!(audio.id) : null,
+      )).toList(),
     );
   }
 }

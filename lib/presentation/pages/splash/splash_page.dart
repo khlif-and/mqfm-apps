@@ -1,3 +1,4 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -52,10 +53,10 @@ class _SplashScreenState extends State<SplashScreen> {
     if (mounted) {
       if (isTokenValid) {
         LogHelper.info("SplashScreen", "Go to Dashboard");
-        context.go('/dashboard');
+        context.go(AppPathRoutes.dashboard);
       } else {
         LogHelper.info("SplashScreen", "Go to Onboarding");
-        context.go('/onboarding');
+        context.go(AppPathRoutes.onboarding);
       }
     }
   }

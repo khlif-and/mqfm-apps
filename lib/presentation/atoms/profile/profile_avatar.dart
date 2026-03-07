@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/api/api_constants.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 
 class ProfileAvatar extends StatelessWidget {
@@ -20,7 +21,8 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasImage = profilePictureUrl != null && profilePictureUrl!.isNotEmpty;
+    final fullUrl = ApiConstants.buildMediaUrl(profilePictureUrl);
+    final hasImage = fullUrl.isNotEmpty;
 
     return Container(
       width: size.w,
@@ -29,7 +31,7 @@ class ProfileAvatar extends StatelessWidget {
       child: hasImage
           ? ClipOval(
               child: Image.network(
-                profilePictureUrl!,
+                fullUrl,
                 width: size.w,
                 height: size.w,
                 fit: BoxFit.cover,

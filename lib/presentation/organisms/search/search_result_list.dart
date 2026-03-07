@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 
 class SearchResultList extends StatelessWidget {
   final List<AudioEntity> results;
+  final void Function(int audioId)? onAudioTap;
 
-  const SearchResultList({super.key, required this.results});
+  const SearchResultList({super.key, required this.results, this.onAudioTap});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,7 @@ class SearchResultList extends StatelessWidget {
       itemBuilder: (context, index) {
         final audio = results[index];
         return GestureDetector(
-          onTap: () {
-            context.push('/player/${audio.id}');
-          },
+          onTap: () => onAudioTap?.call(audio.id),
           child: Container(
             margin: EdgeInsets.only(bottom: AppDims.h12),
             padding: EdgeInsets.all(AppDims.r8),

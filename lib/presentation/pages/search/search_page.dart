@@ -1,17 +1,21 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_bloc.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_event.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_state.dart';
-import 'package:mqfm_apps/presentation/molecules/guide_tour/search_tour_targets.dart';
-import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_bloc.dart';
+import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_event.dart';
+import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_state.dart';
+import 'package:mqfm_apps/presentation/logic/search/search_sections_logic.dart';
+import 'package:mqfm_apps/presentation/logic/guide_tour/search_tour_targets.dart';
+import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_manager.dart';
 import 'package:mqfm_apps/presentation/organisms/search/browse_category_grid.dart';
 import 'package:mqfm_apps/presentation/organisms/search/discover_horizontal_list.dart';
 import 'package:mqfm_apps/presentation/organisms/search/search_header.dart';
@@ -26,6 +30,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
+  final SearchSectionsLogic _sectionsLogic = SearchSectionsLogic();
   final GlobalKey _profileKey = GlobalKey();
   final GlobalKey _searchBarKey = GlobalKey();
   final GlobalKey _mixedKey = GlobalKey();
@@ -36,6 +41,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    _sectionsLogic.addListener(_onSectionsChanged);
+    _sectionsLogic.fetchAudios();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final targets = buildSearchTargets(
         profileKey: _profileKey,
@@ -50,8 +57,16 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void dispose() {
     _debounce?.cancel();
+    _sectionsLogic.removeListener(_onSectionsChanged);
+    _sectionsLogic.dispose();
     _searchController.dispose();
     super.dispose();
+  }
+
+  void _onSectionsChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _onSearchChanged(String query) {
@@ -84,6 +99,9 @@ class _SearchPageState extends State<SearchPage> {
                   onChanged: _onSearchChanged,
                   profileKey: _profileKey,
                   searchBarKey: _searchBarKey,
+                  userData: UserManager.instance.currentUserNotifier.value,
+                  isUserLoading: UserManager.instance.isLoadingNotifier.value,
+                  onAvatarTap: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
               Expanded(
@@ -94,16 +112,32 @@ class _SearchPageState extends State<SearchPage> {
                     }
                     if (_isSearching) {
                       final results = state.maybeWhen(loaded: (audios) => audios, orElse: () => <AudioEntity>[]);
-                      return SearchResultList(results: results);
+                      return SearchResultList(
+                        results: results,
+                        onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+                      );
                     }
                     return SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(key: _mixedKey, child: const BrowseCategoryGrid()),
+                          Container(
+                            key: _mixedKey,
+                            child: BrowseCategoryGrid(
+                              audios: _sectionsLogic.audios,
+                              isLoading: _sectionsLogic.isLoading,
+                            ),
+                          ),
                           SizedBox(height: AppDims.h32),
-                          Container(key: _discoverKey, child: const DiscoverHorizontalList()),
+                          Container(
+                            key: _discoverKey,
+                            child: DiscoverHorizontalList(
+                              audios: _sectionsLogic.audios,
+                              isLoading: _sectionsLogic.isLoading,
+                              onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+                            ),
+                          ),
                           SizedBox(height: AppDims.h30),
                         ],
                       ),
@@ -118,4 +152,3 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
-

@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
-import 'package:mqfm_apps/features/auth/domain/entities/user_entity.dart';
-import 'package:mqfm_apps/presentation/atoms/common/custom_textfield.dart';
-import 'package:mqfm_apps/presentation/atoms/common/custom_button.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
+import 'package:mqfm_apps/presentation/molecules/profile/profile_avatar_builder.dart';
 
 class EditProfileForm extends StatelessWidget {
   final UserEntity? user;
@@ -30,120 +30,158 @@ class EditProfileForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppDims.w24,
-        vertical: AppDims.h16,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: AppDims.w24, vertical: AppDims.h24),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: AppDims.h16),
-          GestureDetector(
-            onTap: onPickImage,
-            child: Stack(
-              children: [
-                CircleAvatar(
-                  radius: AppDims.r50,
-                  backgroundColor: AppColors.surface,
-                  backgroundImage: selectedImage != null
-                      ? FileImage(selectedImage!)
-                      : (user?.profilePicture != null &&
-                            user!.profilePicture!.isNotEmpty)
-                      ? NetworkImage(user!.profilePicture!) as ImageProvider
-                      : null,
-                  child:
-                      selectedImage == null &&
-                          (user?.profilePicture == null ||
-                              user!.profilePicture!.isEmpty)
-                      ? Text(
-                          user?.initials ?? "?",
-                          style: TextStyle(
-                            color: AppColors.textWhite,
-                            fontSize: AppDims.sp28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : null,
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(AppDims.r6),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.background, width: 2),
-                    ),
-                    child: Icon(
-                      Icons.camera_alt_rounded,
-                      color: AppColors.backgroundBlack,
-                      size: AppDims.r16,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _buildAvatarSection(),
           SizedBox(height: AppDims.h32),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              AppStrings.usernameLabel,
-              style: TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: AppDims.sp13,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
+          _buildLabel(AppStrings.usernameLabel),
           SizedBox(height: AppDims.h8),
-          CustomTextField(
+          _buildTextField(
             controller: usernameController,
-            hintText: AppStrings.usernameHint,
-            style: TextStyle(
-              color: AppColors.textWhite,
-              fontSize: AppDims.sp15,
-            ),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: AppDims.w16,
-              vertical: AppDims.h14,
-            ),
+            hint: AppStrings.usernameHint,
+            enabled: !isLoading,
           ),
-          SizedBox(height: AppDims.h12),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              AppStrings.emailLabel,
-              style: TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: AppDims.sp13,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
+          SizedBox(height: AppDims.h20),
+          _buildLabel(AppStrings.emailLabel),
           SizedBox(height: AppDims.h8),
-          CustomTextField(
-            hintText: AppStrings.emailLabel,
+          _buildTextField(
             controller: emailController,
-            style: TextStyle(
-              color: AppColors.textWhite,
-              fontSize: AppDims.sp15,
-            ),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: AppDims.w16,
-              vertical: AppDims.h14,
-            ),
+            hint: AppStrings.emailHint,
+            keyboardType: TextInputType.emailAddress,
+            enabled: !isLoading,
           ),
           SizedBox(height: AppDims.h40),
-          CustomButton(
-            text: AppStrings.saveProfile,
-            isLoading: isLoading,
-            onPressed: onSave,
-            height: AppDims.h48,
+          _buildSaveButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAvatarSection() {
+    return Center(
+      child: Stack(
+        children: [
+          selectedImage != null
+              ? Container(
+                  width: 90.r,
+                  height: 90.r,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: ClipOval(
+                    child: Image.file(
+                      selectedImage!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : ProfileAvatarBuilder(size: 90, userData: user),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: GestureDetector(
+              onTap: onPickImage,
+              child: Container(
+                padding: EdgeInsets.all(AppDims.r8),
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.camera_alt,
+                  color: AppColors.onPrimary,
+                  size: AppDims.r16,
+                ),
+              ),
+            ),
           ),
         ],
       ),
     );
   }
-}
 
+  Widget _buildLabel(String label) {
+    return Text(
+      label,
+      style: TextStyle(
+        fontSize: AppDims.sp15,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textWhite,
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hint,
+    TextInputType keyboardType = TextInputType.text,
+    bool enabled = true,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      enabled: enabled,
+      style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp14),
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: TextStyle(color: AppColors.textMuted, fontSize: AppDims.sp14),
+        filled: true,
+        fillColor: AppColors.surface,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: AppDims.w16,
+          vertical: AppDims.h14,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDims.r12),
+          borderSide: const BorderSide(color: AppColors.inputBorder),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDims.r12),
+          borderSide: const BorderSide(color: AppColors.inputBorder),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDims.r12),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDims.r12),
+          borderSide: BorderSide(color: AppColors.inputBorder.withValues(alpha: 0.4)),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSaveButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: AppDims.h48,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onSave,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppDims.r30),
+          ),
+        ),
+        child: isLoading
+            ? SizedBox(
+                width: AppDims.r20,
+                height: AppDims.r20,
+                child: const CircularProgressIndicator(
+                  color: AppColors.onPrimary,
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                AppStrings.saveProfile,
+                style: TextStyle(
+                  color: AppColors.onPrimary,
+                  fontSize: AppDims.sp16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+      ),
+    );
+  }
+}

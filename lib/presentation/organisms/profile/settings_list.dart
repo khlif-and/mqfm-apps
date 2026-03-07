@@ -1,9 +1,11 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/molecules/profile/settings_tile.dart';
 
 class SettingsList extends StatelessWidget {
-  const SettingsList({super.key});
+  final void Function(String route)? onNavigate;
+
+  const SettingsList({super.key, this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +69,13 @@ class SettingsList extends StatelessWidget {
           icon: Icons.help_outline_rounded,
           title: 'Bantuan & FAQ',
           subtitle: 'Panduan Ekstensif',
-          onTap: () => context.push('/help'),
+          onTap: () => onNavigate?.call(AppPathRoutes.help),
         ),
         SettingsTile(
           icon: Icons.info_outline,
           title: 'Tentang Aplikasi',
           subtitle: 'Versi • Info Aplikasi',
-          onTap: () => context.push('/about'),
+          onTap: () => onNavigate?.call(AppPathRoutes.about),
         ),
       ],
     );
