@@ -22,7 +22,7 @@ class ProfileAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fullUrl = ApiConstants.buildMediaUrl(profilePictureUrl);
-    final hasImage = fullUrl.isNotEmpty;
+    final hasImage = fullUrl.isNotEmpty && Uri.tryParse(fullUrl)?.hasScheme == true;
 
     return Container(
       width: size.w,
