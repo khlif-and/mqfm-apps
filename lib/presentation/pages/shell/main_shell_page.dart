@@ -1,3 +1,4 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
@@ -5,10 +6,14 @@ import 'package:mqfm_apps/presentation/organisms/profile/sidebar_profile.dart';
 import 'package:mqfm_apps/presentation/pages/home/dashboard_page.dart';
 import 'package:mqfm_apps/presentation/pages/playlist/playlist_page.dart';
 import 'package:mqfm_apps/presentation/pages/search/search_page.dart';
-import 'package:mqfm_apps/presentation/molecules/guide_tour/sidebar_tour_targets.dart';
-import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
+import 'package:mqfm_apps/presentation/logic/guide_tour/sidebar_tour_targets.dart';
+import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_manager.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/manager/user_manager.dart';
+import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
+import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
+import 'package:mqfm_apps/presentation/logic/navigation/bottom_bar_logic.dart';
 
 class MainShellPage extends StatefulWidget {
   final int initialIndex;
@@ -25,6 +30,8 @@ class MainShellPage extends StatefulWidget {
 
 class MainShellPageState extends State<MainShellPage> {
   late int _currentIndex;
+  final BottomBarLogic _bottomBarLogic = BottomBarLogic();
+  final AudioPlayerManager _audioManager = AudioPlayerManager();
 
   final GlobalKey _sidebarProfileKey = GlobalKey();
   final GlobalKey _sidebarMenuKey = GlobalKey();
@@ -41,12 +48,32 @@ class MainShellPageState extends State<MainShellPage> {
     super.initState();
     _currentIndex = widget.initialIndex;
     _validateAndFetchUser();
+    _bottomBarLogic.fetchLikedStatus();
+    _bottomBarLogic.addListener(_onBottomBarLogicChange);
+  }
+
+  void _onBottomBarLogicChange() {
+    if (mounted && _bottomBarLogic.message != null) {
+      if (_bottomBarLogic.message!.contains("Gagal") ||
+          _bottomBarLogic.message!.contains("Silakan login")) {
+        MessageHelper.showError(context, _bottomBarLogic.message!);
+      } else {
+        MessageHelper.showSuccess(context, _bottomBarLogic.message!);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _bottomBarLogic.removeListener(_onBottomBarLogicChange);
+    _bottomBarLogic.dispose();
+    super.dispose();
   }
 
   Future<void> _validateAndFetchUser() async {
     final isValid = await UserManager.instance.fetchUser();
     if (!isValid && mounted) {
-      context.go('/onboarding');
+      context.go(AppPathRoutes.onboarding);
     }
   }
 
@@ -80,13 +107,33 @@ class MainShellPageState extends State<MainShellPage> {
           });
         }
       },
-      drawer: SidebarProfile(
-        profileSectionKey: _sidebarProfileKey,
-        menuSectionKey: _sidebarMenuKey,
-        settingsKey: _sidebarSettingsKey,
+      drawer: ValueListenableBuilder<bool>(
+        valueListenable: UserManager.instance.isLoadingNotifier,
+        builder: (context, isLoading, _) {
+          return ValueListenableBuilder<UserEntity?>(
+            valueListenable: UserManager.instance.currentUserNotifier,
+            builder: (context, userData, _) {
+              return SidebarProfile(
+                userData: userData,
+                isLoading: isLoading,
+                profileSectionKey: _sidebarProfileKey,
+                menuSectionKey: _sidebarMenuKey,
+                settingsKey: _sidebarSettingsKey,
+                onNavigate: (route) => context.push(route),
+              );
+            },
+          );
+        },
       ),
       body: IndexedStack(index: _currentIndex, children: _pages),
-      bottomNavigationBar: BottomBar(currentIndex: _currentIndex),
+      bottomNavigationBar: BottomBar(
+        currentIndex: _currentIndex,
+        onTabSelected: switchTab,
+        logic: _bottomBarLogic,
+        audioManager: _audioManager,
+        onFavoritesTap: () => context.push(AppPathRoutes.favorites),
+        onMiniPlayerTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+      ),
     );
   }
 }

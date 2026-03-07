@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:mqfm_apps/presentation/pages/splash/splash_page.dart';
 import 'package:mqfm_apps/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:mqfm_apps/presentation/pages/auth/register_page.dart';
@@ -15,89 +16,89 @@ import 'package:mqfm_apps/presentation/pages/help/help_faq_page.dart';
 import 'package:mqfm_apps/presentation/pages/download/downloads_page.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: AppPathRoutes.splash,
   routes: [
     GoRoute(
-      path: '/',
+      path: AppPathRoutes.splash,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: SplashScreen()),
     ),
     GoRoute(
-      path: '/onboarding',
+      path: AppPathRoutes.onboarding,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: OnboardingScreen()),
     ),
     GoRoute(
-      path: '/register',
+      path: AppPathRoutes.register,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: RegisterPage()),
     ),
     GoRoute(
-      path: '/login-form',
+      path: AppPathRoutes.login,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: LoginPage()),
     ),
     GoRoute(
-      path: '/dashboard',
+      path: AppPathRoutes.dashboard,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: MainShellPage()),
     ),
     GoRoute(
-      path: '/search',
+      path: AppPathRoutes.search,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: MainShellPage(initialIndex: 1)),
     ),
     GoRoute(
-      path: '/playlist',
+      path: AppPathRoutes.playlist,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: MainShellPage(initialIndex: 2)),
     ),
     GoRoute(
-      path: '/settings',
+      path: AppPathRoutes.settings,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: ProfileSettingsPage()),
     ),
     GoRoute(
-      path: '/player/:id',
+      path: '${AppPathRoutes.player}/:id',
       pageBuilder: (context, state) {
         final id = state.pathParameters['id']!;
         return NoTransitionPage(child: PlayerPage(audioId: id));
       },
     ),
     GoRoute(
-      path: '/playlist/:id',
+      path: '${AppPathRoutes.playlistDetail}/:id',
       pageBuilder: (context, state) {
         final id = state.pathParameters['id']!;
         return NoTransitionPage(child: PlaylistDetailPage(playlistId: id));
       },
     ),
     GoRoute(
-      path: '/favorites',
+      path: AppPathRoutes.favorites,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: LikedAudiosPage()),
     ),
     GoRoute(
-      path: '/history',
+      path: AppPathRoutes.history,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: HistoryPage()),
     ),
     GoRoute(
-      path: '/edit-profile',
+      path: AppPathRoutes.editProfile,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: EditProfilePage()),
     ),
     GoRoute(
-      path: '/about',
+      path: AppPathRoutes.about,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: AboutAppPage()),
     ),
     GoRoute(
-      path: '/help',
+      path: AppPathRoutes.help,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: HelpFaqPage()),
     ),
     GoRoute(
-      path: '/downloads',
+      path: AppPathRoutes.downloads,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: DownloadsPage()),
     ),

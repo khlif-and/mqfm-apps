@@ -1,3 +1,4 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -55,7 +56,7 @@ class OnboardingScreen extends StatelessWidget {
               CustomButton(
                 text: AppStrings.btnDaftar,
                 onPressed: () {
-                  context.push('/register');
+                  context.push(AppPathRoutes.register);
                 },
                 backgroundColor: AppColors.primary,
                 textColor: AppColors.backgroundBlack,
@@ -66,7 +67,7 @@ class OnboardingScreen extends StatelessWidget {
               CustomButton(
                 text: AppStrings.btnLoginMQFM,
                 onPressed: () {
-                  context.push('/login-form');
+                  context.push(AppPathRoutes.login);
                 },
                 backgroundColor: AppColors.transparent,
                 textColor: AppColors.textWhite,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/domain/repositories/i_audio_repository.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/features/audio/domain/interfaces/i_audio_repository.dart';
 
 class HistoryLogic extends ChangeNotifier {
   final IAudioRepository _audioRepository = getIt<IAudioRepository>();

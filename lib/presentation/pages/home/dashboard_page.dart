@@ -1,24 +1,28 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_bloc.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_event.dart';
-import 'package:mqfm_apps/features/audio/presentation/bloc/audio_list_bloc/audio_list_state.dart';
-import 'package:mqfm_apps/features/categories/domain/entities/category_entity.dart';
-import 'package:mqfm_apps/features/categories/presentation/bloc/category_bloc/category_bloc.dart';
-import 'package:mqfm_apps/features/categories/presentation/bloc/category_bloc/category_event.dart';
-import 'package:mqfm_apps/features/categories/presentation/bloc/category_bloc/category_state.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_bloc.dart';
+import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_event.dart';
+import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_state.dart';
+import 'package:mqfm_apps/features/categories/domain/entities/category.dart';
+import 'package:mqfm_apps/features/categories/applications/category_bloc/category_bloc.dart';
+import 'package:mqfm_apps/features/categories/applications/category_bloc/category_event.dart';
+import 'package:mqfm_apps/features/categories/applications/category_bloc/category_state.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:mqfm_apps/presentation/molecules/dashboard/quote_card.dart';
-import 'package:mqfm_apps/presentation/molecules/guide_tour/guide_tour_targets.dart';
+import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_targets.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/dashboard_header.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/horizontal_content_list.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/menu_grid.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/vertical_content_list.dart';
-import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
+import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_manager.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -112,10 +116,18 @@ class _DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<_DashboardView> {
+  bool _isHistoryLoading = true;
+
   @override
   void initState() {
     super.initState();
     widget.onInitTour();
+    _loadHistory();
+  }
+
+  Future<void> _loadHistory() async {
+    await PreferencesHelper.getPlayedAudios();
+    if (mounted) setState(() => _isHistoryLoading = false);
   }
 
   List<AudioEntity> _filterAudios(List<AudioEntity> audios, int categoryId) {
@@ -153,6 +165,9 @@ class _DashboardViewState extends State<_DashboardView> {
                   },
                   profileKey: widget.profileKey,
                   categoryKey: widget.categoryKey,
+                  userData: UserManager.instance.currentUserNotifier.value,
+                  isUserLoading: UserManager.instance.isLoadingNotifier.value,
+                  onAvatarTap: () => Scaffold.of(context).openDrawer(),
                 ),
                 Expanded(
                   child: RefreshIndicator(
@@ -172,9 +187,16 @@ class _DashboardViewState extends State<_DashboardView> {
                             ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
-                            child: MenuGrid(
-                              key: widget.menuGridKey,
-                              selectedCategoryId: widget.selectedCategoryId,
+                            child: ValueListenableBuilder<List<AudioEntity>>(
+                              valueListenable: PreferencesHelper.historyNotifier,
+                              builder: (context, historyAudios, _) {
+                                return MenuGrid(
+                                  key: widget.menuGridKey,
+                                  historyAudios: historyAudios,
+                                  isLoading: _isHistoryLoading,
+                                  onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+                                );
+                              },
                             ),
                           ),
                           SizedBox(height: AppDims.h24),
@@ -188,6 +210,7 @@ class _DashboardViewState extends State<_DashboardView> {
                             child: HorizontalContentList(
                               audios: filteredAudios,
                               isLoading: isAudioLoading,
+                              onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
                             ),
                           ),
                           SizedBox(height: AppDims.h24),
@@ -198,6 +221,7 @@ class _DashboardViewState extends State<_DashboardView> {
                               child: VerticalContentList(
                                 audios: filteredAudios,
                                 isLoading: isAudioLoading,
+                                onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
                               ),
                             ),
                           ),
@@ -215,4 +239,3 @@ class _DashboardViewState extends State<_DashboardView> {
     );
   }
 }
-

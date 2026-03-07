@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 
 class LikedAudioTile extends StatelessWidget {
   final AudioEntity audio;
   final VoidCallback onUnlike;
+  final VoidCallback? onTap;
 
   const LikedAudioTile({
     super.key,
     required this.audio,
     required this.onUnlike,
+    this.onTap,
   });
 
   @override
@@ -61,9 +62,7 @@ class LikedAudioTile extends StatelessWidget {
           icon: Icon(Icons.favorite, color: AppColors.success),
           onPressed: onUnlike,
         ),
-        onTap: () {
-          context.push('/player/${audio.id}');
-        },
+        onTap: onTap,
       ),
     );
   }

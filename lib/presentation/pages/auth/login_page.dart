@@ -1,19 +1,21 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/login_bloc/login_event.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/login_bloc/login_state.dart';
+import 'package:mqfm_apps/features/auth/applications/login_bloc/login_bloc.dart';
+import 'package:mqfm_apps/features/auth/applications/login_bloc/login_event.dart';
+import 'package:mqfm_apps/features/auth/applications/login_bloc/login_state.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/login_button.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/login_title.dart';
-import 'package:mqfm_apps/presentation/atoms/common/google_sign_in_button.dart';
-import 'package:mqfm_apps/presentation/organisms/auth/login_form_section.dart';
+import 'package:mqfm_apps/presentation/molecules/common/google_sign_in_button.dart';
+import 'package:mqfm_apps/presentation/molecules/auth/login_form_section.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -42,8 +44,9 @@ class _LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           state.whenOrNull(
             success: (user) {
+              UserManager.instance.setUser(user);
               MessageHelper.showSuccess(context, '${AppStrings.loginSuccess} ${user.username}');
-              context.go('/dashboard');
+              context.go(AppPathRoutes.dashboard);
             },
             error: (message) => MessageHelper.showError(context, message),
           );
@@ -119,4 +122,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

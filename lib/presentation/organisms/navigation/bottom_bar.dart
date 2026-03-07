@@ -2,54 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:mqfm_apps/presentation/logic/navigation/bottom_bar_logic.dart';
 import 'package:mqfm_apps/presentation/molecules/navigation/main_bottom_navigation.dart';
 import 'package:mqfm_apps/presentation/organisms/player/mini_player.dart';
-import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
 import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 
-class BottomBar extends StatefulWidget {
+class BottomBar extends StatelessWidget {
   final int currentIndex;
+  final ValueChanged<int>? onTabSelected;
+  final BottomBarLogic logic;
+  final AudioPlayerManager audioManager;
+  final VoidCallback? onFavoritesTap;
+  final void Function(int audioId)? onMiniPlayerTap;
 
-  const BottomBar({super.key, this.currentIndex = 0});
-
-  @override
-  State<BottomBar> createState() => _BottomBarState();
-}
-
-class _BottomBarState extends State<BottomBar> {
-  final BottomBarLogic logic = BottomBarLogic();
-  final AudioPlayerManager audioManager = AudioPlayerManager();
-
-  @override
-  void initState() {
-    super.initState();
-    logic.fetchLikedStatus();
-    logic.addListener(_onLogicChange);
-  }
-
-  void _onLogicChange() {
-    if (mounted && logic.message != null) {
-      if (logic.message!.contains("Gagal") ||
-          logic.message!.contains("Silakan login")) {
-        MessageHelper.showError(context, logic.message!);
-      } else {
-        MessageHelper.showSuccess(context, logic.message!);
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    logic.removeListener(_onLogicChange);
-    logic.dispose();
-    super.dispose();
-  }
+  const BottomBar({
+    super.key,
+    this.currentIndex = 0,
+    this.onTabSelected,
+    required this.logic,
+    required this.audioManager,
+    this.onFavoritesTap,
+    this.onMiniPlayerTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        MiniPlayer(logic: logic, audioManager: audioManager),
-        MainBottomNavigation(currentIndex: widget.currentIndex),
+        MiniPlayer(logic: logic, audioManager: audioManager, onTap: onMiniPlayerTap),
+        MainBottomNavigation(
+          currentIndex: currentIndex,
+          onTabSelected: onTabSelected,
+          onFavoritesTap: onFavoritesTap,
+        ),
       ],
     );
   }

@@ -1,15 +1,20 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:mqfm_apps/features/playlist/domain/entities/playlist_entity.dart';
-import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_bloc.dart';
-import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_event.dart';
-import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_state.dart';
-import 'package:mqfm_apps/presentation/molecules/guide_tour/playlist_tour_targets.dart';
-import 'package:mqfm_apps/presentation/organisms/guide_tour/guide_tour_manager.dart';
+import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
+import 'package:mqfm_apps/features/playlist/domain/entities/playlist.dart';
+import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_bloc.dart';
+import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_event.dart';
+import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_state.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
+import 'package:mqfm_apps/presentation/logic/profile/profile_pic_logic.dart';
+import 'package:mqfm_apps/presentation/logic/guide_tour/playlist_tour_targets.dart';
+import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_manager.dart';
 import 'package:mqfm_apps/presentation/organisms/playlist/library_header.dart';
 import 'package:mqfm_apps/presentation/organisms/playlist/library_playlist_list.dart';
 import 'package:mqfm_apps/presentation/organisms/playlist/library_static_items.dart';
@@ -70,19 +75,31 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   children: [
                     Container(
                       key: _headerKey,
-                      child: LibraryHeader(
-                        onSearchChanged: (q) => setState(() => _searchQuery = q.toLowerCase()),
-                        searchKey: _searchKey,
+                      child: ValueListenableBuilder<UserEntity?>(
+                        valueListenable: UserManager.instance.currentUserNotifier,
+                        builder: (context, userData, _) {
+                          return LibraryHeader(
+                            displayUsername: ProfilePicLogic.getDisplayUsername(userData),
+                            onSearchChanged: (q) => setState(() => _searchQuery = q.toLowerCase()),
+                            searchKey: _searchKey,
+                            userData: userData,
+                            isUserLoading: UserManager.instance.isLoadingNotifier.value,
+                            onAvatarTap: () => Scaffold.of(context).openDrawer(),
+                          );
+                        },
                       ),
                     ),
                     SizedBox(height: AppDims.h24),
-                    Container(key: _staticItemsKey, child: const LibraryStaticItems()),
+                    Container(key: _staticItemsKey, child: LibraryStaticItems(
+                      onFavoritesTap: () => context.push(AppPathRoutes.favorites),
+                    )),
                     Container(
                       key: _playlistListKey,
                       child: LibraryPlaylistList(
                         isLoading: isLoading,
                         errorMessage: errorMessage,
                         playlists: playlists,
+                        onPlaylistTap: (playlistId) => context.push(AppPathRoutes.playlistDetailWithId(playlistId.toString())),
                       ),
                     ),
                     SizedBox(height: AppDims.h80),
@@ -96,4 +113,3 @@ class _PlaylistPageState extends State<PlaylistPage> {
     );
   }
 }
-

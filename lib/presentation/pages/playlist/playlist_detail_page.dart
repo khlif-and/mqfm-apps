@@ -1,3 +1,4 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,10 +7,10 @@ import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
-import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_bloc.dart';
-import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_event.dart';
-import 'package:mqfm_apps/features/playlist/presentation/bloc/playlist_bloc/playlist_state.dart';
-import 'package:mqfm_apps/presentation/organisms/playlist/playlist_detail_header.dart';
+import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_bloc.dart';
+import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_event.dart';
+import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_state.dart';
+import 'package:mqfm_apps/presentation/molecules/playlist/playlist_detail_header.dart';
 import 'package:mqfm_apps/presentation/organisms/playlist/playlist_track_list.dart';
 
 class PlaylistDetailPage extends StatelessWidget {
@@ -44,7 +45,10 @@ class PlaylistDetailPage extends StatelessWidget {
                   children: [
                     PlaylistDetailHeader(playlist: playlist),
                     SizedBox(height: AppDims.h24),
-                    PlaylistTrackList(audios: playlist.audios),
+                    PlaylistTrackList(
+                      audios: playlist.audios,
+                      onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+                    ),
                   ],
                 ),
               ),
@@ -63,4 +67,3 @@ class PlaylistDetailPage extends StatelessWidget {
     );
   }
 }
-

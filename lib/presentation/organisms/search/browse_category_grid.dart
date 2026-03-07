@@ -1,47 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:mqfm_apps/core/di/injection.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
-import 'package:mqfm_apps/features/audio/domain/repositories/i_audio_repository.dart';
-import 'package:mqfm_apps/presentation/atoms/common/empty_state_card.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/molecules/search/mixed_card.dart';
 import 'package:shimmer/shimmer.dart';
 
-class BrowseCategoryGrid extends StatefulWidget {
-  const BrowseCategoryGrid({super.key});
+class BrowseCategoryGrid extends StatelessWidget {
+  final List<AudioEntity> audios;
+  final bool isLoading;
 
-  @override
-  State<BrowseCategoryGrid> createState() => _BrowseCategoryGridState();
-}
-
-class _BrowseCategoryGridState extends State<BrowseCategoryGrid> {
-  final IAudioRepository _audioRepository = getIt<IAudioRepository>();
-  List<AudioEntity> _audios = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchAudios();
-  }
-
-  Future<void> _fetchAudios() async {
-    try {
-      final result = await _audioRepository.getAudios();
-      if (mounted) {
-        result.fold(
-          (error) => setState(() => _isLoading = false),
-          (audios) => setState(() {
-            _audios = audios;
-            _isLoading = false;
-          }),
-        );
-      }
-    } catch (e) {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
+  const BrowseCategoryGrid({
+    super.key,
+    required this.audios,
+    required this.isLoading,
+  });
 
   List<List<AudioEntity>> _groupAudios(
     List<AudioEntity> audios,
@@ -57,7 +30,7 @@ class _BrowseCategoryGridState extends State<BrowseCategoryGrid> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
+    if (isLoading) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -130,7 +103,7 @@ class _BrowseCategoryGridState extends State<BrowseCategoryGrid> {
           ),
         ),
         SizedBox(height: AppDims.h16),
-        if (_audios.isEmpty)
+        if (audios.isEmpty)
           const EmptyStateCard(
             message: 'Belum ada data saat ini',
             icon: Icons.library_music_outlined,
@@ -141,7 +114,7 @@ class _BrowseCategoryGridState extends State<BrowseCategoryGrid> {
             clipBehavior: Clip.none,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: _groupAudios(_audios, 4).map((group) {
+              children: _groupAudios(audios, 4).map((group) {
                 final imageUrls = group
                     .map(
                       (a) => a.thumbnail.isNotEmpty

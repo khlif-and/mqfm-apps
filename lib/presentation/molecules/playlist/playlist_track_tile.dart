@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio_entity.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 
 class PlaylistTrackTile extends StatelessWidget {
   final AudioEntity audio;
+  final VoidCallback? onTap;
 
-  const PlaylistTrackTile({super.key, required this.audio});
+  const PlaylistTrackTile({super.key, required this.audio, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,7 @@ class PlaylistTrackTile extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      onTap: () {
-        context.push('/player/${audio.id}');
-      },
+      onTap: onTap,
     );
   }
 }

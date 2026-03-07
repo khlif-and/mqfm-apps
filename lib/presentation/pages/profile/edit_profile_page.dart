@@ -6,13 +6,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/profile_bloc/profile_bloc.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/profile_bloc/profile_event.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/profile_bloc/profile_state.dart';
-import 'package:mqfm_apps/presentation/atoms/common/custom_app_bar.dart';
-import 'package:mqfm_apps/presentation/atoms/common/image_picker_bottom_sheet.dart';
+import 'package:mqfm_apps/features/auth/applications/profile_bloc/profile_bloc.dart';
+import 'package:mqfm_apps/features/auth/applications/profile_bloc/profile_event.dart';
+import 'package:mqfm_apps/features/auth/applications/profile_bloc/profile_state.dart';
+import 'package:mqfm_apps/presentation/molecules/common/custom_app_bar.dart';
+import 'package:mqfm_apps/presentation/organisms/common/image_picker_bottom_sheet.dart';
 import 'package:mqfm_apps/presentation/organisms/profile/edit_profile_form.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -44,7 +45,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void _showImageSourceActionSheet(BuildContext context) {
-    ImagePickerBottomSheet.show(context, onImageSourceSelected: _pickImage);
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppDims.r16)),
+      ),
+      builder: (BuildContext ctx) {
+        return ImagePickerBottomSheet(
+          onImageSourceSelected: _pickImage,
+        );
+      },
+    );
   }
 
   @override

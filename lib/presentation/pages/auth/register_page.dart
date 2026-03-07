@@ -1,3 +1,4 @@
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,17 +9,17 @@ import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/login_bloc/login_event.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/login_bloc/login_state.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/register_bloc/register_event.dart';
-import 'package:mqfm_apps/features/auth/presentation/bloc/register_bloc/register_state.dart';
+import 'package:mqfm_apps/features/auth/applications/login_bloc/login_bloc.dart';
+import 'package:mqfm_apps/features/auth/applications/login_bloc/login_event.dart';
+import 'package:mqfm_apps/features/auth/applications/login_bloc/login_state.dart';
+import 'package:mqfm_apps/features/auth/applications/register_bloc/register_bloc.dart';
+import 'package:mqfm_apps/features/auth/applications/register_bloc/register_event.dart';
+import 'package:mqfm_apps/features/auth/applications/register_bloc/register_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/register_button.dart';
 import 'package:mqfm_apps/presentation/atoms/auth/register_title.dart';
-import 'package:mqfm_apps/presentation/atoms/common/google_sign_in_button.dart';
-import 'package:mqfm_apps/presentation/organisms/auth/register_form_section.dart';
+import 'package:mqfm_apps/presentation/molecules/common/google_sign_in_button.dart';
+import 'package:mqfm_apps/presentation/molecules/auth/register_form_section.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -62,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
           state.whenOrNull(
             success: (user) {
               MessageHelper.showSuccess(context, '${AppStrings.registerSuccess} ${user.username}');
-              context.go('/login-form');
+              context.go(AppPathRoutes.login);
             },
             error: (message) => MessageHelper.showError(context, message),
           );
@@ -73,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
           return BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
               state.whenOrNull(
-                success: (_) => context.go('/dashboard'),
+                success: (_) => context.go(AppPathRoutes.dashboard),
                 error: (message) => MessageHelper.showError(context, message),
               );
             },
@@ -186,4 +187,3 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
-
