@@ -7,6 +7,8 @@ class ApiConstants {
   static String buildMediaUrl(String? relativePath) {
     if (relativePath == null || relativePath.isEmpty) return '';
     if (relativePath.startsWith('http')) return relativePath;
-    return '$baseUrl/$relativePath';
+    final base = baseUrl;
+    if (base.isEmpty) return '';
+    return '$base/$relativePath';
   }
 }
