@@ -20,7 +20,7 @@ abstract class AudioRemoteDatasource {
   Future<BaseResponse<List<AudioDto>>> searchAudios(@Query('q') String query);
 
   @GET('/api/user/history')
-  Future<BaseResponse<List<AudioDto>>> getHistory();
+  Future<dynamic> getHistory();
 
   @DELETE('/api/user/history/clear')
   Future<BaseResponse<dynamic>> clearHistory();

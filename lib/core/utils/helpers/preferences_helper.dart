@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PreferencesHelper {
   static const String _authTokenKey = 'auth_token';
   static const String _historyKey = 'played_history';
+  static const String _likedAudioIdsKey = 'liked_audio_ids';
+  static const String _onboardingPickDoneKey = 'onboarding_pick_done';
 
   static final ValueNotifier<List<AudioEntity>> historyNotifier = ValueNotifier(
     [],
@@ -118,5 +120,42 @@ class PreferencesHelper {
     historyNotifier.value = audios;
 
     return audios;
+  }
+
+  static Future<Set<int>> getLikedAudioIds() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> ids = prefs.getStringList(_likedAudioIdsKey) ?? [];
+    return ids.map(int.parse).toSet();
+  }
+
+  static Future<void> addLikedAudioId(int audioId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> ids = prefs.getStringList(_likedAudioIdsKey) ?? [];
+    if (!ids.contains(audioId.toString())) {
+      ids.add(audioId.toString());
+      await prefs.setStringList(_likedAudioIdsKey, ids);
+    }
+  }
+
+  static Future<void> removeLikedAudioId(int audioId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> ids = prefs.getStringList(_likedAudioIdsKey) ?? [];
+    ids.remove(audioId.toString());
+    await prefs.setStringList(_likedAudioIdsKey, ids);
+  }
+
+  static Future<bool> isAudioLiked(int audioId) async {
+    final ids = await getLikedAudioIds();
+    return ids.contains(audioId);
+  }
+
+  static Future<void> setOnboardingPickDone() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_onboardingPickDoneKey, true);
+  }
+
+  static Future<bool> isOnboardingPickDone() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_onboardingPickDoneKey) ?? false;
   }
 }

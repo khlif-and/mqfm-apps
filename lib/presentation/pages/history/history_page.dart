@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/logic/history/history_logic.dart';
 import 'package:mqfm_apps/presentation/organisms/history/history_audio_list.dart';
+import 'package:mqfm_apps/presentation/molecules/navigation/main_bottom_navigation.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -141,6 +142,16 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         ],
       ),
+      bottomNavigationBar: MainBottomNavigation(
+        onTabSelected: (index) {
+          switch (index) {
+            case 0: context.go(AppPathRoutes.dashboard);
+            case 1: context.go(AppPathRoutes.search);
+            case 2: context.go(AppPathRoutes.playlist);
+          }
+        },
+        onFavoritesTap: () => context.go(AppPathRoutes.favorites),
+      ),
       body: ListenableBuilder(
         listenable: logic,
         builder: (context, child) {
@@ -172,10 +183,15 @@ class _HistoryPageState extends State<HistoryPage> {
             );
           }
 
-          return HistoryAudioList(
-            histories: logic.histories,
-            onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
-            onDeleteItem: (audioId) => logic.deleteItem(audioId),
+          return RefreshIndicator(
+            onRefresh: () => logic.fetchHistory(),
+            color: AppColors.primaryClassic,
+            backgroundColor: AppColors.surface,
+            child: HistoryAudioList(
+              histories: logic.histories,
+              onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+              onDeleteItem: (audioId) => logic.deleteItem(audioId),
+            ),
           );
         },
       ),

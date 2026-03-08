@@ -7,6 +7,7 @@ import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/features/recommendation/applications/onboarding_pick_bloc/onboarding_pick_bloc.dart';
 import 'package:mqfm_apps/features/recommendation/applications/onboarding_pick_bloc/onboarding_pick_event.dart';
@@ -145,8 +146,10 @@ class _OnboardingPickView extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TextButton(
-                          onPressed: () =>
-                              context.go(AppPathRoutes.dashboard),
+                          onPressed: () async {
+                            await PreferencesHelper.setOnboardingPickDone();
+                            if (context.mounted) context.go(AppPathRoutes.dashboard);
+                          },
                           child: Text(
                             "Lewati",
                             style: TextStyle(
@@ -164,8 +167,10 @@ class _OnboardingPickView extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: state.selectedIds.isEmpty
                                 ? null
-                                : () =>
-                                    context.go(AppPathRoutes.dashboard),
+                                : () async {
+                                    await PreferencesHelper.setOnboardingPickDone();
+                                    if (context.mounted) context.go(AppPathRoutes.dashboard);
+                                  },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryClassic,
                               disabledBackgroundColor:

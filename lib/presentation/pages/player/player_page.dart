@@ -50,6 +50,13 @@ class _PlayerPageState extends State<PlayerPage> {
     super.initState();
     _pageController = PageController();
     _audioManager.queueIndexNotifier.addListener(_onQueueIndexChanged);
+    _loadLikeState();
+  }
+
+  Future<void> _loadLikeState() async {
+    final audioId = int.tryParse(widget.audioId) ?? 0;
+    final liked = await PreferencesHelper.isAudioLiked(audioId);
+    if (mounted) setState(() => _isLiked = liked);
   }
 
   @override
@@ -70,7 +77,16 @@ class _PlayerPageState extends State<PlayerPage> {
         curve: Curves.easeInOut,
       ).then((_) => _isPageAnimating = false);
     }
+    _updateLikeState();
     setState(() {});
+  }
+
+  Future<void> _updateLikeState() async {
+    final audio = _audioManager.currentAudio;
+    if (audio != null) {
+      final liked = await PreferencesHelper.isAudioLiked(audio.id);
+      if (mounted) setState(() => _isLiked = liked);
+    }
   }
 
   void _buildQueue(AudioEntity mainAudio, List<AudioEntity> similar) {
@@ -249,13 +265,15 @@ class _PlayerPageState extends State<PlayerPage> {
           padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
           child: PlayerHeader(
             onBack: () => context.pop(),
-            onMenu: () => PlayerDialogHelper.showQueueBottomSheet(
-              context,
-              currentAudioTitle: currentAudio.title,
-              queue: queue.length > 1
-                  ? queue.sublist(_audioManager.queueIndexNotifier.value + 1)
-                  : [],
-            ),
+            onMenu: () {
+              final startIdx = _audioManager.queueIndexNotifier.value + 1;
+              PlayerDialogHelper.showQueueBottomSheet(
+                context,
+                currentAudioTitle: currentAudio.title,
+                queue: queue.length > 1 ? queue.sublist(startIdx) : [],
+                onPlayAt: (index) => _audioManager.playAt(startIdx + index),
+              );
+            },
           ),
         ),
         SizedBox(height: AppDims.h24),
@@ -303,16 +321,24 @@ class _PlayerPageState extends State<PlayerPage> {
           child: PlayerBottomActions(
             isLiked: _isLiked,
             onLikeTap: () {
-              context.read<LikeBloc>().add(LikeEvent.toggle(audioId: currentAudio.id));
+              if (_isLiked) {
+                context.read<LikeBloc>().add(LikeEvent.unlike(audioId: currentAudio.id, index: 0));
+                PreferencesHelper.removeLikedAudioId(currentAudio.id);
+              } else {
+                context.read<LikeBloc>().add(LikeEvent.toggle(audioId: currentAudio.id));
+                PreferencesHelper.addLikedAudioId(currentAudio.id);
+              }
               setState(() => _isLiked = !_isLiked);
             },
-            onQueueTap: () => PlayerDialogHelper.showQueueBottomSheet(
-              context,
-              currentAudioTitle: currentAudio.title,
-              queue: queue.length > 1
-                  ? queue.sublist(_audioManager.queueIndexNotifier.value + 1)
-                  : [],
-            ),
+            onQueueTap: () {
+              final startIdx = _audioManager.queueIndexNotifier.value + 1;
+              PlayerDialogHelper.showQueueBottomSheet(
+                context,
+                currentAudioTitle: currentAudio.title,
+                queue: queue.length > 1 ? queue.sublist(startIdx) : [],
+                onPlayAt: (index) => _audioManager.playAt(startIdx + index),
+              );
+            },
           ),
         ),
         SizedBox(height: AppDims.h20),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mqfm_apps/core/routes/app_path_routes.dart';
+import 'package:mqfm_apps/core/manager/playlist_change_notifier.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
@@ -25,7 +24,15 @@ class PlayerDialogHelper {
       ),
       builder: (sheetContext) => BlocProvider.value(
         value: bloc,
-        child: BlocBuilder<PlaylistBloc, PlaylistState>(
+        child: BlocConsumer<PlaylistBloc, PlaylistState>(
+          listener: (ctx, state) {
+            state.whenOrNull(
+              audioAdded: () {
+                PlaylistChangeNotifier.notifyChange();
+                Navigator.pop(ctx);
+              },
+            );
+          },
           builder: (ctx, state) {
             return AddToPlaylistSheet(
               playlists: state.maybeWhen(
@@ -99,6 +106,7 @@ class PlayerDialogHelper {
     BuildContext context, {
     required String currentAudioTitle,
     required List<AudioEntity> queue,
+    void Function(int index)? onPlayAt,
   }) {
     showModalBottomSheet(
       context: context,
@@ -114,7 +122,10 @@ class PlayerDialogHelper {
         currentAudioTitle: currentAudioTitle,
         queue: queue,
         onAudioTap: (audio) {
-          context.pushReplacement(AppPathRoutes.playerWithId(audio.id.toString()));
+          if (onPlayAt != null) {
+            final idx = queue.indexOf(audio);
+            if (idx >= 0) onPlayAt(idx);
+          }
         },
       ),
     );

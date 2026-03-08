@@ -19,6 +19,7 @@ class AppPathRoutes {
   static const String about = '/about';
   static const String help = '/help';
   static const String downloads = '/downloads';
+  static const String mixDetail = '/mix-detail';
 
   static String playerWithId(String id) => '$player/$id';
   static String playlistDetailWithId(String id) => '$playlistDetail/$id';
