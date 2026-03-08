@@ -10,12 +10,14 @@ import 'package:mqfm_apps/presentation/atoms/common/shimmer_box.dart';
 class HorizontalContentList extends StatelessWidget {
   final List<AudioEntity> audios;
   final bool isLoading;
+  final String? title;
   final void Function(int audioId)? onAudioTap;
 
   const HorizontalContentList({
     super.key,
     required this.audios,
     this.isLoading = false,
+    this.title,
     this.onAudioTap,
   });
 
@@ -28,6 +30,8 @@ class HorizontalContentList extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
           scrollDirection: Axis.horizontal,
           itemCount: 5,
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: true,
           separatorBuilder: (_, __) => SizedBox(width: AppDims.w16),
           itemBuilder: (_, __) => SizedBox(
             width: AppDims.w140,
@@ -47,16 +51,10 @@ class HorizontalContentList extends StatelessWidget {
     }
 
     if (audios.isEmpty) {
-      return SizedBox(
-        height: AppDims.h50,
-        child: Center(
-          child: Text(
-            AppStrings.noCategoryContent,
-            style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp12),
-          ),
-        ),
-      );
+      return const SizedBox.shrink();
     }
+
+    final displayTitle = title ?? AppStrings.audiencePicks;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +62,7 @@ class HorizontalContentList extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
           child: Text(
-            AppStrings.audiencePicks,
+            displayTitle,
             style: TextStyle(
               color: AppColors.textWhite,
               fontSize: AppDims.sp18,
@@ -79,41 +77,46 @@ class HorizontalContentList extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
             scrollDirection: Axis.horizontal,
             itemCount: audios.length,
+            cacheExtent: 300,
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: true,
             separatorBuilder: (_, __) => SizedBox(width: AppDims.w16),
             itemBuilder: (context, index) {
               final audio = audios[index];
-              return GestureDetector(
-                onTap: () => onAudioTap?.call(audio.id),
-                child: SizedBox(
-                  width: AppDims.w140,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppNetworkImage(
-                        url: audio.thumbnail,
-                        width: AppDims.r140,
-                        height: AppDims.r140,
-                        borderRadius: AppDims.r8,
-                      ),
-                      SizedBox(height: AppDims.h8),
-                      Text(
-                        audio.title,
-                        style: TextStyle(
-                          color: AppColors.textWhite,
-                          fontSize: AppDims.sp12,
-                          fontWeight: FontWeight.w600,
+              return RepaintBoundary(
+                child: GestureDetector(
+                  onTap: () => onAudioTap?.call(audio.id),
+                  child: SizedBox(
+                    width: AppDims.w140,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppNetworkImage(
+                          url: audio.thumbnail,
+                          width: AppDims.r140,
+                          height: AppDims.r140,
+                          borderRadius: AppDims.r8,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(height: AppDims.h4),
-                      Text(
-                        audio.description,
-                        style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp10),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                        SizedBox(height: AppDims.h8),
+                        Text(
+                          audio.title,
+                          style: TextStyle(
+                            color: AppColors.textWhite,
+                            fontSize: AppDims.sp12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: AppDims.h4),
+                        Text(
+                          audio.artist.isNotEmpty ? audio.artist : audio.description,
+                          style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp10),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

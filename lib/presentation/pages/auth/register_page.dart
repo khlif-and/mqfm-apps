@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
@@ -63,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
           state.whenOrNull(
             success: (user) {
               MessageHelper.showSuccess(context, '${AppStrings.registerSuccess} ${user.username}');
-              context.go(AppPathRoutes.login);
+              context.go('${AppPathRoutes.otpVerify}?email=${user.email}');
             },
             error: (message) => MessageHelper.showError(context, message),
           );
@@ -74,7 +75,14 @@ class _RegisterPageState extends State<RegisterPage> {
           return BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
               state.whenOrNull(
-                success: (_) => context.go(AppPathRoutes.dashboard),
+                success: (user) {
+                  UserManager.instance.setUser(user);
+                  if (!user.emailVerified) {
+                    context.go('${AppPathRoutes.otpVerify}?email=${user.email}');
+                    return;
+                  }
+                  context.go(AppPathRoutes.dashboard);
+                },
                 error: (message) => MessageHelper.showError(context, message),
               );
             },

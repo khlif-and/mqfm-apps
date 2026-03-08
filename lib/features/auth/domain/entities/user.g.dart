@@ -18,6 +18,7 @@ _$UserEntityImpl _$$UserEntityImplFromJson(Map<String, dynamic> json) =>
       initials: json['initials'] as String?,
       avatarColor: json['avatarColor'] as String?,
       profilePicture: json['profilePicture'] as String?,
+      emailVerified: json['emailVerified'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$UserEntityImplToJson(_$UserEntityImpl instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$UserEntityImplToJson(_$UserEntityImpl instance) =>
       'initials': instance.initials,
       'avatarColor': instance.avatarColor,
       'profilePicture': instance.profilePicture,
+      'emailVerified': instance.emailVerified,
     };

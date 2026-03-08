@@ -57,11 +57,41 @@ class AudioRepositoryImpl implements IAudioRepository {
   }
 
   @override
-  Future<Either<String, List<PlayHistoryEntity>>> getPlayHistory() async {
+  Future<Either<String, List<AudioEntity>>> getHistory() async {
     try {
-      final response = await _datasource.getPlayHistory();
+      final response = await _datasource.getHistory();
       if (response.status == 200 && response.data != null) {
         return Right(response.data!.map((d) => d.toEntity()).toList());
+      }
+      return Right([]);
+    } on DioException catch (e) {
+      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, String>> clearHistory() async {
+    try {
+      final response = await _datasource.clearHistory();
+      if (response.status == 200) {
+        return Right(response.message);
+      }
+      return Left(response.message);
+    } on DioException catch (e) {
+      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, String>> deleteHistoryItem(int audioId) async {
+    try {
+      final response = await _datasource.deleteHistoryItem(audioId);
+      if (response.status == 200) {
+        return Right(response.message);
       }
       return Left(response.message);
     } on DioException catch (e) {

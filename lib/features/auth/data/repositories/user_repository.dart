@@ -64,7 +64,7 @@ class AuthRepositoryImpl implements IAuthRepository {
         response.data,
         (json) => UserDto.fromJson(json as Map<String, dynamic>),
       );
-      if (dto.status == 200 && dto.data != null) {
+      if ((dto.status == 200 || dto.status == 201) && dto.data != null) {
         return Right(dto.data!.toEntity());
       }
       return Left(dto.message);
@@ -173,6 +173,42 @@ class AuthRepositoryImpl implements IAuthRepository {
         return Right(dto.data!.toEntity());
       }
       return Left(dto.message);
+    } on DioException catch (e) {
+      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, String>> generateOtp(String email) async {
+    try {
+      final response = await _datasource.generateOtp({'email': email});
+      if (response.status == 200 || response.data != null) {
+        return Right(response.message);
+      }
+      return Left(response.message);
+    } on DioException catch (e) {
+      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, UserEntity>> verifyOtp(
+    String email,
+    String code,
+  ) async {
+    try {
+      final response = await _datasource.verifyOtp({
+        'email': email,
+        'code': code,
+      });
+      if (response.status == 200 && response.data != null) {
+        return Right(response.data!.toEntity());
+      }
+      return Left(response.message);
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {

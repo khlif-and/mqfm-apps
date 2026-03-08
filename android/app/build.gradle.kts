@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mqfm_apps"
+    namespace = "com.dakwah.mqfm_apps"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

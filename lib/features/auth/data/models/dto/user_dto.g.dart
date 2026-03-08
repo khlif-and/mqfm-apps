@@ -17,6 +17,7 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
   initials: json['initials'] as String?,
   avatarColor: json['avatar_color'] as String?,
   profilePicture: json['profile_picture'] as String?,
+  emailVerified: json['email_verified'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
@@ -30,4 +31,5 @@ Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
   'initials': instance.initials,
   'avatar_color': instance.avatarColor,
   'profile_picture': instance.profilePicture,
+  'email_verified': instance.emailVerified,
 };

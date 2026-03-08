@@ -23,10 +23,10 @@ class PlaylistPage extends StatefulWidget {
   const PlaylistPage({super.key});
 
   @override
-  State<PlaylistPage> createState() => _PlaylistPageState();
+  State<PlaylistPage> createState() => PlaylistPageState();
 }
 
-class _PlaylistPageState extends State<PlaylistPage> {
+class PlaylistPageState extends State<PlaylistPage> {
   String _searchQuery = '';
   final GlobalKey _headerKey = GlobalKey();
   final GlobalKey _searchKey = GlobalKey();
@@ -36,7 +36,11 @@ class _PlaylistPageState extends State<PlaylistPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void triggerTour() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       final targets = buildPlaylistTargets(
         headerKey: _headerKey,
         searchKey: _searchKey,

@@ -6,8 +6,19 @@ import 'package:just_audio/just_audio.dart';
 
 class PlayerControls extends StatefulWidget {
   final AudioPlayer player;
+  final bool hasNext;
+  final bool hasPrevious;
+  final VoidCallback? onNext;
+  final VoidCallback? onPrevious;
 
-  const PlayerControls({super.key, required this.player});
+  const PlayerControls({
+    super.key,
+    required this.player,
+    this.hasNext = false,
+    this.hasPrevious = false,
+    this.onNext,
+    this.onPrevious,
+  });
 
   @override
   State<PlayerControls> createState() => _PlayerControlsState();
@@ -35,6 +46,7 @@ class _PlayerControlsState extends State<PlayerControls> {
             final duration = widget.player.duration ?? Duration.zero;
 
             double maxDuration = duration.inMilliseconds.toDouble();
+            final hasAudio = maxDuration > 0;
             if (maxDuration <= 0) maxDuration = 1;
 
             double sliderValue = _isSeeking
@@ -48,26 +60,23 @@ class _PlayerControlsState extends State<PlayerControls> {
                     trackHeight: AppDims.h2,
                     thumbShape: RoundSliderThumbShape(enabledThumbRadius: AppDims.r6),
                     overlayShape: RoundSliderOverlayShape(overlayRadius: AppDims.r14),
-                    activeTrackColor: AppColors.textWhite,
-                    inactiveTrackColor: AppColors.textWhite.withValues(alpha: 0.3),
-                    thumbColor: AppColors.textWhite,
+                    activeTrackColor: hasAudio ? AppColors.textWhite : AppColors.textWhite.withValues(alpha: 0.2),
+                    inactiveTrackColor: AppColors.textWhite.withValues(alpha: hasAudio ? 0.3 : 0.1),
+                    thumbColor: hasAudio ? AppColors.textWhite : AppColors.textWhite.withValues(alpha: 0.3),
+                    disabledActiveTrackColor: AppColors.textWhite.withValues(alpha: 0.2),
+                    disabledInactiveTrackColor: AppColors.textWhite.withValues(alpha: 0.1),
+                    disabledThumbColor: AppColors.textWhite.withValues(alpha: 0.3),
                   ),
                   child: Slider(
                     min: 0,
                     max: maxDuration,
                     value: sliderValue,
-                    onChangeStart: (value) {
-                      _isSeeking = true;
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        _seekValue = value;
-                      });
-                    },
-                    onChangeEnd: (value) {
+                    onChangeStart: hasAudio ? (value) { _isSeeking = true; } : null,
+                    onChanged: hasAudio ? (value) { setState(() { _seekValue = value; }); } : null,
+                    onChangeEnd: hasAudio ? (value) {
                       _isSeeking = false;
                       widget.player.seek(Duration(milliseconds: value.toInt()));
-                    },
+                    } : null,
                   ),
                 ),
                 Padding(
@@ -107,7 +116,16 @@ class _PlayerControlsState extends State<PlayerControls> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Icon(Icons.shuffle, color: AppColors.primaryClassic, size: AppDims.r26),
-              Icon(Icons.skip_previous, color: AppColors.textWhite, size: AppDims.r42),
+              GestureDetector(
+                onTap: widget.hasPrevious ? widget.onPrevious : null,
+                child: Icon(
+                  Icons.skip_previous,
+                  color: widget.hasPrevious
+                      ? AppColors.textWhite
+                      : AppColors.textWhite.withValues(alpha: 0.3),
+                  size: AppDims.r42,
+                ),
+              ),
               StreamBuilder<PlayerState>(
                 stream: widget.player.playerStateStream,
                 builder: (context, snapshot) {
@@ -166,7 +184,16 @@ class _PlayerControlsState extends State<PlayerControls> {
                   }
                 },
               ),
-              Icon(Icons.skip_next, color: AppColors.textWhite, size: AppDims.r42),
+              GestureDetector(
+                onTap: widget.hasNext ? widget.onNext : null,
+                child: Icon(
+                  Icons.skip_next,
+                  color: widget.hasNext
+                      ? AppColors.textWhite
+                      : AppColors.textWhite.withValues(alpha: 0.3),
+                  size: AppDims.r42,
+                ),
+              ),
               Icon(Icons.timer_outlined, color: AppColors.textWhite, size: AppDims.r26),
             ],
           ),

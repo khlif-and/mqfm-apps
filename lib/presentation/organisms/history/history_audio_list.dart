@@ -5,10 +5,16 @@ import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/molecules/history/history_audio_tile.dart';
 
 class HistoryAudioList extends StatelessWidget {
-  final List<PlayHistoryEntity> histories;
+  final List<AudioEntity> histories;
   final void Function(int audioId)? onAudioTap;
+  final void Function(int audioId)? onDeleteItem;
 
-  const HistoryAudioList({super.key, required this.histories, this.onAudioTap});
+  const HistoryAudioList({
+    super.key,
+    required this.histories,
+    this.onAudioTap,
+    this.onDeleteItem,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +22,11 @@ class HistoryAudioList extends StatelessWidget {
       padding: EdgeInsets.all(AppDims.r16),
       itemCount: histories.length,
       itemBuilder: (context, index) {
+        final audio = histories[index];
         return HistoryAudioTile(
-          history: histories[index],
-          onTap: onAudioTap != null ? () => onAudioTap!(histories[index].audioId) : null,
+          audio: audio,
+          onTap: onAudioTap != null ? () => onAudioTap!(audio.id) : null,
+          onDelete: onDeleteItem != null ? () => onDeleteItem!(audio.id) : null,
         );
       },
     );

@@ -16,6 +16,7 @@ class UserEntity with _$UserEntity {
     String? initials,
     String? avatarColor,
     String? profilePicture,
+    @Default(false) bool emailVerified,
   }) = _UserEntity;
 
   factory UserEntity.fromJson(Map<String, dynamic> json) =>

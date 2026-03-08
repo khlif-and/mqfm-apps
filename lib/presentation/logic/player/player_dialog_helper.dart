@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_bloc.dart';
 import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_event.dart';
 import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_state.dart';
 import 'package:mqfm_apps/presentation/organisms/player/add_to_playlist_sheet.dart';
+import 'package:mqfm_apps/presentation/organisms/player/queue_bottom_sheet.dart';
 
 class PlayerDialogHelper {
   static void showPlaylistBottomSheet(BuildContext context, int audioId) {
@@ -87,6 +91,31 @@ class PlayerDialogHelper {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  static void showQueueBottomSheet(
+    BuildContext context, {
+    required String currentAudioTitle,
+    required List<AudioEntity> queue,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.background,
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.75,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppDims.r16)),
+      ),
+      builder: (_) => QueueBottomSheet(
+        currentAudioTitle: currentAudioTitle,
+        queue: queue,
+        onAudioTap: (audio) {
+          context.pushReplacement(AppPathRoutes.playerWithId(audio.id.toString()));
+        },
       ),
     );
   }

@@ -31,6 +31,7 @@ mixin _$UserEntity {
   String? get initials => throw _privateConstructorUsedError;
   String? get avatarColor => throw _privateConstructorUsedError;
   String? get profilePicture => throw _privateConstructorUsedError;
+  bool get emailVerified => throw _privateConstructorUsedError;
 
   /// Serializes this UserEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,6 +61,7 @@ abstract class $UserEntityCopyWith<$Res> {
     String? initials,
     String? avatarColor,
     String? profilePicture,
+    bool emailVerified,
   });
 }
 
@@ -88,6 +90,7 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
     Object? initials = freezed,
     Object? avatarColor = freezed,
     Object? profilePicture = freezed,
+    Object? emailVerified = null,
   }) {
     return _then(
       _value.copyWith(
@@ -131,6 +134,10 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
                 ? _value.profilePicture
                 : profilePicture // ignore: cast_nullable_to_non_nullable
                       as String?,
+            emailVerified: null == emailVerified
+                ? _value.emailVerified
+                : emailVerified // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -157,6 +164,7 @@ abstract class _$$UserEntityImplCopyWith<$Res>
     String? initials,
     String? avatarColor,
     String? profilePicture,
+    bool emailVerified,
   });
 }
 
@@ -184,6 +192,7 @@ class __$$UserEntityImplCopyWithImpl<$Res>
     Object? initials = freezed,
     Object? avatarColor = freezed,
     Object? profilePicture = freezed,
+    Object? emailVerified = null,
   }) {
     return _then(
       _$UserEntityImpl(
@@ -227,6 +236,10 @@ class __$$UserEntityImplCopyWithImpl<$Res>
             ? _value.profilePicture
             : profilePicture // ignore: cast_nullable_to_non_nullable
                   as String?,
+        emailVerified: null == emailVerified
+            ? _value.emailVerified
+            : emailVerified // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -246,6 +259,7 @@ class _$UserEntityImpl implements _UserEntity {
     this.initials,
     this.avatarColor,
     this.profilePicture,
+    this.emailVerified = false,
   });
 
   factory _$UserEntityImpl.fromJson(Map<String, dynamic> json) =>
@@ -271,10 +285,13 @@ class _$UserEntityImpl implements _UserEntity {
   final String? avatarColor;
   @override
   final String? profilePicture;
+  @override
+  @JsonKey()
+  final bool emailVerified;
 
   @override
   String toString() {
-    return 'UserEntity(id: $id, username: $username, email: $email, role: $role, createdAt: $createdAt, updatedAt: $updatedAt, token: $token, initials: $initials, avatarColor: $avatarColor, profilePicture: $profilePicture)';
+    return 'UserEntity(id: $id, username: $username, email: $email, role: $role, createdAt: $createdAt, updatedAt: $updatedAt, token: $token, initials: $initials, avatarColor: $avatarColor, profilePicture: $profilePicture, emailVerified: $emailVerified)';
   }
 
   @override
@@ -297,7 +314,9 @@ class _$UserEntityImpl implements _UserEntity {
             (identical(other.avatarColor, avatarColor) ||
                 other.avatarColor == avatarColor) &&
             (identical(other.profilePicture, profilePicture) ||
-                other.profilePicture == profilePicture));
+                other.profilePicture == profilePicture) &&
+            (identical(other.emailVerified, emailVerified) ||
+                other.emailVerified == emailVerified));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -314,6 +333,7 @@ class _$UserEntityImpl implements _UserEntity {
     initials,
     avatarColor,
     profilePicture,
+    emailVerified,
   );
 
   /// Create a copy of UserEntity
@@ -342,6 +362,7 @@ abstract class _UserEntity implements UserEntity {
     final String? initials,
     final String? avatarColor,
     final String? profilePicture,
+    final bool emailVerified,
   }) = _$UserEntityImpl;
 
   factory _UserEntity.fromJson(Map<String, dynamic> json) =
@@ -367,6 +388,8 @@ abstract class _UserEntity implements UserEntity {
   String? get avatarColor;
   @override
   String? get profilePicture;
+  @override
+  bool get emailVerified;
 
   /// Create a copy of UserEntity
   /// with the given fields replaced by the non-null parameter values.

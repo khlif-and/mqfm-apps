@@ -5,6 +5,8 @@ class AppPathRoutes {
   static const String onboarding = '/onboarding';
   static const String register = '/register';
   static const String login = '/login-form';
+  static const String otpVerify = '/otp-verify';
+  static const String onboardingPick = '/onboarding-pick';
   static const String dashboard = '/dashboard';
   static const String search = '/search';
   static const String playlist = '/playlist';

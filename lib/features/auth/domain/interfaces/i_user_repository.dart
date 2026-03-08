@@ -19,4 +19,6 @@ abstract class IAuthRepository {
     String? email,
     File? profilePicture,
   });
+  Future<Either<String, String>> generateOtp(String email);
+  Future<Either<String, UserEntity>> verifyOtp(String email, String code);
 }

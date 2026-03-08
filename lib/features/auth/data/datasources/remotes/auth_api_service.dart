@@ -23,4 +23,12 @@ abstract class AuthRemoteDatasource {
 
   @POST('/api/user/auth/logout')
   Future<BaseResponse<dynamic>> logout();
+
+  @POST('/api/otp/generate')
+  Future<BaseResponse<dynamic>> generateOtp(
+      @Body() Map<String, dynamic> body);
+
+  @POST('/api/user/auth/verify-otp')
+  Future<BaseResponse<UserDto>> verifyOtp(
+      @Body() Map<String, dynamic> body);
 }
