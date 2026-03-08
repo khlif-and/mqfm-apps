@@ -52,8 +52,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (mounted) {
       if (isTokenValid) {
-        LogHelper.info("SplashScreen", "Go to Dashboard");
-        context.go(AppPathRoutes.dashboard);
+        final pickDone = await PreferencesHelper.isOnboardingPickDone();
+        if (mounted) {
+          if (pickDone) {
+            context.go(AppPathRoutes.dashboard);
+          } else {
+            context.go(AppPathRoutes.onboardingPick);
+          }
+        }
       } else {
         LogHelper.info("SplashScreen", "Go to Onboarding");
         context.go(AppPathRoutes.onboarding);

@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mqfm_apps/core/manager/playlist_change_notifier.dart';
 import 'package:mqfm_apps/core/models/base_response.dart';
+import 'package:mqfm_apps/features/audio/data/models/dto/audio_dto.dart';
 import 'package:mqfm_apps/features/playlist/data/datasources/remotes/playlist_api_service.dart';
 import 'package:mqfm_apps/features/playlist/data/models/dto/playlist_dto.dart';
 import 'package:mqfm_apps/features/playlist/domain/entities/playlist.dart';
@@ -41,14 +44,59 @@ class PlaylistRepositoryImpl implements IPlaylistRepository {
     try {
       final json =
           await _datasource.getDetailPlaylist(id) as Map<String, dynamic>;
-      final dto = BaseResponse<PlaylistDto>.fromJson(
-        json,
-        (json) => PlaylistDto.fromJson(json as Map<String, dynamic>),
-      );
-      if (dto.status == 200 && dto.data != null) {
-        return Right(dto.data!.toEntity());
+      if ((json['status'] as int?) == 200 && json['data'] != null) {
+        final data = json['data'] as Map<String, dynamic>;
+        final rawAudios = data['audios'] as List?;
+
+        List<AudioDto> parsedAudios = [];
+        if (rawAudios != null) {
+          for (final item in rawAudios) {
+            try {
+              final map = item as Map<String, dynamic>;
+              if (map.containsKey('audio') && map['audio'] is Map) {
+                parsedAudios.add(AudioDto.fromJson(Map<String, dynamic>.from(map['audio'])));
+              } else if (map.containsKey('title')) {
+                parsedAudios.add(AudioDto.fromJson(map));
+              } else if (map.containsKey('audio_id')) {
+                final resp = await _dio.get('/api/audios/${map['audio_id']}');
+                final aData = resp.data as Map<String, dynamic>;
+                if ((aData['status'] as int?) == 200 && aData['data'] != null) {
+                  parsedAudios.add(AudioDto.fromJson(Map<String, dynamic>.from(aData['data'])));
+                }
+              }
+            } catch (_) {}
+          }
+        }
+
+        String fixUrl(String? path) {
+          if (path == null || path.isEmpty) return '';
+          if (path.startsWith('http')) return path;
+          final baseUrl = dotenv.env['BASE_URL'] ?? '';
+          final cleanPath = path.startsWith('/') ? path.substring(1) : path;
+          return '$baseUrl/$cleanPath';
+        }
+
+        final dto = PlaylistDto(
+          id: data['id'] as int? ?? 0,
+          userId: data['user_id'] as int? ?? 0,
+          name: data['name'] as String? ?? '',
+          imageUrl: data['image_url'] as String?,
+          audios: parsedAudios,
+          createdAt: data['created_at'] as String? ?? '',
+          updatedAt: data['updated_at'] as String? ?? '',
+        );
+        final entity = dto.toEntity();
+        return Right(PlaylistEntity(
+          id: entity.id,
+          userId: entity.userId,
+          name: entity.name,
+          imageUrl: fixUrl(data['image_url'] as String?),
+          audios: entity.audios,
+          createdAt: entity.createdAt,
+          updatedAt: entity.updatedAt,
+        ));
       }
-      return Left(dto.message);
+      return Left(json['message'] as String? ?? 'Terjadi kesalahan');
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {
@@ -104,6 +152,7 @@ class PlaylistRepositoryImpl implements IPlaylistRepository {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        PlaylistChangeNotifier.notifyChange();
         return const Right(true);
       }
 

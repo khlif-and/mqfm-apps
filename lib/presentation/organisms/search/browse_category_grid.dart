@@ -9,11 +9,13 @@ import 'package:shimmer/shimmer.dart';
 class BrowseCategoryGrid extends StatelessWidget {
   final List<AudioEntity> audios;
   final bool isLoading;
+  final void Function(List<AudioEntity> group)? onMixTap;
 
   const BrowseCategoryGrid({
     super.key,
     required this.audios,
     required this.isLoading,
+    this.onMixTap,
   });
 
   List<List<AudioEntity>> _groupAudios(
@@ -123,9 +125,12 @@ class BrowseCategoryGrid extends StatelessWidget {
                     )
                     .toList();
                 final description = group.map((a) => a.title).join(', ');
-                return MixedCard(
-                  description: 'Featuring $description',
-                  imageUrls: imageUrls,
+                return GestureDetector(
+                  onTap: () => onMixTap?.call(group),
+                  child: MixedCard(
+                    description: 'Featuring $description',
+                    imageUrls: imageUrls,
+                  ),
                 );
               }).toList(),
             ),

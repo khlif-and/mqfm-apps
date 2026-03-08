@@ -13,6 +13,10 @@ import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_bloc.dart';
 import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_event.dart';
 import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_state.dart';
+import 'package:mqfm_apps/features/categories/domain/entities/category.dart';
+import 'package:mqfm_apps/features/categories/applications/category_bloc/category_bloc.dart';
+import 'package:mqfm_apps/features/categories/applications/category_bloc/category_event.dart';
+import 'package:mqfm_apps/features/categories/applications/category_bloc/category_state.dart';
 import 'package:mqfm_apps/presentation/logic/search/search_sections_logic.dart';
 import 'package:mqfm_apps/presentation/logic/guide_tour/search_tour_targets.dart';
 import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_manager.dart';
@@ -25,10 +29,10 @@ class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<SearchPage> createState() => SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
   final SearchSectionsLogic _sectionsLogic = SearchSectionsLogic();
   final GlobalKey _profileKey = GlobalKey();
@@ -37,13 +41,18 @@ class _SearchPageState extends State<SearchPage> {
   final GlobalKey _discoverKey = GlobalKey();
   bool _isSearching = false;
   Timer? _debounce;
+  int _selectedCategoryId = 0;
 
   @override
   void initState() {
     super.initState();
     _sectionsLogic.addListener(_onSectionsChanged);
     _sectionsLogic.fetchAudios();
+  }
+
+  void triggerTour() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       final targets = buildSearchTargets(
         profileKey: _profileKey,
         searchBarKey: _searchBarKey,
@@ -83,8 +92,11 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<AudioListBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<AudioListBloc>()),
+        BlocProvider(create: (_) => getIt<CategoryBloc>()..add(const CategoryEvent.fetch())),
+      ],
       child: BlocListener<AudioListBloc, AudioListState>(
         listener: (context, state) {
           state.whenOrNull(error: (message) => MessageHelper.showError(context, message));
@@ -104,6 +116,55 @@ class _SearchPageState extends State<SearchPage> {
                   onAvatarTap: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
+              BlocBuilder<CategoryBloc, CategoryState>(
+                builder: (context, catState) {
+                  final categories = catState.maybeWhen(
+                    loaded: (cats) => cats,
+                    orElse: () => <CategoryEntity>[],
+                  );
+                  if (categories.isEmpty) return const SizedBox.shrink();
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: AppDims.h12),
+                    child: SizedBox(
+                      height: AppDims.h32,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
+                        itemCount: categories.length + 1,
+                        separatorBuilder: (_, __) => SizedBox(width: AppDims.w8),
+                        itemBuilder: (context, index) {
+                          final isAll = index == 0;
+                          final isSelected = isAll
+                              ? _selectedCategoryId == 0
+                              : _selectedCategoryId == categories[index - 1].id;
+                          return GestureDetector(
+                            onTap: () => setState(() {
+                              _selectedCategoryId = isAll ? 0 : categories[index - 1].id;
+                            }),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: AppDims.w16, vertical: AppDims.h6),
+                              decoration: BoxDecoration(
+                                color: isSelected ? AppColors.primaryLight : AppColors.cardBackground,
+                                borderRadius: BorderRadius.circular(AppDims.r20),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  isAll ? 'Semua' : categories[index - 1].name,
+                                  style: TextStyle(
+                                    color: AppColors.textWhite,
+                                    fontSize: AppDims.sp12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
               Expanded(
                 child: BlocBuilder<AudioListBloc, AudioListState>(
                   builder: (context, state) {
@@ -117,6 +178,9 @@ class _SearchPageState extends State<SearchPage> {
                         onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
                       );
                     }
+                    final filteredAudios = _selectedCategoryId == 0
+                        ? _sectionsLogic.audios
+                        : _sectionsLogic.audios.where((a) => a.categoryId == _selectedCategoryId).toList();
                     return SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                       child: Column(
@@ -125,15 +189,19 @@ class _SearchPageState extends State<SearchPage> {
                           Container(
                             key: _mixedKey,
                             child: BrowseCategoryGrid(
-                              audios: _sectionsLogic.audios,
+                              audios: filteredAudios,
                               isLoading: _sectionsLogic.isLoading,
+                              onMixTap: (group) => context.push(
+                                AppPathRoutes.mixDetail,
+                                extra: group,
+                              ),
                             ),
                           ),
                           SizedBox(height: AppDims.h32),
                           Container(
                             key: _discoverKey,
                             child: DiscoverHorizontalList(
-                              audios: _sectionsLogic.audios,
+                              audios: filteredAudios,
                               isLoading: _sectionsLogic.isLoading,
                               onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
                             ),

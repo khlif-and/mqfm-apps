@@ -16,6 +16,8 @@ import 'package:mqfm_apps/presentation/pages/help/help_faq_page.dart';
 import 'package:mqfm_apps/presentation/pages/download/downloads_page.dart';
 import 'package:mqfm_apps/presentation/pages/auth/otp_verify_page.dart';
 import 'package:mqfm_apps/presentation/pages/onboarding/onboarding_pick_page.dart';
+import 'package:mqfm_apps/presentation/pages/search/mix_detail_page.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: AppPathRoutes.splash,
@@ -115,6 +117,13 @@ final GoRouter appRouter = GoRouter(
       path: AppPathRoutes.downloads,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: DownloadsPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.mixDetail,
+      pageBuilder: (context, state) {
+        final audios = state.extra as List<AudioEntity>;
+        return NoTransitionPage(child: MixDetailPage(audios: audios));
+      },
     ),
   ],
 );

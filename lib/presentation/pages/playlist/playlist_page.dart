@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/core/manager/playlist_change_notifier.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
@@ -32,10 +33,24 @@ class PlaylistPageState extends State<PlaylistPage> {
   final GlobalKey _searchKey = GlobalKey();
   final GlobalKey _staticItemsKey = GlobalKey();
   final GlobalKey _playlistListKey = GlobalKey();
+  late final PlaylistBloc _playlistBloc;
 
   @override
   void initState() {
     super.initState();
+    _playlistBloc = getIt<PlaylistBloc>()..add(const PlaylistEvent.fetch());
+    PlaylistChangeNotifier.changeCounter.addListener(_onPlaylistChanged);
+  }
+
+  @override
+  void dispose() {
+    PlaylistChangeNotifier.changeCounter.removeListener(_onPlaylistChanged);
+    _playlistBloc.close();
+    super.dispose();
+  }
+
+  void _onPlaylistChanged() {
+    _playlistBloc.add(const PlaylistEvent.fetch());
   }
 
   void triggerTour() {
@@ -58,8 +73,8 @@ class PlaylistPageState extends State<PlaylistPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<PlaylistBloc>()..add(const PlaylistEvent.fetch()),
+    return BlocProvider.value(
+      value: _playlistBloc,
       child: BlocBuilder<PlaylistBloc, PlaylistState>(
         builder: (context, state) {
           final isLoading = state is PlaylistLoading;
@@ -68,7 +83,7 @@ class PlaylistPageState extends State<PlaylistPage> {
 
           return SafeArea(
             child: RefreshIndicator(
-              onRefresh: () async => context.read<PlaylistBloc>().add(const PlaylistEvent.fetch()),
+              onRefresh: () async => _playlistBloc.add(const PlaylistEvent.fetch()),
               color: AppColors.primaryClassic,
               backgroundColor: AppColors.surfaceHeader,
               child: SingleChildScrollView(

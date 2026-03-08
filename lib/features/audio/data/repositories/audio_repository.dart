@@ -59,11 +59,27 @@ class AudioRepositoryImpl implements IAudioRepository {
   @override
   Future<Either<String, List<AudioEntity>>> getHistory() async {
     try {
-      final response = await _datasource.getHistory();
-      if (response.status == 200 && response.data != null) {
-        return Right(response.data!.map((d) => d.toEntity()).toList());
+      final json = await _datasource.getHistory() as Map<String, dynamic>;
+      final status = json['status'] as int?;
+      final data = json['data'] as List?;
+      if (status == 200 && data != null) {
+        final audioIds = data
+            .map((item) => (item as Map<String, dynamic>)['audio_id'] as int?)
+            .whereType<int>()
+            .toList();
+        final futures = audioIds.map((id) async {
+          try {
+            final response = await _datasource.getAudioById(id);
+            if (response.status == 200 && response.data != null) {
+              return response.data!.toEntity();
+            }
+          } catch (_) {}
+          return null;
+        });
+        final results = await Future.wait(futures);
+        return Right(results.whereType<AudioEntity>().toList());
       }
-      return Right([]);
+      return const Right([]);
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {

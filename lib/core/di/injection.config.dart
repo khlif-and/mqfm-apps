@@ -135,6 +135,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i361.Dio>(),
       ),
     );
+    gh.lazySingleton<_i491.ILikeRepository>(
+      () => _i759.LikeRepositoryImpl(
+        gh<_i66.LikeRemoteDatasource>(),
+        gh<_i361.Dio>(),
+      ),
+    );
+    gh.factory<_i782.LikeBloc>(
+      () => _i782.LikeBloc(gh<_i491.ILikeRepository>()),
+    );
     gh.lazySingleton<_i132.ICategoryRepository>(
       () => _i639.CategoryRepositoryImpl(gh<_i876.CategoryRemoteDatasource>()),
     );
@@ -143,9 +152,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i647.PlaylistRemoteDatasource>(),
         gh<_i361.Dio>(),
       ),
-    );
-    gh.lazySingleton<_i491.ILikeRepository>(
-      () => _i759.LikeRepositoryImpl(gh<_i66.LikeRemoteDatasource>()),
     );
     gh.lazySingleton<_i184.IAudioRepository>(
       () => _i1040.AudioRepositoryImpl(gh<_i918.AudioRemoteDatasource>()),
@@ -180,9 +186,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i88.CategoryBloc>(
       () => _i88.CategoryBloc(gh<_i132.ICategoryRepository>()),
-    );
-    gh.factory<_i782.LikeBloc>(
-      () => _i782.LikeBloc(gh<_i491.ILikeRepository>()),
     );
     gh.factory<_i280.ArtikelListBloc>(
       () => _i280.ArtikelListBloc(gh<_i369.IArtikelRepository>()),
