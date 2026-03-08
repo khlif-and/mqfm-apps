@@ -33,6 +33,8 @@ import 'package:mqfm_apps/features/audio/domain/interfaces/i_audio_repository.da
     as _i184;
 import 'package:mqfm_apps/features/auth/applications/login_bloc/login_bloc.dart'
     as _i317;
+import 'package:mqfm_apps/features/auth/applications/otp_bloc/otp_bloc.dart'
+    as _i713;
 import 'package:mqfm_apps/features/auth/applications/profile_bloc/profile_bloc.dart'
     as _i179;
 import 'package:mqfm_apps/features/auth/applications/register_bloc/register_bloc.dart'
@@ -71,6 +73,16 @@ import 'package:mqfm_apps/features/playlist/data/repositories/playlist_repositor
     as _i797;
 import 'package:mqfm_apps/features/playlist/domain/interfaces/i_playlist_repository.dart'
     as _i370;
+import 'package:mqfm_apps/features/recommendation/applications/onboarding_pick_bloc/onboarding_pick_bloc.dart'
+    as _i772;
+import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_bloc.dart'
+    as _i1066;
+import 'package:mqfm_apps/features/recommendation/data/datasources/remotes/recommendation_api_service.dart'
+    as _i237;
+import 'package:mqfm_apps/features/recommendation/data/repositories/recommendation_repository.dart'
+    as _i482;
+import 'package:mqfm_apps/features/recommendation/domain/interfaces/i_recommendation_repository.dart'
+    as _i840;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -99,9 +111,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i237.ArtikelRemoteDatasource>(
       () => registerModule.artikelRemoteDatasource,
     );
+    gh.lazySingleton<_i237.RecommendationRemoteDatasource>(
+      () => registerModule.recommendationRemoteDatasource,
+    );
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dioScraping,
       instanceName: 'dioScraping',
+    );
+    gh.lazySingleton<_i840.IRecommendationRepository>(
+      () => _i482.RecommendationRepositoryImpl(
+        gh<_i237.RecommendationRemoteDatasource>(),
+      ),
+    );
+    gh.factory<_i772.OnboardingPickBloc>(
+      () => _i772.OnboardingPickBloc(gh<_i840.IRecommendationRepository>()),
+    );
+    gh.factory<_i1066.RecommendationBloc>(
+      () => _i1066.RecommendationBloc(gh<_i840.IRecommendationRepository>()),
     );
     gh.lazySingleton<_i135.IAuthRepository>(
       () => _i817.AuthRepositoryImpl(
@@ -139,6 +165,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i317.LoginBloc>(
       () => _i317.LoginBloc(gh<_i135.IAuthRepository>()),
     );
+    gh.factory<_i713.OtpBloc>(() => _i713.OtpBloc(gh<_i135.IAuthRepository>()));
     gh.factory<_i179.ProfileBloc>(
       () => _i179.ProfileBloc(gh<_i135.IAuthRepository>()),
     );

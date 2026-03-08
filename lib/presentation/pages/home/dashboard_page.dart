@@ -1,11 +1,11 @@
 import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/curated_content.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_bloc.dart';
 import 'package:mqfm_apps/features/audio/applications/audio_bloc/audio_list_event.dart';
@@ -23,6 +23,9 @@ import 'package:mqfm_apps/presentation/organisms/dashboard/horizontal_content_li
 import 'package:mqfm_apps/presentation/organisms/dashboard/menu_grid.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/vertical_content_list.dart';
 import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_manager.dart';
+import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_bloc.dart';
+import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_event.dart';
+import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_state.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -48,6 +51,7 @@ class _DashboardPageState extends State<DashboardPage> {
       providers: [
         BlocProvider(create: (_) => getIt<CategoryBloc>()..add(const CategoryEvent.fetch())),
         BlocProvider(create: (_) => getIt<AudioListBloc>()..add(const AudioListEvent.fetch())),
+        BlocProvider(create: (_) => getIt<RecommendationBloc>()..add(const RecommendationEvent.fetchAll())),
       ],
       child: _DashboardView(
         selectedIndex: _selectedIndex,
@@ -135,6 +139,10 @@ class _DashboardViewState extends State<_DashboardView> {
     return audios.where((a) => a.categoryId == categoryId).toList();
   }
 
+  void _navigateToPlayer(int audioId) {
+    context.push(AppPathRoutes.playerWithId(audioId.toString()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryBloc, CategoryState>(
@@ -153,6 +161,7 @@ class _DashboardViewState extends State<_DashboardView> {
             );
             final isAudioLoading = audioState is AudioListLoading;
             final filteredAudios = _filterAudios(allAudios, widget.selectedCategoryId);
+            final curatedSections = CuratedContent.buildSections(allAudios);
 
             return Column(
               children: [
@@ -174,18 +183,21 @@ class _DashboardViewState extends State<_DashboardView> {
                     onRefresh: () async {
                       context.read<CategoryBloc>().add(const CategoryEvent.fetch());
                       context.read<AudioListBloc>().add(const AudioListEvent.fetch());
+                      context.read<RecommendationBloc>().add(const RecommendationEvent.fetchAll());
                     },
-                    child: SingleChildScrollView(
+                    child: CustomScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (isCategoryLoading || isAudioLoading)
-                            const Padding(
+                      cacheExtent: 500,
+                      slivers: [
+                        if (isCategoryLoading || isAudioLoading)
+                          const SliverToBoxAdapter(
+                            child: Padding(
                               padding: EdgeInsets.only(bottom: 20),
                               child: LinearProgressIndicator(color: AppColors.success),
                             ),
-                          Padding(
+                          ),
+                        SliverToBoxAdapter(
+                          child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                             child: ValueListenableBuilder<List<AudioEntity>>(
                               valueListenable: PreferencesHelper.historyNotifier,
@@ -194,40 +206,120 @@ class _DashboardViewState extends State<_DashboardView> {
                                   key: widget.menuGridKey,
                                   historyAudios: historyAudios,
                                   isLoading: _isHistoryLoading,
-                                  onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+                                  onAudioTap: (audioId) => _navigateToPlayer(audioId),
                                 );
                               },
                             ),
                           ),
-                          SizedBox(height: AppDims.h24),
-                          Padding(
+                        ),
+                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
+                        SliverToBoxAdapter(
+                          child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                             child: Container(key: widget.quoteKey, child: const QuoteCard()),
                           ),
-                          SizedBox(height: AppDims.h32),
-                          Container(
-                            key: widget.horizontalListKey,
-                            child: HorizontalContentList(
-                              audios: filteredAudios,
-                              isLoading: isAudioLoading,
-                              onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+                        ),
+                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h32)),
+                        SliverToBoxAdapter(
+                          child: RepaintBoundary(
+                            child: Container(
+                              key: widget.horizontalListKey,
+                              child: HorizontalContentList(
+                                audios: filteredAudios,
+                                isLoading: isAudioLoading,
+                                onAudioTap: _navigateToPlayer,
+                              ),
                             ),
                           ),
-                          SizedBox(height: AppDims.h24),
-                          Container(
+                        ),
+                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
+                        SliverToBoxAdapter(
+                          child: Container(
                             key: widget.verticalListKey,
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                               child: VerticalContentList(
                                 audios: filteredAudios,
                                 isLoading: isAudioLoading,
-                                onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+                                onAudioTap: _navigateToPlayer,
                               ),
                             ),
                           ),
-                          SizedBox(height: AppDims.h30),
-                        ],
-                      ),
+                        ),
+                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
+                        BlocBuilder<RecommendationBloc, RecommendationState>(
+                          builder: (context, recState) {
+                            final recSections = <Widget>[];
+
+                            if (recState.personalized.isNotEmpty) {
+                              recSections.add(RepaintBoundary(
+                                child: HorizontalContentList(
+                                  title: 'Personalisasi Kamu Banget',
+                                  audios: recState.personalized,
+                                  isLoading: recState.isLoading,
+                                  onAudioTap: _navigateToPlayer,
+                                ),
+                              ));
+                            }
+                            if (recState.popular.isNotEmpty) {
+                              recSections.add(RepaintBoundary(
+                                child: HorizontalContentList(
+                                  title: 'Paling Popular',
+                                  audios: recState.popular,
+                                  isLoading: recState.isLoading,
+                                  onAudioTap: _navigateToPlayer,
+                                ),
+                              ));
+                            }
+                            if (recState.quickPick.isNotEmpty) {
+                              recSections.add(RepaintBoundary(
+                                child: HorizontalContentList(
+                                  title: 'Quick Pick',
+                                  audios: recState.quickPick,
+                                  isLoading: recState.isLoading,
+                                  onAudioTap: _navigateToPlayer,
+                                ),
+                              ));
+                            }
+                            if (recState.byArtist.isNotEmpty && recState.artistName.isNotEmpty) {
+                              recSections.add(RepaintBoundary(
+                                child: HorizontalContentList(
+                                  title: 'Khusus Kajian ${recState.artistName}',
+                                  audios: recState.byArtist.take(10).toList(),
+                                  isLoading: recState.isLoading,
+                                  onAudioTap: _navigateToPlayer,
+                                ),
+                              ));
+                            }
+
+                            return SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) => Padding(
+                                  padding: EdgeInsets.only(bottom: AppDims.h24),
+                                  child: recSections[index],
+                                ),
+                                childCount: recSections.length,
+                              ),
+                            );
+                          },
+                        ),
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => Padding(
+                              padding: EdgeInsets.only(bottom: AppDims.h24),
+                              child: RepaintBoundary(
+                                child: HorizontalContentList(
+                                  title: curatedSections[index].key,
+                                  audios: curatedSections[index].value,
+                                  onAudioTap: _navigateToPlayer,
+                                ),
+                              ),
+                            ),
+                            childCount: curatedSections.length,
+                          ),
+                        ),
+                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h30)),
+                      ],
                     ),
                   ),
                 ),

@@ -7,6 +7,7 @@ import 'package:mqfm_apps/features/auth/data/datasources/remotes/auth_api_servic
 import 'package:mqfm_apps/features/categories/data/datasources/remotes/category_remote_api_service.dart';
 import 'package:mqfm_apps/features/like/data/datasources/remotes/like_api_service.dart';
 import 'package:mqfm_apps/features/playlist/data/datasources/remotes/playlist_api_service.dart';
+import 'package:mqfm_apps/features/recommendation/data/datasources/remotes/recommendation_api_service.dart';
 
 @module
 abstract class RegisterModule {
@@ -37,4 +38,8 @@ abstract class RegisterModule {
   @lazySingleton
   ArtikelRemoteDatasource get artikelRemoteDatasource =>
       ArtikelRemoteDatasource(dioScraping);
+
+  @lazySingleton
+  RecommendationRemoteDatasource get recommendationRemoteDatasource =>
+      RecommendationRemoteDatasource(dio);
 }

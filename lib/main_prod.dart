@@ -15,7 +15,13 @@ void main() async {
     envFile: '.env.prod',
   );
 
-  await dotenv.load(fileName: AppConfig.instance.envFile);
+  try {
+    await dotenv.load(fileName: AppConfig.instance.envFile);
+  } catch (_) {
+    try {
+      await dotenv.load(fileName: '.env');
+    } catch (_) {}
+  }
 
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL'] ?? '',

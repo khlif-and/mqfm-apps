@@ -106,6 +106,40 @@ class _HistoryPageState extends State<HistoryPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          ListenableBuilder(
+            listenable: logic,
+            builder: (context, _) {
+              if (logic.histories.isEmpty) return const SizedBox();
+              return IconButton(
+                icon: Icon(Icons.delete_sweep_rounded, color: AppColors.textSecondary),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      backgroundColor: AppColors.surface,
+                      title: Text("Hapus Semua Riwayat", style: TextStyle(color: AppColors.textWhite)),
+                      content: Text("Yakin ingin menghapus semua riwayat?", style: TextStyle(color: AppColors.textSecondary)),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          child: Text("Batal", style: TextStyle(color: AppColors.textSecondary)),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                            logic.clearAll();
+                          },
+                          child: Text("Hapus", style: TextStyle(color: AppColors.error)),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: ListenableBuilder(
         listenable: logic,
@@ -141,6 +175,7 @@ class _HistoryPageState extends State<HistoryPage> {
           return HistoryAudioList(
             histories: logic.histories,
             onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+            onDeleteItem: (audioId) => logic.deleteItem(audioId),
           );
         },
       ),

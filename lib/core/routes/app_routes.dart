@@ -14,6 +14,8 @@ import 'package:mqfm_apps/presentation/pages/profile/edit_profile_page.dart';
 import 'package:mqfm_apps/presentation/pages/about/about_app_page.dart';
 import 'package:mqfm_apps/presentation/pages/help/help_faq_page.dart';
 import 'package:mqfm_apps/presentation/pages/download/downloads_page.dart';
+import 'package:mqfm_apps/presentation/pages/auth/otp_verify_page.dart';
+import 'package:mqfm_apps/presentation/pages/onboarding/onboarding_pick_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: AppPathRoutes.splash,
@@ -37,6 +39,18 @@ final GoRouter appRouter = GoRouter(
       path: AppPathRoutes.login,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: LoginPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.otpVerify,
+      pageBuilder: (context, state) {
+        final email = state.uri.queryParameters['email'] ?? '';
+        return NoTransitionPage(child: OtpVerifyPage(email: email));
+      },
+    ),
+    GoRoute(
+      path: AppPathRoutes.onboardingPick,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: OnboardingPickPage()),
     ),
     GoRoute(
       path: AppPathRoutes.dashboard,

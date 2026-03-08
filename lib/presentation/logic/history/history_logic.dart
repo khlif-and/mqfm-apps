@@ -6,7 +6,7 @@ import 'package:mqfm_apps/features/audio/domain/interfaces/i_audio_repository.da
 class HistoryLogic extends ChangeNotifier {
   final IAudioRepository _audioRepository = getIt<IAudioRepository>();
 
-  List<PlayHistoryEntity> histories = [];
+  List<AudioEntity> histories = [];
   bool isLoading = true;
   String? errorMessage;
 
@@ -19,7 +19,7 @@ class HistoryLogic extends ChangeNotifier {
     errorMessage = null;
     notifyListeners();
 
-    final result = await _audioRepository.getPlayHistory();
+    final result = await _audioRepository.getHistory();
     result.fold(
       (error) {
         errorMessage = error;
@@ -32,5 +32,21 @@ class HistoryLogic extends ChangeNotifier {
         notifyListeners();
       },
     );
+  }
+
+  Future<void> clearAll() async {
+    final result = await _audioRepository.clearHistory();
+    result.fold((_) {}, (_) {
+      histories.clear();
+      notifyListeners();
+    });
+  }
+
+  Future<void> deleteItem(int audioId) async {
+    final result = await _audioRepository.deleteHistoryItem(audioId);
+    result.fold((_) {}, (_) {
+      histories.removeWhere((a) => a.id == audioId);
+      notifyListeners();
+    });
   }
 }

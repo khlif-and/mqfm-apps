@@ -18,9 +18,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<void> _onLogin(LoginSubmitted event, Emitter<LoginState> emit) async {
     emit(const LoginState.loading());
     final result = await _authRepository.login(event.email, event.password);
-    result.fold(
-      (error) => emit(LoginState.error(message: error)),
-      (user) => _handleAuthSuccess(user, emit),
+    if (result.isLeft()) {
+      emit(LoginState.error(message: result.fold((l) => l, (_) => '')));
+      return;
+    }
+    await _handleAuthSuccess(
+      result.getOrElse(() => throw StateError('unreachable')),
+      emit,
     );
   }
 
@@ -30,15 +34,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     emit(const LoginState.googleLoading());
     final result = await _authRepository.signInWithGoogle();
-    result.fold(
-      (error) => emit(LoginState.error(message: error)),
-      (user) => _handleAuthSuccess(user, emit),
+    if (result.isLeft()) {
+      emit(LoginState.error(message: result.fold((l) => l, (_) => '')));
+      return;
+    }
+    await _handleAuthSuccess(
+      result.getOrElse(() => throw StateError('unreachable')),
+      emit,
     );
   }
 
-  void _handleAuthSuccess(UserEntity user, Emitter<LoginState> emit) {
+  Future<void> _handleAuthSuccess(UserEntity user, Emitter<LoginState> emit) async {
     if (user.token != null) {
-      PreferencesHelper.saveToken(user.token!);
+      await PreferencesHelper.saveToken(user.token!);
     }
     emit(LoginState.success(user: user));
   }

@@ -6,26 +6,41 @@ part 'audio_dto.g.dart';
 
 @JsonSerializable()
 class AudioDto {
-  final int id;
+  @JsonKey(name: 'audio_id')
+  final int audioId;
   final String title;
+  @JsonKey(defaultValue: '')
+  final String artist;
+  @JsonKey(defaultValue: '')
   final String description;
-  @JsonKey(name: 'audio_url')
-  final String? audioUrl;
-  final String? thumbnail;
-  @JsonKey(name: 'category_id')
+  @JsonKey(name: 'file_path', defaultValue: '')
+  final String filePath;
+  @JsonKey(defaultValue: 0)
+  final int duration;
+  @JsonKey(defaultValue: 'active')
+  final String status;
+  @JsonKey(name: 'category_id', defaultValue: 0)
   final int categoryId;
-  @JsonKey(name: 'created_at')
+  @JsonKey(defaultValue: '')
+  final String? thumbnail;
+  @JsonKey(name: 'dominant_color', defaultValue: '')
+  final String dominantColor;
+  @JsonKey(name: 'created_at', defaultValue: '')
   final String createdAt;
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: 'updated_at', defaultValue: '')
   final String updatedAt;
 
   const AudioDto({
-    required this.id,
+    required this.audioId,
     required this.title,
+    this.artist = '',
     this.description = '',
-    this.audioUrl,
-    this.thumbnail,
+    this.filePath = '',
+    this.duration = 0,
+    this.status = 'active',
     this.categoryId = 0,
+    this.thumbnail,
+    this.dominantColor = '',
     this.createdAt = '',
     this.updatedAt = '',
   });
@@ -45,54 +60,18 @@ class AudioDto {
 
   AudioEntity toEntity() {
     return AudioEntity(
-      id: id,
+      id: audioId,
       title: title,
+      artist: artist,
       description: description,
-      audioUrl: _fixUrl(audioUrl),
-      thumbnail: _fixUrl(thumbnail),
+      filePath: _fixUrl(filePath),
+      duration: duration,
+      status: status,
       categoryId: categoryId,
+      thumbnail: _fixUrl(thumbnail),
+      dominantColor: dominantColor,
       createdAt: createdAt,
       updatedAt: updatedAt,
-    );
-  }
-}
-
-@JsonSerializable()
-class PlayHistoryDto {
-  final int id;
-  @JsonKey(name: 'user_id')
-  final int userId;
-  @JsonKey(name: 'audio_id')
-  final int audioId;
-  @JsonKey(name: 'play_count', defaultValue: 1)
-  final int playCount;
-  @JsonKey(name: 'played_at', defaultValue: '')
-  final String playedAt;
-  @JsonKey(name: 'created_at', defaultValue: '')
-  final String createdAt;
-
-  const PlayHistoryDto({
-    required this.id,
-    required this.userId,
-    required this.audioId,
-    this.playCount = 1,
-    this.playedAt = '',
-    this.createdAt = '',
-  });
-
-  factory PlayHistoryDto.fromJson(Map<String, dynamic> json) =>
-      _$PlayHistoryDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PlayHistoryDtoToJson(this);
-
-  PlayHistoryEntity toEntity() {
-    return PlayHistoryEntity(
-      id: id,
-      userId: userId,
-      audioId: audioId,
-      playCount: playCount,
-      playedAt: playedAt,
-      createdAt: createdAt,
     );
   }
 }

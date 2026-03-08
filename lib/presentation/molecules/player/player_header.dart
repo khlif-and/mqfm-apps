@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PlayerHeader extends StatelessWidget {
   final VoidCallback? onBack;
+  final VoidCallback? onMenu;
 
-  const PlayerHeader({super.key, this.onBack});
+  const PlayerHeader({super.key, this.onBack, this.onMenu});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,10 @@ class PlayerHeader extends StatelessWidget {
             ),
           ],
         ),
-        Icon(Icons.more_vert, color: Colors.white, size: AppDims.r24),
+        InkWell(
+          onTap: onMenu,
+          child: Icon(Icons.more_vert, color: Colors.white, size: AppDims.r24),
+        ),
       ],
     );
   }

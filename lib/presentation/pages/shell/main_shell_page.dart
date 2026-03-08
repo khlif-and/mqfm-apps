@@ -37,16 +37,21 @@ class MainShellPageState extends State<MainShellPage> {
   final GlobalKey _sidebarMenuKey = GlobalKey();
   final GlobalKey _sidebarSettingsKey = GlobalKey();
 
-  final List<Widget> _pages = const [
-    DashboardPage(),
-    SearchPage(),
-    PlaylistPage(),
-  ];
+  final GlobalKey<SearchPageState> _searchPageKey = GlobalKey<SearchPageState>();
+  final GlobalKey<PlaylistPageState> _playlistPageKey = GlobalKey<PlaylistPageState>();
+  final Set<int> _touredTabs = {0};
+
+  late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
+    _pages = [
+      const DashboardPage(),
+      SearchPage(key: _searchPageKey),
+      PlaylistPage(key: _playlistPageKey),
+    ];
     _validateAndFetchUser();
     _bottomBarLogic.fetchLikedStatus();
     _bottomBarLogic.addListener(_onBottomBarLogicChange);
@@ -82,6 +87,11 @@ class MainShellPageState extends State<MainShellPage> {
       setState(() {
         _currentIndex = index;
       });
+      if (!_touredTabs.contains(index)) {
+        _touredTabs.add(index);
+        if (index == 1) _searchPageKey.currentState?.triggerTour();
+        if (index == 2) _playlistPageKey.currentState?.triggerTour();
+      }
     }
   }
 

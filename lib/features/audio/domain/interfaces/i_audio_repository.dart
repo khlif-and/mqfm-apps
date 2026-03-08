@@ -5,5 +5,7 @@ abstract class IAudioRepository {
   Future<Either<String, List<AudioEntity>>> getAudios();
   Future<Either<String, AudioEntity>> getAudioById(int id);
   Future<Either<String, List<AudioEntity>>> searchAudios(String query);
-  Future<Either<String, List<PlayHistoryEntity>>> getPlayHistory();
+  Future<Either<String, List<AudioEntity>>> getHistory();
+  Future<Either<String, String>> clearHistory();
+  Future<Either<String, String>> deleteHistoryItem(int audioId);
 }

@@ -1,4 +1,4 @@
-package com.example.mqfm_apps
+package com.dakwah.mqfm_apps
 
 import io.flutter.embedding.android.FlutterActivity
 

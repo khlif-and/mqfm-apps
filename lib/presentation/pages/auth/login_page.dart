@@ -45,6 +45,10 @@ class _LoginPageState extends State<LoginPage> {
           state.whenOrNull(
             success: (user) {
               UserManager.instance.setUser(user);
+              if (!user.emailVerified) {
+                context.go('${AppPathRoutes.otpVerify}?email=${user.email}');
+                return;
+              }
               MessageHelper.showSuccess(context, '${AppStrings.loginSuccess} ${user.username}');
               context.go(AppPathRoutes.dashboard);
             },

@@ -19,6 +19,8 @@ class UserDto {
   final String? avatarColor;
   @JsonKey(name: 'profile_picture')
   final String? profilePicture;
+  @JsonKey(name: 'email_verified', defaultValue: false)
+  final bool emailVerified;
 
   const UserDto({
     required this.id,
@@ -31,6 +33,7 @@ class UserDto {
     this.initials,
     this.avatarColor,
     this.profilePicture,
+    this.emailVerified = false,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
@@ -50,6 +53,7 @@ class UserDto {
       initials: initials,
       avatarColor: avatarColor,
       profilePicture: profilePicture,
+      emailVerified: emailVerified,
     );
   }
 }

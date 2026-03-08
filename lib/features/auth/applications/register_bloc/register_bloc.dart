@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mqfm_apps/features/auth/domain/interfaces/i_user_repository.dart';
 import 'package:mqfm_apps/features/auth/applications/register_bloc/register_event.dart';
 import 'package:mqfm_apps/features/auth/applications/register_bloc/register_state.dart';
-import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 
 @injectable
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
@@ -24,13 +23,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       event.password,
       event.profilePicture,
     );
-    result.fold((error) => emit(RegisterState.error(message: error)), (
-      user,
-    ) async {
-      if (user.token != null) {
-        await PreferencesHelper.saveToken(user.token!);
-      }
-      emit(RegisterState.success(user: user));
-    });
+    result.fold(
+      (error) => emit(RegisterState.error(message: error)),
+      (user) => emit(RegisterState.success(user: user)),
+    );
   }
 }

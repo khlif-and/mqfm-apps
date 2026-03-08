@@ -86,4 +86,6 @@ class AppStrings {
   static const String usernameLabel = "Username";
   static const String emailLabel = "Email";
   static const String usernameHint = "Masukkan username baru";
+
+  static const String curatedForYou = "Pilihan Untuk Kamu";
 }
