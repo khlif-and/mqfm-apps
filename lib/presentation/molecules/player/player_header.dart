@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 
 class PlayerHeader extends StatelessWidget {
   final VoidCallback? onBack;
@@ -17,24 +18,24 @@ class PlayerHeader extends StatelessWidget {
           onTap: onBack,
           child: Icon(
             Icons.keyboard_arrow_down,
-            color: Colors.white,
+            color: AppColors.textWhite,
             size: AppDims.r30,
           ),
         ),
         Column(
           children: [
             Text(
-              'PLAYING FROM PLAYLIST',
+              AppStrings.playingFromPlaylist,
               style: TextStyle(
-                color: Colors.white70,
+                color: AppColors.textWhiteSubdued,
                 fontSize: AppDims.sp10,
                 letterSpacing: 1.2,
               ),
             ),
             Text(
-              "MQFM Radio",
+              AppStrings.mqfmRadio,
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.textWhite,
                 fontWeight: FontWeight.bold,
                 fontSize: AppDims.sp14,
               ),
@@ -43,7 +44,7 @@ class PlayerHeader extends StatelessWidget {
         ),
         InkWell(
           onTap: onMenu,
-          child: Icon(Icons.more_vert, color: Colors.white, size: AppDims.r24),
+          child: Icon(Icons.more_vert, color: AppColors.textWhite, size: AppDims.r24),
         ),
       ],
     );

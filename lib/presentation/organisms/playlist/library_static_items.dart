@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/library_item.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LibraryStaticItems extends StatelessWidget {
@@ -21,7 +22,7 @@ class LibraryStaticItems extends StatelessWidget {
             ),
             SizedBox(width: AppDims.w8),
             Text(
-              'Terbaru',
+              AppStrings.latest,
               style: TextStyle(
                 color: AppColors.textWhite,
                 fontSize: AppDims.sp14,
@@ -40,7 +41,7 @@ class LibraryStaticItems extends StatelessWidget {
         InkWell(
           onTap: onFavoritesTap,
           child: LibraryItem(
-            title: 'Kajian Favorit',
+            title: AppStrings.favoriteKajian,
             subtitle: 'Playlist • 12 audio',
             isPinned: true,
             customImage: Container(
@@ -49,8 +50,8 @@ class LibraryStaticItems extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF450AF5),
-                    Color(0xFFC4EFD9),
+                    AppColors.gradientFavoriteStart,
+                    AppColors.gradientFavoriteEnd,
                   ], // Spotify-like gradient for liked songs
                 ),
                 borderRadius: BorderRadius.circular(AppDims.r2),
@@ -66,11 +67,11 @@ class LibraryStaticItems extends StatelessWidget {
           ),
         ),
         LibraryItem(
-          title: 'Kajian Terbaru',
-          subtitle: 'Diupdate hari ini',
+          title: AppStrings.latestKajian,
+          subtitle: AppStrings.updatedToday,
           customImage: Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF0D72EA), // Vibrant blue
+              color: AppColors.notificationBlue, // Vibrant blue
               borderRadius: BorderRadius.circular(AppDims.r2),
             ),
             child: Center(

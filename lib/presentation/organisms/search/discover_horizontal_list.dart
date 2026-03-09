@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/presentation/atoms/common/placeholder_content.dart';
 import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -90,7 +92,7 @@ class DiscoverHorizontalList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Discover something new',
+          AppStrings.discoverNew,
           style: TextStyle(
             color: AppColors.textWhite,
             fontSize: AppDims.sp16,
@@ -100,7 +102,7 @@ class DiscoverHorizontalList extends StatelessWidget {
         SizedBox(height: AppDims.h16),
         if (audios.isEmpty)
           const EmptyStateCard(
-            message: 'Belum ada data saat ini',
+            message: AppStrings.emptyData,
             icon: Icons.explore_off_rounded,
           )
         else
@@ -133,7 +135,7 @@ class _DiscoverTrackTile extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: AppColors.textWhite.withOpacity(0.15),
+              color: AppColors.textWhite.withValues(alpha: 0.15),
               width: 0.5,
             ),
           ),
@@ -147,10 +149,7 @@ class _DiscoverTrackTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppDims.r2),
                 image: DecorationImage(
-                  image: (audio.thumbnail.isNotEmpty)
-                      ? NetworkImage(audio.thumbnail)
-                      : const AssetImage('assets/images/img_card.jpg')
-                            as ImageProvider,
+                  image: PlaceholderContent.audioThumbnail(audio.thumbnail),
                   fit: BoxFit.cover,
                 ),
               ),

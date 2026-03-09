@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/presentation/molecules/profile/profile_avatar_builder.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
 
@@ -63,7 +64,7 @@ class _LibraryHeaderState extends State<LibraryHeader> {
                   ),
                   SizedBox(height: AppDims.h2),
                   Text(
-                    'Enjoy your music!',
+                    AppStrings.enjoyMusic,
                     style: TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: AppDims.sp13,
@@ -136,7 +137,7 @@ class _LibraryHeaderState extends State<LibraryHeader> {
                       fontWeight: FontWeight.w400,
                     ),
                     decoration: InputDecoration(
-                      hintText: 'Search playlist...',
+                      hintText: AppStrings.searchPlaylist,
                       hintStyle: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: AppDims.sp15,

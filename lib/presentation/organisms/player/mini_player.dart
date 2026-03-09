@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:mqfm_apps/presentation/logic/navigation/bottom_bar_logic.dart';
 import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 
@@ -60,7 +60,7 @@ class MiniPlayer extends StatelessWidget {
                                 ? NetworkImage(currentAudio.thumbnail)
                                       as ImageProvider
                                 : const AssetImage(
-                                    'assets/images/img_card.jpg',
+                                    AppImages.cardPlaceholder,
                                   ),
                             fit: BoxFit.cover,
                           ),

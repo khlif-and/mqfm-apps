@@ -16,7 +16,7 @@ class SuffixPasswordIcon extends StatelessWidget {
             isObscure
                 ? Icons.visibility_outlined
                 : Icons.visibility_off_outlined,
-            color: AppColors.textWhite.withOpacity(0.54),
+            color: AppColors.textWhite.withValues(alpha: 0.54),
           ),
           onPressed: () {
             obscureTextNotifier.value = !isObscure;

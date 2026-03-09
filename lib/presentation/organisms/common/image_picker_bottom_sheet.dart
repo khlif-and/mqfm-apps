@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class ImagePickerBottomSheet extends StatelessWidget {
@@ -21,7 +22,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: AppDims.h16, left: AppDims.w16),
               child: Text(
-                'Pilih Gambar Profil',
+                AppStrings.chooseProfileImage,
                 style: TextStyle(
                   color: AppColors.textWhite,
                   fontSize: AppDims.sp18,
@@ -37,7 +38,7 @@ class ImagePickerBottomSheet extends StatelessWidget {
               leading: Container(
                 padding: EdgeInsets.all(AppDims.r10),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -46,11 +47,11 @@ class ImagePickerBottomSheet extends StatelessWidget {
                 ),
               ),
               title: Text(
-                'Galeri',
+                AppStrings.gallery,
                 style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp16),
               ),
               subtitle: Text(
-                'Pilih foto dari perangkat',
+                AppStrings.pickFromDevice,
                 style: TextStyle(color: AppColors.textMuted, fontSize: AppDims.sp12),
               ),
               onTap: () {
@@ -66,17 +67,17 @@ class ImagePickerBottomSheet extends StatelessWidget {
               leading: Container(
                 padding: EdgeInsets.all(AppDims.r10),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(Icons.photo_camera, color: AppColors.primary),
               ),
               title: Text(
-                'Kamera',
+                AppStrings.camera,
                 style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp16),
               ),
               subtitle: Text(
-                'Ambil foto baru',
+                AppStrings.takePhoto,
                 style: TextStyle(color: AppColors.textMuted, fontSize: AppDims.sp12),
               ),
               onTap: () {

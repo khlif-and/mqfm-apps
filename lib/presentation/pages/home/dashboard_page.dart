@@ -22,10 +22,10 @@ import 'package:mqfm_apps/presentation/organisms/dashboard/dashboard_header.dart
 import 'package:mqfm_apps/presentation/organisms/dashboard/horizontal_content_list.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/menu_grid.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/vertical_content_list.dart';
+import 'package:mqfm_apps/presentation/organisms/dashboard/recommendation_sliver_list.dart';
 import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_manager.dart';
 import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_bloc.dart';
 import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_event.dart';
-import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_state.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -37,6 +37,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
   int _selectedCategoryId = 0;
+  bool _isHistoryLoading = true;
 
   final GlobalKey _profileKey = GlobalKey();
   final GlobalKey _categoryKey = GlobalKey();
@@ -46,87 +47,10 @@ class _DashboardPageState extends State<DashboardPage> {
   final GlobalKey _verticalListKey = GlobalKey();
 
   @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => getIt<CategoryBloc>()..add(const CategoryEvent.fetch())),
-        BlocProvider(create: (_) => getIt<AudioListBloc>()..add(const AudioListEvent.fetch())),
-        BlocProvider(create: (_) => getIt<RecommendationBloc>()..add(const RecommendationEvent.fetchAll())),
-      ],
-      child: _DashboardView(
-        selectedIndex: _selectedIndex,
-        selectedCategoryId: _selectedCategoryId,
-        profileKey: _profileKey,
-        categoryKey: _categoryKey,
-        menuGridKey: _menuGridKey,
-        quoteKey: _quoteKey,
-        horizontalListKey: _horizontalListKey,
-        verticalListKey: _verticalListKey,
-        onCategorySelected: (id, index) {
-          setState(() {
-            _selectedCategoryId = id;
-            _selectedIndex = index;
-          });
-        },
-        onInitTour: () {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            final targets = buildDashboardTargets(
-              profileKey: _profileKey,
-              categoryKey: _categoryKey,
-              menuGridKey: _menuGridKey,
-              quoteKey: _quoteKey,
-              horizontalListKey: _horizontalListKey,
-              verticalListKey: _verticalListKey,
-            );
-            GuideTourManager.showTourIfNeeded(
-              context: context,
-              targets: targets,
-              tourKey: 'dashboard_tour_shown',
-            );
-          });
-        },
-      ),
-    );
-  }
-}
-
-class _DashboardView extends StatefulWidget {
-  final int selectedIndex;
-  final int selectedCategoryId;
-  final GlobalKey profileKey;
-  final GlobalKey categoryKey;
-  final GlobalKey menuGridKey;
-  final GlobalKey quoteKey;
-  final GlobalKey horizontalListKey;
-  final GlobalKey verticalListKey;
-  final void Function(int id, int index) onCategorySelected;
-  final VoidCallback onInitTour;
-
-  const _DashboardView({
-    required this.selectedIndex,
-    required this.selectedCategoryId,
-    required this.profileKey,
-    required this.categoryKey,
-    required this.menuGridKey,
-    required this.quoteKey,
-    required this.horizontalListKey,
-    required this.verticalListKey,
-    required this.onCategorySelected,
-    required this.onInitTour,
-  });
-
-  @override
-  State<_DashboardView> createState() => _DashboardViewState();
-}
-
-class _DashboardViewState extends State<_DashboardView> {
-  bool _isHistoryLoading = true;
-
-  @override
   void initState() {
     super.initState();
-    widget.onInitTour();
     _loadHistory();
+    _initTour();
   }
 
   Future<void> _loadHistory() async {
@@ -143,191 +67,99 @@ class _DashboardViewState extends State<_DashboardView> {
     context.push(AppPathRoutes.playerWithId(audioId.toString()));
   }
 
+  void _initTour() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final targets = buildDashboardTargets(
+        profileKey: _profileKey,
+        categoryKey: _categoryKey,
+        menuGridKey: _menuGridKey,
+        quoteKey: _quoteKey,
+        horizontalListKey: _horizontalListKey,
+        verticalListKey: _verticalListKey,
+      );
+      GuideTourManager.showTourIfNeeded(
+        context: context,
+        targets: targets,
+        tourKey: 'dashboard_tour_shown',
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoryBloc, CategoryState>(
-      builder: (context, categoryState) {
-        final categories = categoryState.maybeWhen(
-          loaded: (cats) => cats,
-          orElse: () => <CategoryEntity>[],
-        );
-        final isCategoryLoading = categoryState is CategoryLoading;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<CategoryBloc>()..add(const CategoryEvent.fetch())),
+        BlocProvider(create: (_) => getIt<AudioListBloc>()..add(const AudioListEvent.fetch())),
+        BlocProvider(create: (_) => getIt<RecommendationBloc>()..add(const RecommendationEvent.fetchAll())),
+      ],
+      child: BlocBuilder<CategoryBloc, CategoryState>(
+        builder: (context, categoryState) {
+          final categories = categoryState.maybeWhen(loaded: (cats) => cats, orElse: () => <CategoryEntity>[]);
+          final isCategoryLoading = categoryState is CategoryLoading;
 
-        return BlocBuilder<AudioListBloc, AudioListState>(
-          builder: (context, audioState) {
-            final allAudios = audioState.maybeWhen(
-              loaded: (audios) => audios,
-              orElse: () => <AudioEntity>[],
-            );
-            final isAudioLoading = audioState is AudioListLoading;
-            final filteredAudios = _filterAudios(allAudios, widget.selectedCategoryId);
-            final curatedSections = CuratedContent.buildSections(allAudios);
+          return BlocBuilder<AudioListBloc, AudioListState>(
+            builder: (context, audioState) {
+              final allAudios = audioState.maybeWhen(loaded: (audios) => audios, orElse: () => <AudioEntity>[]);
+              final isAudioLoading = audioState is AudioListLoading;
+              final filteredAudios = _filterAudios(allAudios, _selectedCategoryId);
+              final curatedSections = CuratedContent.buildSections(allAudios);
 
-            return Column(
-              children: [
-                DashboardHeader(
-                  categories: categories.map((e) => e.name).toList(),
-                  selectedIndex: widget.selectedIndex,
-                  onCategorySelected: (index) {
-                    final id = index == 0 ? 0 : (index <= categories.length ? categories[index - 1].id : 0);
-                    widget.onCategorySelected(id, index);
-                  },
-                  profileKey: widget.profileKey,
-                  categoryKey: widget.categoryKey,
-                  userData: UserManager.instance.currentUserNotifier.value,
-                  isUserLoading: UserManager.instance.isLoadingNotifier.value,
-                  onAvatarTap: () => Scaffold.of(context).openDrawer(),
-                ),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      context.read<CategoryBloc>().add(const CategoryEvent.fetch());
-                      context.read<AudioListBloc>().add(const AudioListEvent.fetch());
-                      context.read<RecommendationBloc>().add(const RecommendationEvent.fetchAll());
+              return Column(
+                children: [
+                  DashboardHeader(
+                    categories: categories.map((e) => e.name).toList(),
+                    selectedIndex: _selectedIndex,
+                    onCategorySelected: (index) {
+                      final id = index == 0 ? 0 : (index <= categories.length ? categories[index - 1].id : 0);
+                      setState(() { _selectedCategoryId = id; _selectedIndex = index; });
                     },
-                    child: CustomScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      cacheExtent: 500,
-                      slivers: [
-                        if (isCategoryLoading || isAudioLoading)
-                          const SliverToBoxAdapter(
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 20),
-                              child: LinearProgressIndicator(color: AppColors.success),
-                            ),
-                          ),
-                        SliverToBoxAdapter(
-                          child: Padding(
+                    profileKey: _profileKey,
+                    categoryKey: _categoryKey,
+                    userData: UserManager.instance.currentUserNotifier.value,
+                    isUserLoading: UserManager.instance.isLoadingNotifier.value,
+                    onAvatarTap: () => Scaffold.of(context).openDrawer(),
+                  ),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        context.read<CategoryBloc>().add(const CategoryEvent.fetch());
+                        context.read<AudioListBloc>().add(const AudioListEvent.fetch());
+                        context.read<RecommendationBloc>().add(const RecommendationEvent.fetchAll());
+                      },
+                      child: CustomScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        cacheExtent: 500,
+                        slivers: [
+                          if (isCategoryLoading || isAudioLoading)
+                            const SliverToBoxAdapter(child: Padding(padding: EdgeInsets.only(bottom: 20), child: LinearProgressIndicator(color: AppColors.success))),
+                          SliverToBoxAdapter(child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                             child: ValueListenableBuilder<List<AudioEntity>>(
                               valueListenable: PreferencesHelper.historyNotifier,
-                              builder: (context, historyAudios, _) {
-                                return MenuGrid(
-                                  key: widget.menuGridKey,
-                                  historyAudios: historyAudios,
-                                  isLoading: _isHistoryLoading,
-                                  onAudioTap: (audioId) => _navigateToPlayer(audioId),
-                                );
-                              },
+                              builder: (context, historyAudios, _) => MenuGrid(key: _menuGridKey, historyAudios: historyAudios, isLoading: _isHistoryLoading, onAudioTap: _navigateToPlayer),
                             ),
-                          ),
-                        ),
-                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
-                        SliverToBoxAdapter(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
-                            child: Container(key: widget.quoteKey, child: const QuoteCard()),
-                          ),
-                        ),
-                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h32)),
-                        SliverToBoxAdapter(
-                          child: RepaintBoundary(
-                            child: Container(
-                              key: widget.horizontalListKey,
-                              child: HorizontalContentList(
-                                audios: filteredAudios,
-                                isLoading: isAudioLoading,
-                                onAudioTap: _navigateToPlayer,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
-                        SliverToBoxAdapter(
-                          child: Container(
-                            key: widget.verticalListKey,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
-                              child: VerticalContentList(
-                                audios: filteredAudios,
-                                isLoading: isAudioLoading,
-                                onAudioTap: _navigateToPlayer,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
-                        BlocBuilder<RecommendationBloc, RecommendationState>(
-                          builder: (context, recState) {
-                            final recSections = <Widget>[];
-
-                            if (recState.personalized.isNotEmpty) {
-                              recSections.add(RepaintBoundary(
-                                child: HorizontalContentList(
-                                  title: 'Personalisasi Kamu Banget',
-                                  audios: recState.personalized,
-                                  isLoading: recState.isLoading,
-                                  onAudioTap: _navigateToPlayer,
-                                ),
-                              ));
-                            }
-                            if (recState.popular.isNotEmpty) {
-                              recSections.add(RepaintBoundary(
-                                child: HorizontalContentList(
-                                  title: 'Paling Popular',
-                                  audios: recState.popular,
-                                  isLoading: recState.isLoading,
-                                  onAudioTap: _navigateToPlayer,
-                                ),
-                              ));
-                            }
-                            if (recState.quickPick.isNotEmpty) {
-                              recSections.add(RepaintBoundary(
-                                child: HorizontalContentList(
-                                  title: 'Quick Pick',
-                                  audios: recState.quickPick,
-                                  isLoading: recState.isLoading,
-                                  onAudioTap: _navigateToPlayer,
-                                ),
-                              ));
-                            }
-                            if (recState.byArtist.isNotEmpty && recState.artistName.isNotEmpty) {
-                              recSections.add(RepaintBoundary(
-                                child: HorizontalContentList(
-                                  title: 'Khusus Kajian ${recState.artistName}',
-                                  audios: recState.byArtist.take(10).toList(),
-                                  isLoading: recState.isLoading,
-                                  onAudioTap: _navigateToPlayer,
-                                ),
-                              ));
-                            }
-
-                            return SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) => Padding(
-                                  padding: EdgeInsets.only(bottom: AppDims.h24),
-                                  child: recSections[index],
-                                ),
-                                childCount: recSections.length,
-                              ),
-                            );
-                          },
-                        ),
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => Padding(
-                              padding: EdgeInsets.only(bottom: AppDims.h24),
-                              child: RepaintBoundary(
-                                child: HorizontalContentList(
-                                  title: curatedSections[index].key,
-                                  audios: curatedSections[index].value,
-                                  onAudioTap: _navigateToPlayer,
-                                ),
-                              ),
-                            ),
-                            childCount: curatedSections.length,
-                          ),
-                        ),
-                        SliverToBoxAdapter(child: SizedBox(height: AppDims.h30)),
-                      ],
+                          )),
+                          SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
+                          SliverToBoxAdapter(child: Padding(padding: EdgeInsets.symmetric(horizontal: AppDims.w16), child: Container(key: _quoteKey, child: const QuoteCard()))),
+                          SliverToBoxAdapter(child: SizedBox(height: AppDims.h32)),
+                          SliverToBoxAdapter(child: RepaintBoundary(child: Container(key: _horizontalListKey, child: HorizontalContentList(audios: filteredAudios, isLoading: isAudioLoading, onAudioTap: _navigateToPlayer)))),
+                          SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
+                          SliverToBoxAdapter(child: Container(key: _verticalListKey, child: Padding(padding: EdgeInsets.symmetric(horizontal: AppDims.w16), child: VerticalContentList(audios: filteredAudios, isLoading: isAudioLoading, onAudioTap: _navigateToPlayer)))),
+                          SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
+                          RecommendationSliverList(onAudioTap: _navigateToPlayer),
+                          SliverList(delegate: SliverChildBuilderDelegate((context, index) => Padding(padding: EdgeInsets.only(bottom: AppDims.h24), child: RepaintBoundary(child: HorizontalContentList(title: curatedSections[index].key, audios: curatedSections[index].value, onAudioTap: _navigateToPlayer))), childCount: curatedSections.length)),
+                          SliverToBoxAdapter(child: SizedBox(height: AppDims.h30)),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
-        );
-      },
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

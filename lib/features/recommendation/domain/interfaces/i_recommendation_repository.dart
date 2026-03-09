@@ -8,4 +8,7 @@ abstract class IRecommendationRepository {
   Future<Either<String, List<AudioEntity>>> getPopular();
   Future<Either<String, List<AudioEntity>>> getQuickPick();
   Future<Either<String, List<AudioEntity>>> getPersonalized();
+  Future<Either<String, List<AudioEntity>>> getMostListened();
+  Future<Either<String, List<AudioEntity>>> getLocationBased();
+  Future<Either<String, List<AudioEntity>>> getTimeBased();
 }

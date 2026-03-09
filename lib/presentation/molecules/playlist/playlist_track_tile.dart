@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
@@ -22,7 +22,7 @@ class PlaylistTrackTile extends StatelessWidget {
           image: DecorationImage(
             image: (audio.thumbnail.isNotEmpty)
                 ? NetworkImage(audio.thumbnail)
-                : const AssetImage('assets/images/img_card.jpg')
+                : const AssetImage(AppImages.cardPlaceholder)
                       as ImageProvider,
             fit: BoxFit.cover,
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class PlayerDisk extends StatelessWidget {
@@ -17,7 +18,7 @@ class PlayerDisk extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppDims.r8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: AppDims.r20,
             offset: Offset(0, AppDims.h10),
           ),
@@ -30,20 +31,20 @@ class PlayerDisk extends StatelessWidget {
                 imageUrl: imageUrl,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
-                  color: Colors.grey[800],
+                  color: AppColors.shimmerBase,
                   child: const Center(
                     child: CircularProgressIndicator(
-                      color: Colors.white54,
+                      color: AppColors.textWhiteFaint,
                       strokeWidth: 2,
                     ),
                   ),
                 ),
                 errorWidget: (context, url, error) => Image.asset(
-                  'assets/images/img_card.jpg',
+                  AppImages.cardPlaceholder,
                   fit: BoxFit.cover,
                 ),
               )
-            : Image.asset('assets/images/img_card.jpg', fit: BoxFit.cover),
+            : Image.asset(AppImages.cardPlaceholder, fit: BoxFit.cover),
       ),
     );
   }

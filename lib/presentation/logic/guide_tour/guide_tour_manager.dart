@@ -3,16 +3,27 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GuideTourManager {
+  static final Set<String> _pendingKeys = {};
+
   static Future<void> showTourIfNeeded({
     required BuildContext context,
     required List<TargetFocus> targets,
     required String tourKey,
   }) async {
+    if (_pendingKeys.contains(tourKey)) return;
+    _pendingKeys.add(tourKey);
+
     final prefs = await SharedPreferences.getInstance();
     final alreadyShown = prefs.getBool(tourKey) ?? false;
 
-    if (alreadyShown) return;
-    if (!context.mounted) return;
+    if (alreadyShown) {
+      _pendingKeys.remove(tourKey);
+      return;
+    }
+    if (!context.mounted) {
+      _pendingKeys.remove(tourKey);
+      return;
+    }
 
     TutorialCoachMark(
       targets: targets,
@@ -29,9 +40,11 @@ class GuideTourManager {
       pulseAnimationDuration: const Duration(milliseconds: 700),
       onFinish: () async {
         await prefs.setBool(tourKey, true);
+        _pendingKeys.remove(tourKey);
       },
       onSkip: () {
         prefs.setBool(tourKey, true);
+        _pendingKeys.remove(tourKey);
         return true;
       },
     ).show(context: context);

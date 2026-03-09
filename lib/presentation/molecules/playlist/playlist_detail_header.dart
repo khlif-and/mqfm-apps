@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:mqfm_apps/features/playlist/domain/entities/playlist.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
@@ -21,13 +22,13 @@ class PlaylistDetailHeader extends StatelessWidget {
               image: DecorationImage(
                 image: (playlist.imageUrl.isNotEmpty)
                     ? NetworkImage(playlist.imageUrl)
-                    : const AssetImage('assets/images/img_card.jpg')
+                    : const AssetImage(AppImages.cardPlaceholder)
                           as ImageProvider,
                 fit: BoxFit.cover,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.backgroundBlack.withOpacity(0.5),
+                  color: AppColors.backgroundBlack.withValues(alpha: 0.5),
                   blurRadius: AppDims.r20,
                   offset: const Offset(0, 10),
                 ),

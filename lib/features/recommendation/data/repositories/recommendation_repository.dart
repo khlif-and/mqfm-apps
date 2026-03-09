@@ -100,4 +100,49 @@ class RecommendationRepositoryImpl implements IRecommendationRepository {
       return Left(e.toString());
     }
   }
+
+  @override
+  Future<Either<String, List<AudioEntity>>> getMostListened() async {
+    try {
+      final response = await _datasource.getMostListened();
+      if (response.status == 200 && response.data != null) {
+        return Right(response.data!.map((d) => d.toEntity()).toList());
+      }
+      return Right([]);
+    } on DioException catch (e) {
+      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, List<AudioEntity>>> getLocationBased() async {
+    try {
+      final response = await _datasource.getLocationBased();
+      if (response.status == 200 && response.data != null) {
+        return Right(response.data!.map((d) => d.toEntity()).toList());
+      }
+      return Right([]);
+    } on DioException catch (e) {
+      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, List<AudioEntity>>> getTimeBased() async {
+    try {
+      final response = await _datasource.getTimeBased();
+      if (response.status == 200 && response.data != null) {
+        return Right(response.data!.map((d) => d.toEntity()).toList());
+      }
+      return Right([]);
+    } on DioException catch (e) {
+      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
 }

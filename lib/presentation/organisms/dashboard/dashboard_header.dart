@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
 import 'package:mqfm_apps/presentation/molecules/profile/profile_avatar_builder.dart';
 
@@ -62,7 +61,7 @@ class DashboardHeader extends StatelessWidget {
                       child: Text(
                         categories[index],
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textWhite,
                           fontSize: AppDims.sp12,
                           fontWeight: FontWeight.w500,
                         ),

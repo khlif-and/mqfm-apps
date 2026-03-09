@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class GoogleSignInButton extends StatelessWidget {
@@ -54,7 +54,7 @@ class GoogleSignInButton extends StatelessWidget {
                   ),
                   SizedBox(width: AppDims.w12),
                   Text(
-                    'Masuk dengan Google',
+                    AppStrings.loginWithGoogle,
                     style: TextStyle(
                       color: AppColors.backgroundBlack,
                       fontWeight: FontWeight.w600,

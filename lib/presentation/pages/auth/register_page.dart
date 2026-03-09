@@ -2,7 +2,6 @@ import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/manager/user_manager.dart';

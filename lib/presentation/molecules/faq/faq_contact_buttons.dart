@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_styles.dart';
 
@@ -25,7 +26,7 @@ class FaqContactButtons extends StatelessWidget {
         Text(
           'Jangan ragu menghubungi kami apabila Anda punya kendala penggunaan aplikasi.',
           style: AppStyles.bodyMedium.copyWith(
-            color: Colors.white.withOpacity(0.6),
+            color: AppColors.textWhite.withValues(alpha: 0.6),
           ),
         ),
         SizedBox(height: AppDims.h20),
@@ -68,9 +69,9 @@ class FaqContactButtons extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: AppDims.h16),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(AppDims.r16),
-            border: Border.all(color: color.withOpacity(0.3), width: 1),
+            border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
           ),
           child: Column(
             children: [

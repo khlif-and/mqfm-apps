@@ -46,11 +46,11 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
             decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: TextStyle(
-                color: AppColors.textWhite.withOpacity(0.54),
+                color: AppColors.textWhite.withValues(alpha: 0.54),
               ),
               prefixIcon: Icon(
                 Icons.lock_outline,
-                color: AppColors.textWhite.withOpacity(0.7),
+                color: AppColors.textWhite.withValues(alpha: 0.7),
               ),
               suffixIcon: SuffixPasswordIcon(
                 obscureTextNotifier: _obscureTextNotifier,

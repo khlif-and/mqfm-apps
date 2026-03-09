@@ -52,7 +52,7 @@ class BrowseCard extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.onPrimary.withOpacity(0.3),
+                      color: AppColors.onPrimary.withValues(alpha: 0.3),
                       blurRadius: 5,
                       offset: const Offset(0, 2),
                     ),

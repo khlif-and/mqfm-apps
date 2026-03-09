@@ -29,4 +29,13 @@ abstract class RecommendationRemoteDatasource {
 
   @GET('/api/user/recommendations/personalized')
   Future<BaseResponse<List<AudioDto>>> getPersonalized();
+
+  @GET('/api/user/recommendations/most-listened')
+  Future<BaseResponse<List<AudioDto>>> getMostListened();
+
+  @GET('/api/user/recommendations/location-based')
+  Future<BaseResponse<List<AudioDto>>> getLocationBased();
+
+  @GET('/api/user/recommendations/time-based')
+  Future<BaseResponse<List<AudioDto>>> getTimeBased();
 }

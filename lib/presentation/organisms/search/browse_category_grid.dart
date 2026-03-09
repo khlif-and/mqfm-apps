@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/molecules/search/mixed_card.dart';
@@ -96,7 +98,7 @@ class BrowseCategoryGrid extends StatelessWidget {
       children: [
         SizedBox(height: AppDims.h12),
         Text(
-          'Mixed for you',
+          AppStrings.mixedForYou,
           style: TextStyle(
             color: AppColors.textWhite,
             fontSize: AppDims.sp22,
@@ -107,7 +109,7 @@ class BrowseCategoryGrid extends StatelessWidget {
         SizedBox(height: AppDims.h16),
         if (audios.isEmpty)
           const EmptyStateCard(
-            message: 'Belum ada data saat ini',
+            message: AppStrings.emptyData,
             icon: Icons.library_music_outlined,
           )
         else
@@ -121,14 +123,14 @@ class BrowseCategoryGrid extends StatelessWidget {
                     .map(
                       (a) => a.thumbnail.isNotEmpty
                           ? a.thumbnail
-                          : 'assets/images/img_card.jpg',
+                          : AppImages.cardPlaceholder,
                     )
                     .toList();
                 final description = group.map((a) => a.title).join(', ');
                 return GestureDetector(
                   onTap: () => onMixTap?.call(group),
                   child: MixedCard(
-                    description: 'Featuring $description',
+                    description: '${AppStrings.featuring} $description',
                     imageUrls: imageUrls,
                   ),
                 );

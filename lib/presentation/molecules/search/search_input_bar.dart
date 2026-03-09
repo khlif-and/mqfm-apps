@@ -25,7 +25,7 @@ class SearchInputBar extends StatelessWidget {
         children: [
           Icon(
             Icons.search,
-            color: AppColors.onPrimary.withOpacity(0.87),
+            color: AppColors.onPrimary.withValues(alpha: 0.87),
             size: AppDims.r28,
           ),
           SizedBox(width: AppDims.w12),
@@ -40,7 +40,7 @@ class SearchInputBar extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'What do you want to listen to?',
                 hintStyle: TextStyle(
-                  color: AppColors.onPrimary.withOpacity(0.4),
+                  color: AppColors.onPrimary.withValues(alpha: 0.4),
                   fontSize: AppDims.sp14,
                   fontWeight: FontWeight.w600,
                 ),
