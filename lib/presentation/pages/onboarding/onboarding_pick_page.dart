@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/routes/app_path_routes.dart';
@@ -8,11 +7,10 @@ import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
-import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/features/recommendation/applications/onboarding_pick_bloc/onboarding_pick_bloc.dart';
 import 'package:mqfm_apps/features/recommendation/applications/onboarding_pick_bloc/onboarding_pick_event.dart';
 import 'package:mqfm_apps/features/recommendation/applications/onboarding_pick_bloc/onboarding_pick_state.dart';
-import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
+import 'package:mqfm_apps/presentation/molecules/onboarding/audio_pick_item.dart';
 
 class OnboardingPickPage extends StatelessWidget {
   const OnboardingPickPage({super.key});
@@ -20,23 +18,12 @@ class OnboardingPickPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<OnboardingPickBloc>()
-        ..add(const OnboardingPickEvent.fetch()),
-      child: const _OnboardingPickView(),
-    );
-  }
-}
-
-class _OnboardingPickView extends StatelessWidget {
-  const _OnboardingPickView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundBlack,
-      body: SafeArea(
-        child: BlocBuilder<OnboardingPickBloc, OnboardingPickState>(
-          builder: (context, state) {
+      create: (_) => getIt<OnboardingPickBloc>()..add(const OnboardingPickEvent.fetch()),
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundBlack,
+        body: SafeArea(
+          child: BlocBuilder<OnboardingPickBloc, OnboardingPickState>(
+            builder: (context, state) {
             return Column(
               children: [
                 Padding(
@@ -112,8 +99,8 @@ class _OnboardingPickView extends StatelessWidget {
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
-                                mainAxisSpacing: 12.h,
-                                crossAxisSpacing: 12.w,
+                                mainAxisSpacing: AppDims.h12,
+                                crossAxisSpacing: AppDims.w12,
                                 childAspectRatio: 0.75,
                               ),
                               itemCount: state.audios.length,
@@ -121,7 +108,7 @@ class _OnboardingPickView extends StatelessWidget {
                                 final audio = state.audios[index];
                                 final isSelected =
                                     state.selectedIds.contains(audio.id);
-                                return _AudioPickItem(
+                                return AudioPickItem(
                                   audio: audio,
                                   isSelected: isSelected,
                                   onTap: () {
@@ -201,82 +188,7 @@ class _OnboardingPickView extends StatelessWidget {
           },
         ),
       ),
-    );
-  }
-}
-
-class _AudioPickItem extends StatelessWidget {
-  final AudioEntity audio;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _AudioPickItem({
-    required this.audio,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppDims.r12),
-          border: isSelected
-              ? Border.all(color: AppColors.primaryClassic, width: 2.5)
-              : null,
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppDims.r12),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: AppNetworkImage(
-                      url: audio.thumbnail,
-                      fit: BoxFit.cover,
-                      borderRadius: AppDims.r12,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 4.w, vertical: 4.h),
-                    child: Text(
-                      audio.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.textWhite,
-                        fontSize: AppDims.sp11,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              if (isSelected)
-                Positioned(
-                  top: 6.h,
-                  right: 6.w,
-                  child: Container(
-                    padding: EdgeInsets.all(2.r),
-                    decoration: const BoxDecoration(
-                      color: AppColors.primaryClassic,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.check,
-                        size: AppDims.r16, color: AppColors.textWhite),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
+    ),
+  );
   }
 }

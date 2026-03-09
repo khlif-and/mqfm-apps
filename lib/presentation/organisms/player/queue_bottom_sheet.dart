@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
 
@@ -36,7 +37,7 @@ class QueueBottomSheet extends StatelessWidget {
           ),
           SizedBox(height: AppDims.h16),
           Text(
-            'Di putar dari: $currentAudioTitle',
+            '${AppStrings.playingFrom} $currentAudioTitle',
             style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: AppDims.sp12,
@@ -46,7 +47,7 @@ class QueueBottomSheet extends StatelessWidget {
           ),
           SizedBox(height: AppDims.h8),
           Text(
-            'Berikutnya',
+            AppStrings.nextUp,
             style: TextStyle(
               color: AppColors.textWhite,
               fontSize: AppDims.sp18,
@@ -60,7 +61,7 @@ class QueueBottomSheet extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: AppDims.h24),
               child: Center(
                 child: Text(
-                  'Tidak ada antrian',
+                  AppStrings.noQueue,
                   style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp14),
                 ),
               ),
@@ -70,7 +71,7 @@ class QueueBottomSheet extends StatelessWidget {
               child: ListView.separated(
                 shrinkWrap: true,
                 itemCount: queue.length,
-                separatorBuilder: (_, __) => SizedBox(height: AppDims.h8),
+                separatorBuilder: (_, _) => SizedBox(height: AppDims.h8),
                 itemBuilder: (context, index) {
                   final audio = queue[index];
                   return ListTile(

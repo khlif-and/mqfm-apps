@@ -13,10 +13,10 @@ class AboutHeader extends StatelessWidget {
           padding: EdgeInsets.all(AppDims.r20),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: AppColors.surfaceHighlight.withOpacity(0.3),
+            color: AppColors.surfaceHighlight.withValues(alpha: 0.3),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withOpacity(0.15),
+                color: AppColors.primary.withValues(alpha: 0.15),
                 blurRadius: AppDims.r30,
                 spreadRadius: AppDims.r5,
               ),
@@ -45,9 +45,9 @@ class AboutHeader extends StatelessWidget {
             vertical: AppDims.h4,
           ),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(AppDims.r20),
-            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+            border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
           ),
           child: Text(
             'Versi 1.0.0',

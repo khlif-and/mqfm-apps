@@ -27,17 +27,17 @@ class AboutContent extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [
                   AppColors.surfaceCard,
-                  AppColors.surfaceHighlight.withOpacity(0.3),
+                  AppColors.surfaceHighlight.withValues(alpha: 0.3),
                 ],
               ),
               borderRadius: BorderRadius.circular(AppDims.r20),
               border: Border.all(
-                color: AppColors.textWhite.withOpacity(0.05),
+                color: AppColors.textWhite.withValues(alpha: 0.05),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.backgroundBlack.withOpacity(0.2),
+                  color: AppColors.backgroundBlack.withValues(alpha: 0.2),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -70,7 +70,7 @@ class AboutContent extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppDims.sp14,
                     height: 1.6,
-                    color: AppColors.textWhite.withOpacity(0.7),
+                    color: AppColors.textWhite.withValues(alpha: 0.7),
                   ),
                   textAlign: TextAlign.justify,
                 ),
@@ -90,7 +90,7 @@ class AboutContent extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppDims.sp16,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textWhite.withOpacity(0.9),
+                    color: AppColors.textWhite.withValues(alpha: 0.9),
                   ),
                 ),
               ),
@@ -120,7 +120,7 @@ class AboutContent extends StatelessWidget {
             '© 2026 MQFM Network. All rights reserved.',
             style: TextStyle(
               fontSize: AppDims.sp12,
-              color: AppColors.textSecondary.withOpacity(0.5),
+              color: AppColors.textSecondary.withValues(alpha: 0.5),
             ),
           ),
           SizedBox(height: AppDims.h32),

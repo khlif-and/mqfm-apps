@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/molecules/history/history_audio_tile.dart';
 

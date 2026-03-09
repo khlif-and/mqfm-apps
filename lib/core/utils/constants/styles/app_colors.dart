@@ -76,4 +76,12 @@ class AppColors {
 
   // Avatar
   static const Color avatarBrown = Color(0xFF8B5A3C);
+
+  // Sidebar
+  static const Color sidebarBackground = Color(0xFF121218);
+
+  // Gradient
+  static const Color gradientFavoriteStart = Color(0xFF450AF5);
+  static const Color gradientFavoriteEnd = Color(0xFFC4EFD9);
+  static const Color notificationBlue = Color(0xFF0D72EA);
 }

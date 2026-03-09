@@ -2,7 +2,6 @@ import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
@@ -39,6 +38,7 @@ class SearchPageState extends State<SearchPage> {
   final GlobalKey _searchBarKey = GlobalKey();
   final GlobalKey _mixedKey = GlobalKey();
   final GlobalKey _discoverKey = GlobalKey();
+  late final AudioListBloc _audioListBloc;
   bool _isSearching = false;
   Timer? _debounce;
   int _selectedCategoryId = 0;
@@ -46,6 +46,7 @@ class SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    _audioListBloc = getIt<AudioListBloc>();
     _sectionsLogic.addListener(_onSectionsChanged);
     _sectionsLogic.fetchAudios();
   }
@@ -66,17 +67,14 @@ class SearchPageState extends State<SearchPage> {
   @override
   void dispose() {
     _debounce?.cancel();
+    _audioListBloc.close();
     _sectionsLogic.removeListener(_onSectionsChanged);
     _sectionsLogic.dispose();
     _searchController.dispose();
     super.dispose();
   }
 
-  void _onSectionsChanged() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
+  void _onSectionsChanged() { if (mounted) setState(() {}); }
 
   void _onSearchChanged(String query) {
     _debounce?.cancel();
@@ -86,7 +84,7 @@ class SearchPageState extends State<SearchPage> {
     }
     setState(() => _isSearching = true);
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      context.read<AudioListBloc>().add(AudioListEvent.search(query: query.trim()));
+      _audioListBloc.add(AudioListEvent.search(query: query.trim()));
     });
   }
 
@@ -94,7 +92,7 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => getIt<AudioListBloc>()),
+        BlocProvider.value(value: _audioListBloc),
         BlocProvider(create: (_) => getIt<CategoryBloc>()..add(const CategoryEvent.fetch())),
       ],
       child: BlocListener<AudioListBloc, AudioListState>(
@@ -116,12 +114,8 @@ class SearchPageState extends State<SearchPage> {
                   onAvatarTap: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
-              BlocBuilder<CategoryBloc, CategoryState>(
-                builder: (context, catState) {
-                  final categories = catState.maybeWhen(
-                    loaded: (cats) => cats,
-                    orElse: () => <CategoryEntity>[],
-                  );
+              BlocBuilder<CategoryBloc, CategoryState>(builder: (context, catState) {
+                  final categories = catState.maybeWhen(loaded: (cats) => cats, orElse: () => <CategoryEntity>[]);
                   if (categories.isEmpty) return const SizedBox.shrink();
                   return Padding(
                     padding: EdgeInsets.only(bottom: AppDims.h12),
@@ -131,32 +125,23 @@ class SearchPageState extends State<SearchPage> {
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                         itemCount: categories.length + 1,
-                        separatorBuilder: (_, __) => SizedBox(width: AppDims.w8),
+                        separatorBuilder: (_, _) => SizedBox(width: AppDims.w8),
                         itemBuilder: (context, index) {
                           final isAll = index == 0;
-                          final isSelected = isAll
-                              ? _selectedCategoryId == 0
-                              : _selectedCategoryId == categories[index - 1].id;
+                          final id = isAll ? 0 : categories[index - 1].id;
+                          final isSelected = _selectedCategoryId == id;
                           return GestureDetector(
-                            onTap: () => setState(() {
-                              _selectedCategoryId = isAll ? 0 : categories[index - 1].id;
-                            }),
+                            onTap: () => setState(() => _selectedCategoryId = id),
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: AppDims.w16, vertical: AppDims.h6),
                               decoration: BoxDecoration(
                                 color: isSelected ? AppColors.primaryLight : AppColors.cardBackground,
                                 borderRadius: BorderRadius.circular(AppDims.r20),
                               ),
-                              child: Center(
-                                child: Text(
-                                  isAll ? 'Semua' : categories[index - 1].name,
-                                  style: TextStyle(
-                                    color: AppColors.textWhite,
-                                    fontSize: AppDims.sp12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
+                              child: Center(child: Text(
+                                isAll ? 'Semua' : categories[index - 1].name,
+                                style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp12, fontWeight: FontWeight.w500),
+                              )),
                             ),
                           );
                         },
@@ -186,26 +171,13 @@ class SearchPageState extends State<SearchPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            key: _mixedKey,
-                            child: BrowseCategoryGrid(
-                              audios: filteredAudios,
-                              isLoading: _sectionsLogic.isLoading,
-                              onMixTap: (group) => context.push(
-                                AppPathRoutes.mixDetail,
-                                extra: group,
-                              ),
-                            ),
-                          ),
+                          Container(key: _mixedKey, child: BrowseCategoryGrid(
+                            audios: filteredAudios, isLoading: _sectionsLogic.isLoading,
+                            onMixTap: (group) => context.push(AppPathRoutes.mixDetail, extra: group))),
                           SizedBox(height: AppDims.h32),
-                          Container(
-                            key: _discoverKey,
-                            child: DiscoverHorizontalList(
-                              audios: filteredAudios,
-                              isLoading: _sectionsLogic.isLoading,
-                              onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
-                            ),
-                          ),
+                          Container(key: _discoverKey, child: DiscoverHorizontalList(
+                            audios: filteredAudios, isLoading: _sectionsLogic.isLoading,
+                            onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())))),
                           SizedBox(height: AppDims.h30),
                         ],
                       ),

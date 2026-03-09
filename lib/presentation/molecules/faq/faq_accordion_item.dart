@@ -26,12 +26,12 @@ class _FaqAccordionItemState extends State<FaqAccordionItem>
     return Container(
       margin: EdgeInsets.only(bottom: AppDims.h12),
       decoration: BoxDecoration(
-        color: AppColors.surfaceHighlight.withOpacity(0.3),
+        color: AppColors.surfaceHighlight.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(AppDims.r16),
         border: Border.all(
           color: _isExpanded
-              ? AppColors.primary.withOpacity(0.5)
-              : AppColors.textWhite.withOpacity(0.05),
+              ? AppColors.primary.withValues(alpha: 0.5)
+              : AppColors.textWhite.withValues(alpha: 0.05),
           width: 1,
         ),
       ),
@@ -47,14 +47,14 @@ class _FaqAccordionItemState extends State<FaqAccordionItem>
             horizontal: AppDims.w20,
             vertical: AppDims.h4,
           ),
-          collapsedIconColor: AppColors.textWhite.withOpacity(0.5),
+          collapsedIconColor: AppColors.textWhite.withValues(alpha: 0.5),
           iconColor: AppColors.primaryClassic,
           title: Text(
             widget.title,
             style: AppStyles.bodyMedium.copyWith(
               color: _isExpanded
                   ? AppColors.textWhite
-                  : AppColors.textWhite.withOpacity(0.8),
+                  : AppColors.textWhite.withValues(alpha: 0.8),
               fontWeight: _isExpanded ? FontWeight.bold : FontWeight.w600,
             ),
           ),
@@ -68,7 +68,7 @@ class _FaqAccordionItemState extends State<FaqAccordionItem>
             Text(
               widget.content,
               style: AppStyles.bodyMedium.copyWith(
-                color: AppColors.textWhite.withOpacity(0.6),
+                color: AppColors.textWhite.withValues(alpha: 0.6),
                 height: 1.5,
               ),
               textAlign: TextAlign.justify,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class QuoteCard extends StatelessWidget {
@@ -14,7 +15,7 @@ class QuoteCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppDims.r12),
         image: const DecorationImage(
-          image: AssetImage('assets/images/img_card.jpg'),
+          image: AssetImage(AppImages.cardPlaceholder),
           fit: BoxFit.cover,
         ),
       ),

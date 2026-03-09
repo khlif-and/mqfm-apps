@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
+import 'package:mqfm_apps/presentation/atoms/common/placeholder_content.dart';
+import 'package:mqfm_apps/presentation/atoms/dashboard/menu_grid_shimmer.dart';
 
 class MenuGrid extends StatelessWidget {
   final List<AudioEntity> historyAudios;
@@ -18,83 +19,16 @@ class MenuGrid extends StatelessWidget {
     this.onAudioTap,
   });
 
-  Widget _buildShimmer() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Shimmer.fromColors(
-          baseColor: AppColors.shimmerBase,
-          highlightColor: AppColors.shimmerHighlight,
-          child: Container(
-            width: AppDims.w120,
-            height: AppDims.h18,
-            decoration: BoxDecoration(
-              color: AppColors.backgroundBlack,
-              borderRadius: BorderRadius.circular(AppDims.r4),
-            ),
-          ),
-        ),
-        SizedBox(height: AppDims.h14),
-        ...List.generate(3, (_) {
-          return Padding(
-            padding: EdgeInsets.only(bottom: AppDims.h12),
-            child: Shimmer.fromColors(
-              baseColor: AppColors.shimmerBase,
-              highlightColor: AppColors.shimmerHighlight,
-              child: Row(
-                children: [
-                  Container(
-                    width: AppDims.w52,
-                    height: AppDims.w52,
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroundBlack,
-                      borderRadius: BorderRadius.circular(AppDims.r6),
-                    ),
-                  ),
-                  SizedBox(width: AppDims.w16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: AppDims.h14,
-                          decoration: BoxDecoration(
-                            color: AppColors.backgroundBlack,
-                            borderRadius: BorderRadius.circular(AppDims.r4),
-                          ),
-                        ),
-                        SizedBox(height: AppDims.h8),
-                        Container(
-                          width: AppDims.w100,
-                          height: AppDims.h12,
-                          decoration: BoxDecoration(
-                            color: AppColors.backgroundBlack,
-                            borderRadius: BorderRadius.circular(AppDims.r4),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (isLoading) return _buildShimmer();
+    if (isLoading) return const MenuGridShimmer();
 
     if (historyAudios.isEmpty) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Quick Pick',
+            AppStrings.quickPick,
             style: TextStyle(
               color: AppColors.textWhite,
               fontSize: AppDims.sp16,
@@ -103,7 +37,7 @@ class MenuGrid extends StatelessWidget {
           ),
           SizedBox(height: AppDims.h14),
           const EmptyStateCard(
-            message: 'Belum ada data saat ini',
+            message: AppStrings.emptyData,
             icon: Icons.headphones_rounded,
           ),
         ],
@@ -114,7 +48,7 @@ class MenuGrid extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Quick Pick',
+          AppStrings.quickPick,
           style: TextStyle(
             color: AppColors.textWhite,
             fontSize: AppDims.sp16,
@@ -166,9 +100,7 @@ class _QuickPickTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppDims.r6),
                 image: DecorationImage(
-                  image: (audio.thumbnail.isNotEmpty)
-                      ? NetworkImage(audio.thumbnail) as ImageProvider
-                      : const AssetImage('assets/images/img_card.jpg'),
+                  image: PlaceholderContent.audioThumbnail(audio.thumbnail),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -193,7 +125,7 @@ class _QuickPickTile extends StatelessWidget {
                   Text(
                     audio.description,
                     style: TextStyle(
-                      color: const Color(0xFFB3B3B3),
+                      color: AppColors.textSecondary,
                       fontSize: AppDims.sp13,
                       fontWeight: FontWeight.w400,
                     ),
@@ -207,7 +139,7 @@ class _QuickPickTile extends StatelessWidget {
               onPressed: () {},
               icon: Icon(
                 Icons.more_vert,
-                color: const Color(0xFFB3B3B3),
+                color: AppColors.textSecondary,
                 size: AppDims.sp24,
               ),
               padding: EdgeInsets.zero,

@@ -34,7 +34,7 @@ class RegisterFormSection extends StatelessWidget {
         CustomTextField(
           controller: usernameController,
           hintText: "Username",
-          prefixIcon: const Icon(Icons.person_outline, color: Colors.white70),
+          prefixIcon: const Icon(Icons.person_outline, color: AppColors.textWhiteSubdued),
         ),
         SizedBox(height: AppDims.h20),
         Text(

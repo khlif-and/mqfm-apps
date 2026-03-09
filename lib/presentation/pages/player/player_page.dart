@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
-import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
@@ -13,22 +12,15 @@ import 'package:mqfm_apps/features/audio/applications/player_bloc/player_bloc.da
 import 'package:mqfm_apps/features/audio/applications/player_bloc/player_event.dart';
 import 'package:mqfm_apps/features/audio/applications/player_bloc/player_state.dart';
 import 'package:mqfm_apps/features/like/applications/like_bloc/like_bloc.dart';
-import 'package:mqfm_apps/features/like/applications/like_bloc/like_event.dart';
-import 'package:mqfm_apps/features/like/applications/like_bloc/like_state.dart';
 import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_bloc.dart';
 import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_bloc.dart';
 import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_event.dart';
 import 'package:mqfm_apps/features/recommendation/applications/recommendation_bloc/recommendation_state.dart';
 import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
-import 'package:mqfm_apps/presentation/atoms/common/shimmer_box.dart';
 import 'package:mqfm_apps/presentation/atoms/player/player_background.dart';
-import 'package:mqfm_apps/presentation/atoms/player/player_bottom_actions.dart';
-import 'package:mqfm_apps/presentation/organisms/player/player_controls.dart';
-import 'package:mqfm_apps/presentation/logic/player/player_dialog_helper.dart';
-import 'package:mqfm_apps/presentation/atoms/player/player_disk.dart';
+import 'package:mqfm_apps/presentation/atoms/player/player_shimmer.dart';
 import 'package:mqfm_apps/presentation/molecules/player/player_header.dart';
-import 'package:mqfm_apps/presentation/molecules/player/player_track_info.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mqfm_apps/presentation/organisms/player/player_content.dart';
 
 class PlayerPage extends StatefulWidget {
   final String audioId;
@@ -71,14 +63,18 @@ class _PlayerPageState extends State<PlayerPage> {
     final idx = _audioManager.queueIndexNotifier.value;
     if (_pageController.hasClients && _pageController.page?.round() != idx) {
       _isPageAnimating = true;
-      _pageController.animateToPage(
-        idx,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      ).then((_) => _isPageAnimating = false);
+      _pageController
+        .animateToPage(idx, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut)
+        .then((_) { _isPageAnimating = false; if (mounted) setState(() {}); });
     }
     _updateLikeState();
     setState(() {});
+  }
+
+  void _onPageSwiped(int index) {
+    if (!_isPageAnimating) {
+      _audioManager.playAt(index);
+    }
   }
 
   Future<void> _updateLikeState() async {
@@ -112,51 +108,10 @@ class _PlayerPageState extends State<PlayerPage> {
     }
   }
 
-  Widget _buildShimmer() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppDims.w24, vertical: AppDims.h10),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ShimmerBox(width: AppDims.w32, height: AppDims.w32, shape: BoxShape.circle),
-              ShimmerBox(width: AppDims.w100, height: AppDims.h14, borderRadius: AppDims.r4),
-              ShimmerBox(width: AppDims.w32, height: AppDims.w32, shape: BoxShape.circle),
-            ],
-          ),
-          const Spacer(),
-          ShimmerBox(width: AppDims.w280, height: AppDims.w280, borderRadius: AppDims.r16),
-          const Spacer(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ShimmerBox(width: AppDims.w200, height: AppDims.h18, borderRadius: AppDims.r4),
-              SizedBox(height: AppDims.h10),
-              ShimmerBox(width: AppDims.w140, height: AppDims.h14, borderRadius: AppDims.r4),
-            ],
-          ),
-          SizedBox(height: AppDims.h24),
-          ShimmerBox(width: double.infinity, height: AppDims.h4, borderRadius: AppDims.r2),
-          SizedBox(height: AppDims.h24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(5, (_) => ShimmerBox(width: AppDims.w40, height: AppDims.w40, shape: BoxShape.circle)),
-          ),
-          SizedBox(height: AppDims.h50),
-        ],
-      ),
-    );
-  }
-
   Color? _parseColor(String hex) {
     if (hex.isEmpty) return null;
-    try {
-      final clean = hex.replaceAll('#', '');
-      return Color(int.parse('FF$clean', radix: 16));
-    } catch (_) {
-      return null;
-    }
+    try { return Color(int.parse('FF${hex.replaceAll('#', '')}', radix: 16)); }
+    catch (_) { return null; }
   }
 
   @override
@@ -164,36 +119,27 @@ class _PlayerPageState extends State<PlayerPage> {
     final audioId = int.tryParse(widget.audioId) ?? 0;
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) {
-            final bloc = getIt<PlayerBloc>();
-            final currentState = bloc.state;
-            final alreadyLoaded = currentState is PlayerLoaded && currentState.audio.id == audioId;
-            if (!alreadyLoaded) {
-              bloc.add(PlayerEvent.loadAudio(audioId: audioId));
-            } else {
-              Future.microtask(() => _startPlayback(currentState.audio));
-            }
-            return bloc;
-          },
-        ),
+        BlocProvider(create: (_) {
+          final bloc = getIt<PlayerBloc>();
+          final currentState = bloc.state;
+          final alreadyLoaded = currentState is PlayerLoaded && currentState.audio.id == audioId;
+          if (!alreadyLoaded) {
+            bloc.add(PlayerEvent.loadAudio(audioId: audioId));
+          } else {
+            Future.microtask(() => _startPlayback(currentState.audio));
+          }
+          return bloc;
+        }),
         BlocProvider(create: (_) => getIt<PlaylistBloc>()),
-        BlocProvider(
-          create: (_) => getIt<RecommendationBloc>()
-            ..add(RecommendationEvent.fetchSimilar(audioId: audioId)),
-        ),
-        BlocProvider(
-          create: (_) => getIt<LikeBloc>(),
-        ),
+        BlocProvider(create: (_) => getIt<RecommendationBloc>()..add(RecommendationEvent.fetchSimilar(audioId: audioId))),
+        BlocProvider(create: (_) => getIt<LikeBloc>()),
       ],
       child: BlocConsumer<PlayerBloc, PlayerState>(
         listener: (context, state) {
           state.whenOrNull(
             loaded: (audio) {
               final recState = context.read<RecommendationBloc>().state;
-              if (recState.similar.isNotEmpty) {
-                _buildQueue(audio, recState.similar);
-              }
+              if (recState.similar.isNotEmpty) _buildQueue(audio, recState.similar);
             },
             error: (message) => MessageHelper.showError(context, message),
           );
@@ -203,9 +149,7 @@ class _PlayerPageState extends State<PlayerPage> {
             listener: (context, recState) {
               if (recState.similar.isNotEmpty) {
                 final playerState = context.read<PlayerBloc>().state;
-                playerState.whenOrNull(loaded: (audio) {
-                  _buildQueue(audio, recState.similar);
-                });
+                playerState.whenOrNull(loaded: (audio) => _buildQueue(audio, recState.similar));
               }
             },
             child: _buildBody(context, state),
@@ -218,34 +162,34 @@ class _PlayerPageState extends State<PlayerPage> {
   Widget _buildBody(BuildContext context, PlayerState state) {
     return ValueListenableBuilder<int>(
       valueListenable: _audioManager.queueIndexNotifier,
-      builder: (context, queueIndex, _) {
+      builder: (context, _, _) {
         final currentAudio = _audioManager.currentAudio;
         final dominantColor = currentAudio != null
             ? _parseColor(currentAudio.dominantColor)
-            : state.whenOrNull(loaded: (audio) => _parseColor(audio.dominantColor));
-
+            : state.whenOrNull(loaded: (a) => _parseColor(a.dominantColor));
         return Scaffold(
-          body: AnimatedContainer(
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeOut,
-            child: PlayerBackground(
-              dominantColor: dominantColor,
-              child: state.when(
-                initial: () => _buildShimmer(),
-                loading: () => _buildShimmer(),
-                loaded: (audio) => _buildPlayerContent(context, audio),
-                error: (_) => Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                  child: Column(
-                    children: [
-                      SizedBox(height: AppDims.h10),
-                      PlayerHeader(onBack: () => context.pop()),
-                      const Spacer(),
-                      const EmptyStateCard(message: AppStrings.audioNotFound, icon: Icons.music_off_rounded),
-                      const Spacer(),
-                    ],
-                  ),
-                ),
+          body: PlayerBackground(
+            dominantColor: dominantColor,
+            child: state.when(
+              initial: () => const PlayerShimmer(),
+              loading: () => const PlayerShimmer(),
+              loaded: (audio) => PlayerContent(
+                initialAudio: audio,
+                audioManager: _audioManager,
+                pageController: _pageController,
+                isLiked: _isLiked,
+                onLikeToggle: () => setState(() => _isLiked = !_isLiked),
+                onPageSwiped: _onPageSwiped,
+              ),
+              error: (_) => Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+                child: Column(children: [
+                  SizedBox(height: AppDims.h10),
+                  PlayerHeader(onBack: () => context.pop()),
+                  const Spacer(),
+                  const EmptyStateCard(message: AppStrings.audioNotFound, icon: Icons.music_off_rounded),
+                  const Spacer(),
+                ]),
               ),
             ),
           ),
@@ -253,97 +197,4 @@ class _PlayerPageState extends State<PlayerPage> {
       },
     );
   }
-
-  Widget _buildPlayerContent(BuildContext context, AudioEntity initialAudio) {
-    final queue = _audioManager.queue;
-    final currentAudio = _audioManager.currentAudio ?? initialAudio;
-
-    return Column(
-      children: [
-        SizedBox(height: AppDims.h10),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-          child: PlayerHeader(
-            onBack: () => context.pop(),
-            onMenu: () {
-              final startIdx = _audioManager.queueIndexNotifier.value + 1;
-              PlayerDialogHelper.showQueueBottomSheet(
-                context,
-                currentAudioTitle: currentAudio.title,
-                queue: queue.length > 1 ? queue.sublist(startIdx) : [],
-                onPlayAt: (index) => _audioManager.playAt(startIdx + index),
-              );
-            },
-          ),
-        ),
-        SizedBox(height: AppDims.h24),
-        SizedBox(
-          height: AppDims.w340,
-          child: queue.isNotEmpty
-              ? PageView.builder(
-                  controller: _pageController,
-                  itemCount: queue.length,
-                  onPageChanged: (index) {
-                    if (!_isPageAnimating) {
-                      _audioManager.playAt(index);
-                    }
-                  },
-                  itemBuilder: (_, index) => Padding(
-                    padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                    child: PlayerDisk(imageUrl: queue[index].thumbnail),
-                  ),
-                )
-              : Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                  child: PlayerDisk(imageUrl: currentAudio.thumbnail),
-                ),
-        ),
-        SizedBox(height: AppDims.h24),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-          child: PlayerTrackInfo(
-            title: currentAudio.title,
-            description: currentAudio.artist.isNotEmpty ? currentAudio.artist : currentAudio.description,
-            onAddToPlaylist: () => PlayerDialogHelper.showPlaylistBottomSheet(context, currentAudio.id),
-          ),
-        ),
-        SizedBox(height: AppDims.h24),
-        PlayerControls(
-          player: _audioManager.player,
-          hasNext: _audioManager.hasNext,
-          hasPrevious: _audioManager.hasPrevious,
-          onNext: () => _audioManager.skipNext(),
-          onPrevious: () => _audioManager.skipPrevious(),
-        ),
-        SizedBox(height: AppDims.h30),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-          child: PlayerBottomActions(
-            isLiked: _isLiked,
-            onLikeTap: () {
-              if (_isLiked) {
-                context.read<LikeBloc>().add(LikeEvent.unlike(audioId: currentAudio.id, index: 0));
-                PreferencesHelper.removeLikedAudioId(currentAudio.id);
-              } else {
-                context.read<LikeBloc>().add(LikeEvent.toggle(audioId: currentAudio.id));
-                PreferencesHelper.addLikedAudioId(currentAudio.id);
-              }
-              setState(() => _isLiked = !_isLiked);
-            },
-            onQueueTap: () {
-              final startIdx = _audioManager.queueIndexNotifier.value + 1;
-              PlayerDialogHelper.showQueueBottomSheet(
-                context,
-                currentAudioTitle: currentAudio.title,
-                queue: queue.length > 1 ? queue.sublist(startIdx) : [],
-                onPlayAt: (index) => _audioManager.playAt(startIdx + index),
-              );
-            },
-          ),
-        ),
-        SizedBox(height: AppDims.h20),
-      ],
-    );
-  }
 }
-

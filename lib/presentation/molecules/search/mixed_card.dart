@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
@@ -18,7 +19,7 @@ class MixedCard extends StatelessWidget {
         url,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) =>
-            Image.asset('assets/images/img_card.jpg', fit: BoxFit.cover),
+            Image.asset(AppImages.cardPlaceholder, fit: BoxFit.cover),
       );
     }
     return Image.asset(url, fit: BoxFit.cover);
@@ -66,7 +67,7 @@ class MixedCard extends StatelessWidget {
                     : _buildImage(
                         imageUrls.isNotEmpty
                             ? imageUrls.first
-                            : 'assets/images/img_card.jpg',
+                            : AppImages.cardPlaceholder,
                       ),
               ),
               Container(
@@ -77,7 +78,7 @@ class MixedCard extends StatelessWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.onPrimary.withOpacity(0.3),
+                      color: AppColors.onPrimary.withValues(alpha: 0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
@@ -95,7 +96,7 @@ class MixedCard extends StatelessWidget {
           Text(
             description,
             style: TextStyle(
-              color: AppColors.textWhite.withOpacity(0.4),
+              color: AppColors.textWhite.withValues(alpha: 0.4),
               fontSize: AppDims.sp13,
               height: 1.4,
             ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
@@ -32,8 +31,8 @@ class HorizontalContentList extends StatelessWidget {
           itemCount: 5,
           addAutomaticKeepAlives: false,
           addRepaintBoundaries: true,
-          separatorBuilder: (_, __) => SizedBox(width: AppDims.w16),
-          itemBuilder: (_, __) => SizedBox(
+          separatorBuilder: (_, _) => SizedBox(width: AppDims.w16),
+          itemBuilder: (_, _) => SizedBox(
             width: AppDims.w140,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +79,7 @@ class HorizontalContentList extends StatelessWidget {
             cacheExtent: 300,
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: true,
-            separatorBuilder: (_, __) => SizedBox(width: AppDims.w16),
+            separatorBuilder: (_, _) => SizedBox(width: AppDims.w16),
             itemBuilder: (context, index) {
               final audio = audios[index];
               return RepaintBoundary(

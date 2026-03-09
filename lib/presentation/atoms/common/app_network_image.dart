@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:flutter/material.dart';
 
 class AppNetworkImage extends StatelessWidget {
@@ -21,7 +22,7 @@ class AppNetworkImage extends StatelessWidget {
 
   Widget get _fallback =>
       placeholder ??
-      Image.asset('assets/images/img_card.jpg', fit: fit, width: width, height: height);
+      Image.asset(AppImages.cardPlaceholder, fit: fit, width: width, height: height);
 
   @override
   Widget build(BuildContext context) {

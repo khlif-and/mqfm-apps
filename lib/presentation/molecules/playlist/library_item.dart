@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class LibraryItem extends StatelessWidget {
@@ -43,7 +43,7 @@ class LibraryItem extends StatelessWidget {
                       image: (imageUrl != null && imageUrl!.isNotEmpty)
                           ? NetworkImage(imageUrl!) as ImageProvider
                           : AssetImage(
-                              imageAsset ?? 'assets/images/img_card.jpg',
+                              imageAsset ?? AppImages.cardPlaceholder,
                             ),
                       fit: BoxFit.cover,
                     ),

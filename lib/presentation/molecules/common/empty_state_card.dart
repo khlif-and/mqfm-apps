@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 
 class EmptyStateCard extends StatelessWidget {
@@ -9,7 +9,7 @@ class EmptyStateCard extends StatelessWidget {
 
   const EmptyStateCard({
     super.key,
-    this.message = 'Belum ada data saat ini',
+    this.message = AppStrings.emptyData,
     this.icon = Icons.inbox_rounded,
   });
 
@@ -21,7 +21,7 @@ class EmptyStateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surfaceDim,
         borderRadius: BorderRadius.circular(AppDims.r12),
-        border: Border.all(color: AppColors.textWhite.withOpacity(0.08), width: 1),
+        border: Border.all(color: AppColors.textWhite.withValues(alpha: 0.08), width: 1),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -88,4 +88,41 @@ class AppStrings {
   static const String usernameHint = "Masukkan username baru";
 
   static const String curatedForYou = "Pilihan Untuk Kamu";
+
+  static const String emptyData = "Belum ada data saat ini";
+  static const String mixedForYou = "Mixed for you";
+  static const String discoverNew = "Discover something new";
+  static const String noResults = "No results found";
+  static const String playingFromPlaylist = "PLAYING FROM PLAYLIST";
+  static const String mqfmRadio = "MQFM Radio";
+  static const String featuring = "Featuring";
+  static const String nextUp = "Berikutnya";
+  static const String noQueue = "Tidak ada antrian";
+  static const String playingFrom = "Di putar dari:";
+  static const String latest = "Terbaru";
+  static const String enjoyMusic = "Enjoy your music!";
+  static const String personalizedForYou = "Personalisasi Kamu Banget";
+  static const String mostPopular = "Paling Popular";
+  static const String kajianArtist = "Khusus Kajian";
+  static const String myProfile = "Profil Saya";
+  static const String listenHistory = "Riwayat Dengar";
+  static const String downloads = "Unduhan";
+  static const String settingsMenu = "Pengaturan";
+  static const String helpFaq = "Bantuan & FAQ";
+  static const String aboutApp = "Tentang Aplikasi";
+  static const String noPlaylistAudio = "Belum ada audio di playlist ini.";
+  static const String favoriteKajian = "Kajian Favorit";
+  static const String latestKajian = "Kajian Terbaru";
+  static const String updatedToday = "Diupdate hari ini";
+  static const String noPlaylistKajian = "Belum ada playlist kajian";
+  static const String chooseProfileImage = "Pilih Gambar Profil";
+  static const String gallery = "Galeri";
+  static const String camera = "Kamera";
+  static const String pickFromDevice = "Pilih foto dari perangkat";
+  static const String takePhoto = "Ambil foto baru";
+  static const String loginWithGoogle = "Masuk dengan Google";
+  static const String searchPodcast = "Search your podcast";
+  static const String searchPlaylist = "Search playlist...";
+  static const String loginFirst = "Silakan login terlebih dahulu";
+  static const String failed = "Gagal";
 }

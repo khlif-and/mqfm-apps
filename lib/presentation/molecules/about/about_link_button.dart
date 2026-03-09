@@ -28,10 +28,10 @@ class AboutLinkButton extends StatelessWidget {
             vertical: AppDims.h12,
           ),
           decoration: BoxDecoration(
-            color: AppColors.surfaceHighlight.withOpacity(0.5),
+            color: AppColors.surfaceHighlight.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(AppDims.r12),
             border: Border.all(
-              color: AppColors.textWhite.withOpacity(0.05),
+              color: AppColors.textWhite.withValues(alpha: 0.05),
               width: 1,
             ),
           ),
@@ -40,7 +40,7 @@ class AboutLinkButton extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(AppDims.r8),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(AppDims.r8),
                 ),
                 child: Icon(
@@ -61,7 +61,7 @@ class AboutLinkButton extends StatelessWidget {
               ),
               Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: AppColors.textSecondary.withOpacity(0.5),
+                color: AppColors.textSecondary.withValues(alpha: 0.5),
                 size: AppDims.sp16,
               ),
             ],

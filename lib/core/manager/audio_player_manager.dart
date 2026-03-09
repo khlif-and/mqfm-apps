@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 
 class AudioPlayerManager {
@@ -61,6 +62,7 @@ class AudioPlayerManager {
     await player.stop();
     await player.setUrl(audio.filePath);
     player.play();
+    PreferencesHelper.savePlayedAudio(audio);
     _precache();
   }
 

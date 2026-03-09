@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
 import 'package:mqfm_apps/presentation/molecules/profile/profile_avatar_builder.dart';
 
@@ -81,7 +82,7 @@ class SearchHeader extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Search your podcast',
+                    hintText: AppStrings.searchPodcast,
                     hintStyle: TextStyle(
                       color: AppColors.searchIconColor,
                       fontSize: AppDims.sp15,

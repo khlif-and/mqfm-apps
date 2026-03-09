@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PlayerTrackInfo extends StatelessWidget {
   final String title;
@@ -27,7 +27,7 @@ class PlayerTrackInfo extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.textWhite,
                   fontSize: AppDims.sp22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -38,7 +38,7 @@ class PlayerTrackInfo extends StatelessWidget {
               Text(
                 description,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
+                  color: AppColors.textWhiteSubdued,
                   fontSize: AppDims.sp16,
                 ),
                 maxLines: 1,
@@ -51,7 +51,7 @@ class PlayerTrackInfo extends StatelessWidget {
           onTap: onAddToPlaylist,
           child: Icon(
             Icons.add_circle_outline,
-            color: Colors.white,
+            color: AppColors.textWhite,
             size: AppDims.r28,
           ),
         ),

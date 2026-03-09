@@ -15,7 +15,7 @@ class SidebarPromoCard extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [
             const Color(0xFF1E1E2E),
-            const Color(0xFF2A2A3A).withOpacity(0.6),
+            const Color(0xFF2A2A3A).withValues(alpha: 0.6),
           ],
         ),
         borderRadius: BorderRadius.circular(AppDims.r12),

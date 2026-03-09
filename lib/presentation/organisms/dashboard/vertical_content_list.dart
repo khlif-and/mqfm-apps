@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
@@ -70,7 +69,7 @@ class VerticalContentList extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: finalList.length,
-          separatorBuilder: (_, __) => SizedBox(height: AppDims.h12),
+          separatorBuilder: (_, _) => SizedBox(height: AppDims.h12),
           itemBuilder: (context, index) {
             final audio = finalList[index];
             return GestureDetector(

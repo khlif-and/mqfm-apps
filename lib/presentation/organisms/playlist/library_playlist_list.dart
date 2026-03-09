@@ -3,6 +3,7 @@ import 'package:mqfm_apps/features/playlist/domain/entities/playlist.dart';
 import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/molecules/playlist/library_item.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -26,8 +27,8 @@ class LibraryPlaylistList extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.only(bottom: AppDims.h16),
           child: Shimmer.fromColors(
-            baseColor: Colors.grey[800]!,
-            highlightColor: Colors.grey[600]!,
+            baseColor: AppColors.shimmerBase,
+            highlightColor: AppColors.shimmerHighlight,
             child: Row(
               children: [
                 Container(
@@ -86,7 +87,7 @@ class LibraryPlaylistList extends StatelessWidget {
 
     if (playlists.isEmpty) {
       return const EmptyStateCard(
-        message: 'Belum ada playlist kajian',
+        message: AppStrings.noPlaylistKajian,
         icon: Icons.queue_music_rounded,
       );
     }

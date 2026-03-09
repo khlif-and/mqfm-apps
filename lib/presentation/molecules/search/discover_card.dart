@@ -36,7 +36,7 @@ class DiscoverCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     shadows: [
                       Shadow(
-                        color: AppColors.onPrimary.withOpacity(0.5),
+                        color: AppColors.onPrimary.withValues(alpha: 0.5),
                         blurRadius: 4,
                       ),
                     ],

@@ -117,7 +117,7 @@ class _CustomRefreshIndicatorState extends State<CustomRefreshIndicator>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.backgroundBlack.withOpacity(0.3),
+                          color: AppColors.backgroundBlack.withValues(alpha: 0.3),
                           blurRadius: 8,
                         ),
                       ],

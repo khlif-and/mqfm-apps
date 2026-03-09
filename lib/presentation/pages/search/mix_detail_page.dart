@@ -40,7 +40,7 @@ class MixDetailPage extends StatelessWidget {
           : ListView.separated(
               padding: EdgeInsets.all(AppDims.w16),
               itemCount: audios.length,
-              separatorBuilder: (_, __) => SizedBox(height: AppDims.h8),
+              separatorBuilder: (_, _) => SizedBox(height: AppDims.h8),
               itemBuilder: (context, index) {
                 final audio = audios[index];
                 return ListTile(

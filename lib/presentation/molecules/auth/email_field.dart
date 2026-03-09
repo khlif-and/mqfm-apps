@@ -28,10 +28,10 @@ class CustomEmailField extends StatelessWidget {
         validator: Validators.validateEmail,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: AppColors.textWhite.withOpacity(0.54)),
+          hintStyle: TextStyle(color: AppColors.textWhite.withValues(alpha: 0.54)),
           prefixIcon: Icon(
             Icons.email_outlined,
-            color: AppColors.textWhite.withOpacity(0.7),
+            color: AppColors.textWhite.withValues(alpha: 0.7),
           ),
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(

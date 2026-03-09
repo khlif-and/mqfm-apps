@@ -1,6 +1,7 @@
 import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/presentation/atoms/profile/sidebar_menu_item.dart';
@@ -29,7 +30,7 @@ class SidebarProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: const Color(0xFF121218),
+      backgroundColor: AppColors.sidebarBackground,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,22 +56,22 @@ class SidebarProfile extends StatelessWidget {
                 children: [
                   SidebarMenuItem(
                     icon: Icons.person_outline_rounded,
-                    title: 'Profil Saya',
+                    title: AppStrings.myProfile,
                     onTap: () => onNavigate?.call(AppPathRoutes.editProfile),
                   ),
                   SidebarMenuItem(
                     icon: Icons.history_rounded,
-                    title: 'Riwayat Dengar',
+                    title: AppStrings.listenHistory,
                     onTap: () => onNavigate?.call(AppPathRoutes.history),
                   ),
                   SidebarMenuItem(
                     icon: Icons.favorite_border_rounded,
-                    title: 'Kajian Favorit',
+                    title: AppStrings.favoriteKajian,
                     onTap: () {},
                   ),
                   SidebarMenuItem(
                     icon: Icons.download_outlined,
-                    title: 'Unduhan',
+                    title: AppStrings.downloads,
                     onTap: () => onNavigate?.call(AppPathRoutes.downloads),
                   ),
                 ],
@@ -88,17 +89,17 @@ class SidebarProfile extends StatelessWidget {
             SidebarMenuItem(
               key: settingsKey,
               icon: Icons.settings_outlined,
-              title: 'Pengaturan',
+              title: AppStrings.settingsMenu,
               onTap: () => onNavigate?.call(AppPathRoutes.settings),
             ),
             SidebarMenuItem(
               icon: Icons.help_outline_rounded,
-              title: 'Bantuan & FAQ',
+              title: AppStrings.helpFaq,
               onTap: () => onNavigate?.call(AppPathRoutes.help),
             ),
             SidebarMenuItem(
               icon: Icons.info_outline_rounded,
-              title: 'Tentang Aplikasi',
+              title: AppStrings.aboutApp,
               onTap: () => onNavigate?.call(AppPathRoutes.about),
             ),
 

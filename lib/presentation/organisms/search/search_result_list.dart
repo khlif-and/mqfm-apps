@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
+import 'package:mqfm_apps/core/utils/constants/styles/app_images.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 
 class SearchResultList extends StatelessWidget {
@@ -23,7 +25,7 @@ class SearchResultList extends StatelessWidget {
             ),
             SizedBox(height: AppDims.h16),
             Text(
-              "No results found",
+              AppStrings.noResults,
               style: TextStyle(
                 color: AppColors.textWhite,
                 fontSize: AppDims.sp16,
@@ -58,7 +60,7 @@ class SearchResultList extends StatelessWidget {
                     image: DecorationImage(
                       image: audio.thumbnail.isNotEmpty
                           ? NetworkImage(audio.thumbnail) as ImageProvider
-                          : const AssetImage('assets/images/img_card.jpg'),
+                          : const AssetImage(AppImages.cardPlaceholder),
                       fit: BoxFit.cover,
                     ),
                   ),
