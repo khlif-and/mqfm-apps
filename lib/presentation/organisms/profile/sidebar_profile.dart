@@ -67,12 +67,32 @@ class SidebarProfile extends StatelessWidget {
                   SidebarMenuItem(
                     icon: Icons.favorite_border_rounded,
                     title: AppStrings.favoriteKajian,
-                    onTap: () {},
+                    onTap: () => onNavigate?.call(AppPathRoutes.favorites),
+                  ),
+                  SidebarMenuItem(
+                    icon: Icons.bookmark_border_rounded,
+                    title: 'Bookmark',
+                    onTap: () => onNavigate?.call(AppPathRoutes.bookmarks),
                   ),
                   SidebarMenuItem(
                     icon: Icons.download_outlined,
                     title: AppStrings.downloads,
                     onTap: () => onNavigate?.call(AppPathRoutes.downloads),
+                  ),
+                  SidebarMenuItem(
+                    icon: Icons.bar_chart_rounded,
+                    title: 'Statistik',
+                    onTap: () => onNavigate?.call(AppPathRoutes.stats),
+                  ),
+                  SidebarMenuItem(
+                    icon: Icons.location_on_outlined,
+                    title: 'Lokasi',
+                    onTap: () => onNavigate?.call(AppPathRoutes.location),
+                  ),
+                  SidebarMenuItem(
+                    icon: Icons.tune_rounded,
+                    title: 'Preferensi',
+                    onTap: () => onNavigate?.call(AppPathRoutes.preferences),
                   ),
                 ],
               ),

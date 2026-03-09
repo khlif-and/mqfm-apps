@@ -13,6 +13,7 @@ class DashboardHeader extends StatelessWidget {
   final UserEntity? userData;
   final bool isUserLoading;
   final VoidCallback? onAvatarTap;
+  final VoidCallback? onNotificationTap;
 
   const DashboardHeader({
     super.key,
@@ -24,6 +25,7 @@ class DashboardHeader extends StatelessWidget {
     this.userData,
     this.isUserLoading = false,
     this.onAvatarTap,
+    this.onNotificationTap,
   });
 
   @override
@@ -41,7 +43,7 @@ class DashboardHeader extends StatelessWidget {
             key: categoryKey,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.only(right: AppDims.w16),
+              padding: EdgeInsets.only(right: AppDims.w8),
               child: Row(
                 children: List.generate(categories.length, (index) {
                   return GestureDetector(
@@ -69,6 +71,17 @@ class DashboardHeader extends StatelessWidget {
                     ),
                   );
                 }),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: onNotificationTap,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppDims.w12),
+              child: Icon(
+                Icons.notifications_outlined,
+                color: AppColors.textWhite,
+                size: AppDims.sp24,
               ),
             ),
           ),

@@ -70,8 +70,7 @@ class QueueBottomSheet extends StatelessWidget {
             Flexible(
               child: ListView.separated(
                 shrinkWrap: true,
-                itemCount: queue.length,
-                separatorBuilder: (_, _) => SizedBox(height: AppDims.h8),
+                itemCount: queue.length,                addAutomaticKeepAlives: false,                separatorBuilder: (_, _) => SizedBox(height: AppDims.h8),
                 itemBuilder: (context, index) {
                   final audio = queue[index];
                   return ListTile(

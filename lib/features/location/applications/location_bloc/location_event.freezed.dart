@@ -20,33 +20,39 @@ mixin _$LocationEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function() detectGps,
     required TResult Function(double latitude, double longitude, String city)
     update,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function()? detectGps,
     TResult? Function(double latitude, double longitude, String city)? update,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function()? detectGps,
     TResult Function(double latitude, double longitude, String city)? update,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LocationFetch value) fetch,
+    required TResult Function(LocationDetectGps value) detectGps,
     required TResult Function(LocationUpdate value) update,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LocationFetch value)? fetch,
+    TResult? Function(LocationDetectGps value)? detectGps,
     TResult? Function(LocationUpdate value)? update,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LocationFetch value)? fetch,
+    TResult Function(LocationDetectGps value)? detectGps,
     TResult Function(LocationUpdate value)? update,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -118,6 +124,7 @@ class _$LocationFetchImpl implements LocationFetch {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function() detectGps,
     required TResult Function(double latitude, double longitude, String city)
     update,
   }) {
@@ -128,6 +135,7 @@ class _$LocationFetchImpl implements LocationFetch {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function()? detectGps,
     TResult? Function(double latitude, double longitude, String city)? update,
   }) {
     return fetch?.call();
@@ -137,6 +145,7 @@ class _$LocationFetchImpl implements LocationFetch {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function()? detectGps,
     TResult Function(double latitude, double longitude, String city)? update,
     required TResult orElse(),
   }) {
@@ -150,6 +159,7 @@ class _$LocationFetchImpl implements LocationFetch {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LocationFetch value) fetch,
+    required TResult Function(LocationDetectGps value) detectGps,
     required TResult Function(LocationUpdate value) update,
   }) {
     return fetch(this);
@@ -159,6 +169,7 @@ class _$LocationFetchImpl implements LocationFetch {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LocationFetch value)? fetch,
+    TResult? Function(LocationDetectGps value)? detectGps,
     TResult? Function(LocationUpdate value)? update,
   }) {
     return fetch?.call(this);
@@ -168,6 +179,7 @@ class _$LocationFetchImpl implements LocationFetch {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LocationFetch value)? fetch,
+    TResult Function(LocationDetectGps value)? detectGps,
     TResult Function(LocationUpdate value)? update,
     required TResult orElse(),
   }) {
@@ -180,6 +192,120 @@ class _$LocationFetchImpl implements LocationFetch {
 
 abstract class LocationFetch implements LocationEvent {
   const factory LocationFetch() = _$LocationFetchImpl;
+}
+
+/// @nodoc
+abstract class _$$LocationDetectGpsImplCopyWith<$Res> {
+  factory _$$LocationDetectGpsImplCopyWith(
+    _$LocationDetectGpsImpl value,
+    $Res Function(_$LocationDetectGpsImpl) then,
+  ) = __$$LocationDetectGpsImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LocationDetectGpsImplCopyWithImpl<$Res>
+    extends _$LocationEventCopyWithImpl<$Res, _$LocationDetectGpsImpl>
+    implements _$$LocationDetectGpsImplCopyWith<$Res> {
+  __$$LocationDetectGpsImplCopyWithImpl(
+    _$LocationDetectGpsImpl _value,
+    $Res Function(_$LocationDetectGpsImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of LocationEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$LocationDetectGpsImpl implements LocationDetectGps {
+  const _$LocationDetectGpsImpl();
+
+  @override
+  String toString() {
+    return 'LocationEvent.detectGps()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$LocationDetectGpsImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetch,
+    required TResult Function() detectGps,
+    required TResult Function(double latitude, double longitude, String city)
+    update,
+  }) {
+    return detectGps();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetch,
+    TResult? Function()? detectGps,
+    TResult? Function(double latitude, double longitude, String city)? update,
+  }) {
+    return detectGps?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetch,
+    TResult Function()? detectGps,
+    TResult Function(double latitude, double longitude, String city)? update,
+    required TResult orElse(),
+  }) {
+    if (detectGps != null) {
+      return detectGps();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LocationFetch value) fetch,
+    required TResult Function(LocationDetectGps value) detectGps,
+    required TResult Function(LocationUpdate value) update,
+  }) {
+    return detectGps(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LocationFetch value)? fetch,
+    TResult? Function(LocationDetectGps value)? detectGps,
+    TResult? Function(LocationUpdate value)? update,
+  }) {
+    return detectGps?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LocationFetch value)? fetch,
+    TResult Function(LocationDetectGps value)? detectGps,
+    TResult Function(LocationUpdate value)? update,
+    required TResult orElse(),
+  }) {
+    if (detectGps != null) {
+      return detectGps(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LocationDetectGps implements LocationEvent {
+  const factory LocationDetectGps() = _$LocationDetectGpsImpl;
 }
 
 /// @nodoc
@@ -280,6 +406,7 @@ class _$LocationUpdateImpl implements LocationUpdate {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function() detectGps,
     required TResult Function(double latitude, double longitude, String city)
     update,
   }) {
@@ -290,6 +417,7 @@ class _$LocationUpdateImpl implements LocationUpdate {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function()? detectGps,
     TResult? Function(double latitude, double longitude, String city)? update,
   }) {
     return update?.call(latitude, longitude, city);
@@ -299,6 +427,7 @@ class _$LocationUpdateImpl implements LocationUpdate {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function()? detectGps,
     TResult Function(double latitude, double longitude, String city)? update,
     required TResult orElse(),
   }) {
@@ -312,6 +441,7 @@ class _$LocationUpdateImpl implements LocationUpdate {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LocationFetch value) fetch,
+    required TResult Function(LocationDetectGps value) detectGps,
     required TResult Function(LocationUpdate value) update,
   }) {
     return update(this);
@@ -321,6 +451,7 @@ class _$LocationUpdateImpl implements LocationUpdate {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LocationFetch value)? fetch,
+    TResult? Function(LocationDetectGps value)? detectGps,
     TResult? Function(LocationUpdate value)? update,
   }) {
     return update?.call(this);
@@ -330,6 +461,7 @@ class _$LocationUpdateImpl implements LocationUpdate {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LocationFetch value)? fetch,
+    TResult Function(LocationDetectGps value)? detectGps,
     TResult Function(LocationUpdate value)? update,
     required TResult orElse(),
   }) {

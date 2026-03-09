@@ -16,7 +16,22 @@ import 'package:mqfm_apps/presentation/pages/help/help_faq_page.dart';
 import 'package:mqfm_apps/presentation/pages/download/downloads_page.dart';
 import 'package:mqfm_apps/presentation/pages/auth/otp_verify_page.dart';
 import 'package:mqfm_apps/presentation/pages/onboarding/onboarding_pick_page.dart';
+import 'package:mqfm_apps/presentation/pages/onboarding/onboarding_result_page.dart';
 import 'package:mqfm_apps/presentation/pages/search/mix_detail_page.dart';
+import 'package:mqfm_apps/presentation/pages/series/series_page.dart';
+import 'package:mqfm_apps/presentation/pages/series/series_detail_page.dart';
+import 'package:mqfm_apps/presentation/pages/event/event_page.dart';
+import 'package:mqfm_apps/presentation/pages/bookmark/bookmark_page.dart';
+import 'package:mqfm_apps/presentation/pages/notification/notification_page.dart';
+import 'package:mqfm_apps/presentation/pages/progress/progress_page.dart';
+import 'package:mqfm_apps/presentation/pages/resume/resume_page.dart';
+import 'package:mqfm_apps/presentation/pages/stats/stats_page.dart';
+import 'package:mqfm_apps/presentation/pages/vote/vote_page.dart';
+import 'package:mqfm_apps/presentation/pages/clip/clip_page.dart';
+import 'package:mqfm_apps/presentation/pages/preferences/preferences_page.dart';
+import 'package:mqfm_apps/presentation/pages/favorite_artist/favorite_artist_page.dart';
+import 'package:mqfm_apps/presentation/pages/location/location_page.dart';
+import 'package:mqfm_apps/presentation/pages/collab/collab_page.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -53,6 +68,13 @@ final GoRouter appRouter = GoRouter(
       path: AppPathRoutes.onboardingPick,
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: OnboardingPickPage()),
+    ),
+    GoRoute(
+      path: '/onboarding-result',
+      pageBuilder: (context, state) {
+        final ids = state.extra as List<int>? ?? [];
+        return NoTransitionPage(child: OnboardingResultPage(selectedIds: ids));
+      },
     ),
     GoRoute(
       path: AppPathRoutes.dashboard,
@@ -123,6 +145,80 @@ final GoRouter appRouter = GoRouter(
       pageBuilder: (context, state) {
         final audios = state.extra as List<AudioEntity>;
         return NoTransitionPage(child: MixDetailPage(audios: audios));
+      },
+    ),
+    GoRoute(
+      path: AppPathRoutes.series,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: SeriesPage()),
+    ),
+    GoRoute(
+      path: '${AppPathRoutes.series}/:id',
+      pageBuilder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return NoTransitionPage(child: SeriesDetailPage(seriesId: id));
+      },
+    ),
+    GoRoute(
+      path: AppPathRoutes.events,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: EventPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.bookmarks,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: BookmarkPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.notifications,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: NotificationPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.progress,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: ProgressPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.resume,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: ResumePage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.stats,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: StatsPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.vote,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: VotePage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.clips,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: ClipPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.preferences,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: PreferencesPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.favoriteArtists,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: FavoriteArtistPage()),
+    ),
+    GoRoute(
+      path: AppPathRoutes.location,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: LocationPage()),
+    ),
+    GoRoute(
+      path: '${AppPathRoutes.collab}/:id',
+      pageBuilder: (context, state) {
+        final id = int.parse(state.pathParameters['id']!);
+        return NoTransitionPage(child: CollabPage(playlistId: id));
       },
     ),
   ],

@@ -9,6 +9,9 @@ class PlayerControls extends StatefulWidget {
   final bool hasPrevious;
   final VoidCallback? onNext;
   final VoidCallback? onPrevious;
+  final VoidCallback? onShuffle;
+  final VoidCallback? onTimer;
+  final bool isShuffled;
 
   const PlayerControls({
     super.key,
@@ -17,6 +20,9 @@ class PlayerControls extends StatefulWidget {
     this.hasPrevious = false,
     this.onNext,
     this.onPrevious,
+    this.onShuffle,
+    this.onTimer,
+    this.isShuffled = false,
   });
 
   @override
@@ -114,7 +120,10 @@ class _PlayerControlsState extends State<PlayerControls> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.shuffle, color: AppColors.primaryClassic, size: AppDims.r26),
+              GestureDetector(
+                onTap: widget.onShuffle,
+                child: Icon(Icons.shuffle, color: widget.isShuffled ? AppColors.primaryClassic : AppColors.textWhiteSubdued, size: AppDims.r26),
+              ),
               GestureDetector(
                 onTap: widget.hasPrevious ? widget.onPrevious : null,
                 child: Icon(
@@ -132,55 +141,23 @@ class _PlayerControlsState extends State<PlayerControls> {
                   final processingState = playerState?.processingState;
                   final playing = playerState?.playing;
 
-                  if (processingState == ProcessingState.loading ||
-                      processingState == ProcessingState.buffering) {
-                    return Container(
+                  final isBuffering = processingState == ProcessingState.loading || processingState == ProcessingState.buffering;
+                  return GestureDetector(
+                    onTap: isBuffering ? null : (playing == true ? widget.player.pause : widget.player.play),
+                    child: Container(
                       height: AppDims.r72,
                       width: AppDims.r72,
-                      padding: EdgeInsets.all(AppDims.r20),
-                      decoration: const BoxDecoration(
-                        color: AppColors.textWhite,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const CircularProgressIndicator(
-                        color: AppColors.backgroundBlack,
-                      ),
-                    );
-                  } else if (playing != true) {
-                    return GestureDetector(
-                      onTap: widget.player.play,
-                      child: Container(
-                        height: AppDims.r72,
-                        width: AppDims.r72,
-                        decoration: const BoxDecoration(
-                          color: AppColors.textWhite,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.play_arrow,
-                          color: AppColors.backgroundBlack,
-                          size: AppDims.r38,
-                        ),
-                      ),
-                    );
-                  } else {
-                    return GestureDetector(
-                      onTap: widget.player.pause,
-                      child: Container(
-                        height: AppDims.r72,
-                        width: AppDims.r72,
-                        decoration: const BoxDecoration(
-                          color: AppColors.textWhite,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.pause,
-                          color: AppColors.backgroundBlack,
-                          size: AppDims.r38,
-                        ),
-                      ),
-                    );
-                  }
+                      padding: isBuffering ? EdgeInsets.all(AppDims.r20) : EdgeInsets.zero,
+                      decoration: const BoxDecoration(color: AppColors.textWhite, shape: BoxShape.circle),
+                      child: isBuffering
+                          ? const CircularProgressIndicator(color: AppColors.backgroundBlack)
+                          : Icon(
+                              playing == true ? Icons.pause : Icons.play_arrow,
+                              color: AppColors.backgroundBlack,
+                              size: AppDims.r38,
+                            ),
+                    ),
+                  );
                 },
               ),
               GestureDetector(
@@ -193,7 +170,10 @@ class _PlayerControlsState extends State<PlayerControls> {
                   size: AppDims.r42,
                 ),
               ),
-              Icon(Icons.timer_outlined, color: AppColors.textWhite, size: AppDims.r26),
+              GestureDetector(
+                onTap: widget.onTimer,
+                child: Icon(Icons.timer_outlined, color: AppColors.textWhite, size: AppDims.r26),
+              ),
             ],
           ),
         ),

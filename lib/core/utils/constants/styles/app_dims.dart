@@ -23,10 +23,12 @@ class AppDims {
   static double h64 = 64.h;
   static double h70 = 70.h;
   static double h80 = 80.h;
+  static double h100 = 100.h;
 
   // Horizontal Spacing (Width)
   static double w4 = 4.w;
   static double w8 = 8.w;
+  static double w10 = 10.w;
   static double w12 = 12.w;
   static double w14 = 14.w;
   static double w16 = 16.w;
@@ -37,6 +39,7 @@ class AppDims {
   static double w50 = 50.w;
   static double w52 = 52.w;
   static double w56 = 56.w;
+  static double w60 = 60.w;
   static double w100 = 100.w;
   static double w110 = 110.w;
   static double w120 = 120.w;
@@ -47,17 +50,20 @@ class AppDims {
   static double w200 = 200.w;
 
   // Additional Widths
+  static double w30 = 30.w;
   static double w38 = 38.w;
   static double w48 = 48.w;
   static double w64 = 64.w;
   static double w80 = 80.w;
   static double w250 = 250.w;
+  static double w260 = 260.w;
   static double w280 = 280.w;
   static double w340 = 340.w;
 
   static double h180 = 180.h;
   static double h210 = 210.h;
   static double h220 = 220.h;
+  static double h340 = 340.h;
 
   // Additional Heights
   static double h30 = 30.h;
@@ -97,6 +103,9 @@ class AppDims {
   static double r20 = 20.r;
   static double r30 = 30.r;
   static double r32 = 32.r;
+  static double r36 = 36.r;
+  static double r40 = 40.r;
+  static double r46 = 46.r;
   static double r50 = 50.r;
   static double r64 = 64.r;
 

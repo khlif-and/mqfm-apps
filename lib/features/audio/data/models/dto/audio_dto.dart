@@ -52,8 +52,8 @@ class AudioDto {
 
   static String _fixUrl(String? path) {
     if (path == null || path.isEmpty) return '';
-    if (path.startsWith('http') || path.startsWith('https')) return path;
-    final baseUrl = dotenv.env['BASE_URL'] ?? '';
+    if (path.startsWith('http')) return path;
+    final baseUrl = (dotenv.env['BASE_URL'] ?? '').replaceAll(RegExp(r'/+$'), '');
     final cleanPath = path.startsWith('/') ? path.substring(1) : path;
     return '$baseUrl/$cleanPath';
   }

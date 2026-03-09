@@ -42,6 +42,7 @@ class _PlayerPageState extends State<PlayerPage> {
     super.initState();
     _pageController = PageController();
     _audioManager.queueIndexNotifier.addListener(_onQueueIndexChanged);
+    _audioManager.playerErrorNotifier.addListener(_onPlayerError);
     _loadLikeState();
   }
 
@@ -54,8 +55,14 @@ class _PlayerPageState extends State<PlayerPage> {
   @override
   void dispose() {
     _audioManager.queueIndexNotifier.removeListener(_onQueueIndexChanged);
+    _audioManager.playerErrorNotifier.removeListener(_onPlayerError);
     _pageController.dispose();
     super.dispose();
+  }
+
+  void _onPlayerError() {
+    final err = _audioManager.playerErrorNotifier.value;
+    if (err != null && mounted) MessageHelper.showError(context, err);
   }
 
   void _onQueueIndexChanged() {
