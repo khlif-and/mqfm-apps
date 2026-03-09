@@ -125,10 +125,6 @@ import 'package:mqfm_apps/features/notification/data/repositories/notification_r
     as _i959;
 import 'package:mqfm_apps/features/notification/domain/interfaces/i_notification_repository.dart'
     as _i908;
-import 'package:mqfm_apps/features/playlist/applications/add_playlist_bloc/add_playlist_bloc.dart'
-    as _i779;
-import 'package:mqfm_apps/features/playlist/applications/create_playlist_bloc/create_playlist_bloc.dart'
-    as _i22;
 import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_bloc.dart'
     as _i472;
 import 'package:mqfm_apps/features/playlist/data/datasources/remotes/playlist_api_service.dart'
@@ -377,12 +373,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i184.IAudioRepository>(
       () => _i1040.AudioRepositoryImpl(gh<_i918.AudioRemoteDatasource>()),
-    );
-    gh.factory<_i779.PlaylistBloc>(
-      () => _i779.PlaylistBloc(gh<_i370.IPlaylistRepository>()),
-    );
-    gh.factory<_i22.PlaylistBloc>(
-      () => _i22.PlaylistBloc(gh<_i370.IPlaylistRepository>()),
     );
     gh.factory<_i472.PlaylistBloc>(
       () => _i472.PlaylistBloc(gh<_i370.IPlaylistRepository>()),

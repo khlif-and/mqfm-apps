@@ -1,123 +1,122 @@
 import 'package:flutter/material.dart';
-import 'package:mqfm_apps/presentation/molecules/common/custom_app_bar.dart';
-import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/features/download/applications/download_bloc/download_bloc.dart';
+import 'package:mqfm_apps/features/download/applications/download_bloc/download_event.dart';
+import 'package:mqfm_apps/features/download/applications/download_bloc/download_state.dart';
+import 'package:mqfm_apps/presentation/atoms/common/shimmer_list.dart';
+import 'package:mqfm_apps/presentation/molecules/common/content_tile.dart';
+import 'package:mqfm_apps/presentation/molecules/common/custom_app_bar.dart';
+import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 
-class DownloadsPage extends StatefulWidget {
+class DownloadsPage extends StatelessWidget {
   const DownloadsPage({super.key});
 
   @override
-  State<DownloadsPage> createState() => _DownloadsPageState();
-}
-
-class _DownloadsPageState extends State<DownloadsPage> {
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _simulateLoading();
-  }
-
-  Future<void> _simulateLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1500));
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  Widget _buildShimmerLoading() {
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: AppDims.w20, vertical: AppDims.h16),
-      itemCount: 6,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: EdgeInsets.only(bottom: AppDims.h16),
-          child: Shimmer.fromColors(
-            baseColor: AppColors.shimmerBaseDark,
-            highlightColor: AppColors.shimmerBase,
-            child: Row(
-              children: [
-                Container(
-                  width: AppDims.r64,
-                  height: AppDims.r64,
-                  decoration: BoxDecoration(
-                    color: AppColors.onPrimary,
-                    borderRadius: BorderRadius.circular(AppDims.r8),
-                  ),
-                ),
-                SizedBox(width: AppDims.w16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: AppDims.h14,
-                        decoration: BoxDecoration(
-                          color: AppColors.onPrimary,
-                          borderRadius: BorderRadius.circular(AppDims.r4),
-                        ),
-                      ),
-                      SizedBox(height: AppDims.h8),
-                      Container(
-                        width: AppDims.w120,
-                        height: AppDims.h12,
-                        decoration: BoxDecoration(
-                          color: AppColors.onPrimary,
-                          borderRadius: BorderRadius.circular(AppDims.r4),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: AppDims.w16),
-                Container(
-                  width: AppDims.r32,
-                  height: AppDims.r32,
-                  decoration: const BoxDecoration(
-                    color: AppColors.onPrimary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => getIt<DownloadBloc>()
+        ..add(const DownloadEvent.fetch()),
+      child: const _DownloadsView(),
     );
   }
+}
+
+class _DownloadsView extends StatelessWidget {
+  const _DownloadsView();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: 'Daftar Unduhan',
         backgroundColor: AppColors.background,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _isLoading
-                ? _buildShimmerLoading()
-                : Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                      child: const EmptyStateCard(
-                        icon: Icons.cloud_download_outlined,
-                        message:
-                            'Anda belum memiliki daftar unduhan.\nSimpan kajian favorit untuk didengarkan offline.',
-                      ),
+      body: BlocConsumer<DownloadBloc, DownloadState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            actionSuccess: (message) {
+              MessageHelper.showSuccess(context, message);
+              context.read<DownloadBloc>().add(
+                const DownloadEvent.fetch(),
+              );
+            },
+          );
+        },
+        builder: (context, state) {
+          return state.maybeWhen(
+            loading: () => const ShimmerList(itemCount: 6, hasTrailing: true),
+            loaded: (downloads) {
+              if (downloads.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+                    child: const EmptyStateCard(
+                      icon: Icons.cloud_download_outlined,
+                      message:
+                          'Anda belum memiliki daftar unduhan.\nSimpan kajian favorit untuk didengarkan offline.',
                     ),
                   ),
-          ),
-        ],
+                );
+              }
+              return RefreshIndicator(
+                onRefresh: () async {
+                  context.read<DownloadBloc>().add(
+                    const DownloadEvent.fetch(),
+                  );
+                },
+                child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  cacheExtent: 500,
+                  itemCount: downloads.length,
+                  itemBuilder: (context, index) {
+                    final dl = downloads[index];
+                    return RepaintBoundary(
+                      child: ContentTile(
+                        title: dl.title,
+                        subtitle: '${dl.artist} • ${_formatSize(dl.fileSize)}',
+                        leadingIcon: Icons.download_done,
+                        trailing: GestureDetector(
+                          onTap: () {
+                            context.read<DownloadBloc>().add(
+                              DownloadEvent.delete(id: dl.id),
+                            );
+                          },
+                          child: Icon(
+                            Icons.delete_outline,
+                            color: AppColors.textSecondary,
+                            size: AppDims.sp20,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+            error: (message) => Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+                child: EmptyStateCard(
+                  icon: Icons.error_outline,
+                  message: message,
+                ),
+              ),
+            ),
+            orElse: () => const SizedBox.shrink(),
+          );
+        },
       ),
     );
+  }
+
+  String _formatSize(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
   }
 }

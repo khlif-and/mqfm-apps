@@ -23,15 +23,23 @@ class AudioPlayerManager {
       ValueNotifier<AudioEntity?>(null);
 
   final ValueNotifier<int> queueIndexNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<bool> isShuffledNotifier = ValueNotifier<bool>(false);
 
   List<AudioEntity> _queue = [];
+  List<AudioEntity> _originalQueue = [];
   List<AudioEntity> get queue => _queue;
+
+  Timer? _sleepTimer;
+  final ValueNotifier<Duration?> sleepTimerRemaining = ValueNotifier(null);
 
   static const int _cacheSize = 5;
   final Map<int, String> _urlCache = {};
 
+  final ValueNotifier<String?> playerErrorNotifier = ValueNotifier<String?>(null);
+
   void setQueue(List<AudioEntity> items, int startIndex) {
     _queue = items;
+    _originalQueue = List.from(items);
     queueIndexNotifier.value = startIndex.clamp(0, items.length - 1);
     _precache();
   }
@@ -60,8 +68,17 @@ class AudioPlayerManager {
     currentAudioNotifier.value = audio;
     currentAudioId = audio.id;
     await player.stop();
-    await player.setUrl(audio.filePath);
-    player.play();
+    try {
+      await player.setUrl(audio.filePath);
+      player.play();
+      playerErrorNotifier.value = null;
+    } on PlayerException catch (e) {
+      playerErrorNotifier.value = e.message ?? 'Gagal memuat audio';
+      return;
+    } catch (_) {
+      playerErrorNotifier.value = 'Gagal memuat audio';
+      return;
+    }
     PreferencesHelper.savePlayedAudio(audio);
     _precache();
   }
@@ -82,6 +99,42 @@ class AudioPlayerManager {
   }
 
   void dispose() {
+    _sleepTimer?.cancel();
     player.dispose();
+  }
+
+  void toggleShuffle() {
+    final current = currentAudio;
+    if (isShuffledNotifier.value) {
+      _queue = List.from(_originalQueue);
+      isShuffledNotifier.value = false;
+    } else {
+      _queue.shuffle();
+      isShuffledNotifier.value = true;
+    }
+    if (current != null) {
+      final idx = _queue.indexWhere((a) => a.id == current.id);
+      if (idx >= 0) queueIndexNotifier.value = idx;
+    }
+  }
+
+  void startSleepTimer(Duration duration) {
+    _sleepTimer?.cancel();
+    sleepTimerRemaining.value = duration;
+    _sleepTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final remaining = sleepTimerRemaining.value;
+      if (remaining == null || remaining.inSeconds <= 1) {
+        cancelSleepTimer();
+        player.pause();
+        return;
+      }
+      sleepTimerRemaining.value = remaining - const Duration(seconds: 1);
+    });
+  }
+
+  void cancelSleepTimer() {
+    _sleepTimer?.cancel();
+    _sleepTimer = null;
+    sleepTimerRemaining.value = null;
   }
 }

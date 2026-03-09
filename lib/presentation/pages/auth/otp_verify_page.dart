@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/manager/user_manager.dart';
@@ -12,6 +10,7 @@ import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
 import 'package:mqfm_apps/features/auth/applications/otp_bloc/otp_bloc.dart';
 import 'package:mqfm_apps/features/auth/applications/otp_bloc/otp_event.dart';
 import 'package:mqfm_apps/features/auth/applications/otp_bloc/otp_state.dart';
+import 'package:mqfm_apps/presentation/molecules/auth/otp_input_row.dart';
 
 class OtpVerifyPage extends StatefulWidget {
   final String email;
@@ -106,55 +105,7 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: AppDims.h30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(6, (index) {
-                      return Container(
-                        width: AppDims.w40,
-                        margin: EdgeInsets.symmetric(horizontal: 4.w),
-                        child: TextField(
-                          controller: _controllers[index],
-                          focusNode: _focusNodes[index],
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
-                          maxLength: 1,
-                          style: TextStyle(
-                            color: AppColors.textWhite,
-                            fontSize: AppDims.sp24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          decoration: InputDecoration(
-                            counterText: '',
-                            filled: true,
-                            fillColor: AppColors.surface,
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(AppDims.r8),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(AppDims.r8),
-                              borderSide: BorderSide(
-                                  color: AppColors.primaryClassic,
-                                  width: 2),
-                            ),
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          onChanged: (val) {
-                            if (val.isNotEmpty && index < 5) {
-                              _focusNodes[index + 1].requestFocus();
-                            }
-                            if (val.isEmpty && index > 0) {
-                              _focusNodes[index - 1].requestFocus();
-                            }
-                          },
-                        ),
-                      );
-                    }),
-                  ),
+                  OtpInputRow(controllers: _controllers, focusNodes: _focusNodes),
                   SizedBox(height: AppDims.h30),
                   SizedBox(
                     width: double.infinity,

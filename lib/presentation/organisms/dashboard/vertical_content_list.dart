@@ -69,10 +69,12 @@ class VerticalContentList extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: finalList.length,
-          separatorBuilder: (_, _) => SizedBox(height: AppDims.h12),
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: false,
+          separatorBuilder: (_, _) => SizedBox(height: AppDims.h8),
           itemBuilder: (context, index) {
             final audio = finalList[index];
-            return GestureDetector(
+            return RepaintBoundary(child: GestureDetector(
               onTap: () => onAudioTap?.call(audio.id),
               child: Row(
                 children: [
@@ -113,7 +115,7 @@ class VerticalContentList extends StatelessWidget {
                   ),
                 ],
               ),
-            );
+            ));
           },
         ),
       ],

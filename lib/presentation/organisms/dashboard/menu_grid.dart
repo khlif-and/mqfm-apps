@@ -61,9 +61,11 @@ class MenuGrid extends StatelessWidget {
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: historyAudios.length,
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: false,
           itemBuilder: (context, index) {
             final audio = historyAudios[index];
-            return _QuickPickTile(audio: audio, onTap: onAudioTap != null ? () => onAudioTap!(audio.id) : null);
+            return RepaintBoundary(child: _QuickPickTile(audio: audio, onTap: onAudioTap != null ? () => onAudioTap!(audio.id) : null));
           },
         ),
       ],

@@ -98,6 +98,7 @@ class AddToPlaylistSheet extends StatelessWidget {
 
     return ListView.builder(
       itemCount: playlists.length,
+      addAutomaticKeepAlives: false,
       itemBuilder: (context, index) {
         final playlist = playlists[index];
         return ListTile(

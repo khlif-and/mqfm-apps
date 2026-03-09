@@ -5,6 +5,7 @@ part 'location_event.freezed.dart';
 @freezed
 class LocationEvent with _$LocationEvent {
   const factory LocationEvent.fetch() = LocationFetch;
+  const factory LocationEvent.detectGps() = LocationDetectGps;
   const factory LocationEvent.update({
     required double latitude,
     required double longitude,

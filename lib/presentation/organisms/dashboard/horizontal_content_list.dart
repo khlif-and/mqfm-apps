@@ -78,7 +78,7 @@ class HorizontalContentList extends StatelessWidget {
             itemCount: audios.length,
             cacheExtent: 300,
             addAutomaticKeepAlives: false,
-            addRepaintBoundaries: true,
+            addRepaintBoundaries: false,
             separatorBuilder: (_, _) => SizedBox(width: AppDims.w16),
             itemBuilder: (context, index) {
               final audio = audios[index];

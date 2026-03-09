@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/core/utils/helpers/geolocator_helper.dart';
 import 'package:mqfm_apps/features/location/applications/location_bloc/location_event.dart';
 import 'package:mqfm_apps/features/location/applications/location_bloc/location_state.dart';
 import 'package:mqfm_apps/features/location/domain/interfaces/i_location_repository.dart';
@@ -11,6 +12,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc(this._repository) : super(const LocationState.initial()) {
     on<LocationFetch>(_onFetch);
     on<LocationUpdate>(_onUpdate);
+    on<LocationDetectGps>(_onDetectGps);
   }
 
   Future<void> _onFetch(
@@ -20,6 +22,23 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     result.fold(
       (error) => emit(LocationState.error(message: error)),
       (location) => emit(LocationState.loaded(location: location)),
+    );
+  }
+
+  Future<void> _onDetectGps(
+      LocationDetectGps event, Emitter<LocationState> emit) async {
+    emit(const LocationState.loading());
+    final position = await GeolocatorHelper.getCurrentPosition();
+    if (position == null) {
+      emit(const LocationState.error(message: 'Izin lokasi ditolak'));
+      return;
+    }
+    final result = await _repository.updateLocation(
+      position.latitude, position.longitude, '',
+    );
+    result.fold(
+      (error) => emit(LocationState.error(message: error)),
+      (_) => add(const LocationEvent.fetch()),
     );
   }
 

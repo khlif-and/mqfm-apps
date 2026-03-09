@@ -65,6 +65,8 @@ class RecommendationSliverList extends StatelessWidget {
               child: recSections[index],
             ),
             childCount: recSections.length,
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
           ),
         );
       },
