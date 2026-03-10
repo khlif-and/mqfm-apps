@@ -20,17 +20,8 @@ class SeriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<SeriesBloc>()..add(const SeriesEvent.fetch()),
-      child: const _SeriesView(),
-    );
-  }
-}
-
-class _SeriesView extends StatelessWidget {
-  const _SeriesView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) => Scaffold(
       backgroundColor: AppColors.background,
       appBar: const CustomAppBar(
         title: 'Seri Kajian',
@@ -42,7 +33,11 @@ class _SeriesView extends StatelessWidget {
             initial: () => const SizedBox.shrink(),
             loading: () => const ShimmerList(itemCount: 6),
             loaded: (seriesList) {
-              if (seriesList.isEmpty) {
+              final seen = <String>{};
+              final unique = seriesList
+                  .where((s) => seen.add(s.title))
+                  .toList();
+              if (unique.isEmpty) {
                 return Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
@@ -65,15 +60,15 @@ class _SeriesView extends StatelessWidget {
                     crossAxisCount: 2,
                     crossAxisSpacing: AppDims.w12,
                     mainAxisSpacing: AppDims.h12,
-                    childAspectRatio: 0.7,
+                    childAspectRatio: 0.65,
                   ),
-                  itemCount: seriesList.length,
+                  itemCount: unique.length,
                   itemBuilder: (context, index) {
                     return RepaintBoundary(
                       child: SeriesCard(
-                        series: seriesList[index],
+                        series: unique[index],
                         onTap: () => context.push(
-                          '${AppPathRoutes.series}/${seriesList[index].id}',
+                          '${AppPathRoutes.series}/${unique[index].id}',
                         ),
                       ),
                     );
@@ -93,6 +88,8 @@ class _SeriesView extends StatelessWidget {
             ),
           );
         },
+      ),
+    ),
       ),
     );
   }

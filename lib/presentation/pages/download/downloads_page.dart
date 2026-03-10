@@ -20,17 +20,8 @@ class DownloadsPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<DownloadBloc>()
         ..add(const DownloadEvent.fetch()),
-      child: const _DownloadsView(),
-    );
-  }
-}
-
-class _DownloadsView extends StatelessWidget {
-  const _DownloadsView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) => Scaffold(
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(
         title: 'Daftar Unduhan',
@@ -110,6 +101,8 @@ class _DownloadsView extends StatelessWidget {
             orElse: () => const SizedBox.shrink(),
           );
         },
+      ),
+    ),
       ),
     );
   }

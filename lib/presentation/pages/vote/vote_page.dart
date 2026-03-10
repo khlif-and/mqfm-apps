@@ -12,44 +12,32 @@ import 'package:mqfm_apps/presentation/molecules/common/custom_app_bar.dart';
 import 'package:mqfm_apps/presentation/molecules/common/empty_state_card.dart';
 import 'package:mqfm_apps/presentation/molecules/vote/vote_ranking_tile.dart';
 
-class VotePage extends StatelessWidget {
+class VotePage extends StatefulWidget {
   const VotePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<VoteBloc>()
-        ..add(const VoteEvent.fetchWeeklyRanking()),
-      child: const _VoteView(),
-    );
-  }
+  State<VotePage> createState() => _VotePageState();
 }
 
-class _VoteView extends StatefulWidget {
-  const _VoteView();
-
-  @override
-  State<_VoteView> createState() => _VoteViewState();
-}
-
-class _VoteViewState extends State<_VoteView>
+class _VotePageState extends State<VotePage>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+  late final VoteBloc _voteBloc;
 
   @override
   void initState() {
     super.initState();
+    _voteBloc = getIt<VoteBloc>()..add(const VoteEvent.fetchWeeklyRanking());
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_onTabChanged);
   }
 
   void _onTabChanged() {
     if (_tabController.indexIsChanging) return;
-    final bloc = context.read<VoteBloc>();
     if (_tabController.index == 0) {
-      bloc.add(const VoteEvent.fetchWeeklyRanking());
+      _voteBloc.add(const VoteEvent.fetchWeeklyRanking());
     } else {
-      bloc.add(const VoteEvent.fetchMonthlyRanking());
+      _voteBloc.add(const VoteEvent.fetchMonthlyRanking());
     }
   }
 
@@ -57,115 +45,111 @@ class _VoteViewState extends State<_VoteView>
   void dispose() {
     _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
+    _voteBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: CustomAppBar(
-        title: 'Vote & Ranking',
+    return BlocProvider.value(
+      value: _voteBloc,
+      child: Scaffold(
         backgroundColor: AppColors.background,
-      ),
-      body: Column(
-        children: [
-          TabBar(
-            controller: _tabController,
-            indicatorColor: AppColors.primary,
-            labelColor: AppColors.primary,
-            unselectedLabelColor: AppColors.textSecondary,
-            labelStyle: TextStyle(
-              fontSize: AppDims.sp14,
-              fontWeight: FontWeight.w600,
+        appBar: CustomAppBar(
+          title: 'Vote & Ranking',
+          backgroundColor: AppColors.background,
+        ),
+        body: Column(
+          children: [
+            TabBar(
+              controller: _tabController,
+              indicatorColor: AppColors.primary,
+              labelColor: AppColors.primary,
+              unselectedLabelColor: AppColors.textSecondary,
+              labelStyle: TextStyle(
+                fontSize: AppDims.sp14,
+                fontWeight: FontWeight.w600,
+              ),
+              tabs: const [
+                Tab(text: 'Mingguan'),
+                Tab(text: 'Bulanan'),
+              ],
             ),
-            tabs: const [
-              Tab(text: 'Mingguan'),
-              Tab(text: 'Bulanan'),
-            ],
-          ),
-          Expanded(
-            child: BlocConsumer<VoteBloc, VoteState>(
-              listener: (context, state) {
-                state.whenOrNull(
-                  actionSuccess: (message) {
-                    MessageHelper.showSuccess(context, message);
-                    if (_tabController.index == 0) {
-                      context.read<VoteBloc>().add(
-                        const VoteEvent.fetchWeeklyRanking(),
-                      );
-                    } else {
-                      context.read<VoteBloc>().add(
-                        const VoteEvent.fetchMonthlyRanking(),
-                      );
-                    }
-                  },
-                );
-              },
-              builder: (context, state) {
-                return state.maybeWhen(
-                  loading: () => const ShimmerList(itemCount: 10),
-                  rankingLoaded: (rankings) {
-                    if (rankings.isEmpty) {
-                      return Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AppDims.w24,
+            Expanded(
+              child: BlocConsumer<VoteBloc, VoteState>(
+                listener: (context, state) {
+                  state.whenOrNull(
+                    actionSuccess: (message) {
+                      MessageHelper.showSuccess(context, message);
+                      if (_tabController.index == 0) {
+                        _voteBloc.add(const VoteEvent.fetchWeeklyRanking());
+                      } else {
+                        _voteBloc.add(const VoteEvent.fetchMonthlyRanking());
+                      }
+                    },
+                  );
+                },
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    loading: () => const ShimmerList(itemCount: 10),
+                    rankingLoaded: (rankings) {
+                      if (rankings.isEmpty) {
+                        return Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppDims.w24,
+                            ),
+                            child: const EmptyStateCard(
+                              icon: Icons.bar_chart,
+                              message: 'Belum ada data ranking',
+                            ),
                           ),
-                          child: const EmptyStateCard(
-                            icon: Icons.bar_chart,
-                            message: 'Belum ada data ranking',
-                          ),
+                        );
+                      }
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          if (_tabController.index == 0) {
+                            _voteBloc.add(const VoteEvent.fetchWeeklyRanking());
+                          } else {
+                            _voteBloc.add(const VoteEvent.fetchMonthlyRanking());
+                          }
+                        },
+                        child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          cacheExtent: 500,
+                          itemCount: rankings.length,
+                          itemBuilder: (context, index) {
+                            final ranking = rankings[index];
+                            return RepaintBoundary(
+                              child: VoteRankingTile(
+                                ranking: ranking,
+                                onVote: () {
+                                  _voteBloc.add(
+                                    VoteEvent.cast(audioId: ranking.audioId),
+                                  );
+                                },
+                              ),
+                            );
+                          },
                         ),
                       );
-                    }
-                    return RefreshIndicator(
-                      onRefresh: () async {
-                        if (_tabController.index == 0) {
-                          context.read<VoteBloc>().add(
-                            const VoteEvent.fetchWeeklyRanking(),
-                          );
-                        } else {
-                          context.read<VoteBloc>().add(
-                            const VoteEvent.fetchMonthlyRanking(),
-                          );
-                        }
-                      },
-                      child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        cacheExtent: 500,
-                        itemCount: rankings.length,
-                        itemBuilder: (context, index) {
-                          final ranking = rankings[index];
-                          return RepaintBoundary(
-                            child: VoteRankingTile(
-                              ranking: ranking,
-                              onVote: () {
-                                context.read<VoteBloc>().add(
-                                  VoteEvent.cast(audioId: ranking.audioId),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  error: (message) => Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                      child: EmptyStateCard(
-                        icon: Icons.error_outline,
-                        message: message,
+                    },
+                    error: (message) => Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+                        child: EmptyStateCard(
+                          icon: Icons.error_outline,
+                          message: message,
+                        ),
                       ),
                     ),
-                  ),
-                  orElse: () => const SizedBox.shrink(),
-                );
-              },
+                    orElse: () => const SizedBox.shrink(),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

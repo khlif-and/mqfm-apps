@@ -69,37 +69,15 @@ class SidebarProfile extends StatelessWidget {
                     title: AppStrings.favoriteKajian,
                     onTap: () => onNavigate?.call(AppPathRoutes.favorites),
                   ),
-                  SidebarMenuItem(
-                    icon: Icons.bookmark_border_rounded,
-                    title: 'Bookmark',
-                    onTap: () => onNavigate?.call(AppPathRoutes.bookmarks),
-                  ),
-                  SidebarMenuItem(
-                    icon: Icons.download_outlined,
-                    title: AppStrings.downloads,
-                    onTap: () => onNavigate?.call(AppPathRoutes.downloads),
-                  ),
-                  SidebarMenuItem(
-                    icon: Icons.bar_chart_rounded,
-                    title: 'Statistik',
-                    onTap: () => onNavigate?.call(AppPathRoutes.stats),
-                  ),
-                  SidebarMenuItem(
-                    icon: Icons.location_on_outlined,
-                    title: 'Lokasi',
-                    onTap: () => onNavigate?.call(AppPathRoutes.location),
-                  ),
-                  SidebarMenuItem(
-                    icon: Icons.tune_rounded,
-                    title: 'Preferensi',
-                    onTap: () => onNavigate?.call(AppPathRoutes.preferences),
-                  ),
                 ],
               ),
             ),
 
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppDims.w20, vertical: AppDims.h4),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppDims.w20,
+                vertical: AppDims.h4,
+              ),
               child: Divider(
                 color: AppColors.textWhite.withValues(alpha: 0.08),
                 thickness: 1,
@@ -126,7 +104,12 @@ class SidebarProfile extends StatelessWidget {
             const Spacer(),
 
             Padding(
-              padding: EdgeInsets.fromLTRB(AppDims.w20, 0, AppDims.w20, AppDims.h24),
+              padding: EdgeInsets.fromLTRB(
+                AppDims.w20,
+                0,
+                AppDims.w20,
+                AppDims.h24,
+              ),
               child: const SidebarPromoCard(),
             ),
           ],

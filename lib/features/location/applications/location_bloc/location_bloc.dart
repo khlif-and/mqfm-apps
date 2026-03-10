@@ -16,7 +16,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _onFetch(
-      LocationFetch event, Emitter<LocationState> emit) async {
+    LocationFetch event,
+    Emitter<LocationState> emit,
+  ) async {
     emit(const LocationState.loading());
     final result = await _repository.getLocation();
     result.fold(
@@ -26,15 +28,24 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _onDetectGps(
-      LocationDetectGps event, Emitter<LocationState> emit) async {
+    LocationDetectGps event,
+    Emitter<LocationState> emit,
+  ) async {
     emit(const LocationState.loading());
+    final hasPermission = await GeolocatorHelper.hasPermission();
+    if (!hasPermission) {
+      emit(const LocationState.error(message: 'Izin lokasi belum diberikan'));
+      return;
+    }
     final position = await GeolocatorHelper.getCurrentPosition();
     if (position == null) {
-      emit(const LocationState.error(message: 'Izin lokasi ditolak'));
+      emit(const LocationState.error(message: 'Gagal mendapatkan lokasi'));
       return;
     }
     final result = await _repository.updateLocation(
-      position.latitude, position.longitude, '',
+      position.latitude,
+      position.longitude,
+      '',
     );
     result.fold(
       (error) => emit(LocationState.error(message: error)),
@@ -43,10 +54,14 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _onUpdate(
-      LocationUpdate event, Emitter<LocationState> emit) async {
+    LocationUpdate event,
+    Emitter<LocationState> emit,
+  ) async {
     emit(const LocationState.loading());
     final result = await _repository.updateLocation(
-      event.latitude, event.longitude, event.city,
+      event.latitude,
+      event.longitude,
+      event.city,
     );
     result.fold(
       (error) => emit(LocationState.error(message: error)),

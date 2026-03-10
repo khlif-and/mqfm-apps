@@ -60,7 +60,11 @@ class SearchPageState extends State<SearchPage> {
         mixedKey: _mixedKey,
         discoverKey: _discoverKey,
       );
-      GuideTourManager.showTourIfNeeded(context: context, targets: targets, tourKey: 'search_tour_shown');
+      GuideTourManager.showTourIfNeeded(
+        context: context,
+        targets: targets,
+        tourKey: 'search_tour_shown',
+      );
     });
   }
 
@@ -74,7 +78,9 @@ class SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
-  void _onSectionsChanged() { if (mounted) setState(() {}); }
+  void _onSectionsChanged() {
+    if (mounted) setState(() {});
+  }
 
   void _onSearchChanged(String query) {
     _debounce?.cancel();
@@ -93,17 +99,25 @@ class SearchPageState extends State<SearchPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: _audioListBloc),
-        BlocProvider(create: (_) => getIt<CategoryBloc>()..add(const CategoryEvent.fetch())),
+        BlocProvider(
+          create: (_) =>
+              getIt<CategoryBloc>()..add(const CategoryEvent.fetch()),
+        ),
       ],
       child: BlocListener<AudioListBloc, AudioListState>(
         listener: (context, state) {
-          state.whenOrNull(error: (message) => MessageHelper.showError(context, message));
+          state.whenOrNull(
+            error: (message) => MessageHelper.showError(context, message),
+          );
         },
         child: SafeArea(
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppDims.w16, vertical: AppDims.h16),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppDims.w16,
+                  vertical: AppDims.h16,
+                ),
                 child: SearchHeader(
                   controller: _searchController,
                   onChanged: _onSearchChanged,
@@ -114,8 +128,12 @@ class SearchPageState extends State<SearchPage> {
                   onAvatarTap: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
-              BlocBuilder<CategoryBloc, CategoryState>(builder: (context, catState) {
-                  final categories = catState.maybeWhen(loaded: (cats) => cats, orElse: () => <CategoryEntity>[]);
+              BlocBuilder<CategoryBloc, CategoryState>(
+                builder: (context, catState) {
+                  final categories = catState.maybeWhen(
+                    loaded: (cats) => cats,
+                    orElse: () => <CategoryEntity>[],
+                  );
                   if (categories.isEmpty) return const SizedBox.shrink();
                   return Padding(
                     padding: EdgeInsets.only(bottom: AppDims.h12),
@@ -131,17 +149,31 @@ class SearchPageState extends State<SearchPage> {
                           final id = isAll ? 0 : categories[index - 1].id;
                           final isSelected = _selectedCategoryId == id;
                           return GestureDetector(
-                            onTap: () => setState(() => _selectedCategoryId = id),
+                            onTap: () =>
+                                setState(() => _selectedCategoryId = id),
                             child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: AppDims.w16, vertical: AppDims.h6),
-                              decoration: BoxDecoration(
-                                color: isSelected ? AppColors.primaryLight : AppColors.cardBackground,
-                                borderRadius: BorderRadius.circular(AppDims.r20),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppDims.w16,
+                                vertical: AppDims.h6,
                               ),
-                              child: Center(child: Text(
-                                isAll ? 'Semua' : categories[index - 1].name,
-                                style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp12, fontWeight: FontWeight.w500),
-                              )),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppColors.primaryLight
+                                    : AppColors.cardBackground,
+                                borderRadius: BorderRadius.circular(
+                                  AppDims.r20,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  isAll ? 'Semua' : categories[index - 1].name,
+                                  style: TextStyle(
+                                    color: AppColors.textWhite,
+                                    fontSize: AppDims.sp12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
                             ),
                           );
                         },
@@ -154,30 +186,56 @@ class SearchPageState extends State<SearchPage> {
                 child: BlocBuilder<AudioListBloc, AudioListState>(
                   builder: (context, state) {
                     if (state is AudioListLoading && _isSearching) {
-                      return const Center(child: CircularProgressIndicator(color: AppColors.textWhite));
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.textWhite,
+                        ),
+                      );
                     }
                     if (_isSearching) {
-                      final results = state.maybeWhen(loaded: (audios) => audios, orElse: () => <AudioEntity>[]);
+                      final results = state.maybeWhen(
+                        loaded: (audios) => audios,
+                        orElse: () => <AudioEntity>[],
+                      );
                       return SearchResultList(
                         results: results,
-                        onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
+                        onAudioTap: (audioId) => context.push(
+                          AppPathRoutes.playerWithId(audioId.toString()),
+                        ),
                       );
                     }
                     final filteredAudios = _selectedCategoryId == 0
                         ? _sectionsLogic.audios
-                        : _sectionsLogic.audios.where((a) => a.categoryId == _selectedCategoryId).toList();
+                        : _sectionsLogic.audios
+                              .where((a) => a.categoryId == _selectedCategoryId)
+                              .toList();
                     return SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(key: _mixedKey, child: BrowseCategoryGrid(
-                            audios: filteredAudios, isLoading: _sectionsLogic.isLoading,
-                            onMixTap: (group) => context.push(AppPathRoutes.mixDetail, extra: group))),
+                          Container(
+                            key: _mixedKey,
+                            child: BrowseCategoryGrid(
+                              audios: filteredAudios,
+                              isLoading: _sectionsLogic.isLoading,
+                              onMixTap: (group) => context.push(
+                                AppPathRoutes.mixDetail,
+                                extra: group,
+                              ),
+                            ),
+                          ),
                           SizedBox(height: AppDims.h32),
-                          Container(key: _discoverKey, child: DiscoverHorizontalList(
-                            audios: filteredAudios, isLoading: _sectionsLogic.isLoading,
-                            onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())))),
+                          Container(
+                            key: _discoverKey,
+                            child: DiscoverHorizontalList(
+                              audios: filteredAudios,
+                              isLoading: _sectionsLogic.isLoading,
+                              onAudioTap: (audioId) => context.push(
+                                AppPathRoutes.playerWithId(audioId.toString()),
+                              ),
+                            ),
+                          ),
                           SizedBox(height: AppDims.h30),
                         ],
                       ),

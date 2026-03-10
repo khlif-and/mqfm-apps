@@ -5,8 +5,13 @@ import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 class CuratedSection {
   final String title;
   final List<String> keywords;
+  final String? ustadz;
 
-  const CuratedSection({required this.title, required this.keywords});
+  const CuratedSection({
+    required this.title,
+    required this.keywords,
+    this.ustadz,
+  });
 }
 
 class CuratedContent {
@@ -16,8 +21,8 @@ class CuratedContent {
     CuratedSection(title: 'KAJIAN PALING DITUNGGU', keywords: ['kajian', 'populer', 'terbaik']),
     CuratedSection(title: 'PROGRAM GEN Z', keywords: ['gen z', 'muda', 'pemuda', 'remaja']),
     CuratedSection(title: 'MQFM VIBES', keywords: ['mqfm', 'radio', 'dakwah']),
-    CuratedSection(title: 'AA GYM KAJIAN', keywords: ['aa gym', 'gymnastiar', 'daarut']),
-    CuratedSection(title: 'NASIHAT AA', keywords: ['nasihat', 'aa gym', 'ceramah']),
+    CuratedSection(title: 'AA GYM KAJIAN', keywords: ['aa gym', 'gymnastiar', 'daarut'], ustadz: 'aa gym'),
+    CuratedSection(title: 'NASIHAT AA', keywords: ['nasihat', 'aa gym', 'ceramah'], ustadz: 'aa gym'),
     CuratedSection(title: 'SIPALING GEN Z', keywords: ['gen z', 'viral', 'trending']),
     CuratedSection(title: 'GALAU BANGET 🙏😭', keywords: ['galau', 'sedih', 'hati', 'sabar']),
     CuratedSection(title: 'DAARUT TAUHID VIBES', keywords: ['daarut', 'tauhid', 'pesantren']),
@@ -51,6 +56,20 @@ class CuratedContent {
     final shuffledAudios = List<AudioEntity>.from(allAudios)..shuffle(random);
 
     for (final section in sections) {
+      if (section.ustadz != null) {
+        final ustadzLower = section.ustadz!.toLowerCase();
+        final matched = shuffledAudios
+            .where((audio) =>
+                audio.artist.toLowerCase().contains(ustadzLower))
+            .take(maxItemsPerSection)
+            .toList();
+
+        if (matched.isNotEmpty) {
+          result.add(MapEntry(section.title, matched));
+        }
+        continue;
+      }
+
       final matched = shuffledAudios.where((audio) {
         if (usedIds.contains(audio.id)) return false;
         final searchText = '${audio.title} ${audio.description} ${audio.artist}'.toLowerCase();

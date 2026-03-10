@@ -30,35 +30,28 @@ class NotificationPage extends StatelessWidget {
         BlocProvider(create: (_) => getIt<NotificationBloc>()..add(const NotificationEvent.fetch())),
         BlocProvider(create: (_) => getIt<RecommendationBloc>()..add(const RecommendationEvent.fetchAll())),
       ],
-      child: const _NotificationView(),
-    );
-  }
-}
-
-class _NotificationView extends StatelessWidget {
-  const _NotificationView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async {
-            context.read<NotificationBloc>().add(const NotificationEvent.fetch());
-            context.read<RecommendationBloc>().add(const RecommendationEvent.fetchAll());
-          },
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            cacheExtent: 500,
-            slivers: [
-              SliverToBoxAdapter(child: _buildHeader(context)),
-              SliverToBoxAdapter(child: SizedBox(height: AppDims.h16)),
-              SliverToBoxAdapter(child: _buildNewSection(context)),
-              SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
-              SliverToBoxAdapter(child: _buildSuggestionSection(context)),
-              SliverToBoxAdapter(child: SizedBox(height: AppDims.h30)),
-            ],
+      child: Builder(
+        builder: (context) => Scaffold(
+          backgroundColor: AppColors.background,
+          body: SafeArea(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<NotificationBloc>().add(const NotificationEvent.fetch());
+                context.read<RecommendationBloc>().add(const RecommendationEvent.fetchAll());
+              },
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                cacheExtent: 500,
+                slivers: [
+                  SliverToBoxAdapter(child: _buildHeader(context)),
+                  SliverToBoxAdapter(child: SizedBox(height: AppDims.h16)),
+                  SliverToBoxAdapter(child: _buildNewSection(context)),
+                  SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
+                  SliverToBoxAdapter(child: _buildSuggestionSection(context)),
+                  SliverToBoxAdapter(child: SizedBox(height: AppDims.h30)),
+                ],
+              ),
+            ),
           ),
         ),
       ),

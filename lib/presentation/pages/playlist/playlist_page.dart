@@ -15,9 +15,9 @@ import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:mqfm_apps/presentation/logic/profile/profile_pic_logic.dart';
 import 'package:mqfm_apps/presentation/logic/guide_tour/playlist_tour_targets.dart';
 import 'package:mqfm_apps/presentation/logic/guide_tour/guide_tour_manager.dart';
-import 'package:mqfm_apps/presentation/organisms/playlist/library_header.dart';
-import 'package:mqfm_apps/presentation/organisms/playlist/library_playlist_list.dart';
-import 'package:mqfm_apps/presentation/organisms/playlist/library_static_items.dart';
+import 'package:mqfm_apps/presentation/organisms/library/library_header.dart';
+import 'package:mqfm_apps/presentation/organisms/library/library_playlist_list.dart';
+import 'package:mqfm_apps/presentation/organisms/library/library_static_items.dart';
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({super.key});
@@ -61,13 +61,19 @@ class PlaylistPageState extends State<PlaylistPage> {
         staticItemsKey: _staticItemsKey,
         playlistListKey: _playlistListKey,
       );
-      GuideTourManager.showTourIfNeeded(context: context, targets: targets, tourKey: 'playlist_tour_shown');
+      GuideTourManager.showTourIfNeeded(
+        context: context,
+        targets: targets,
+        tourKey: 'playlist_tour_shown',
+      );
     });
   }
 
   List<PlaylistEntity> _filter(List<PlaylistEntity> playlists) {
     if (_searchQuery.isEmpty) return playlists;
-    return playlists.where((p) => p.name.toLowerCase().contains(_searchQuery)).toList();
+    return playlists
+        .where((p) => p.name.toLowerCase().contains(_searchQuery))
+        .toList();
   }
 
   @override
@@ -77,47 +83,71 @@ class PlaylistPageState extends State<PlaylistPage> {
       child: BlocBuilder<PlaylistBloc, PlaylistState>(
         builder: (context, state) {
           final isLoading = state is PlaylistLoading;
-          final errorMessage = state.maybeWhen(error: (m) => m, orElse: () => null);
-          final playlists = state.maybeWhen(loaded: (p) => _filter(p), orElse: () => <PlaylistEntity>[]);
+          final errorMessage = state.maybeWhen(
+            error: (m) => m,
+            orElse: () => null,
+          );
+          final playlists = state.maybeWhen(
+            loaded: (p) => _filter(p),
+            orElse: () => <PlaylistEntity>[],
+          );
 
           return SafeArea(
             child: RefreshIndicator(
-              onRefresh: () async => _playlistBloc.add(const PlaylistEvent.fetch()),
+              onRefresh: () async =>
+                  _playlistBloc.add(const PlaylistEvent.fetch()),
               color: AppColors.primaryClassic,
               backgroundColor: AppColors.surfaceHeader,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: AppDims.w16, vertical: AppDims.h16),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppDims.w16,
+                  vertical: AppDims.h16,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       key: _headerKey,
                       child: ValueListenableBuilder<UserEntity?>(
-                        valueListenable: UserManager.instance.currentUserNotifier,
+                        valueListenable:
+                            UserManager.instance.currentUserNotifier,
                         builder: (context, userData, _) {
                           return LibraryHeader(
-                            displayUsername: ProfilePicLogic.getDisplayUsername(userData),
-                            onSearchChanged: (q) => setState(() => _searchQuery = q.toLowerCase()),
+                            displayUsername: ProfilePicLogic.getDisplayUsername(
+                              userData,
+                            ),
+                            onSearchChanged: (q) =>
+                                setState(() => _searchQuery = q.toLowerCase()),
                             searchKey: _searchKey,
                             userData: userData,
-                            isUserLoading: UserManager.instance.isLoadingNotifier.value,
-                            onAvatarTap: () => Scaffold.of(context).openDrawer(),
+                            isUserLoading:
+                                UserManager.instance.isLoadingNotifier.value,
+                            onAvatarTap: () =>
+                                Scaffold.of(context).openDrawer(),
                           );
                         },
                       ),
                     ),
                     SizedBox(height: AppDims.h24),
-                    Container(key: _staticItemsKey, child: LibraryStaticItems(
-                      onFavoritesTap: () => context.push(AppPathRoutes.favorites),
-                    )),
+                    Container(
+                      key: _staticItemsKey,
+                      child: LibraryStaticItems(
+                        onFavoritesTap: () =>
+                            context.push(AppPathRoutes.favorites),
+                      ),
+                    ),
                     Container(
                       key: _playlistListKey,
                       child: LibraryPlaylistList(
                         isLoading: isLoading,
                         errorMessage: errorMessage,
                         playlists: playlists,
-                        onPlaylistTap: (playlistId) => context.push(AppPathRoutes.playlistDetailWithId(playlistId.toString())),
+                        onPlaylistTap: (playlistId) => context.push(
+                          AppPathRoutes.playlistDetailWithId(
+                            playlistId.toString(),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: AppDims.h80),

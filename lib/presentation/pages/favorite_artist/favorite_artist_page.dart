@@ -18,94 +18,87 @@ class FavoriteArtistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<FavoriteArtistBloc>()
-        ..add(const FavoriteArtistEvent.fetch()),
-      child: const _FavoriteArtistView(),
-    );
-  }
-}
-
-class _FavoriteArtistView extends StatelessWidget {
-  const _FavoriteArtistView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: CustomAppBar(
-        title: 'Artis Favorit',
-        backgroundColor: AppColors.background,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.background,
-        onPressed: () => _showAddDialog(context),
-        child: const Icon(Icons.add),
-      ),
-      body: BlocConsumer<FavoriteArtistBloc, FavoriteArtistState>(
-        listener: (context, state) {
-          state.whenOrNull(
-            actionSuccess: (message) {
-              MessageHelper.showSuccess(context, message);
-              context.read<FavoriteArtistBloc>().add(
-                const FavoriteArtistEvent.fetch(),
-              );
-            },
-          );
-        },
-        builder: (context, state) {
-          return state.maybeWhen(
-            loading: () => const ShimmerList(itemCount: 6),
-            loaded: (artists) {
-              if (artists.isEmpty) {
-                return Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                    child: const EmptyStateCard(
-                      icon: Icons.person_outline,
-                      message: 'Belum ada artis favorit',
-                    ),
-                  ),
-                );
-              }
-              return RefreshIndicator(
-                onRefresh: () async {
+      create: (_) =>
+          getIt<FavoriteArtistBloc>()..add(const FavoriteArtistEvent.fetch()),
+      child: Builder(
+        builder: (context) => Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: CustomAppBar(
+            title: 'Artis Favorit',
+            backgroundColor: AppColors.background,
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: AppColors.primary,
+            foregroundColor: AppColors.background,
+            onPressed: () => _showAddDialog(context),
+            child: const Icon(Icons.add),
+          ),
+          body: BlocConsumer<FavoriteArtistBloc, FavoriteArtistState>(
+            listener: (context, state) {
+              state.whenOrNull(
+                actionSuccess: (message) {
+                  MessageHelper.showSuccess(context, message);
                   context.read<FavoriteArtistBloc>().add(
                     const FavoriteArtistEvent.fetch(),
                   );
                 },
-                child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  cacheExtent: 500,
-                  itemCount: artists.length,
-                  itemBuilder: (context, index) {
-                    final artist = artists[index];
-                    return RepaintBoundary(
-                      child: ArtistTile(
-                        name: artist.artistName,
-                        onRemove: () {
-                          context.read<FavoriteArtistBloc>().add(
-                            FavoriteArtistEvent.remove(id: artist.id),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
               );
             },
-            error: (message) => Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                child: EmptyStateCard(
-                  icon: Icons.error_outline,
-                  message: message,
+            builder: (context, state) {
+              return state.maybeWhen(
+                loading: () => const ShimmerList(itemCount: 6),
+                loaded: (artists) {
+                  if (artists.isEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+                        child: const EmptyStateCard(
+                          icon: Icons.person_outline,
+                          message: 'Belum ada artis favorit',
+                        ),
+                      ),
+                    );
+                  }
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<FavoriteArtistBloc>().add(
+                        const FavoriteArtistEvent.fetch(),
+                      );
+                    },
+                    child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      cacheExtent: 500,
+                      itemCount: artists.length,
+                      itemBuilder: (context, index) {
+                        final artist = artists[index];
+                        return RepaintBoundary(
+                          child: ArtistTile(
+                            name: artist.artistName,
+                            onRemove: () {
+                              context.read<FavoriteArtistBloc>().add(
+                                FavoriteArtistEvent.remove(id: artist.id),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+                error: (message) => Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+                    child: EmptyStateCard(
+                      icon: Icons.error_outline,
+                      message: message,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            orElse: () => const SizedBox.shrink(),
-          );
-        },
+                orElse: () => const SizedBox.shrink(),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -118,10 +111,7 @@ class _FavoriteArtistView extends StatelessWidget {
         backgroundColor: AppColors.surfaceCard,
         title: Text(
           'Tambah Artis Favorit',
-          style: TextStyle(
-            color: AppColors.textWhite,
-            fontSize: AppDims.sp16,
-          ),
+          style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp16),
         ),
         content: TextField(
           controller: controller,
@@ -155,14 +145,10 @@ class _FavoriteArtistView extends StatelessWidget {
                 Navigator.pop(dialogContext);
               }
             },
-            child: Text(
-              'Tambah',
-              style: TextStyle(color: AppColors.primary),
-            ),
+            child: Text('Tambah', style: TextStyle(color: AppColors.primary)),
           ),
         ],
       ),
     );
   }
 }
-

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class GuideTourManager {
   static final Set<String> _pendingKeys = {};
+  static bool _isShowing = false;
 
   static Future<void> showTourIfNeeded({
     required BuildContext context,
@@ -11,6 +12,7 @@ class GuideTourManager {
     required String tourKey,
   }) async {
     if (_pendingKeys.contains(tourKey)) return;
+    if (_isShowing) return;
     _pendingKeys.add(tourKey);
 
     final prefs = await SharedPreferences.getInstance();
@@ -25,6 +27,7 @@ class GuideTourManager {
       return;
     }
 
+    _isShowing = true;
     TutorialCoachMark(
       targets: targets,
       colorShadow: Colors.black,
@@ -41,10 +44,12 @@ class GuideTourManager {
       onFinish: () async {
         await prefs.setBool(tourKey, true);
         _pendingKeys.remove(tourKey);
+        _isShowing = false;
       },
       onSkip: () {
         prefs.setBool(tourKey, true);
         _pendingKeys.remove(tourKey);
+        _isShowing = false;
         return true;
       },
     ).show(context: context);

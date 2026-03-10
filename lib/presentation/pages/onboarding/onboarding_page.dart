@@ -23,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
               const Spacer(),
               Image.asset(
                 'assets/images/img_splash.png',
-                width: AppDims.w250, // Increased size
+                width: AppDims.w250,
                 fit: BoxFit.contain,
               ),
 

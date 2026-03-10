@@ -21,17 +21,8 @@ class ResumePage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<ResumeBloc>()
         ..add(const ResumeEvent.fetch()),
-      child: const _ResumeView(),
-    );
-  }
-}
-
-class _ResumeView extends StatelessWidget {
-  const _ResumeView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) => Scaffold(
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(
         title: 'Lanjutkan Mendengarkan',
@@ -103,6 +94,8 @@ class _ResumeView extends StatelessWidget {
             orElse: () => const SizedBox.shrink(),
           );
         },
+      ),
+    ),
       ),
     );
   }

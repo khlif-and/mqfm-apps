@@ -20,17 +20,8 @@ class EventPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<EventBloc>()
         ..add(const EventEvent.fetchUpcoming()),
-      child: const _EventView(),
-    );
-  }
-}
-
-class _EventView extends StatelessWidget {
-  const _EventView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) => Scaffold(
       backgroundColor: AppColors.background,
       appBar: const CustomAppBar(
         title: 'Event & Acara',
@@ -110,6 +101,8 @@ class _EventView extends StatelessWidget {
             orElse: () => const SizedBox.shrink(),
           );
         },
+      ),
+    ),
       ),
     );
   }

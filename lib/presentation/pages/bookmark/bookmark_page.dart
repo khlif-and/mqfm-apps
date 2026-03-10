@@ -20,23 +20,8 @@ class BookmarkPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<BookmarkBloc>()
         ..add(const BookmarkEvent.fetch()),
-      child: const _BookmarkView(),
-    );
-  }
-}
-
-class _BookmarkView extends StatelessWidget {
-  const _BookmarkView();
-
-  String _formatPosition(int seconds) {
-    final m = (seconds ~/ 60).toString().padLeft(2, '0');
-    final s = (seconds % 60).toString().padLeft(2, '0');
-    return '$m:$s';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) => Scaffold(
       backgroundColor: AppColors.background,
       appBar: const CustomAppBar(
         title: 'Bookmark',
@@ -119,6 +104,14 @@ class _BookmarkView extends StatelessWidget {
           );
         },
       ),
+    ),
+      ),
     );
+  }
+
+  String _formatPosition(int seconds) {
+    final m = (seconds ~/ 60).toString().padLeft(2, '0');
+    final s = (seconds % 60).toString().padLeft(2, '0');
+    return '$m:$s';
   }
 }

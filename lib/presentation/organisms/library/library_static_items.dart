@@ -52,7 +52,7 @@ class LibraryStaticItems extends StatelessWidget {
                   colors: [
                     AppColors.gradientFavoriteStart,
                     AppColors.gradientFavoriteEnd,
-                  ], // Spotify-like gradient for liked songs
+                  ],
                 ),
                 borderRadius: BorderRadius.circular(AppDims.r2),
               ),
@@ -71,7 +71,7 @@ class LibraryStaticItems extends StatelessWidget {
           subtitle: AppStrings.updatedToday,
           customImage: Container(
             decoration: BoxDecoration(
-              color: AppColors.notificationBlue, // Vibrant blue
+              color: AppColors.notificationBlue,
               borderRadius: BorderRadius.circular(AppDims.r2),
             ),
             child: Center(
