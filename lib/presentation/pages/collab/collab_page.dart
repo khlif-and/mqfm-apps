@@ -21,19 +21,8 @@ class CollabPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<CollabBloc>()
         ..add(CollabEvent.fetchCollaborators(playlistId: playlistId)),
-      child: _CollabView(playlistId: playlistId),
-    );
-  }
-}
-
-class _CollabView extends StatelessWidget {
-  final int playlistId;
-
-  const _CollabView({required this.playlistId});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) => Scaffold(
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(
         title: 'Kolaborator',
@@ -160,6 +149,8 @@ class _CollabView extends StatelessWidget {
             orElse: () => const SizedBox.shrink(),
           );
         },
+      ),
+    ),
       ),
     );
   }

@@ -6,6 +6,31 @@ import 'package:mqfm_apps/features/series/domain/entities/series.dart';
 part 'series_dto.g.dart';
 
 @JsonSerializable()
+class SeriesItemDto {
+  final int id;
+  @JsonKey(name: 'series_id', defaultValue: 0)
+  final int seriesId;
+  @JsonKey(name: 'audio_id', defaultValue: 0)
+  final int audioId;
+  final AudioDto? audio;
+  @JsonKey(name: 'order_num', defaultValue: 0)
+  final int orderNum;
+
+  const SeriesItemDto({
+    required this.id,
+    this.seriesId = 0,
+    this.audioId = 0,
+    this.audio,
+    this.orderNum = 0,
+  });
+
+  factory SeriesItemDto.fromJson(Map<String, dynamic> json) =>
+      _$SeriesItemDtoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SeriesItemDtoToJson(this);
+}
+
+@JsonSerializable()
 class SeriesDto {
   final int id;
   @JsonKey(defaultValue: '')
@@ -14,10 +39,10 @@ class SeriesDto {
   final String description;
   @JsonKey(defaultValue: '')
   final String artist;
-  @JsonKey(name: 'image_url', defaultValue: '')
+  @JsonKey(name: 'image', defaultValue: '')
   final String? imageUrl;
   @JsonKey(defaultValue: [])
-  final List<AudioDto>? items;
+  final List<SeriesItemDto>? items;
   @JsonKey(name: 'created_at', defaultValue: '')
   final String createdAt;
   @JsonKey(name: 'updated_at', defaultValue: '')
@@ -54,7 +79,12 @@ class SeriesDto {
       description: description,
       artist: artist,
       imageUrl: _fixUrl(imageUrl),
-      items: items?.map((e) => e.toEntity()).toList() ?? [],
+      items:
+          items
+              ?.where((e) => e.audio != null)
+              .map((e) => e.audio!.toEntity())
+              .toList() ??
+          [],
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

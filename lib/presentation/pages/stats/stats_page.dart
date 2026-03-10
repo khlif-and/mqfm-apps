@@ -19,46 +19,39 @@ class StatsPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<StatsBloc>()
         ..add(const StatsEvent.fetchRecap()),
-      child: const _StatsView(),
-    );
-  }
-}
-
-class _StatsView extends StatelessWidget {
-  const _StatsView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: CustomAppBar(
-        title: 'Statistik',
-        backgroundColor: AppColors.background,
-      ),
-      body: BlocBuilder<StatsBloc, StatsState>(
-        builder: (context, state) {
-          return state.maybeWhen(
-            loading: () => const StatsShimmer(),
-            recapLoaded: (recap) => RefreshIndicator(
-              onRefresh: () async {
-                context.read<StatsBloc>().add(
-                  const StatsEvent.fetchRecap(),
-                );
-              },
-              child: StatsContent(recap: recap),
-            ),
-            error: (message) => Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                child: EmptyStateCard(
-                  icon: Icons.error_outline,
-                  message: message,
+      child: Builder(
+        builder: (context) => Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: CustomAppBar(
+            title: 'Statistik',
+            backgroundColor: AppColors.background,
+          ),
+          body: BlocBuilder<StatsBloc, StatsState>(
+            builder: (context, state) {
+              return state.maybeWhen(
+                loading: () => const StatsShimmer(),
+                recapLoaded: (recap) => RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<StatsBloc>().add(
+                      const StatsEvent.fetchRecap(),
+                    );
+                  },
+                  child: StatsContent(recap: recap),
                 ),
-              ),
-            ),
-            orElse: () => const SizedBox.shrink(),
-          );
-        },
+                error: (message) => Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+                    child: EmptyStateCard(
+                      icon: Icons.error_outline,
+                      message: message,
+                    ),
+                  ),
+                ),
+                orElse: () => const SizedBox.shrink(),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

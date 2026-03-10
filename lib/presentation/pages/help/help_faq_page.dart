@@ -38,12 +38,10 @@ class HelpFaqPage extends StatelessWidget {
             ),
             SizedBox(height: AppDims.h32),
 
-            // 12 FAQs List
             const FaqList(),
 
             SizedBox(height: AppDims.h48),
 
-            // Contact Support
             FaqContactButtons(
               onWhatsAppPressed: FaqContactLogic.launchWhatsApp,
               onEmailPressed: FaqContactLogic.launchEmail,

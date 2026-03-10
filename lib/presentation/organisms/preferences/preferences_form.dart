@@ -5,6 +5,7 @@ import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/preferences/applications/preferences_bloc/preferences_bloc.dart';
 import 'package:mqfm_apps/features/preferences/applications/preferences_bloc/preferences_event.dart';
 import 'package:mqfm_apps/features/preferences/domain/entities/preferences.dart';
+import 'package:mqfm_apps/presentation/atoms/common/section_title.dart';
 
 class PreferencesForm extends StatefulWidget {
   final PreferencesEntity preferences;
@@ -53,11 +54,11 @@ class _PreferencesFormState extends State<PreferencesForm> {
     return ListView(
       padding: EdgeInsets.all(AppDims.r16),
       children: [
-        _SectionTitle(text: 'Kecepatan Putar'),
+        SectionTitle(text: 'Kecepatan Putar'),
         SizedBox(height: AppDims.h8),
         _buildSpeedCard(),
         SizedBox(height: AppDims.h24),
-        _SectionTitle(text: 'Sleep Timer'),
+        SectionTitle(text: 'Sleep Timer'),
         SizedBox(height: AppDims.h8),
         _buildTimerCard(),
         SizedBox(height: AppDims.h24),
@@ -178,20 +179,6 @@ class _PreferencesFormState extends State<PreferencesForm> {
         ),
         child: Text('Simpan', style: TextStyle(fontSize: AppDims.sp16, fontWeight: FontWeight.w600)),
       ),
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  final String text;
-
-  const _SectionTitle({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp16, fontWeight: FontWeight.w600),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
+import 'package:mqfm_apps/presentation/atoms/player/player_menu_item.dart';
 
 class PlayerMenuSheet extends StatelessWidget {
   final VoidCallback? onDownload;
@@ -63,7 +64,7 @@ class PlayerMenuSheet extends StatelessWidget {
               ),
             ),
             SizedBox(height: AppDims.h16),
-            _MenuItem(
+            PlayerMenuItem(
               icon: Icons.download_rounded,
               label: 'Download',
               onTap: () {
@@ -71,7 +72,7 @@ class PlayerMenuSheet extends StatelessWidget {
                 onDownload?.call();
               },
             ),
-            _MenuItem(
+            PlayerMenuItem(
               icon: Icons.share_rounded,
               label: 'Share',
               onTap: () {
@@ -79,7 +80,7 @@ class PlayerMenuSheet extends StatelessWidget {
                 onShare?.call();
               },
             ),
-            _MenuItem(
+            PlayerMenuItem(
               icon: Icons.content_cut_rounded,
               label: 'Buat Clip',
               onTap: () {
@@ -87,7 +88,7 @@ class PlayerMenuSheet extends StatelessWidget {
                 onClip?.call();
               },
             ),
-            _MenuItem(
+            PlayerMenuItem(
               icon: Icons.bookmark_add_rounded,
               label: 'Bookmark',
               onTap: () {
@@ -95,7 +96,7 @@ class PlayerMenuSheet extends StatelessWidget {
                 onBookmark?.call();
               },
             ),
-            _MenuItem(
+            PlayerMenuItem(
               icon: Icons.how_to_vote_rounded,
               label: 'Vote',
               onTap: () {
@@ -103,7 +104,7 @@ class PlayerMenuSheet extends StatelessWidget {
                 onVote?.call();
               },
             ),
-            _MenuItem(
+            PlayerMenuItem(
               icon: Icons.queue_music_rounded,
               label: 'Antrian',
               onTap: () {
@@ -112,33 +113,6 @@ class PlayerMenuSheet extends StatelessWidget {
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _MenuItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback? onTap;
-
-  const _MenuItem({
-    required this.icon,
-    required this.label,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      leading: Icon(icon, color: AppColors.textWhite, size: AppDims.sp24),
-      title: Text(
-        label,
-        style: TextStyle(
-          color: AppColors.textWhite,
-          fontSize: AppDims.sp16,
         ),
       ),
     );

@@ -38,7 +38,7 @@ class BrowseCard extends StatelessWidget {
           Positioned(
             bottom: -AppDims.h10,
             right:
-                -15, // Note: no w15 exist but it's small shift so left plain or we can use AppDims.w16
+                -15,
             child: Transform.rotate(
               angle: 25 * pi / 180,
               child: Container(

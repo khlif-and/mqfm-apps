@@ -22,17 +22,8 @@ class SeriesDetailPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<SeriesBloc>()
         ..add(SeriesEvent.fetchDetail(id: int.parse(seriesId))),
-      child: const _SeriesDetailView(),
-    );
-  }
-}
-
-class _SeriesDetailView extends StatelessWidget {
-  const _SeriesDetailView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) => Scaffold(
       backgroundColor: AppColors.background,
       body: BlocBuilder<SeriesBloc, SeriesState>(
         builder: (context, state) {
@@ -163,6 +154,8 @@ class _SeriesDetailView extends StatelessWidget {
             orElse: () => const SizedBox.shrink(),
           );
         },
+      ),
+    ),
       ),
     );
   }

@@ -19,17 +19,8 @@ class LocationPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<LocationBloc>()
         ..add(const LocationEvent.fetch()),
-      child: const _LocationView(),
-    );
-  }
-}
-
-class _LocationView extends StatelessWidget {
-  const _LocationView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      child: Builder(
+        builder: (context) => Scaffold(
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(
         title: 'Lokasi Saya',
@@ -127,6 +118,8 @@ class _LocationView extends StatelessWidget {
             orElse: () => const SizedBox.shrink(),
           );
         },
+      ),
+    ),
       ),
     );
   }

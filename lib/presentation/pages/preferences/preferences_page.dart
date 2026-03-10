@@ -20,49 +20,42 @@ class PreferencesPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<PreferencesBloc>()
         ..add(const PreferencesEvent.fetch()),
-      child: const _PreferencesView(),
-    );
-  }
-}
-
-class _PreferencesView extends StatelessWidget {
-  const _PreferencesView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: CustomAppBar(
-        title: 'Preferensi',
-        backgroundColor: AppColors.background,
-      ),
-      body: BlocConsumer<PreferencesBloc, PreferencesState>(
-        listener: (context, state) {
-          state.whenOrNull(
-            updated: (message) {
-              MessageHelper.showSuccess(context, message);
-              context.read<PreferencesBloc>().add(
-                const PreferencesEvent.fetch(),
+      child: Builder(
+        builder: (context) => Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: CustomAppBar(
+            title: 'Preferensi',
+            backgroundColor: AppColors.background,
+          ),
+          body: BlocConsumer<PreferencesBloc, PreferencesState>(
+            listener: (context, state) {
+              state.whenOrNull(
+                updated: (message) {
+                  MessageHelper.showSuccess(context, message);
+                  context.read<PreferencesBloc>().add(
+                    const PreferencesEvent.fetch(),
+                  );
+                },
               );
             },
-          );
-        },
-        builder: (context, state) {
-          return state.maybeWhen(
-            loading: () => const PreferencesShimmer(),
-            loaded: (prefs) => PreferencesForm(preferences: prefs),
-            error: (message) => Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
-                child: EmptyStateCard(
-                  icon: Icons.error_outline,
-                  message: message,
+            builder: (context, state) {
+              return state.maybeWhen(
+                loading: () => const PreferencesShimmer(),
+                loaded: (prefs) => PreferencesForm(preferences: prefs),
+                error: (message) => Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppDims.w24),
+                    child: EmptyStateCard(
+                      icon: Icons.error_outline,
+                      message: message,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            orElse: () => const SizedBox.shrink(),
-          );
-        },
+                orElse: () => const SizedBox.shrink(),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

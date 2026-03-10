@@ -24,14 +24,6 @@ class ImagePlaceholder extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.placeholder,
         borderRadius: BorderRadius.circular(radius.r),
-        shape:
-            radius == 0 &&
-                width != null &&
-                height != null &&
-                width ==
-                    height // Heuristic for circle? No, explicit shape better.
-            ? BoxShape.rectangle
-            : BoxShape.rectangle, // Keep simple for now, using borderRadius
       ),
       child: child,
     );

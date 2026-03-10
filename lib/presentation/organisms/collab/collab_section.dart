@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_bloc.dart';
+import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_event.dart';
 import 'package:mqfm_apps/features/playlist/applications/playlist_bloc/playlist_state.dart';
 import 'package:mqfm_apps/features/playlist/domain/entities/playlist.dart';
-import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
 import 'package:mqfm_apps/presentation/atoms/common/section_header.dart';
 import 'package:mqfm_apps/presentation/atoms/common/shimmer_box.dart';
+import 'package:mqfm_apps/presentation/molecules/collab/collab_card.dart';
 
 class CollabSection extends StatelessWidget {
   final void Function(int playlistId)? onPlaylistTap;
@@ -24,6 +25,7 @@ class CollabSection extends StatelessWidget {
           loaded: (playlists) => playlists.isEmpty
               ? const SizedBox.shrink()
               : _buildContent(playlists),
+          error: (_) => _buildError(context),
           orElse: () => const SizedBox.shrink(),
         );
       },
@@ -57,6 +59,57 @@ class CollabSection extends StatelessWidget {
     );
   }
 
+  Widget _buildError(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(title: 'Kolaborasi Playlist'),
+        SizedBox(height: AppDims.h12),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDims.w16),
+          child: GestureDetector(
+            onTap: () =>
+                context.read<PlaylistBloc>().add(const PlaylistEvent.fetch()),
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: AppDims.h20),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceCard,
+                borderRadius: BorderRadius.circular(AppDims.r12),
+              ),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.refresh_rounded,
+                    color: AppColors.primary,
+                    size: AppDims.sp32,
+                  ),
+                  SizedBox(height: AppDims.h8),
+                  Text(
+                    'Gagal memuat kolaborasi',
+                    style: TextStyle(
+                      color: AppColors.textWhite,
+                      fontSize: AppDims.sp14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: AppDims.h4),
+                  Text(
+                    'Ketuk untuk coba lagi',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: AppDims.sp11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildContent(List<PlaylistEntity> playlists) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +129,7 @@ class CollabSection extends StatelessWidget {
             itemBuilder: (_, index) {
               final item = playlists[index];
               return RepaintBoundary(
-                child: _CollabCard(
+                child: CollabCard(
                   playlist: item,
                   onTap: () => onPlaylistTap?.call(item.id),
                 ),
@@ -85,68 +138,6 @@ class CollabSection extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _CollabCard extends StatelessWidget {
-  final PlaylistEntity playlist;
-  final VoidCallback? onTap;
-
-  const _CollabCard({required this.playlist, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: AppDims.w200,
-        padding: EdgeInsets.all(AppDims.w12),
-        decoration: BoxDecoration(
-          color: AppColors.surfaceCard,
-          borderRadius: BorderRadius.circular(AppDims.r12),
-        ),
-        child: Row(
-          children: [
-            AppNetworkImage(
-              url: playlist.imageUrl,
-              width: AppDims.r60,
-              height: AppDims.r60,
-              borderRadius: AppDims.r12,
-            ),
-            SizedBox(width: AppDims.w12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    playlist.name,
-                    style: TextStyle(
-                      color: AppColors.textWhite,
-                      fontSize: AppDims.sp14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: AppDims.h4),
-                  Row(
-                    children: [
-                      Icon(Icons.people_outline, color: AppColors.primary, size: AppDims.sp14),
-                      SizedBox(width: AppDims.w4),
-                      Text(
-                        '${playlist.audios.length} kajian',
-                        style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp11),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

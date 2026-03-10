@@ -6,7 +6,6 @@ class FaqList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Daftar 12 bantuan & faq
     final List<Map<String, String>> faqs = [
       {
         "q": "Bagaimana cara mendengarkan siaran langsung MQFM?",

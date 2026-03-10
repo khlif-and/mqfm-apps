@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/features/artikel/applications/artikel_bloc/artikel_bloc.dart';
 import 'package:mqfm_apps/features/artikel/applications/artikel_bloc/artikel_state.dart';
 import 'package:mqfm_apps/features/artikel/domain/entities/artikel.dart';
 import 'package:mqfm_apps/presentation/atoms/common/section_header.dart';
-import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
 import 'package:mqfm_apps/presentation/atoms/common/shimmer_box.dart';
+import 'package:mqfm_apps/presentation/molecules/artikel/artikel_card.dart';
 
 class ArtikelSection extends StatelessWidget {
   final VoidCallback? onSeeAll;
@@ -76,7 +75,7 @@ class ArtikelSection extends StatelessWidget {
             itemBuilder: (_, index) {
               final item = artikels[index];
               return RepaintBoundary(
-                child: _ArtikelCard(
+                child: ArtikelCard(
                   artikel: item,
                   onTap: () => onArtikelTap?.call(item.link),
                 ),
@@ -85,45 +84,6 @@ class ArtikelSection extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _ArtikelCard extends StatelessWidget {
-  final ArtikelEntity artikel;
-  final VoidCallback? onTap;
-
-  const _ArtikelCard({required this.artikel, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        width: AppDims.w140,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppNetworkImage(
-              url: artikel.image,
-              width: AppDims.w140,
-              height: AppDims.r140,
-              borderRadius: AppDims.r12,
-            ),
-            SizedBox(height: AppDims.h8),
-            Text(
-              artikel.title,
-              style: TextStyle(
-                color: AppColors.textWhite,
-                fontSize: AppDims.sp12,
-                fontWeight: FontWeight.w600,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
