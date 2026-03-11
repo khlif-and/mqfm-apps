@@ -103,16 +103,7 @@ class _PlayerPageState extends State<PlayerPage> {
   Future<void> _startPlayback(AudioEntity audio) async {
     if (audio.filePath.isEmpty) return;
     if (_audioManager.currentAudioId == audio.id) return;
-    _audioManager.currentAudioNotifier.value = audio;
-    _audioManager.currentAudioId = audio.id;
-    try {
-      await _audioManager.player.stop();
-      await _audioManager.player.setUrl(audio.filePath);
-      _audioManager.player.play();
-      PreferencesHelper.savePlayedAudio(audio);
-    } catch (e) {
-      if (mounted) MessageHelper.showError(context, '${AppStrings.failedPlay}: $e');
-    }
+    await _audioManager.playAt(0);
   }
 
   Color? _parseColor(String hex) {

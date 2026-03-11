@@ -31,6 +31,7 @@ class PlayerControls extends StatefulWidget {
 
 class _PlayerControlsState extends State<PlayerControls> {
   bool _isSeeking = false;
+  bool _justSeeked = false;
   double _seekValue = 0;
 
   String _formatDuration(Duration? duration) {
@@ -76,11 +77,22 @@ class _PlayerControlsState extends State<PlayerControls> {
                     min: 0,
                     max: maxDuration,
                     value: sliderValue,
-                    onChangeStart: hasAudio ? (value) { _isSeeking = true; } : null,
+                    onChangeStart: hasAudio ? (value) {
+                      setState(() {
+                        _isSeeking = true;
+                        _seekValue = value;
+                      });
+                    } : null,
                     onChanged: hasAudio ? (value) { setState(() { _seekValue = value; }); } : null,
                     onChangeEnd: hasAudio ? (value) {
-                      _isSeeking = false;
                       widget.player.seek(Duration(milliseconds: value.toInt()));
+                      setState(() {
+                        _isSeeking = false;
+                        _justSeeked = true;
+                      });
+                      Future.delayed(const Duration(milliseconds: 800), () {
+                        if (mounted) setState(() { _justSeeked = false; });
+                      });
                     } : null,
                   ),
                 ),
@@ -141,7 +153,8 @@ class _PlayerControlsState extends State<PlayerControls> {
                   final processingState = playerState?.processingState;
                   final playing = playerState?.playing;
 
-                  final isBuffering = processingState == ProcessingState.loading || processingState == ProcessingState.buffering;
+                  final isBuffering = !_isSeeking && !_justSeeked &&
+                      (processingState == ProcessingState.loading || processingState == ProcessingState.buffering);
                   return GestureDetector(
                     onTap: isBuffering ? null : (playing == true ? widget.player.pause : widget.player.play),
                     child: Container(

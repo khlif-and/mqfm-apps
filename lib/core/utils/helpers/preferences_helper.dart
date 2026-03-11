@@ -50,6 +50,10 @@ class PreferencesHelper {
     await prefs.clear();
   }
 
+  static Future<void> clearUserData() async {
+    await removeToken();
+  }
+
   static Future<void> savePlayedAudio(AudioEntity audio) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> currentList = prefs.getStringList(_historyKey) ?? [];

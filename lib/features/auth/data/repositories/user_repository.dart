@@ -16,8 +16,12 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide MultipartFile;
 class AuthRepositoryImpl implements IAuthRepository {
   final AuthRemoteDatasource _datasource;
   final Dio _dio;
+  late final GoogleSignIn _googleSignIn;
 
-  AuthRepositoryImpl(this._datasource, this._dio);
+  AuthRepositoryImpl(this._datasource, this._dio) {
+    final webClientId = dotenv.env['GOOGLE_WEB_CLIENT_ID'] ?? '';
+    _googleSignIn = GoogleSignIn(serverClientId: webClientId);
+  }
 
   @override
   Future<Either<String, UserEntity>> login(
@@ -78,9 +82,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   @override
   Future<Either<String, UserEntity>> signInWithGoogle() async {
     try {
-      final webClientId = dotenv.env['GOOGLE_WEB_CLIENT_ID'] ?? '';
-      final googleSignIn = GoogleSignIn(serverClientId: webClientId);
-      final googleUser = await googleSignIn.signIn();
+      final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         return const Left('Login dibatalkan');
       }
