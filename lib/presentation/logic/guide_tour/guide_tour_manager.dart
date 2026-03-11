@@ -28,6 +28,7 @@ class GuideTourManager {
     }
 
     _isShowing = true;
+    await prefs.setBool(tourKey, true);
     TutorialCoachMark(
       targets: targets,
       colorShadow: Colors.black,
@@ -41,13 +42,11 @@ class GuideTourManager {
       paddingFocus: 10,
       focusAnimationDuration: const Duration(milliseconds: 400),
       pulseAnimationDuration: const Duration(milliseconds: 700),
-      onFinish: () async {
-        await prefs.setBool(tourKey, true);
+      onFinish: () {
         _pendingKeys.remove(tourKey);
         _isShowing = false;
       },
       onSkip: () {
-        prefs.setBool(tourKey, true);
         _pendingKeys.remove(tourKey);
         _isShowing = false;
         return true;

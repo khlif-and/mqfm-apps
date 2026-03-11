@@ -8,6 +8,7 @@ import 'package:mqfm_apps/features/audio/domain/interfaces/i_audio_repository.da
 @LazySingleton(as: IAudioRepository)
 class AudioRepositoryImpl implements IAudioRepository {
   final AudioRemoteDatasource _datasource;
+  final Map<int, AudioEntity> _audioCache = {};
 
   AudioRepositoryImpl(this._datasource);
 
@@ -28,10 +29,15 @@ class AudioRepositoryImpl implements IAudioRepository {
 
   @override
   Future<Either<String, AudioEntity>> getAudioById(int id) async {
+    if (_audioCache.containsKey(id)) {
+      return Right(_audioCache[id]!);
+    }
     try {
       final response = await _datasource.getAudioById(id);
       if (response.status == 200 && response.data != null) {
-        return Right(response.data!.toEntity());
+        final entity = response.data!.toEntity();
+        _audioCache[id] = entity;
+        return Right(entity);
       }
       return Left(response.message);
     } on DioException catch (e) {

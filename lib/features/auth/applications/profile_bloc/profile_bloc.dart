@@ -30,8 +30,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     emit(const ProfileState.loading());
     final result = await _authRepository.logout();
-    await PreferencesHelper.removeToken();
-    await PreferencesHelper.clearAll();
+    await PreferencesHelper.clearUserData();
     result.fold(
       (error) => emit(const ProfileState.loggedOut()),
       (message) => emit(const ProfileState.loggedOut()),

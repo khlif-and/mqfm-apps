@@ -4,6 +4,7 @@ import 'package:mqfm_apps/core/my_app.dart';
 import 'package:mqfm_apps/core/config/app_config.dart';
 import 'package:mqfm_apps/core/config/app_flavor.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
+import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -29,6 +30,8 @@ void main() async {
   );
 
   configureDependencies();
+
+  await AudioPlayerManager().init();
 
   runApp(const MyApp());
 }
