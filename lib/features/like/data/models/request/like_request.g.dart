@@ -6,8 +6,13 @@ part of 'like_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ToggleLikeRequest _$ToggleLikeRequestFromJson(Map<String, dynamic> json) =>
-    ToggleLikeRequest(audioId: (json['audio_id'] as num).toInt());
+LikeRequest _$LikeRequestFromJson(Map<String, dynamic> json) => LikeRequest(
+  targetType: json['target_type'] as String,
+  targetId: (json['target_id'] as num).toInt(),
+);
 
-Map<String, dynamic> _$ToggleLikeRequestToJson(ToggleLikeRequest instance) =>
-    <String, dynamic>{'audio_id': instance.audioId};
+Map<String, dynamic> _$LikeRequestToJson(LikeRequest instance) =>
+    <String, dynamic>{
+      'target_type': instance.targetType,
+      'target_id': instance.targetId,
+    };

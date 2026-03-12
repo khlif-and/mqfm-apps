@@ -15,219 +15,17 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-VoteEntity _$VoteEntityFromJson(Map<String, dynamic> json) {
-  return _VoteEntity.fromJson(json);
-}
-
-/// @nodoc
-mixin _$VoteEntity {
-  int get id => throw _privateConstructorUsedError;
-  int get audioId => throw _privateConstructorUsedError;
-  String get createdAt => throw _privateConstructorUsedError;
-
-  /// Serializes this VoteEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of VoteEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $VoteEntityCopyWith<VoteEntity> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $VoteEntityCopyWith<$Res> {
-  factory $VoteEntityCopyWith(
-    VoteEntity value,
-    $Res Function(VoteEntity) then,
-  ) = _$VoteEntityCopyWithImpl<$Res, VoteEntity>;
-  @useResult
-  $Res call({int id, int audioId, String createdAt});
-}
-
-/// @nodoc
-class _$VoteEntityCopyWithImpl<$Res, $Val extends VoteEntity>
-    implements $VoteEntityCopyWith<$Res> {
-  _$VoteEntityCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of VoteEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? audioId = null,
-    Object? createdAt = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int,
-            audioId: null == audioId
-                ? _value.audioId
-                : audioId // ignore: cast_nullable_to_non_nullable
-                      as int,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as String,
-          )
-          as $Val,
-    );
-  }
-}
-
-/// @nodoc
-abstract class _$$VoteEntityImplCopyWith<$Res>
-    implements $VoteEntityCopyWith<$Res> {
-  factory _$$VoteEntityImplCopyWith(
-    _$VoteEntityImpl value,
-    $Res Function(_$VoteEntityImpl) then,
-  ) = __$$VoteEntityImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int id, int audioId, String createdAt});
-}
-
-/// @nodoc
-class __$$VoteEntityImplCopyWithImpl<$Res>
-    extends _$VoteEntityCopyWithImpl<$Res, _$VoteEntityImpl>
-    implements _$$VoteEntityImplCopyWith<$Res> {
-  __$$VoteEntityImplCopyWithImpl(
-    _$VoteEntityImpl _value,
-    $Res Function(_$VoteEntityImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of VoteEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? audioId = null,
-    Object? createdAt = null,
-  }) {
-    return _then(
-      _$VoteEntityImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int,
-        audioId: null == audioId
-            ? _value.audioId
-            : audioId // ignore: cast_nullable_to_non_nullable
-                  as int,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$VoteEntityImpl implements _VoteEntity {
-  const _$VoteEntityImpl({
-    required this.id,
-    this.audioId = 0,
-    this.createdAt = '',
-  });
-
-  factory _$VoteEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$VoteEntityImplFromJson(json);
-
-  @override
-  final int id;
-  @override
-  @JsonKey()
-  final int audioId;
-  @override
-  @JsonKey()
-  final String createdAt;
-
-  @override
-  String toString() {
-    return 'VoteEntity(id: $id, audioId: $audioId, createdAt: $createdAt)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$VoteEntityImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.audioId, audioId) || other.audioId == audioId) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, audioId, createdAt);
-
-  /// Create a copy of VoteEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$VoteEntityImplCopyWith<_$VoteEntityImpl> get copyWith =>
-      __$$VoteEntityImplCopyWithImpl<_$VoteEntityImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$VoteEntityImplToJson(this);
-  }
-}
-
-abstract class _VoteEntity implements VoteEntity {
-  const factory _VoteEntity({
-    required final int id,
-    final int audioId,
-    final String createdAt,
-  }) = _$VoteEntityImpl;
-
-  factory _VoteEntity.fromJson(Map<String, dynamic> json) =
-      _$VoteEntityImpl.fromJson;
-
-  @override
-  int get id;
-  @override
-  int get audioId;
-  @override
-  String get createdAt;
-
-  /// Create a copy of VoteEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$VoteEntityImplCopyWith<_$VoteEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-VoteRankingEntity _$VoteRankingEntityFromJson(Map<String, dynamic> json) {
-  return _VoteRankingEntity.fromJson(json);
-}
-
 /// @nodoc
 mixin _$VoteRankingEntity {
+  int get rank => throw _privateConstructorUsedError;
   int get audioId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get artist => throw _privateConstructorUsedError;
   String get thumbnail => throw _privateConstructorUsedError;
-  int get voteCount => throw _privateConstructorUsedError;
-  int get rank => throw _privateConstructorUsedError;
-
-  /// Serializes this VoteRankingEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get dominantColor => throw _privateConstructorUsedError;
+  int get duration => throw _privateConstructorUsedError;
+  String get durationFmt => throw _privateConstructorUsedError;
+  int get likes => throw _privateConstructorUsedError;
 
   /// Create a copy of VoteRankingEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -244,12 +42,15 @@ abstract class $VoteRankingEntityCopyWith<$Res> {
   ) = _$VoteRankingEntityCopyWithImpl<$Res, VoteRankingEntity>;
   @useResult
   $Res call({
+    int rank,
     int audioId,
     String title,
     String artist,
     String thumbnail,
-    int voteCount,
-    int rank,
+    String dominantColor,
+    int duration,
+    String durationFmt,
+    int likes,
   });
 }
 
@@ -268,15 +69,22 @@ class _$VoteRankingEntityCopyWithImpl<$Res, $Val extends VoteRankingEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? rank = null,
     Object? audioId = null,
     Object? title = null,
     Object? artist = null,
     Object? thumbnail = null,
-    Object? voteCount = null,
-    Object? rank = null,
+    Object? dominantColor = null,
+    Object? duration = null,
+    Object? durationFmt = null,
+    Object? likes = null,
   }) {
     return _then(
       _value.copyWith(
+            rank: null == rank
+                ? _value.rank
+                : rank // ignore: cast_nullable_to_non_nullable
+                      as int,
             audioId: null == audioId
                 ? _value.audioId
                 : audioId // ignore: cast_nullable_to_non_nullable
@@ -293,13 +101,21 @@ class _$VoteRankingEntityCopyWithImpl<$Res, $Val extends VoteRankingEntity>
                 ? _value.thumbnail
                 : thumbnail // ignore: cast_nullable_to_non_nullable
                       as String,
-            voteCount: null == voteCount
-                ? _value.voteCount
-                : voteCount // ignore: cast_nullable_to_non_nullable
+            dominantColor: null == dominantColor
+                ? _value.dominantColor
+                : dominantColor // ignore: cast_nullable_to_non_nullable
+                      as String,
+            duration: null == duration
+                ? _value.duration
+                : duration // ignore: cast_nullable_to_non_nullable
                       as int,
-            rank: null == rank
-                ? _value.rank
-                : rank // ignore: cast_nullable_to_non_nullable
+            durationFmt: null == durationFmt
+                ? _value.durationFmt
+                : durationFmt // ignore: cast_nullable_to_non_nullable
+                      as String,
+            likes: null == likes
+                ? _value.likes
+                : likes // ignore: cast_nullable_to_non_nullable
                       as int,
           )
           as $Val,
@@ -317,12 +133,15 @@ abstract class _$$VoteRankingEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    int rank,
     int audioId,
     String title,
     String artist,
     String thumbnail,
-    int voteCount,
-    int rank,
+    String dominantColor,
+    int duration,
+    String durationFmt,
+    int likes,
   });
 }
 
@@ -340,15 +159,22 @@ class __$$VoteRankingEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? rank = null,
     Object? audioId = null,
     Object? title = null,
     Object? artist = null,
     Object? thumbnail = null,
-    Object? voteCount = null,
-    Object? rank = null,
+    Object? dominantColor = null,
+    Object? duration = null,
+    Object? durationFmt = null,
+    Object? likes = null,
   }) {
     return _then(
       _$VoteRankingEntityImpl(
+        rank: null == rank
+            ? _value.rank
+            : rank // ignore: cast_nullable_to_non_nullable
+                  as int,
         audioId: null == audioId
             ? _value.audioId
             : audioId // ignore: cast_nullable_to_non_nullable
@@ -365,13 +191,21 @@ class __$$VoteRankingEntityImplCopyWithImpl<$Res>
             ? _value.thumbnail
             : thumbnail // ignore: cast_nullable_to_non_nullable
                   as String,
-        voteCount: null == voteCount
-            ? _value.voteCount
-            : voteCount // ignore: cast_nullable_to_non_nullable
+        dominantColor: null == dominantColor
+            ? _value.dominantColor
+            : dominantColor // ignore: cast_nullable_to_non_nullable
+                  as String,
+        duration: null == duration
+            ? _value.duration
+            : duration // ignore: cast_nullable_to_non_nullable
                   as int,
-        rank: null == rank
-            ? _value.rank
-            : rank // ignore: cast_nullable_to_non_nullable
+        durationFmt: null == durationFmt
+            ? _value.durationFmt
+            : durationFmt // ignore: cast_nullable_to_non_nullable
+                  as String,
+        likes: null == likes
+            ? _value.likes
+            : likes // ignore: cast_nullable_to_non_nullable
                   as int,
       ),
     );
@@ -379,20 +213,23 @@ class __$$VoteRankingEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$VoteRankingEntityImpl implements _VoteRankingEntity {
   const _$VoteRankingEntityImpl({
+    this.rank = 0,
     this.audioId = 0,
     this.title = '',
     this.artist = '',
     this.thumbnail = '',
-    this.voteCount = 0,
-    this.rank = 0,
+    this.dominantColor = '',
+    this.duration = 0,
+    this.durationFmt = '',
+    this.likes = 0,
   });
 
-  factory _$VoteRankingEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$VoteRankingEntityImplFromJson(json);
-
+  @override
+  @JsonKey()
+  final int rank;
   @override
   @JsonKey()
   final int audioId;
@@ -407,14 +244,20 @@ class _$VoteRankingEntityImpl implements _VoteRankingEntity {
   final String thumbnail;
   @override
   @JsonKey()
-  final int voteCount;
+  final String dominantColor;
   @override
   @JsonKey()
-  final int rank;
+  final int duration;
+  @override
+  @JsonKey()
+  final String durationFmt;
+  @override
+  @JsonKey()
+  final int likes;
 
   @override
   String toString() {
-    return 'VoteRankingEntity(audioId: $audioId, title: $title, artist: $artist, thumbnail: $thumbnail, voteCount: $voteCount, rank: $rank)';
+    return 'VoteRankingEntity(rank: $rank, audioId: $audioId, title: $title, artist: $artist, thumbnail: $thumbnail, dominantColor: $dominantColor, duration: $duration, durationFmt: $durationFmt, likes: $likes)';
   }
 
   @override
@@ -422,26 +265,33 @@ class _$VoteRankingEntityImpl implements _VoteRankingEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VoteRankingEntityImpl &&
+            (identical(other.rank, rank) || other.rank == rank) &&
             (identical(other.audioId, audioId) || other.audioId == audioId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.artist, artist) || other.artist == artist) &&
             (identical(other.thumbnail, thumbnail) ||
                 other.thumbnail == thumbnail) &&
-            (identical(other.voteCount, voteCount) ||
-                other.voteCount == voteCount) &&
-            (identical(other.rank, rank) || other.rank == rank));
+            (identical(other.dominantColor, dominantColor) ||
+                other.dominantColor == dominantColor) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
+            (identical(other.durationFmt, durationFmt) ||
+                other.durationFmt == durationFmt) &&
+            (identical(other.likes, likes) || other.likes == likes));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    rank,
     audioId,
     title,
     artist,
     thumbnail,
-    voteCount,
-    rank,
+    dominantColor,
+    duration,
+    durationFmt,
+    likes,
   );
 
   /// Create a copy of VoteRankingEntity
@@ -454,26 +304,23 @@ class _$VoteRankingEntityImpl implements _VoteRankingEntity {
         this,
         _$identity,
       );
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$VoteRankingEntityImplToJson(this);
-  }
 }
 
 abstract class _VoteRankingEntity implements VoteRankingEntity {
   const factory _VoteRankingEntity({
+    final int rank,
     final int audioId,
     final String title,
     final String artist,
     final String thumbnail,
-    final int voteCount,
-    final int rank,
+    final String dominantColor,
+    final int duration,
+    final String durationFmt,
+    final int likes,
   }) = _$VoteRankingEntityImpl;
 
-  factory _VoteRankingEntity.fromJson(Map<String, dynamic> json) =
-      _$VoteRankingEntityImpl.fromJson;
-
+  @override
+  int get rank;
   @override
   int get audioId;
   @override
@@ -483,14 +330,202 @@ abstract class _VoteRankingEntity implements VoteRankingEntity {
   @override
   String get thumbnail;
   @override
-  int get voteCount;
+  String get dominantColor;
   @override
-  int get rank;
+  int get duration;
+  @override
+  String get durationFmt;
+  @override
+  int get likes;
 
   /// Create a copy of VoteRankingEntity
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VoteRankingEntityImplCopyWith<_$VoteRankingEntityImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$VoteStatusEntity {
+  int get audioId => throw _privateConstructorUsedError;
+  bool get hasVoted => throw _privateConstructorUsedError;
+  int get totalVotes => throw _privateConstructorUsedError;
+
+  /// Create a copy of VoteStatusEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $VoteStatusEntityCopyWith<VoteStatusEntity> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VoteStatusEntityCopyWith<$Res> {
+  factory $VoteStatusEntityCopyWith(
+    VoteStatusEntity value,
+    $Res Function(VoteStatusEntity) then,
+  ) = _$VoteStatusEntityCopyWithImpl<$Res, VoteStatusEntity>;
+  @useResult
+  $Res call({int audioId, bool hasVoted, int totalVotes});
+}
+
+/// @nodoc
+class _$VoteStatusEntityCopyWithImpl<$Res, $Val extends VoteStatusEntity>
+    implements $VoteStatusEntityCopyWith<$Res> {
+  _$VoteStatusEntityCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of VoteStatusEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? audioId = null,
+    Object? hasVoted = null,
+    Object? totalVotes = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            audioId: null == audioId
+                ? _value.audioId
+                : audioId // ignore: cast_nullable_to_non_nullable
+                      as int,
+            hasVoted: null == hasVoted
+                ? _value.hasVoted
+                : hasVoted // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            totalVotes: null == totalVotes
+                ? _value.totalVotes
+                : totalVotes // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$VoteStatusEntityImplCopyWith<$Res>
+    implements $VoteStatusEntityCopyWith<$Res> {
+  factory _$$VoteStatusEntityImplCopyWith(
+    _$VoteStatusEntityImpl value,
+    $Res Function(_$VoteStatusEntityImpl) then,
+  ) = __$$VoteStatusEntityImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int audioId, bool hasVoted, int totalVotes});
+}
+
+/// @nodoc
+class __$$VoteStatusEntityImplCopyWithImpl<$Res>
+    extends _$VoteStatusEntityCopyWithImpl<$Res, _$VoteStatusEntityImpl>
+    implements _$$VoteStatusEntityImplCopyWith<$Res> {
+  __$$VoteStatusEntityImplCopyWithImpl(
+    _$VoteStatusEntityImpl _value,
+    $Res Function(_$VoteStatusEntityImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of VoteStatusEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? audioId = null,
+    Object? hasVoted = null,
+    Object? totalVotes = null,
+  }) {
+    return _then(
+      _$VoteStatusEntityImpl(
+        audioId: null == audioId
+            ? _value.audioId
+            : audioId // ignore: cast_nullable_to_non_nullable
+                  as int,
+        hasVoted: null == hasVoted
+            ? _value.hasVoted
+            : hasVoted // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        totalVotes: null == totalVotes
+            ? _value.totalVotes
+            : totalVotes // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$VoteStatusEntityImpl implements _VoteStatusEntity {
+  const _$VoteStatusEntityImpl({
+    this.audioId = 0,
+    this.hasVoted = false,
+    this.totalVotes = 0,
+  });
+
+  @override
+  @JsonKey()
+  final int audioId;
+  @override
+  @JsonKey()
+  final bool hasVoted;
+  @override
+  @JsonKey()
+  final int totalVotes;
+
+  @override
+  String toString() {
+    return 'VoteStatusEntity(audioId: $audioId, hasVoted: $hasVoted, totalVotes: $totalVotes)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VoteStatusEntityImpl &&
+            (identical(other.audioId, audioId) || other.audioId == audioId) &&
+            (identical(other.hasVoted, hasVoted) ||
+                other.hasVoted == hasVoted) &&
+            (identical(other.totalVotes, totalVotes) ||
+                other.totalVotes == totalVotes));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, audioId, hasVoted, totalVotes);
+
+  /// Create a copy of VoteStatusEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VoteStatusEntityImplCopyWith<_$VoteStatusEntityImpl> get copyWith =>
+      __$$VoteStatusEntityImplCopyWithImpl<_$VoteStatusEntityImpl>(
+        this,
+        _$identity,
+      );
+}
+
+abstract class _VoteStatusEntity implements VoteStatusEntity {
+  const factory _VoteStatusEntity({
+    final int audioId,
+    final bool hasVoted,
+    final int totalVotes,
+  }) = _$VoteStatusEntityImpl;
+
+  @override
+  int get audioId;
+  @override
+  bool get hasVoted;
+  @override
+  int get totalVotes;
+
+  /// Create a copy of VoteStatusEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$VoteStatusEntityImplCopyWith<_$VoteStatusEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

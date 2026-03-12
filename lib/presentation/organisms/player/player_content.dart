@@ -93,10 +93,10 @@ class PlayerContent extends StatelessWidget {
             isLiked: isLiked,
             onLikeTap: () {
               if (isLiked) {
-                context.read<LikeBloc>().add(LikeEvent.unlike(audioId: currentAudio.id, index: 0));
+                context.read<LikeBloc>().add(LikeEvent.unlike(targetId: currentAudio.id));
                 PreferencesHelper.removeLikedAudioId(currentAudio.id);
               } else {
-                context.read<LikeBloc>().add(LikeEvent.toggle(audioId: currentAudio.id));
+                context.read<LikeBloc>().add(LikeEvent.like(targetId: currentAudio.id));
                 PreferencesHelper.addLikedAudioId(currentAudio.id);
               }
               onLikeToggle();
@@ -133,8 +133,8 @@ class PlayerContent extends StatelessWidget {
     PlayerMenuSheet.show(
       context,
       onDownload: () {
-        getIt<DownloadBloc>().add(DownloadEvent.create(audioId: currentAudio.id));
-        MessageHelper.showSuccess(context, 'Mendownload ${currentAudio.title}');
+        getIt<DownloadBloc>().add(DownloadEvent.downloadFile(audio: currentAudio));
+        MessageHelper.showSuccess(context, 'Mengunduh ${currentAudio.title}...');
       },
       onShare: () => ShareBottomSheet.show(context, audioId: currentAudio.id),
       onClip: () {

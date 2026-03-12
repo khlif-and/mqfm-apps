@@ -21,6 +21,7 @@ mixin _$DownloadState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
     required TResult Function(List<DownloadEntity> downloads) loaded,
     required TResult Function(DownloadStorageEntity storage) storageLoaded,
     required TResult Function(List<AudioEntity> suggestions) smartLoaded,
@@ -31,6 +32,7 @@ mixin _$DownloadState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
     TResult? Function(List<DownloadEntity> downloads)? loaded,
     TResult? Function(DownloadStorageEntity storage)? storageLoaded,
     TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -41,6 +43,7 @@ mixin _$DownloadState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
     TResult Function(List<DownloadEntity> downloads)? loaded,
     TResult Function(DownloadStorageEntity storage)? storageLoaded,
     TResult Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -52,6 +55,7 @@ mixin _$DownloadState {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadInitial value) initial,
     required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
     required TResult Function(DownloadLoaded value) loaded,
     required TResult Function(DownloadStorageLoaded value) storageLoaded,
     required TResult Function(DownloadSmartLoaded value) smartLoaded,
@@ -62,6 +66,7 @@ mixin _$DownloadState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadInitial value)? initial,
     TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
     TResult? Function(DownloadLoaded value)? loaded,
     TResult? Function(DownloadStorageLoaded value)? storageLoaded,
     TResult? Function(DownloadSmartLoaded value)? smartLoaded,
@@ -72,6 +77,7 @@ mixin _$DownloadState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadInitial value)? initial,
     TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
     TResult Function(DownloadLoaded value)? loaded,
     TResult Function(DownloadStorageLoaded value)? storageLoaded,
     TResult Function(DownloadSmartLoaded value)? smartLoaded,
@@ -148,6 +154,7 @@ class _$DownloadInitialImpl implements DownloadInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
     required TResult Function(List<DownloadEntity> downloads) loaded,
     required TResult Function(DownloadStorageEntity storage) storageLoaded,
     required TResult Function(List<AudioEntity> suggestions) smartLoaded,
@@ -162,6 +169,7 @@ class _$DownloadInitialImpl implements DownloadInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
     TResult? Function(List<DownloadEntity> downloads)? loaded,
     TResult? Function(DownloadStorageEntity storage)? storageLoaded,
     TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -176,6 +184,7 @@ class _$DownloadInitialImpl implements DownloadInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
     TResult Function(List<DownloadEntity> downloads)? loaded,
     TResult Function(DownloadStorageEntity storage)? storageLoaded,
     TResult Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -194,6 +203,7 @@ class _$DownloadInitialImpl implements DownloadInitial {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadInitial value) initial,
     required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
     required TResult Function(DownloadLoaded value) loaded,
     required TResult Function(DownloadStorageLoaded value) storageLoaded,
     required TResult Function(DownloadSmartLoaded value) smartLoaded,
@@ -208,6 +218,7 @@ class _$DownloadInitialImpl implements DownloadInitial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadInitial value)? initial,
     TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
     TResult? Function(DownloadLoaded value)? loaded,
     TResult? Function(DownloadStorageLoaded value)? storageLoaded,
     TResult? Function(DownloadSmartLoaded value)? smartLoaded,
@@ -222,6 +233,7 @@ class _$DownloadInitialImpl implements DownloadInitial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadInitial value)? initial,
     TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
     TResult Function(DownloadLoaded value)? loaded,
     TResult Function(DownloadStorageLoaded value)? storageLoaded,
     TResult Function(DownloadSmartLoaded value)? smartLoaded,
@@ -285,6 +297,7 @@ class _$DownloadLoadingImpl implements DownloadLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
     required TResult Function(List<DownloadEntity> downloads) loaded,
     required TResult Function(DownloadStorageEntity storage) storageLoaded,
     required TResult Function(List<AudioEntity> suggestions) smartLoaded,
@@ -299,6 +312,7 @@ class _$DownloadLoadingImpl implements DownloadLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
     TResult? Function(List<DownloadEntity> downloads)? loaded,
     TResult? Function(DownloadStorageEntity storage)? storageLoaded,
     TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -313,6 +327,7 @@ class _$DownloadLoadingImpl implements DownloadLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
     TResult Function(List<DownloadEntity> downloads)? loaded,
     TResult Function(DownloadStorageEntity storage)? storageLoaded,
     TResult Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -331,6 +346,7 @@ class _$DownloadLoadingImpl implements DownloadLoading {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadInitial value) initial,
     required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
     required TResult Function(DownloadLoaded value) loaded,
     required TResult Function(DownloadStorageLoaded value) storageLoaded,
     required TResult Function(DownloadSmartLoaded value) smartLoaded,
@@ -345,6 +361,7 @@ class _$DownloadLoadingImpl implements DownloadLoading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadInitial value)? initial,
     TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
     TResult? Function(DownloadLoaded value)? loaded,
     TResult? Function(DownloadStorageLoaded value)? storageLoaded,
     TResult? Function(DownloadSmartLoaded value)? smartLoaded,
@@ -359,6 +376,7 @@ class _$DownloadLoadingImpl implements DownloadLoading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadInitial value)? initial,
     TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
     TResult Function(DownloadLoaded value)? loaded,
     TResult Function(DownloadStorageLoaded value)? storageLoaded,
     TResult Function(DownloadSmartLoaded value)? smartLoaded,
@@ -375,6 +393,188 @@ class _$DownloadLoadingImpl implements DownloadLoading {
 
 abstract class DownloadLoading implements DownloadState {
   const factory DownloadLoading() = _$DownloadLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$DownloadDownloadingImplCopyWith<$Res> {
+  factory _$$DownloadDownloadingImplCopyWith(
+    _$DownloadDownloadingImpl value,
+    $Res Function(_$DownloadDownloadingImpl) then,
+  ) = __$$DownloadDownloadingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int audioId});
+}
+
+/// @nodoc
+class __$$DownloadDownloadingImplCopyWithImpl<$Res>
+    extends _$DownloadStateCopyWithImpl<$Res, _$DownloadDownloadingImpl>
+    implements _$$DownloadDownloadingImplCopyWith<$Res> {
+  __$$DownloadDownloadingImplCopyWithImpl(
+    _$DownloadDownloadingImpl _value,
+    $Res Function(_$DownloadDownloadingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of DownloadState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? audioId = null}) {
+    return _then(
+      _$DownloadDownloadingImpl(
+        audioId: null == audioId
+            ? _value.audioId
+            : audioId // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$DownloadDownloadingImpl implements DownloadDownloading {
+  const _$DownloadDownloadingImpl({required this.audioId});
+
+  @override
+  final int audioId;
+
+  @override
+  String toString() {
+    return 'DownloadState.downloading(audioId: $audioId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DownloadDownloadingImpl &&
+            (identical(other.audioId, audioId) || other.audioId == audioId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, audioId);
+
+  /// Create a copy of DownloadState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DownloadDownloadingImplCopyWith<_$DownloadDownloadingImpl> get copyWith =>
+      __$$DownloadDownloadingImplCopyWithImpl<_$DownloadDownloadingImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
+    required TResult Function(List<DownloadEntity> downloads) loaded,
+    required TResult Function(DownloadStorageEntity storage) storageLoaded,
+    required TResult Function(List<AudioEntity> suggestions) smartLoaded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String message) error,
+  }) {
+    return downloading(audioId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
+    TResult? Function(List<DownloadEntity> downloads)? loaded,
+    TResult? Function(DownloadStorageEntity storage)? storageLoaded,
+    TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String message)? error,
+  }) {
+    return downloading?.call(audioId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
+    TResult Function(List<DownloadEntity> downloads)? loaded,
+    TResult Function(DownloadStorageEntity storage)? storageLoaded,
+    TResult Function(List<AudioEntity> suggestions)? smartLoaded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (downloading != null) {
+      return downloading(audioId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DownloadInitial value) initial,
+    required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
+    required TResult Function(DownloadLoaded value) loaded,
+    required TResult Function(DownloadStorageLoaded value) storageLoaded,
+    required TResult Function(DownloadSmartLoaded value) smartLoaded,
+    required TResult Function(DownloadActionSuccess value) actionSuccess,
+    required TResult Function(DownloadError value) error,
+  }) {
+    return downloading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DownloadInitial value)? initial,
+    TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
+    TResult? Function(DownloadLoaded value)? loaded,
+    TResult? Function(DownloadStorageLoaded value)? storageLoaded,
+    TResult? Function(DownloadSmartLoaded value)? smartLoaded,
+    TResult? Function(DownloadActionSuccess value)? actionSuccess,
+    TResult? Function(DownloadError value)? error,
+  }) {
+    return downloading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(DownloadInitial value)? initial,
+    TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
+    TResult Function(DownloadLoaded value)? loaded,
+    TResult Function(DownloadStorageLoaded value)? storageLoaded,
+    TResult Function(DownloadSmartLoaded value)? smartLoaded,
+    TResult Function(DownloadActionSuccess value)? actionSuccess,
+    TResult Function(DownloadError value)? error,
+    required TResult orElse(),
+  }) {
+    if (downloading != null) {
+      return downloading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DownloadDownloading implements DownloadState {
+  const factory DownloadDownloading({required final int audioId}) =
+      _$DownloadDownloadingImpl;
+
+  int get audioId;
+
+  /// Create a copy of DownloadState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DownloadDownloadingImplCopyWith<_$DownloadDownloadingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -462,6 +662,7 @@ class _$DownloadLoadedImpl implements DownloadLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
     required TResult Function(List<DownloadEntity> downloads) loaded,
     required TResult Function(DownloadStorageEntity storage) storageLoaded,
     required TResult Function(List<AudioEntity> suggestions) smartLoaded,
@@ -476,6 +677,7 @@ class _$DownloadLoadedImpl implements DownloadLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
     TResult? Function(List<DownloadEntity> downloads)? loaded,
     TResult? Function(DownloadStorageEntity storage)? storageLoaded,
     TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -490,6 +692,7 @@ class _$DownloadLoadedImpl implements DownloadLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
     TResult Function(List<DownloadEntity> downloads)? loaded,
     TResult Function(DownloadStorageEntity storage)? storageLoaded,
     TResult Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -508,6 +711,7 @@ class _$DownloadLoadedImpl implements DownloadLoaded {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadInitial value) initial,
     required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
     required TResult Function(DownloadLoaded value) loaded,
     required TResult Function(DownloadStorageLoaded value) storageLoaded,
     required TResult Function(DownloadSmartLoaded value) smartLoaded,
@@ -522,6 +726,7 @@ class _$DownloadLoadedImpl implements DownloadLoaded {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadInitial value)? initial,
     TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
     TResult? Function(DownloadLoaded value)? loaded,
     TResult? Function(DownloadStorageLoaded value)? storageLoaded,
     TResult? Function(DownloadSmartLoaded value)? smartLoaded,
@@ -536,6 +741,7 @@ class _$DownloadLoadedImpl implements DownloadLoaded {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadInitial value)? initial,
     TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
     TResult Function(DownloadLoaded value)? loaded,
     TResult Function(DownloadStorageLoaded value)? storageLoaded,
     TResult Function(DownloadSmartLoaded value)? smartLoaded,
@@ -652,6 +858,7 @@ class _$DownloadStorageLoadedImpl implements DownloadStorageLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
     required TResult Function(List<DownloadEntity> downloads) loaded,
     required TResult Function(DownloadStorageEntity storage) storageLoaded,
     required TResult Function(List<AudioEntity> suggestions) smartLoaded,
@@ -666,6 +873,7 @@ class _$DownloadStorageLoadedImpl implements DownloadStorageLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
     TResult? Function(List<DownloadEntity> downloads)? loaded,
     TResult? Function(DownloadStorageEntity storage)? storageLoaded,
     TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -680,6 +888,7 @@ class _$DownloadStorageLoadedImpl implements DownloadStorageLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
     TResult Function(List<DownloadEntity> downloads)? loaded,
     TResult Function(DownloadStorageEntity storage)? storageLoaded,
     TResult Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -698,6 +907,7 @@ class _$DownloadStorageLoadedImpl implements DownloadStorageLoaded {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadInitial value) initial,
     required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
     required TResult Function(DownloadLoaded value) loaded,
     required TResult Function(DownloadStorageLoaded value) storageLoaded,
     required TResult Function(DownloadSmartLoaded value) smartLoaded,
@@ -712,6 +922,7 @@ class _$DownloadStorageLoadedImpl implements DownloadStorageLoaded {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadInitial value)? initial,
     TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
     TResult? Function(DownloadLoaded value)? loaded,
     TResult? Function(DownloadStorageLoaded value)? storageLoaded,
     TResult? Function(DownloadSmartLoaded value)? smartLoaded,
@@ -726,6 +937,7 @@ class _$DownloadStorageLoadedImpl implements DownloadStorageLoaded {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadInitial value)? initial,
     TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
     TResult Function(DownloadLoaded value)? loaded,
     TResult Function(DownloadStorageLoaded value)? storageLoaded,
     TResult Function(DownloadSmartLoaded value)? smartLoaded,
@@ -842,6 +1054,7 @@ class _$DownloadSmartLoadedImpl implements DownloadSmartLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
     required TResult Function(List<DownloadEntity> downloads) loaded,
     required TResult Function(DownloadStorageEntity storage) storageLoaded,
     required TResult Function(List<AudioEntity> suggestions) smartLoaded,
@@ -856,6 +1069,7 @@ class _$DownloadSmartLoadedImpl implements DownloadSmartLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
     TResult? Function(List<DownloadEntity> downloads)? loaded,
     TResult? Function(DownloadStorageEntity storage)? storageLoaded,
     TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -870,6 +1084,7 @@ class _$DownloadSmartLoadedImpl implements DownloadSmartLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
     TResult Function(List<DownloadEntity> downloads)? loaded,
     TResult Function(DownloadStorageEntity storage)? storageLoaded,
     TResult Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -888,6 +1103,7 @@ class _$DownloadSmartLoadedImpl implements DownloadSmartLoaded {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadInitial value) initial,
     required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
     required TResult Function(DownloadLoaded value) loaded,
     required TResult Function(DownloadStorageLoaded value) storageLoaded,
     required TResult Function(DownloadSmartLoaded value) smartLoaded,
@@ -902,6 +1118,7 @@ class _$DownloadSmartLoadedImpl implements DownloadSmartLoaded {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadInitial value)? initial,
     TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
     TResult? Function(DownloadLoaded value)? loaded,
     TResult? Function(DownloadStorageLoaded value)? storageLoaded,
     TResult? Function(DownloadSmartLoaded value)? smartLoaded,
@@ -916,6 +1133,7 @@ class _$DownloadSmartLoadedImpl implements DownloadSmartLoaded {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadInitial value)? initial,
     TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
     TResult Function(DownloadLoaded value)? loaded,
     TResult Function(DownloadStorageLoaded value)? storageLoaded,
     TResult Function(DownloadSmartLoaded value)? smartLoaded,
@@ -1020,6 +1238,7 @@ class _$DownloadActionSuccessImpl implements DownloadActionSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
     required TResult Function(List<DownloadEntity> downloads) loaded,
     required TResult Function(DownloadStorageEntity storage) storageLoaded,
     required TResult Function(List<AudioEntity> suggestions) smartLoaded,
@@ -1034,6 +1253,7 @@ class _$DownloadActionSuccessImpl implements DownloadActionSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
     TResult? Function(List<DownloadEntity> downloads)? loaded,
     TResult? Function(DownloadStorageEntity storage)? storageLoaded,
     TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -1048,6 +1268,7 @@ class _$DownloadActionSuccessImpl implements DownloadActionSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
     TResult Function(List<DownloadEntity> downloads)? loaded,
     TResult Function(DownloadStorageEntity storage)? storageLoaded,
     TResult Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -1066,6 +1287,7 @@ class _$DownloadActionSuccessImpl implements DownloadActionSuccess {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadInitial value) initial,
     required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
     required TResult Function(DownloadLoaded value) loaded,
     required TResult Function(DownloadStorageLoaded value) storageLoaded,
     required TResult Function(DownloadSmartLoaded value) smartLoaded,
@@ -1080,6 +1302,7 @@ class _$DownloadActionSuccessImpl implements DownloadActionSuccess {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadInitial value)? initial,
     TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
     TResult? Function(DownloadLoaded value)? loaded,
     TResult? Function(DownloadStorageLoaded value)? storageLoaded,
     TResult? Function(DownloadSmartLoaded value)? smartLoaded,
@@ -1094,6 +1317,7 @@ class _$DownloadActionSuccessImpl implements DownloadActionSuccess {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadInitial value)? initial,
     TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
     TResult Function(DownloadLoaded value)? loaded,
     TResult Function(DownloadStorageLoaded value)? storageLoaded,
     TResult Function(DownloadSmartLoaded value)? smartLoaded,
@@ -1193,6 +1417,7 @@ class _$DownloadErrorImpl implements DownloadError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(int audioId) downloading,
     required TResult Function(List<DownloadEntity> downloads) loaded,
     required TResult Function(DownloadStorageEntity storage) storageLoaded,
     required TResult Function(List<AudioEntity> suggestions) smartLoaded,
@@ -1207,6 +1432,7 @@ class _$DownloadErrorImpl implements DownloadError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(int audioId)? downloading,
     TResult? Function(List<DownloadEntity> downloads)? loaded,
     TResult? Function(DownloadStorageEntity storage)? storageLoaded,
     TResult? Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -1221,6 +1447,7 @@ class _$DownloadErrorImpl implements DownloadError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(int audioId)? downloading,
     TResult Function(List<DownloadEntity> downloads)? loaded,
     TResult Function(DownloadStorageEntity storage)? storageLoaded,
     TResult Function(List<AudioEntity> suggestions)? smartLoaded,
@@ -1239,6 +1466,7 @@ class _$DownloadErrorImpl implements DownloadError {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadInitial value) initial,
     required TResult Function(DownloadLoading value) loading,
+    required TResult Function(DownloadDownloading value) downloading,
     required TResult Function(DownloadLoaded value) loaded,
     required TResult Function(DownloadStorageLoaded value) storageLoaded,
     required TResult Function(DownloadSmartLoaded value) smartLoaded,
@@ -1253,6 +1481,7 @@ class _$DownloadErrorImpl implements DownloadError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadInitial value)? initial,
     TResult? Function(DownloadLoading value)? loading,
+    TResult? Function(DownloadDownloading value)? downloading,
     TResult? Function(DownloadLoaded value)? loaded,
     TResult? Function(DownloadStorageLoaded value)? storageLoaded,
     TResult? Function(DownloadSmartLoaded value)? smartLoaded,
@@ -1267,6 +1496,7 @@ class _$DownloadErrorImpl implements DownloadError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadInitial value)? initial,
     TResult Function(DownloadLoading value)? loading,
+    TResult Function(DownloadDownloading value)? downloading,
     TResult Function(DownloadLoaded value)? loaded,
     TResult Function(DownloadStorageLoaded value)? storageLoaded,
     TResult Function(DownloadSmartLoaded value)? smartLoaded,

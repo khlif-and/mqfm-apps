@@ -40,6 +40,7 @@ import 'package:mqfm_apps/presentation/organisms/resume/resume_section.dart';
 import 'package:mqfm_apps/presentation/organisms/series/series_section.dart';
 import 'package:mqfm_apps/presentation/organisms/dashboard/vertical_content_list.dart';
 import 'package:mqfm_apps/presentation/organisms/vote/vote_ranking_section.dart';
+import 'package:mqfm_apps/presentation/organisms/radio/radio_section.dart';
 
 class DashboardScrollView extends StatelessWidget {
   final List<AudioEntity> filteredAudios;
@@ -137,6 +138,13 @@ class DashboardScrollView extends StatelessWidget {
                   onAudioTap: (id) => _toPlayer(context, id),
                 ),
               ),
+            ),
+          ),
+          SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),
+
+          SliverToBoxAdapter(
+            child: RepaintBoundary(
+              child: RadioSection(),
             ),
           ),
           SliverToBoxAdapter(child: SizedBox(height: AppDims.h24)),

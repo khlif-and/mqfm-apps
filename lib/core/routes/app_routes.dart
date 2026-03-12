@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:mqfm_apps/presentation/pages/splash/splash_page.dart';
@@ -100,7 +101,10 @@ final GoRouter appRouter = GoRouter(
       path: '${AppPathRoutes.player}/:id',
       pageBuilder: (context, state) {
         final id = state.pathParameters['id']!;
-        return NoTransitionPage(child: PlayerPage(audioId: id));
+        return NoTransitionPage(
+          key: ValueKey('player_$id'),
+          child: PlayerPage(audioId: id),
+        );
       },
     ),
     GoRoute(

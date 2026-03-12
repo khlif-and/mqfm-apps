@@ -24,7 +24,8 @@ mixin _$PlaylistState {
     required TResult Function(List<PlaylistEntity> playlists) loaded,
     required TResult Function(PlaylistEntity playlist) detailLoaded,
     required TResult Function(PlaylistEntity playlist) created,
-    required TResult Function() audioAdded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
     required TResult Function(String message) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,7 +35,8 @@ mixin _$PlaylistState {
     TResult? Function(List<PlaylistEntity> playlists)? loaded,
     TResult? Function(PlaylistEntity playlist)? detailLoaded,
     TResult? Function(PlaylistEntity playlist)? created,
-    TResult? Function()? audioAdded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
     TResult? Function(String message)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,7 +46,8 @@ mixin _$PlaylistState {
     TResult Function(List<PlaylistEntity> playlists)? loaded,
     TResult Function(PlaylistEntity playlist)? detailLoaded,
     TResult Function(PlaylistEntity playlist)? created,
-    TResult Function()? audioAdded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -55,7 +58,8 @@ mixin _$PlaylistState {
     required TResult Function(PlaylistLoaded value) loaded,
     required TResult Function(PlaylistDetailLoaded value) detailLoaded,
     required TResult Function(PlaylistCreated value) created,
-    required TResult Function(PlaylistAudioAdded value) audioAdded,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
     required TResult Function(PlaylistError value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,7 +69,8 @@ mixin _$PlaylistState {
     TResult? Function(PlaylistLoaded value)? loaded,
     TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult? Function(PlaylistCreated value)? created,
-    TResult? Function(PlaylistAudioAdded value)? audioAdded,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
     TResult? Function(PlaylistError value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,7 +80,8 @@ mixin _$PlaylistState {
     TResult Function(PlaylistLoaded value)? loaded,
     TResult Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult Function(PlaylistCreated value)? created,
-    TResult Function(PlaylistAudioAdded value)? audioAdded,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
     TResult Function(PlaylistError value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -151,7 +157,8 @@ class _$PlaylistInitialImpl implements PlaylistInitial {
     required TResult Function(List<PlaylistEntity> playlists) loaded,
     required TResult Function(PlaylistEntity playlist) detailLoaded,
     required TResult Function(PlaylistEntity playlist) created,
-    required TResult Function() audioAdded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -165,7 +172,8 @@ class _$PlaylistInitialImpl implements PlaylistInitial {
     TResult? Function(List<PlaylistEntity> playlists)? loaded,
     TResult? Function(PlaylistEntity playlist)? detailLoaded,
     TResult? Function(PlaylistEntity playlist)? created,
-    TResult? Function()? audioAdded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -179,7 +187,8 @@ class _$PlaylistInitialImpl implements PlaylistInitial {
     TResult Function(List<PlaylistEntity> playlists)? loaded,
     TResult Function(PlaylistEntity playlist)? detailLoaded,
     TResult Function(PlaylistEntity playlist)? created,
-    TResult Function()? audioAdded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -197,7 +206,8 @@ class _$PlaylistInitialImpl implements PlaylistInitial {
     required TResult Function(PlaylistLoaded value) loaded,
     required TResult Function(PlaylistDetailLoaded value) detailLoaded,
     required TResult Function(PlaylistCreated value) created,
-    required TResult Function(PlaylistAudioAdded value) audioAdded,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
     required TResult Function(PlaylistError value) error,
   }) {
     return initial(this);
@@ -211,7 +221,8 @@ class _$PlaylistInitialImpl implements PlaylistInitial {
     TResult? Function(PlaylistLoaded value)? loaded,
     TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult? Function(PlaylistCreated value)? created,
-    TResult? Function(PlaylistAudioAdded value)? audioAdded,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
     TResult? Function(PlaylistError value)? error,
   }) {
     return initial?.call(this);
@@ -225,7 +236,8 @@ class _$PlaylistInitialImpl implements PlaylistInitial {
     TResult Function(PlaylistLoaded value)? loaded,
     TResult Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult Function(PlaylistCreated value)? created,
-    TResult Function(PlaylistAudioAdded value)? audioAdded,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
     TResult Function(PlaylistError value)? error,
     required TResult orElse(),
   }) {
@@ -288,7 +300,8 @@ class _$PlaylistLoadingImpl implements PlaylistLoading {
     required TResult Function(List<PlaylistEntity> playlists) loaded,
     required TResult Function(PlaylistEntity playlist) detailLoaded,
     required TResult Function(PlaylistEntity playlist) created,
-    required TResult Function() audioAdded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -302,7 +315,8 @@ class _$PlaylistLoadingImpl implements PlaylistLoading {
     TResult? Function(List<PlaylistEntity> playlists)? loaded,
     TResult? Function(PlaylistEntity playlist)? detailLoaded,
     TResult? Function(PlaylistEntity playlist)? created,
-    TResult? Function()? audioAdded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -316,7 +330,8 @@ class _$PlaylistLoadingImpl implements PlaylistLoading {
     TResult Function(List<PlaylistEntity> playlists)? loaded,
     TResult Function(PlaylistEntity playlist)? detailLoaded,
     TResult Function(PlaylistEntity playlist)? created,
-    TResult Function()? audioAdded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -334,7 +349,8 @@ class _$PlaylistLoadingImpl implements PlaylistLoading {
     required TResult Function(PlaylistLoaded value) loaded,
     required TResult Function(PlaylistDetailLoaded value) detailLoaded,
     required TResult Function(PlaylistCreated value) created,
-    required TResult Function(PlaylistAudioAdded value) audioAdded,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
     required TResult Function(PlaylistError value) error,
   }) {
     return loading(this);
@@ -348,7 +364,8 @@ class _$PlaylistLoadingImpl implements PlaylistLoading {
     TResult? Function(PlaylistLoaded value)? loaded,
     TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult? Function(PlaylistCreated value)? created,
-    TResult? Function(PlaylistAudioAdded value)? audioAdded,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
     TResult? Function(PlaylistError value)? error,
   }) {
     return loading?.call(this);
@@ -362,7 +379,8 @@ class _$PlaylistLoadingImpl implements PlaylistLoading {
     TResult Function(PlaylistLoaded value)? loaded,
     TResult Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult Function(PlaylistCreated value)? created,
-    TResult Function(PlaylistAudioAdded value)? audioAdded,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
     TResult Function(PlaylistError value)? error,
     required TResult orElse(),
   }) {
@@ -465,7 +483,8 @@ class _$PlaylistLoadedImpl implements PlaylistLoaded {
     required TResult Function(List<PlaylistEntity> playlists) loaded,
     required TResult Function(PlaylistEntity playlist) detailLoaded,
     required TResult Function(PlaylistEntity playlist) created,
-    required TResult Function() audioAdded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
     required TResult Function(String message) error,
   }) {
     return loaded(playlists);
@@ -479,7 +498,8 @@ class _$PlaylistLoadedImpl implements PlaylistLoaded {
     TResult? Function(List<PlaylistEntity> playlists)? loaded,
     TResult? Function(PlaylistEntity playlist)? detailLoaded,
     TResult? Function(PlaylistEntity playlist)? created,
-    TResult? Function()? audioAdded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(playlists);
@@ -493,7 +513,8 @@ class _$PlaylistLoadedImpl implements PlaylistLoaded {
     TResult Function(List<PlaylistEntity> playlists)? loaded,
     TResult Function(PlaylistEntity playlist)? detailLoaded,
     TResult Function(PlaylistEntity playlist)? created,
-    TResult Function()? audioAdded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -511,7 +532,8 @@ class _$PlaylistLoadedImpl implements PlaylistLoaded {
     required TResult Function(PlaylistLoaded value) loaded,
     required TResult Function(PlaylistDetailLoaded value) detailLoaded,
     required TResult Function(PlaylistCreated value) created,
-    required TResult Function(PlaylistAudioAdded value) audioAdded,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
     required TResult Function(PlaylistError value) error,
   }) {
     return loaded(this);
@@ -525,7 +547,8 @@ class _$PlaylistLoadedImpl implements PlaylistLoaded {
     TResult? Function(PlaylistLoaded value)? loaded,
     TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult? Function(PlaylistCreated value)? created,
-    TResult? Function(PlaylistAudioAdded value)? audioAdded,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
     TResult? Function(PlaylistError value)? error,
   }) {
     return loaded?.call(this);
@@ -539,7 +562,8 @@ class _$PlaylistLoadedImpl implements PlaylistLoaded {
     TResult Function(PlaylistLoaded value)? loaded,
     TResult Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult Function(PlaylistCreated value)? created,
-    TResult Function(PlaylistAudioAdded value)? audioAdded,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
     TResult Function(PlaylistError value)? error,
     required TResult orElse(),
   }) {
@@ -656,7 +680,8 @@ class _$PlaylistDetailLoadedImpl implements PlaylistDetailLoaded {
     required TResult Function(List<PlaylistEntity> playlists) loaded,
     required TResult Function(PlaylistEntity playlist) detailLoaded,
     required TResult Function(PlaylistEntity playlist) created,
-    required TResult Function() audioAdded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
     required TResult Function(String message) error,
   }) {
     return detailLoaded(playlist);
@@ -670,7 +695,8 @@ class _$PlaylistDetailLoadedImpl implements PlaylistDetailLoaded {
     TResult? Function(List<PlaylistEntity> playlists)? loaded,
     TResult? Function(PlaylistEntity playlist)? detailLoaded,
     TResult? Function(PlaylistEntity playlist)? created,
-    TResult? Function()? audioAdded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
     TResult? Function(String message)? error,
   }) {
     return detailLoaded?.call(playlist);
@@ -684,7 +710,8 @@ class _$PlaylistDetailLoadedImpl implements PlaylistDetailLoaded {
     TResult Function(List<PlaylistEntity> playlists)? loaded,
     TResult Function(PlaylistEntity playlist)? detailLoaded,
     TResult Function(PlaylistEntity playlist)? created,
-    TResult Function()? audioAdded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -702,7 +729,8 @@ class _$PlaylistDetailLoadedImpl implements PlaylistDetailLoaded {
     required TResult Function(PlaylistLoaded value) loaded,
     required TResult Function(PlaylistDetailLoaded value) detailLoaded,
     required TResult Function(PlaylistCreated value) created,
-    required TResult Function(PlaylistAudioAdded value) audioAdded,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
     required TResult Function(PlaylistError value) error,
   }) {
     return detailLoaded(this);
@@ -716,7 +744,8 @@ class _$PlaylistDetailLoadedImpl implements PlaylistDetailLoaded {
     TResult? Function(PlaylistLoaded value)? loaded,
     TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult? Function(PlaylistCreated value)? created,
-    TResult? Function(PlaylistAudioAdded value)? audioAdded,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
     TResult? Function(PlaylistError value)? error,
   }) {
     return detailLoaded?.call(this);
@@ -730,7 +759,8 @@ class _$PlaylistDetailLoadedImpl implements PlaylistDetailLoaded {
     TResult Function(PlaylistLoaded value)? loaded,
     TResult Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult Function(PlaylistCreated value)? created,
-    TResult Function(PlaylistAudioAdded value)? audioAdded,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
     TResult Function(PlaylistError value)? error,
     required TResult orElse(),
   }) {
@@ -845,7 +875,8 @@ class _$PlaylistCreatedImpl implements PlaylistCreated {
     required TResult Function(List<PlaylistEntity> playlists) loaded,
     required TResult Function(PlaylistEntity playlist) detailLoaded,
     required TResult Function(PlaylistEntity playlist) created,
-    required TResult Function() audioAdded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
     required TResult Function(String message) error,
   }) {
     return created(playlist);
@@ -859,7 +890,8 @@ class _$PlaylistCreatedImpl implements PlaylistCreated {
     TResult? Function(List<PlaylistEntity> playlists)? loaded,
     TResult? Function(PlaylistEntity playlist)? detailLoaded,
     TResult? Function(PlaylistEntity playlist)? created,
-    TResult? Function()? audioAdded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
     TResult? Function(String message)? error,
   }) {
     return created?.call(playlist);
@@ -873,7 +905,8 @@ class _$PlaylistCreatedImpl implements PlaylistCreated {
     TResult Function(List<PlaylistEntity> playlists)? loaded,
     TResult Function(PlaylistEntity playlist)? detailLoaded,
     TResult Function(PlaylistEntity playlist)? created,
-    TResult Function()? audioAdded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -891,7 +924,8 @@ class _$PlaylistCreatedImpl implements PlaylistCreated {
     required TResult Function(PlaylistLoaded value) loaded,
     required TResult Function(PlaylistDetailLoaded value) detailLoaded,
     required TResult Function(PlaylistCreated value) created,
-    required TResult Function(PlaylistAudioAdded value) audioAdded,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
     required TResult Function(PlaylistError value) error,
   }) {
     return created(this);
@@ -905,7 +939,8 @@ class _$PlaylistCreatedImpl implements PlaylistCreated {
     TResult? Function(PlaylistLoaded value)? loaded,
     TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult? Function(PlaylistCreated value)? created,
-    TResult? Function(PlaylistAudioAdded value)? audioAdded,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
     TResult? Function(PlaylistError value)? error,
   }) {
     return created?.call(this);
@@ -919,7 +954,8 @@ class _$PlaylistCreatedImpl implements PlaylistCreated {
     TResult Function(PlaylistLoaded value)? loaded,
     TResult Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult Function(PlaylistCreated value)? created,
-    TResult Function(PlaylistAudioAdded value)? audioAdded,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
     TResult Function(PlaylistError value)? error,
     required TResult orElse(),
   }) {
@@ -944,44 +980,75 @@ abstract class PlaylistCreated implements PlaylistState {
 }
 
 /// @nodoc
-abstract class _$$PlaylistAudioAddedImplCopyWith<$Res> {
-  factory _$$PlaylistAudioAddedImplCopyWith(
-    _$PlaylistAudioAddedImpl value,
-    $Res Function(_$PlaylistAudioAddedImpl) then,
-  ) = __$$PlaylistAudioAddedImplCopyWithImpl<$Res>;
+abstract class _$$PlaylistActionSuccessImplCopyWith<$Res> {
+  factory _$$PlaylistActionSuccessImplCopyWith(
+    _$PlaylistActionSuccessImpl value,
+    $Res Function(_$PlaylistActionSuccessImpl) then,
+  ) = __$$PlaylistActionSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
-class __$$PlaylistAudioAddedImplCopyWithImpl<$Res>
-    extends _$PlaylistStateCopyWithImpl<$Res, _$PlaylistAudioAddedImpl>
-    implements _$$PlaylistAudioAddedImplCopyWith<$Res> {
-  __$$PlaylistAudioAddedImplCopyWithImpl(
-    _$PlaylistAudioAddedImpl _value,
-    $Res Function(_$PlaylistAudioAddedImpl) _then,
+class __$$PlaylistActionSuccessImplCopyWithImpl<$Res>
+    extends _$PlaylistStateCopyWithImpl<$Res, _$PlaylistActionSuccessImpl>
+    implements _$$PlaylistActionSuccessImplCopyWith<$Res> {
+  __$$PlaylistActionSuccessImplCopyWithImpl(
+    _$PlaylistActionSuccessImpl _value,
+    $Res Function(_$PlaylistActionSuccessImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of PlaylistState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? message = null}) {
+    return _then(
+      _$PlaylistActionSuccessImpl(
+        message: null == message
+            ? _value.message
+            : message // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
-class _$PlaylistAudioAddedImpl implements PlaylistAudioAdded {
-  const _$PlaylistAudioAddedImpl();
+class _$PlaylistActionSuccessImpl implements PlaylistActionSuccess {
+  const _$PlaylistActionSuccessImpl({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'PlaylistState.audioAdded()';
+    return 'PlaylistState.actionSuccess(message: $message)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$PlaylistAudioAddedImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$PlaylistActionSuccessImpl &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of PlaylistState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PlaylistActionSuccessImplCopyWith<_$PlaylistActionSuccessImpl>
+  get copyWith =>
+      __$$PlaylistActionSuccessImplCopyWithImpl<_$PlaylistActionSuccessImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -991,10 +1058,11 @@ class _$PlaylistAudioAddedImpl implements PlaylistAudioAdded {
     required TResult Function(List<PlaylistEntity> playlists) loaded,
     required TResult Function(PlaylistEntity playlist) detailLoaded,
     required TResult Function(PlaylistEntity playlist) created,
-    required TResult Function() audioAdded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
     required TResult Function(String message) error,
   }) {
-    return audioAdded();
+    return actionSuccess(message);
   }
 
   @override
@@ -1005,10 +1073,11 @@ class _$PlaylistAudioAddedImpl implements PlaylistAudioAdded {
     TResult? Function(List<PlaylistEntity> playlists)? loaded,
     TResult? Function(PlaylistEntity playlist)? detailLoaded,
     TResult? Function(PlaylistEntity playlist)? created,
-    TResult? Function()? audioAdded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
     TResult? Function(String message)? error,
   }) {
-    return audioAdded?.call();
+    return actionSuccess?.call(message);
   }
 
   @override
@@ -1019,12 +1088,13 @@ class _$PlaylistAudioAddedImpl implements PlaylistAudioAdded {
     TResult Function(List<PlaylistEntity> playlists)? loaded,
     TResult Function(PlaylistEntity playlist)? detailLoaded,
     TResult Function(PlaylistEntity playlist)? created,
-    TResult Function()? audioAdded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
-    if (audioAdded != null) {
-      return audioAdded();
+    if (actionSuccess != null) {
+      return actionSuccess(message);
     }
     return orElse();
   }
@@ -1037,10 +1107,11 @@ class _$PlaylistAudioAddedImpl implements PlaylistAudioAdded {
     required TResult Function(PlaylistLoaded value) loaded,
     required TResult Function(PlaylistDetailLoaded value) detailLoaded,
     required TResult Function(PlaylistCreated value) created,
-    required TResult Function(PlaylistAudioAdded value) audioAdded,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
     required TResult Function(PlaylistError value) error,
   }) {
-    return audioAdded(this);
+    return actionSuccess(this);
   }
 
   @override
@@ -1051,10 +1122,11 @@ class _$PlaylistAudioAddedImpl implements PlaylistAudioAdded {
     TResult? Function(PlaylistLoaded value)? loaded,
     TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult? Function(PlaylistCreated value)? created,
-    TResult? Function(PlaylistAudioAdded value)? audioAdded,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
     TResult? Function(PlaylistError value)? error,
   }) {
-    return audioAdded?.call(this);
+    return actionSuccess?.call(this);
   }
 
   @override
@@ -1065,19 +1137,212 @@ class _$PlaylistAudioAddedImpl implements PlaylistAudioAdded {
     TResult Function(PlaylistLoaded value)? loaded,
     TResult Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult Function(PlaylistCreated value)? created,
-    TResult Function(PlaylistAudioAdded value)? audioAdded,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
     TResult Function(PlaylistError value)? error,
     required TResult orElse(),
   }) {
-    if (audioAdded != null) {
-      return audioAdded(this);
+    if (actionSuccess != null) {
+      return actionSuccess(this);
     }
     return orElse();
   }
 }
 
-abstract class PlaylistAudioAdded implements PlaylistState {
-  const factory PlaylistAudioAdded() = _$PlaylistAudioAddedImpl;
+abstract class PlaylistActionSuccess implements PlaylistState {
+  const factory PlaylistActionSuccess({required final String message}) =
+      _$PlaylistActionSuccessImpl;
+
+  String get message;
+
+  /// Create a copy of PlaylistState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PlaylistActionSuccessImplCopyWith<_$PlaylistActionSuccessImpl>
+  get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$PlaylistSharedImplCopyWith<$Res> {
+  factory _$$PlaylistSharedImplCopyWith(
+    _$PlaylistSharedImpl value,
+    $Res Function(_$PlaylistSharedImpl) then,
+  ) = __$$PlaylistSharedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String shareToken});
+}
+
+/// @nodoc
+class __$$PlaylistSharedImplCopyWithImpl<$Res>
+    extends _$PlaylistStateCopyWithImpl<$Res, _$PlaylistSharedImpl>
+    implements _$$PlaylistSharedImplCopyWith<$Res> {
+  __$$PlaylistSharedImplCopyWithImpl(
+    _$PlaylistSharedImpl _value,
+    $Res Function(_$PlaylistSharedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of PlaylistState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? shareToken = null}) {
+    return _then(
+      _$PlaylistSharedImpl(
+        shareToken: null == shareToken
+            ? _value.shareToken
+            : shareToken // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$PlaylistSharedImpl implements PlaylistShared {
+  const _$PlaylistSharedImpl({required this.shareToken});
+
+  @override
+  final String shareToken;
+
+  @override
+  String toString() {
+    return 'PlaylistState.shared(shareToken: $shareToken)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PlaylistSharedImpl &&
+            (identical(other.shareToken, shareToken) ||
+                other.shareToken == shareToken));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, shareToken);
+
+  /// Create a copy of PlaylistState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PlaylistSharedImplCopyWith<_$PlaylistSharedImpl> get copyWith =>
+      __$$PlaylistSharedImplCopyWithImpl<_$PlaylistSharedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<PlaylistEntity> playlists) loaded,
+    required TResult Function(PlaylistEntity playlist) detailLoaded,
+    required TResult Function(PlaylistEntity playlist) created,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
+    required TResult Function(String message) error,
+  }) {
+    return shared(shareToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<PlaylistEntity> playlists)? loaded,
+    TResult? Function(PlaylistEntity playlist)? detailLoaded,
+    TResult? Function(PlaylistEntity playlist)? created,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
+    TResult? Function(String message)? error,
+  }) {
+    return shared?.call(shareToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<PlaylistEntity> playlists)? loaded,
+    TResult Function(PlaylistEntity playlist)? detailLoaded,
+    TResult Function(PlaylistEntity playlist)? created,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (shared != null) {
+      return shared(shareToken);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(PlaylistInitial value) initial,
+    required TResult Function(PlaylistLoading value) loading,
+    required TResult Function(PlaylistLoaded value) loaded,
+    required TResult Function(PlaylistDetailLoaded value) detailLoaded,
+    required TResult Function(PlaylistCreated value) created,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
+    required TResult Function(PlaylistError value) error,
+  }) {
+    return shared(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(PlaylistInitial value)? initial,
+    TResult? Function(PlaylistLoading value)? loading,
+    TResult? Function(PlaylistLoaded value)? loaded,
+    TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
+    TResult? Function(PlaylistCreated value)? created,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
+    TResult? Function(PlaylistError value)? error,
+  }) {
+    return shared?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(PlaylistInitial value)? initial,
+    TResult Function(PlaylistLoading value)? loading,
+    TResult Function(PlaylistLoaded value)? loaded,
+    TResult Function(PlaylistDetailLoaded value)? detailLoaded,
+    TResult Function(PlaylistCreated value)? created,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
+    TResult Function(PlaylistError value)? error,
+    required TResult orElse(),
+  }) {
+    if (shared != null) {
+      return shared(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class PlaylistShared implements PlaylistState {
+  const factory PlaylistShared({required final String shareToken}) =
+      _$PlaylistSharedImpl;
+
+  String get shareToken;
+
+  /// Create a copy of PlaylistState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PlaylistSharedImplCopyWith<_$PlaylistSharedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1155,7 +1420,8 @@ class _$PlaylistErrorImpl implements PlaylistError {
     required TResult Function(List<PlaylistEntity> playlists) loaded,
     required TResult Function(PlaylistEntity playlist) detailLoaded,
     required TResult Function(PlaylistEntity playlist) created,
-    required TResult Function() audioAdded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String shareToken) shared,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -1169,7 +1435,8 @@ class _$PlaylistErrorImpl implements PlaylistError {
     TResult? Function(List<PlaylistEntity> playlists)? loaded,
     TResult? Function(PlaylistEntity playlist)? detailLoaded,
     TResult? Function(PlaylistEntity playlist)? created,
-    TResult? Function()? audioAdded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String shareToken)? shared,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -1183,7 +1450,8 @@ class _$PlaylistErrorImpl implements PlaylistError {
     TResult Function(List<PlaylistEntity> playlists)? loaded,
     TResult Function(PlaylistEntity playlist)? detailLoaded,
     TResult Function(PlaylistEntity playlist)? created,
-    TResult Function()? audioAdded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String shareToken)? shared,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -1201,7 +1469,8 @@ class _$PlaylistErrorImpl implements PlaylistError {
     required TResult Function(PlaylistLoaded value) loaded,
     required TResult Function(PlaylistDetailLoaded value) detailLoaded,
     required TResult Function(PlaylistCreated value) created,
-    required TResult Function(PlaylistAudioAdded value) audioAdded,
+    required TResult Function(PlaylistActionSuccess value) actionSuccess,
+    required TResult Function(PlaylistShared value) shared,
     required TResult Function(PlaylistError value) error,
   }) {
     return error(this);
@@ -1215,7 +1484,8 @@ class _$PlaylistErrorImpl implements PlaylistError {
     TResult? Function(PlaylistLoaded value)? loaded,
     TResult? Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult? Function(PlaylistCreated value)? created,
-    TResult? Function(PlaylistAudioAdded value)? audioAdded,
+    TResult? Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult? Function(PlaylistShared value)? shared,
     TResult? Function(PlaylistError value)? error,
   }) {
     return error?.call(this);
@@ -1229,7 +1499,8 @@ class _$PlaylistErrorImpl implements PlaylistError {
     TResult Function(PlaylistLoaded value)? loaded,
     TResult Function(PlaylistDetailLoaded value)? detailLoaded,
     TResult Function(PlaylistCreated value)? created,
-    TResult Function(PlaylistAudioAdded value)? audioAdded,
+    TResult Function(PlaylistActionSuccess value)? actionSuccess,
+    TResult Function(PlaylistShared value)? shared,
     TResult Function(PlaylistError value)? error,
     required TResult orElse(),
   }) {

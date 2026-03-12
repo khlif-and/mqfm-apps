@@ -1,72 +1,71 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mqfm_apps/core/utils/constants/api/api_constants.dart';
 import 'package:mqfm_apps/features/vote/domain/entities/vote.dart';
 
 part 'vote_dto.g.dart';
 
 @JsonSerializable()
-class VoteDto {
-  final int id;
-  @JsonKey(name: 'audio_id', defaultValue: 0)
-  final int audioId;
-  @JsonKey(name: 'created_at', defaultValue: '')
-  final String createdAt;
-
-  const VoteDto({required this.id, this.audioId = 0, this.createdAt = ''});
-
-  factory VoteDto.fromJson(Map<String, dynamic> json) =>
-      _$VoteDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VoteDtoToJson(this);
-
-  VoteEntity toEntity() {
-    return VoteEntity(id: id, audioId: audioId, createdAt: createdAt);
-  }
-}
-
-@JsonSerializable()
 class VoteRankingDto {
-  @JsonKey(name: 'audio_id', defaultValue: 0)
-  final int audioId;
-  @JsonKey(defaultValue: '')
-  final String title;
-  @JsonKey(defaultValue: '')
-  final String artist;
-  @JsonKey(defaultValue: '')
-  final String? thumbnail;
-  @JsonKey(name: 'vote_count', defaultValue: 0)
-  final int voteCount;
   @JsonKey(defaultValue: 0)
   final int rank;
+  @JsonKey(name: 'audio_id', defaultValue: 0)
+  final int audioId;
+  final Map<String, dynamic>? audio;
+  @JsonKey(defaultValue: 0)
+  final int likes;
+  @JsonKey(name: 'updated_at', defaultValue: '')
+  final String updatedAt;
 
   const VoteRankingDto({
-    this.audioId = 0,
-    this.title = '',
-    this.artist = '',
-    this.thumbnail,
-    this.voteCount = 0,
     this.rank = 0,
+    this.audioId = 0,
+    this.audio,
+    this.likes = 0,
+    this.updatedAt = '',
   });
 
   factory VoteRankingDto.fromJson(Map<String, dynamic> json) =>
       _$VoteRankingDtoFromJson(json);
 
-  static String _fixUrl(String? path) {
-    if (path == null || path.isEmpty) return '';
-    if (path.startsWith('http') || path.startsWith('https')) return path;
-    final baseUrl = dotenv.env['BASE_URL'] ?? '';
-    final cleanPath = path.startsWith('/') ? path.substring(1) : path;
-    return '$baseUrl/$cleanPath';
-  }
-
   VoteRankingEntity toEntity() {
+    final a = audio ?? {};
     return VoteRankingEntity(
-      audioId: audioId,
-      title: title,
-      artist: artist,
-      thumbnail: _fixUrl(thumbnail),
-      voteCount: voteCount,
       rank: rank,
+      audioId: audioId,
+      title: a['title']?.toString() ?? '',
+      artist: a['artist']?.toString() ?? '',
+      thumbnail: ApiConstants.buildMediaUrl(a['thumbnail']?.toString()),
+      dominantColor: a['dominant_color']?.toString() ?? '',
+      duration: (a['duration'] as num?)?.toInt() ?? 0,
+      durationFmt: a['duration_fmt']?.toString() ?? '',
+      likes: likes,
+    );
+  }
+}
+
+@JsonSerializable()
+class VoteStatusDto {
+  @JsonKey(name: 'audio_id', defaultValue: 0)
+  final int audioId;
+  @JsonKey(name: 'has_voted', defaultValue: false)
+  final bool hasVoted;
+  @JsonKey(name: 'total_votes', defaultValue: 0)
+  final int totalVotes;
+
+  const VoteStatusDto({
+    this.audioId = 0,
+    this.hasVoted = false,
+    this.totalVotes = 0,
+  });
+
+  factory VoteStatusDto.fromJson(Map<String, dynamic> json) =>
+      _$VoteStatusDtoFromJson(json);
+
+  VoteStatusEntity toEntity() {
+    return VoteStatusEntity(
+      audioId: audioId,
+      hasVoted: hasVoted,
+      totalVotes: totalVotes,
     );
   }
 }

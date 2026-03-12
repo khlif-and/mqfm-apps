@@ -8,12 +8,18 @@ part 'playlist.g.dart';
 class PlaylistEntity with _$PlaylistEntity {
   const factory PlaylistEntity({
     required int id,
-    required int userId,
-    required String name,
-    required String imageUrl,
-    required List<AudioEntity> audios,
-    required String createdAt,
-    required String updatedAt,
+    @Default(0) int userId,
+    @Default('user') String creatorRole,
+    @Default('') String name,
+    @Default('') String imageUrl,
+    @Default('') String dominantColor,
+    @Default('') String shareToken,
+    @Default(false) bool isPublic,
+    @Default('') String timeSince,
+    @Default(0) int audioCount,
+    @Default([]) List<AudioEntity> audios,
+    @Default('') String createdAt,
+    @Default('') String updatedAt,
   }) = _PlaylistEntity;
 
   factory PlaylistEntity.fromJson(Map<String, dynamic> json) =>

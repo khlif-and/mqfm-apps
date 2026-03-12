@@ -58,7 +58,8 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                 onRefresh: () async => _bloc.add(PlaylistEvent.fetchDetail(id: _id)),
               ),
               created: (_) => const SizedBox.shrink(),
-              audioAdded: () => const SizedBox.shrink(),
+              actionSuccess: (_) => const SizedBox.shrink(),
+              shared: (_) => const SizedBox.shrink(),
               error: (message) => Center(
                 child: Text(
                   message.isEmpty ? AppStrings.playlistNotFound : message,

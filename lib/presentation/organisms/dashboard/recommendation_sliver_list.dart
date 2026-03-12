@@ -14,6 +14,12 @@ class RecommendationSliverList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecommendationBloc, RecommendationState>(
+      buildWhen: (prev, curr) =>
+          prev.personalized != curr.personalized ||
+          prev.popular != curr.popular ||
+          prev.quickPick != curr.quickPick ||
+          prev.byArtist != curr.byArtist ||
+          prev.isLoading != curr.isLoading,
       builder: (context, recState) {
         final recSections = <Widget>[];
 

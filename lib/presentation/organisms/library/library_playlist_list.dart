@@ -98,7 +98,7 @@ class LibraryPlaylistList extends StatelessWidget {
           onTap: () => onPlaylistTap?.call(playlist.id),
           child: LibraryItem(
             title: playlist.name,
-            subtitle: 'Playlist • ${playlist.audios.length} audio',
+            subtitle: 'Playlist • ${playlist.audioCount} audio',
             imageUrl: playlist.imageUrl,
             isRoundImage: false,
           ),

@@ -16,6 +16,12 @@ class VoteRankingTile extends StatelessWidget {
     this.hasVoted = false,
   });
 
+  String _formatLikes(int count) {
+    if (count >= 1000000) return '${(count / 1000000).toStringAsFixed(1)}M';
+    if (count >= 1000) return '${(count / 1000).toStringAsFixed(1)}K';
+    return '$count';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -86,7 +92,7 @@ class VoteRankingTile extends StatelessWidget {
               ),
               SizedBox(height: AppDims.h2),
               Text(
-                '${ranking.voteCount}',
+                _formatLikes(ranking.likes),
                 style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: AppDims.sp10,

@@ -20,7 +20,9 @@ mixin _$DownloadEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
-    required TResult Function(int audioId) create,
+    required TResult Function(int audioId, int? playlistId, int? fileSize)
+    create,
+    required TResult Function(AudioEntity audio, int? playlistId) downloadFile,
     required TResult Function(int id) delete,
     required TResult Function() fetchStorage,
     required TResult Function() fetchSmart,
@@ -28,7 +30,8 @@ mixin _$DownloadEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
-    TResult? Function(int audioId)? create,
+    TResult? Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult? Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult? Function(int id)? delete,
     TResult? Function()? fetchStorage,
     TResult? Function()? fetchSmart,
@@ -36,7 +39,8 @@ mixin _$DownloadEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
-    TResult Function(int audioId)? create,
+    TResult Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult Function(int id)? delete,
     TResult Function()? fetchStorage,
     TResult Function()? fetchSmart,
@@ -46,6 +50,7 @@ mixin _$DownloadEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadFetch value) fetch,
     required TResult Function(DownloadCreate value) create,
+    required TResult Function(DownloadFile value) downloadFile,
     required TResult Function(DownloadDelete value) delete,
     required TResult Function(DownloadFetchStorage value) fetchStorage,
     required TResult Function(DownloadFetchSmart value) fetchSmart,
@@ -54,6 +59,7 @@ mixin _$DownloadEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadFetch value)? fetch,
     TResult? Function(DownloadCreate value)? create,
+    TResult? Function(DownloadFile value)? downloadFile,
     TResult? Function(DownloadDelete value)? delete,
     TResult? Function(DownloadFetchStorage value)? fetchStorage,
     TResult? Function(DownloadFetchSmart value)? fetchSmart,
@@ -62,6 +68,7 @@ mixin _$DownloadEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadFetch value)? fetch,
     TResult Function(DownloadCreate value)? create,
+    TResult Function(DownloadFile value)? downloadFile,
     TResult Function(DownloadDelete value)? delete,
     TResult Function(DownloadFetchStorage value)? fetchStorage,
     TResult Function(DownloadFetchSmart value)? fetchSmart,
@@ -135,7 +142,9 @@ class _$DownloadFetchImpl implements DownloadFetch {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
-    required TResult Function(int audioId) create,
+    required TResult Function(int audioId, int? playlistId, int? fileSize)
+    create,
+    required TResult Function(AudioEntity audio, int? playlistId) downloadFile,
     required TResult Function(int id) delete,
     required TResult Function() fetchStorage,
     required TResult Function() fetchSmart,
@@ -147,7 +156,8 @@ class _$DownloadFetchImpl implements DownloadFetch {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
-    TResult? Function(int audioId)? create,
+    TResult? Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult? Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult? Function(int id)? delete,
     TResult? Function()? fetchStorage,
     TResult? Function()? fetchSmart,
@@ -159,7 +169,8 @@ class _$DownloadFetchImpl implements DownloadFetch {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
-    TResult Function(int audioId)? create,
+    TResult Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult Function(int id)? delete,
     TResult Function()? fetchStorage,
     TResult Function()? fetchSmart,
@@ -176,6 +187,7 @@ class _$DownloadFetchImpl implements DownloadFetch {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadFetch value) fetch,
     required TResult Function(DownloadCreate value) create,
+    required TResult Function(DownloadFile value) downloadFile,
     required TResult Function(DownloadDelete value) delete,
     required TResult Function(DownloadFetchStorage value) fetchStorage,
     required TResult Function(DownloadFetchSmart value) fetchSmart,
@@ -188,6 +200,7 @@ class _$DownloadFetchImpl implements DownloadFetch {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadFetch value)? fetch,
     TResult? Function(DownloadCreate value)? create,
+    TResult? Function(DownloadFile value)? downloadFile,
     TResult? Function(DownloadDelete value)? delete,
     TResult? Function(DownloadFetchStorage value)? fetchStorage,
     TResult? Function(DownloadFetchSmart value)? fetchSmart,
@@ -200,6 +213,7 @@ class _$DownloadFetchImpl implements DownloadFetch {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadFetch value)? fetch,
     TResult Function(DownloadCreate value)? create,
+    TResult Function(DownloadFile value)? downloadFile,
     TResult Function(DownloadDelete value)? delete,
     TResult Function(DownloadFetchStorage value)? fetchStorage,
     TResult Function(DownloadFetchSmart value)? fetchSmart,
@@ -223,7 +237,7 @@ abstract class _$$DownloadCreateImplCopyWith<$Res> {
     $Res Function(_$DownloadCreateImpl) then,
   ) = __$$DownloadCreateImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int audioId});
+  $Res call({int audioId, int? playlistId, int? fileSize});
 }
 
 /// @nodoc
@@ -239,13 +253,25 @@ class __$$DownloadCreateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? audioId = null}) {
+  $Res call({
+    Object? audioId = null,
+    Object? playlistId = freezed,
+    Object? fileSize = freezed,
+  }) {
     return _then(
       _$DownloadCreateImpl(
         audioId: null == audioId
             ? _value.audioId
             : audioId // ignore: cast_nullable_to_non_nullable
                   as int,
+        playlistId: freezed == playlistId
+            ? _value.playlistId
+            : playlistId // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        fileSize: freezed == fileSize
+            ? _value.fileSize
+            : fileSize // ignore: cast_nullable_to_non_nullable
+                  as int?,
       ),
     );
   }
@@ -254,14 +280,22 @@ class __$$DownloadCreateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DownloadCreateImpl implements DownloadCreate {
-  const _$DownloadCreateImpl({required this.audioId});
+  const _$DownloadCreateImpl({
+    required this.audioId,
+    this.playlistId,
+    this.fileSize,
+  });
 
   @override
   final int audioId;
+  @override
+  final int? playlistId;
+  @override
+  final int? fileSize;
 
   @override
   String toString() {
-    return 'DownloadEvent.create(audioId: $audioId)';
+    return 'DownloadEvent.create(audioId: $audioId, playlistId: $playlistId, fileSize: $fileSize)';
   }
 
   @override
@@ -269,11 +303,15 @@ class _$DownloadCreateImpl implements DownloadCreate {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DownloadCreateImpl &&
-            (identical(other.audioId, audioId) || other.audioId == audioId));
+            (identical(other.audioId, audioId) || other.audioId == audioId) &&
+            (identical(other.playlistId, playlistId) ||
+                other.playlistId == playlistId) &&
+            (identical(other.fileSize, fileSize) ||
+                other.fileSize == fileSize));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, audioId);
+  int get hashCode => Object.hash(runtimeType, audioId, playlistId, fileSize);
 
   /// Create a copy of DownloadEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -290,38 +328,42 @@ class _$DownloadCreateImpl implements DownloadCreate {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
-    required TResult Function(int audioId) create,
+    required TResult Function(int audioId, int? playlistId, int? fileSize)
+    create,
+    required TResult Function(AudioEntity audio, int? playlistId) downloadFile,
     required TResult Function(int id) delete,
     required TResult Function() fetchStorage,
     required TResult Function() fetchSmart,
   }) {
-    return create(audioId);
+    return create(audioId, playlistId, fileSize);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
-    TResult? Function(int audioId)? create,
+    TResult? Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult? Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult? Function(int id)? delete,
     TResult? Function()? fetchStorage,
     TResult? Function()? fetchSmart,
   }) {
-    return create?.call(audioId);
+    return create?.call(audioId, playlistId, fileSize);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
-    TResult Function(int audioId)? create,
+    TResult Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult Function(int id)? delete,
     TResult Function()? fetchStorage,
     TResult Function()? fetchSmart,
     required TResult orElse(),
   }) {
     if (create != null) {
-      return create(audioId);
+      return create(audioId, playlistId, fileSize);
     }
     return orElse();
   }
@@ -331,6 +373,7 @@ class _$DownloadCreateImpl implements DownloadCreate {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadFetch value) fetch,
     required TResult Function(DownloadCreate value) create,
+    required TResult Function(DownloadFile value) downloadFile,
     required TResult Function(DownloadDelete value) delete,
     required TResult Function(DownloadFetchStorage value) fetchStorage,
     required TResult Function(DownloadFetchSmart value) fetchSmart,
@@ -343,6 +386,7 @@ class _$DownloadCreateImpl implements DownloadCreate {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadFetch value)? fetch,
     TResult? Function(DownloadCreate value)? create,
+    TResult? Function(DownloadFile value)? downloadFile,
     TResult? Function(DownloadDelete value)? delete,
     TResult? Function(DownloadFetchStorage value)? fetchStorage,
     TResult? Function(DownloadFetchSmart value)? fetchSmart,
@@ -355,6 +399,7 @@ class _$DownloadCreateImpl implements DownloadCreate {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadFetch value)? fetch,
     TResult Function(DownloadCreate value)? create,
+    TResult Function(DownloadFile value)? downloadFile,
     TResult Function(DownloadDelete value)? delete,
     TResult Function(DownloadFetchStorage value)? fetchStorage,
     TResult Function(DownloadFetchSmart value)? fetchSmart,
@@ -368,15 +413,211 @@ class _$DownloadCreateImpl implements DownloadCreate {
 }
 
 abstract class DownloadCreate implements DownloadEvent {
-  const factory DownloadCreate({required final int audioId}) =
-      _$DownloadCreateImpl;
+  const factory DownloadCreate({
+    required final int audioId,
+    final int? playlistId,
+    final int? fileSize,
+  }) = _$DownloadCreateImpl;
 
   int get audioId;
+  int? get playlistId;
+  int? get fileSize;
 
   /// Create a copy of DownloadEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DownloadCreateImplCopyWith<_$DownloadCreateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DownloadFileImplCopyWith<$Res> {
+  factory _$$DownloadFileImplCopyWith(
+    _$DownloadFileImpl value,
+    $Res Function(_$DownloadFileImpl) then,
+  ) = __$$DownloadFileImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({AudioEntity audio, int? playlistId});
+
+  $AudioEntityCopyWith<$Res> get audio;
+}
+
+/// @nodoc
+class __$$DownloadFileImplCopyWithImpl<$Res>
+    extends _$DownloadEventCopyWithImpl<$Res, _$DownloadFileImpl>
+    implements _$$DownloadFileImplCopyWith<$Res> {
+  __$$DownloadFileImplCopyWithImpl(
+    _$DownloadFileImpl _value,
+    $Res Function(_$DownloadFileImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of DownloadEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? audio = null, Object? playlistId = freezed}) {
+    return _then(
+      _$DownloadFileImpl(
+        audio: null == audio
+            ? _value.audio
+            : audio // ignore: cast_nullable_to_non_nullable
+                  as AudioEntity,
+        playlistId: freezed == playlistId
+            ? _value.playlistId
+            : playlistId // ignore: cast_nullable_to_non_nullable
+                  as int?,
+      ),
+    );
+  }
+
+  /// Create a copy of DownloadEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AudioEntityCopyWith<$Res> get audio {
+    return $AudioEntityCopyWith<$Res>(_value.audio, (value) {
+      return _then(_value.copyWith(audio: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$DownloadFileImpl implements DownloadFile {
+  const _$DownloadFileImpl({required this.audio, this.playlistId});
+
+  @override
+  final AudioEntity audio;
+  @override
+  final int? playlistId;
+
+  @override
+  String toString() {
+    return 'DownloadEvent.downloadFile(audio: $audio, playlistId: $playlistId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DownloadFileImpl &&
+            (identical(other.audio, audio) || other.audio == audio) &&
+            (identical(other.playlistId, playlistId) ||
+                other.playlistId == playlistId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, audio, playlistId);
+
+  /// Create a copy of DownloadEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DownloadFileImplCopyWith<_$DownloadFileImpl> get copyWith =>
+      __$$DownloadFileImplCopyWithImpl<_$DownloadFileImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetch,
+    required TResult Function(int audioId, int? playlistId, int? fileSize)
+    create,
+    required TResult Function(AudioEntity audio, int? playlistId) downloadFile,
+    required TResult Function(int id) delete,
+    required TResult Function() fetchStorage,
+    required TResult Function() fetchSmart,
+  }) {
+    return downloadFile(audio, playlistId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetch,
+    TResult? Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult? Function(AudioEntity audio, int? playlistId)? downloadFile,
+    TResult? Function(int id)? delete,
+    TResult? Function()? fetchStorage,
+    TResult? Function()? fetchSmart,
+  }) {
+    return downloadFile?.call(audio, playlistId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetch,
+    TResult Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult Function(AudioEntity audio, int? playlistId)? downloadFile,
+    TResult Function(int id)? delete,
+    TResult Function()? fetchStorage,
+    TResult Function()? fetchSmart,
+    required TResult orElse(),
+  }) {
+    if (downloadFile != null) {
+      return downloadFile(audio, playlistId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DownloadFetch value) fetch,
+    required TResult Function(DownloadCreate value) create,
+    required TResult Function(DownloadFile value) downloadFile,
+    required TResult Function(DownloadDelete value) delete,
+    required TResult Function(DownloadFetchStorage value) fetchStorage,
+    required TResult Function(DownloadFetchSmart value) fetchSmart,
+  }) {
+    return downloadFile(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DownloadFetch value)? fetch,
+    TResult? Function(DownloadCreate value)? create,
+    TResult? Function(DownloadFile value)? downloadFile,
+    TResult? Function(DownloadDelete value)? delete,
+    TResult? Function(DownloadFetchStorage value)? fetchStorage,
+    TResult? Function(DownloadFetchSmart value)? fetchSmart,
+  }) {
+    return downloadFile?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(DownloadFetch value)? fetch,
+    TResult Function(DownloadCreate value)? create,
+    TResult Function(DownloadFile value)? downloadFile,
+    TResult Function(DownloadDelete value)? delete,
+    TResult Function(DownloadFetchStorage value)? fetchStorage,
+    TResult Function(DownloadFetchSmart value)? fetchSmart,
+    required TResult orElse(),
+  }) {
+    if (downloadFile != null) {
+      return downloadFile(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DownloadFile implements DownloadEvent {
+  const factory DownloadFile({
+    required final AudioEntity audio,
+    final int? playlistId,
+  }) = _$DownloadFileImpl;
+
+  AudioEntity get audio;
+  int? get playlistId;
+
+  /// Create a copy of DownloadEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DownloadFileImplCopyWith<_$DownloadFileImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -454,7 +695,9 @@ class _$DownloadDeleteImpl implements DownloadDelete {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
-    required TResult Function(int audioId) create,
+    required TResult Function(int audioId, int? playlistId, int? fileSize)
+    create,
+    required TResult Function(AudioEntity audio, int? playlistId) downloadFile,
     required TResult Function(int id) delete,
     required TResult Function() fetchStorage,
     required TResult Function() fetchSmart,
@@ -466,7 +709,8 @@ class _$DownloadDeleteImpl implements DownloadDelete {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
-    TResult? Function(int audioId)? create,
+    TResult? Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult? Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult? Function(int id)? delete,
     TResult? Function()? fetchStorage,
     TResult? Function()? fetchSmart,
@@ -478,7 +722,8 @@ class _$DownloadDeleteImpl implements DownloadDelete {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
-    TResult Function(int audioId)? create,
+    TResult Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult Function(int id)? delete,
     TResult Function()? fetchStorage,
     TResult Function()? fetchSmart,
@@ -495,6 +740,7 @@ class _$DownloadDeleteImpl implements DownloadDelete {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadFetch value) fetch,
     required TResult Function(DownloadCreate value) create,
+    required TResult Function(DownloadFile value) downloadFile,
     required TResult Function(DownloadDelete value) delete,
     required TResult Function(DownloadFetchStorage value) fetchStorage,
     required TResult Function(DownloadFetchSmart value) fetchSmart,
@@ -507,6 +753,7 @@ class _$DownloadDeleteImpl implements DownloadDelete {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadFetch value)? fetch,
     TResult? Function(DownloadCreate value)? create,
+    TResult? Function(DownloadFile value)? downloadFile,
     TResult? Function(DownloadDelete value)? delete,
     TResult? Function(DownloadFetchStorage value)? fetchStorage,
     TResult? Function(DownloadFetchSmart value)? fetchSmart,
@@ -519,6 +766,7 @@ class _$DownloadDeleteImpl implements DownloadDelete {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadFetch value)? fetch,
     TResult Function(DownloadCreate value)? create,
+    TResult Function(DownloadFile value)? downloadFile,
     TResult Function(DownloadDelete value)? delete,
     TResult Function(DownloadFetchStorage value)? fetchStorage,
     TResult Function(DownloadFetchSmart value)? fetchSmart,
@@ -588,7 +836,9 @@ class _$DownloadFetchStorageImpl implements DownloadFetchStorage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
-    required TResult Function(int audioId) create,
+    required TResult Function(int audioId, int? playlistId, int? fileSize)
+    create,
+    required TResult Function(AudioEntity audio, int? playlistId) downloadFile,
     required TResult Function(int id) delete,
     required TResult Function() fetchStorage,
     required TResult Function() fetchSmart,
@@ -600,7 +850,8 @@ class _$DownloadFetchStorageImpl implements DownloadFetchStorage {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
-    TResult? Function(int audioId)? create,
+    TResult? Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult? Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult? Function(int id)? delete,
     TResult? Function()? fetchStorage,
     TResult? Function()? fetchSmart,
@@ -612,7 +863,8 @@ class _$DownloadFetchStorageImpl implements DownloadFetchStorage {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
-    TResult Function(int audioId)? create,
+    TResult Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult Function(int id)? delete,
     TResult Function()? fetchStorage,
     TResult Function()? fetchSmart,
@@ -629,6 +881,7 @@ class _$DownloadFetchStorageImpl implements DownloadFetchStorage {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadFetch value) fetch,
     required TResult Function(DownloadCreate value) create,
+    required TResult Function(DownloadFile value) downloadFile,
     required TResult Function(DownloadDelete value) delete,
     required TResult Function(DownloadFetchStorage value) fetchStorage,
     required TResult Function(DownloadFetchSmart value) fetchSmart,
@@ -641,6 +894,7 @@ class _$DownloadFetchStorageImpl implements DownloadFetchStorage {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadFetch value)? fetch,
     TResult? Function(DownloadCreate value)? create,
+    TResult? Function(DownloadFile value)? downloadFile,
     TResult? Function(DownloadDelete value)? delete,
     TResult? Function(DownloadFetchStorage value)? fetchStorage,
     TResult? Function(DownloadFetchSmart value)? fetchSmart,
@@ -653,6 +907,7 @@ class _$DownloadFetchStorageImpl implements DownloadFetchStorage {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadFetch value)? fetch,
     TResult Function(DownloadCreate value)? create,
+    TResult Function(DownloadFile value)? downloadFile,
     TResult Function(DownloadDelete value)? delete,
     TResult Function(DownloadFetchStorage value)? fetchStorage,
     TResult Function(DownloadFetchSmart value)? fetchSmart,
@@ -713,7 +968,9 @@ class _$DownloadFetchSmartImpl implements DownloadFetchSmart {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
-    required TResult Function(int audioId) create,
+    required TResult Function(int audioId, int? playlistId, int? fileSize)
+    create,
+    required TResult Function(AudioEntity audio, int? playlistId) downloadFile,
     required TResult Function(int id) delete,
     required TResult Function() fetchStorage,
     required TResult Function() fetchSmart,
@@ -725,7 +982,8 @@ class _$DownloadFetchSmartImpl implements DownloadFetchSmart {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
-    TResult? Function(int audioId)? create,
+    TResult? Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult? Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult? Function(int id)? delete,
     TResult? Function()? fetchStorage,
     TResult? Function()? fetchSmart,
@@ -737,7 +995,8 @@ class _$DownloadFetchSmartImpl implements DownloadFetchSmart {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
-    TResult Function(int audioId)? create,
+    TResult Function(int audioId, int? playlistId, int? fileSize)? create,
+    TResult Function(AudioEntity audio, int? playlistId)? downloadFile,
     TResult Function(int id)? delete,
     TResult Function()? fetchStorage,
     TResult Function()? fetchSmart,
@@ -754,6 +1013,7 @@ class _$DownloadFetchSmartImpl implements DownloadFetchSmart {
   TResult map<TResult extends Object?>({
     required TResult Function(DownloadFetch value) fetch,
     required TResult Function(DownloadCreate value) create,
+    required TResult Function(DownloadFile value) downloadFile,
     required TResult Function(DownloadDelete value) delete,
     required TResult Function(DownloadFetchStorage value) fetchStorage,
     required TResult Function(DownloadFetchSmart value) fetchSmart,
@@ -766,6 +1026,7 @@ class _$DownloadFetchSmartImpl implements DownloadFetchSmart {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DownloadFetch value)? fetch,
     TResult? Function(DownloadCreate value)? create,
+    TResult? Function(DownloadFile value)? downloadFile,
     TResult? Function(DownloadDelete value)? delete,
     TResult? Function(DownloadFetchStorage value)? fetchStorage,
     TResult? Function(DownloadFetchSmart value)? fetchSmart,
@@ -778,6 +1039,7 @@ class _$DownloadFetchSmartImpl implements DownloadFetchSmart {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DownloadFetch value)? fetch,
     TResult Function(DownloadCreate value)? create,
+    TResult Function(DownloadFile value)? downloadFile,
     TResult Function(DownloadDelete value)? delete,
     TResult Function(DownloadFetchStorage value)? fetchStorage,
     TResult Function(DownloadFetchSmart value)? fetchSmart,

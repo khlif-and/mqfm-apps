@@ -1,6 +1,7 @@
 import 'package:mqfm_apps/core/routes/app_path_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mqfm_apps/presentation/molecules/download/download_progress_banner.dart';
 import 'package:mqfm_apps/presentation/organisms/navigation/bottom_bar.dart';
 import 'package:mqfm_apps/presentation/organisms/profile/sidebar_profile.dart';
 import 'package:mqfm_apps/presentation/pages/home/dashboard_page.dart';
@@ -12,6 +13,7 @@ import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/manager/user_manager.dart';
 import 'package:mqfm_apps/core/manager/audio_player_manager.dart';
 import 'package:mqfm_apps/core/utils/helpers/message_helper.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 import 'package:mqfm_apps/features/auth/domain/entities/user.dart';
 import 'package:mqfm_apps/presentation/logic/navigation/bottom_bar_logic.dart';
 
@@ -76,10 +78,15 @@ class MainShellPageState extends State<MainShellPage> {
   }
 
   Future<void> _validateAndFetchUser() async {
-    final isValid = await UserManager.instance.fetchUser();
-    if (!isValid && mounted) {
-      context.go(AppPathRoutes.onboarding);
-    }
+    try {
+      final isValid = await UserManager.instance.fetchUser();
+      if (!isValid && mounted) {
+        final token = await PreferencesHelper.getToken();
+        if (token == null || token.isEmpty) {
+          context.go(AppPathRoutes.onboarding);
+        }
+      }
+    } catch (_) {}
   }
 
   void switchTab(int index) {
@@ -135,7 +142,12 @@ class MainShellPageState extends State<MainShellPage> {
           );
         },
       ),
-      body: IndexedStack(index: _currentIndex, children: _pages),
+      body: Column(
+        children: [
+          const DownloadProgressBanner(),
+          Expanded(child: IndexedStack(index: _currentIndex, children: _pages)),
+        ],
+      ),
       bottomNavigationBar: BottomBar(
         currentIndex: _currentIndex,
         onTabSelected: switchTab,

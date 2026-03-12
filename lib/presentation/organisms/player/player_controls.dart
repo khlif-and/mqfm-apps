@@ -55,9 +55,9 @@ class _PlayerControlsState extends State<PlayerControls> {
             final hasAudio = maxDuration > 0;
             if (maxDuration <= 0) maxDuration = 1;
 
-            double sliderValue = _isSeeking
+            double sliderValue = (_isSeeking
                 ? _seekValue
-                : position.inMilliseconds.toDouble().clamp(0, maxDuration);
+                : position.inMilliseconds.toDouble()).clamp(0.0, maxDuration);
 
             return Column(
               children: [

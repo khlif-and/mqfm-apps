@@ -48,14 +48,17 @@ class CuratedContent {
     List<AudioEntity> allAudios,
   ) {
     final now = DateTime.now();
-    final seed = (now.year * 10000) + (now.month * 100) + now.day;
+    final hourSlot = now.hour ~/ 5;
+    final seed = (now.year * 1000000) + (now.month * 10000) + (now.day * 100) + hourSlot;
     final random = Random(seed);
+
+    final shuffledSections = List<CuratedSection>.from(sections)..shuffle(Random(seed));
 
     final result = <MapEntry<String, List<AudioEntity>>>[];
     final usedIds = <int>{};
     final shuffledAudios = List<AudioEntity>.from(allAudios)..shuffle(random);
 
-    for (final section in sections) {
+    for (final section in shuffledSections) {
       if (section.ustadz != null) {
         final ustadzLower = section.ustadz!.toLowerCase();
         final matched = shuffledAudios

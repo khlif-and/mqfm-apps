@@ -1,31 +1,27 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'vote.freezed.dart';
-part 'vote.g.dart';
-
-@freezed
-class VoteEntity with _$VoteEntity {
-  const factory VoteEntity({
-    required int id,
-    @Default(0) int audioId,
-    @Default('') String createdAt,
-  }) = _VoteEntity;
-
-  factory VoteEntity.fromJson(Map<String, dynamic> json) =>
-      _$VoteEntityFromJson(json);
-}
 
 @freezed
 class VoteRankingEntity with _$VoteRankingEntity {
   const factory VoteRankingEntity({
+    @Default(0) int rank,
     @Default(0) int audioId,
     @Default('') String title,
     @Default('') String artist,
     @Default('') String thumbnail,
-    @Default(0) int voteCount,
-    @Default(0) int rank,
+    @Default('') String dominantColor,
+    @Default(0) int duration,
+    @Default('') String durationFmt,
+    @Default(0) int likes,
   }) = _VoteRankingEntity;
+}
 
-  factory VoteRankingEntity.fromJson(Map<String, dynamic> json) =>
-      _$VoteRankingEntityFromJson(json);
+@freezed
+class VoteStatusEntity with _$VoteStatusEntity {
+  const factory VoteStatusEntity({
+    @Default(0) int audioId,
+    @Default(false) bool hasVoted,
+    @Default(0) int totalVotes,
+  }) = _VoteStatusEntity;
 }

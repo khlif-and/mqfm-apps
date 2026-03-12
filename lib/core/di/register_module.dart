@@ -11,7 +11,6 @@ import 'package:mqfm_apps/features/collab/data/datasources/remotes/collab_api_se
 import 'package:mqfm_apps/features/download/data/datasources/remotes/download_api_service.dart';
 import 'package:mqfm_apps/features/event/data/datasources/remotes/event_api_service.dart';
 import 'package:mqfm_apps/features/favorite_artist/data/datasources/remotes/favorite_artist_api_service.dart';
-import 'package:mqfm_apps/features/like/data/datasources/remotes/like_api_service.dart';
 import 'package:mqfm_apps/features/location/data/datasources/remotes/location_api_service.dart';
 import 'package:mqfm_apps/features/notification/data/datasources/remotes/notification_api_service.dart';
 import 'package:mqfm_apps/features/playlist/data/datasources/remotes/playlist_api_service.dart';
@@ -42,9 +41,6 @@ abstract class RegisterModule {
   @lazySingleton
   CategoryRemoteDatasource get categoryRemoteDatasource =>
       CategoryRemoteDatasource(dio);
-
-  @lazySingleton
-  LikeRemoteDatasource get likeRemoteDatasource => LikeRemoteDatasource(dio);
 
   @lazySingleton
   PlaylistRemoteDatasource get playlistRemoteDatasource =>

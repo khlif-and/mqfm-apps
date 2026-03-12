@@ -8,9 +8,22 @@ part of 'like.dart';
 
 _$LikeEntityImpl _$$LikeEntityImplFromJson(Map<String, dynamic> json) =>
     _$LikeEntityImpl(
-      status: (json['status'] as num).toInt(),
-      message: json['message'] as String,
+      id: (json['id'] as num?)?.toInt() ?? 0,
+      userId: (json['userId'] as num?)?.toInt() ?? 0,
+      targetType: json['targetType'] as String? ?? 'audio',
+      targetId: (json['targetId'] as num?)?.toInt() ?? 0,
+      createdAt: json['createdAt'] as String? ?? '',
+      audio: json['audio'] == null
+          ? null
+          : AudioEntity.fromJson(json['audio'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$LikeEntityImplToJson(_$LikeEntityImpl instance) =>
-    <String, dynamic>{'status': instance.status, 'message': instance.message};
+    <String, dynamic>{
+      'id': instance.id,
+      'userId': instance.userId,
+      'targetType': instance.targetType,
+      'targetId': instance.targetId,
+      'createdAt': instance.createdAt,
+      'audio': instance.audio,
+    };

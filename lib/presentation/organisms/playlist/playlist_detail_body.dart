@@ -101,7 +101,7 @@ class PlaylistDetailBody extends StatelessWidget {
           ),
           SizedBox(height: AppDims.h8),
           Text(
-            '${playlist.audios.length} lagu',
+            '${playlist.audioCount} lagu',
             style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp14),
           ),
         ],
@@ -120,9 +120,9 @@ class PlaylistDetailBody extends StatelessWidget {
         SizedBox(width: AppDims.w16),
         ActionCircle(icon: Icons.download_rounded, size: 40, onTap: () {
           for (final audio in playlist.audios) {
-            getIt<DownloadBloc>().add(DownloadEvent.create(audioId: audio.id));
+            getIt<DownloadBloc>().add(DownloadEvent.downloadFile(audio: audio));
           }
-          MessageHelper.showSuccess(context, 'Mendownload playlist');
+          MessageHelper.showSuccess(context, 'Mengunduh playlist');
         }),
         SizedBox(width: AppDims.w16),
         ActionCircle(icon: Icons.play_arrow_rounded, size: 56, isPrimary: true, onTap: () {
@@ -135,7 +135,7 @@ class PlaylistDetailBody extends StatelessWidget {
         SizedBox(width: AppDims.w16),
         ActionCircle(icon: Icons.favorite_border_rounded, size: 40, onTap: () {
           if (playlist.audios.isNotEmpty) {
-            getIt<LikeBloc>().add(LikeEvent.toggle(audioId: playlist.audios.first.id));
+            getIt<LikeBloc>().add(LikeEvent.like(targetId: playlist.audios.first.id));
           }
         }),
         SizedBox(width: AppDims.w16),

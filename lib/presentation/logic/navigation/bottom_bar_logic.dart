@@ -19,15 +19,15 @@ class BottomBarLogic extends ChangeNotifier {
       return;
     }
 
-    final result = await _likeRepository.toggleLike(audioId);
+    final result = await _likeRepository.like(targetType: 'audio', targetId: audioId);
     result.fold(
       (error) {
         message = "Gagal: $error";
         notifyListeners();
       },
-      (like) {
+      (_) {
         isLiked = !isLiked;
-        message = like.message;
+        message = 'Berhasil disukai';
         notifyListeners();
       },
     );

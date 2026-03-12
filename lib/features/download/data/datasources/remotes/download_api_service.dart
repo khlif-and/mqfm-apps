@@ -1,29 +1,38 @@
 import 'package:dio/dio.dart';
-import 'package:mqfm_apps/core/models/base_response.dart';
+import 'package:mqfm_apps/features/audio/data/models/dto/audio_dto.dart';
 import 'package:mqfm_apps/features/download/data/models/dto/download_dto.dart';
 import 'package:mqfm_apps/features/download/data/models/request/download_request.dart';
-import 'package:retrofit/retrofit.dart';
 
-part 'download_api_service.g.dart';
+class DownloadRemoteDatasource {
+  final Dio _dio;
 
-@RestApi()
-abstract class DownloadRemoteDatasource {
-  factory DownloadRemoteDatasource(Dio dio, {String baseUrl}) =
-      _DownloadRemoteDatasource;
+  DownloadRemoteDatasource(this._dio);
 
-  @POST('/api/user/downloads/')
-  Future<BaseResponse<dynamic>> createDownload(
-      @Body() CreateDownloadRequest body);
+  static const _base = '/api/v1/user/downloads';
 
-  @GET('/api/user/downloads/')
-  Future<BaseResponse<List<DownloadDto>>> getDownloads();
+  Future<DownloadDto> createDownload(CreateDownloadRequest body) async {
+    final response = await _dio.post('$_base/', data: body.toJson());
+    return DownloadDto.fromJson(response.data['data']);
+  }
 
-  @DELETE('/api/user/downloads/{id}')
-  Future<BaseResponse<dynamic>> deleteDownload(@Path('id') int id);
+  Future<List<DownloadDto>> getDownloads() async {
+    final response = await _dio.get('$_base/');
+    final list = response.data['data'] as List? ?? [];
+    return list.map((e) => DownloadDto.fromJson(e)).toList();
+  }
 
-  @GET('/api/user/downloads/storage')
-  Future<BaseResponse<DownloadStorageDto>> getStorage();
+  Future<void> deleteDownload(int id) async {
+    await _dio.delete('$_base/$id');
+  }
 
-  @GET('/api/user/downloads/smart')
-  Future<BaseResponse<List<DownloadDto>>> getSmartDownloads();
+  Future<DownloadStorageDto> getStorage() async {
+    final response = await _dio.get('$_base/storage');
+    return DownloadStorageDto.fromJson(response.data['data']);
+  }
+
+  Future<List<AudioDto>> getSmartDownloads() async {
+    final response = await _dio.get('$_base/smart');
+    final list = response.data['data'] as List? ?? [];
+    return list.map((e) => AudioDto.fromJson(e)).toList();
+  }
 }

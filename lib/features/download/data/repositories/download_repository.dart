@@ -14,13 +14,20 @@ class DownloadRepositoryImpl implements IDownloadRepository {
   DownloadRepositoryImpl(this._datasource);
 
   @override
-  Future<Either<String, String>> createDownload(int audioId) async {
+  Future<Either<String, DownloadEntity>> createDownload({
+    required int audioId,
+    int? playlistId,
+    int? fileSize,
+  }) async {
     try {
-      final response = await _datasource.createDownload(
-        CreateDownloadRequest(audioId: audioId),
+      final dto = await _datasource.createDownload(
+        CreateDownloadRequest(
+          audioId: audioId,
+          playlistId: playlistId,
+          fileSize: fileSize,
+        ),
       );
-      if (response.status == 200) return Right(response.message);
-      return Left(response.message);
+      return Right(dto.toEntity());
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {
@@ -31,11 +38,8 @@ class DownloadRepositoryImpl implements IDownloadRepository {
   @override
   Future<Either<String, List<DownloadEntity>>> getDownloads() async {
     try {
-      final response = await _datasource.getDownloads();
-      if (response.status == 200 && response.data != null) {
-        return Right(response.data!.map((d) => d.toEntity()).toList());
-      }
-      return Left(response.message);
+      final dtos = await _datasource.getDownloads();
+      return Right(dtos.map((d) => d.toEntity()).toList());
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {
@@ -46,9 +50,8 @@ class DownloadRepositoryImpl implements IDownloadRepository {
   @override
   Future<Either<String, String>> deleteDownload(int id) async {
     try {
-      final response = await _datasource.deleteDownload(id);
-      if (response.status == 200) return Right(response.message);
-      return Left(response.message);
+      await _datasource.deleteDownload(id);
+      return const Right('Download dihapus');
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {
@@ -59,11 +62,8 @@ class DownloadRepositoryImpl implements IDownloadRepository {
   @override
   Future<Either<String, DownloadStorageEntity>> getStorage() async {
     try {
-      final response = await _datasource.getStorage();
-      if (response.status == 200 && response.data != null) {
-        return Right(response.data!.toEntity());
-      }
-      return Left(response.message);
+      final dto = await _datasource.getStorage();
+      return Right(dto.toEntity());
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {
@@ -74,18 +74,8 @@ class DownloadRepositoryImpl implements IDownloadRepository {
   @override
   Future<Either<String, List<AudioEntity>>> getSmartDownloads() async {
     try {
-      final response = await _datasource.getSmartDownloads();
-      if (response.status == 200 && response.data != null) {
-        final audios = response.data!.map((d) {
-          return AudioEntity(
-            id: d.audioId,
-            title: d.title,
-            artist: d.artist,
-          );
-        }).toList();
-        return Right(audios);
-      }
-      return Left(response.message);
+      final dtos = await _datasource.getSmartDownloads();
+      return Right(dtos.map((d) => d.toEntity()).toList());
     } on DioException catch (e) {
       return Left(e.error?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {

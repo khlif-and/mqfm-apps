@@ -55,7 +55,7 @@ class CollabCard extends StatelessWidget {
                       ),
                       SizedBox(width: AppDims.w4),
                       Text(
-                        '${playlist.audios.length} kajian',
+                        '${playlist.audioCount} kajian',
                         style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: AppDims.sp11,

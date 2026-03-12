@@ -36,7 +36,9 @@ class UserManager {
       return result.fold(
         (error) {
           LogHelper.error("UserManager", "Failed to fetch user: $error");
-          PreferencesHelper.removeToken();
+          if (error.contains('401') || error.contains('Unauthorized')) {
+            PreferencesHelper.removeToken();
+          }
           return false;
         },
         (user) {
@@ -52,7 +54,9 @@ class UserManager {
       );
     } catch (e) {
       LogHelper.error("UserManager", "Error fetching user: $e");
-      await PreferencesHelper.removeToken();
+      if (e.toString().contains('401') || e.toString().contains('Unauthorized')) {
+        await PreferencesHelper.removeToken();
+      }
       return false;
     } finally {
       isLoadingNotifier.value = false;

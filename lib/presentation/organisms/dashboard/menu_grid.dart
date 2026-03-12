@@ -60,7 +60,7 @@ class MenuGrid extends StatelessWidget {
           shrinkWrap: true,
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: historyAudios.length,
+          itemCount: historyAudios.length > 6 ? 6 : historyAudios.length,
           addAutomaticKeepAlives: false,
           addRepaintBoundaries: false,
           itemBuilder: (context, index) {

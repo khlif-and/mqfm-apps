@@ -76,7 +76,7 @@ class LikedAudiosPage extends StatelessWidget {
                     audios: audios,
                     onUnlike: (index) {
                       PreferencesHelper.removeLikedAudioId(audios[index].id);
-                      context.read<LikeBloc>().add(LikeEvent.unlike(audioId: audios[index].id, index: index));
+                      context.read<LikeBloc>().add(LikeEvent.unlike(targetId: audios[index].id));
                     },
                     onAudioTap: (audioId) => context.push(AppPathRoutes.playerWithId(audioId.toString())),
                   ),

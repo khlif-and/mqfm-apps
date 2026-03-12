@@ -14,6 +14,9 @@ class PlaylistState with _$PlaylistState {
       PlaylistDetailLoaded;
   const factory PlaylistState.created({required PlaylistEntity playlist}) =
       PlaylistCreated;
-  const factory PlaylistState.audioAdded() = PlaylistAudioAdded;
+  const factory PlaylistState.actionSuccess({required String message}) =
+      PlaylistActionSuccess;
+  const factory PlaylistState.shared({required String shareToken}) =
+      PlaylistShared;
   const factory PlaylistState.error({required String message}) = PlaylistError;
 }
