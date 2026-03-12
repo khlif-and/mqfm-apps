@@ -7,45 +7,52 @@ import 'package:mqfm_apps/features/like/applications/like_bloc/like_state.dart';
 
 @injectable
 class LikeBloc extends Bloc<LikeEvent, LikeState> {
-  final ILikeRepository _likeRepository;
+  final ILikeRepository _repository;
   List<AudioEntity> _likedAudios = [];
 
-  LikeBloc(this._likeRepository) : super(const LikeState.initial()) {
+  LikeBloc(this._repository) : super(const LikeState.initial()) {
     on<LikeFetchLiked>(_onFetchLiked);
-    on<LikeToggle>(_onToggle);
+    on<LikeLike>(_onLike);
     on<LikeUnlike>(_onUnlike);
   }
 
-  Future<void> _onFetchLiked(
-    LikeFetchLiked event,
-    Emitter<LikeState> emit,
-  ) async {
+  Future<void> _onFetchLiked(LikeFetchLiked event, Emitter<LikeState> emit) async {
     emit(const LikeState.loading());
-    final result = await _likeRepository.getLikedAudios();
-    result.fold((error) => emit(LikeState.error(message: error)), (audios) {
-      _likedAudios = List.from(audios);
-      emit(LikeState.loaded(audios: _likedAudios));
-    });
-  }
-
-  Future<void> _onToggle(LikeToggle event, Emitter<LikeState> emit) async {
-    final result = await _likeRepository.toggleLike(event.audioId);
+    final result = await _repository.getLikedAudios();
     result.fold(
       (error) => emit(LikeState.error(message: error)),
-      (like) => emit(LikeState.toggled(message: like.message)),
+      (audios) {
+        _likedAudios = List.from(audios);
+        emit(LikeState.loaded(audios: _likedAudios));
+      },
+    );
+  }
+
+  Future<void> _onLike(LikeLike event, Emitter<LikeState> emit) async {
+    final result = await _repository.like(targetType: event.targetType, targetId: event.targetId);
+    result.fold(
+      (error) => emit(LikeState.error(message: error)),
+      (_) => emit(const LikeState.toggled(message: 'Berhasil disukai')),
     );
   }
 
   Future<void> _onUnlike(LikeUnlike event, Emitter<LikeState> emit) async {
-    if (event.index >= 0 && event.index < _likedAudios.length) {
-      final removed = _likedAudios.removeAt(event.index);
+    final idx = _likedAudios.indexWhere((a) => a.id == event.targetId);
+    AudioEntity? removed;
+    if (idx >= 0) {
+      removed = _likedAudios.removeAt(idx);
       emit(LikeState.loaded(audios: List.from(_likedAudios)));
-
-      final result = await _likeRepository.unlikeAudio(event.audioId);
-      result.fold((error) {
-        _likedAudios.insert(event.index, removed);
-        emit(LikeState.loaded(audios: List.from(_likedAudios)));
-      }, (_) {});
     }
+
+    final result = await _repository.unlike(targetType: event.targetType, targetId: event.targetId);
+    result.fold(
+      (error) {
+        if (removed != null && idx >= 0) {
+          _likedAudios.insert(idx, removed);
+          emit(LikeState.loaded(audios: List.from(_likedAudios)));
+        }
+      },
+      (_) {},
+    );
   }
 }

@@ -27,6 +27,8 @@ class AppNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (url.isEmpty) return _fallback;
+    final cacheW = width != null ? (width! * MediaQuery.devicePixelRatioOf(context)).round() : null;
+    final cacheH = height != null ? (height! * MediaQuery.devicePixelRatioOf(context)).round() : null;
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: CachedNetworkImage(
@@ -34,6 +36,9 @@ class AppNetworkImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
+        memCacheWidth: cacheW,
+        memCacheHeight: cacheH,
+        fadeInDuration: const Duration(milliseconds: 150),
         placeholder: (context, url) => _fallback,
         errorWidget: (context, url, error) => _fallback,
       ),

@@ -7,7 +7,7 @@ import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
 import 'package:mqfm_apps/presentation/atoms/common/app_network_image.dart';
 import 'package:mqfm_apps/presentation/atoms/common/shimmer_box.dart';
 
-class VerticalContentList extends StatelessWidget {
+class VerticalContentList extends StatefulWidget {
   final List<AudioEntity> audios;
   final bool isLoading;
   final void Function(int audioId)? onAudioTap;
@@ -20,8 +20,27 @@ class VerticalContentList extends StatelessWidget {
   });
 
   @override
+  State<VerticalContentList> createState() => _VerticalContentListState();
+}
+
+class _VerticalContentListState extends State<VerticalContentList> {
+  List<AudioEntity> _cachedList = [];
+  List<AudioEntity>? _lastAudios;
+
+  List<AudioEntity> get _displayList {
+    if (!identical(_lastAudios, widget.audios) || _cachedList.isEmpty) {
+      _lastAudios = widget.audios;
+      final copy = List<AudioEntity>.from(widget.audios);
+      final now = DateTime.now();
+      copy.shuffle(Random((now.year * 10000) + (now.month * 100) + now.day));
+      _cachedList = copy.take(3).toList();
+    }
+    return _cachedList;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (isLoading) {
+    if (widget.isLoading) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(3, (index) => Padding(
@@ -44,13 +63,9 @@ class VerticalContentList extends StatelessWidget {
       );
     }
 
-    if (audios.isEmpty) return const SizedBox();
+    if (widget.audios.isEmpty) return const SizedBox();
 
-    List<AudioEntity> displayList = List.from(audios);
-    final now = DateTime.now();
-    int seed = (now.year * 10000) + (now.month * 100) + now.day;
-    displayList.shuffle(Random(seed));
-    final finalList = displayList.take(displayList.length < 3 ? displayList.length : 3).toList();
+    final finalList = _displayList;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +90,7 @@ class VerticalContentList extends StatelessWidget {
           itemBuilder: (context, index) {
             final audio = finalList[index];
             return RepaintBoundary(child: GestureDetector(
-              onTap: () => onAudioTap?.call(audio.id),
+              onTap: () => widget.onAudioTap?.call(audio.id),
               child: Row(
                 children: [
                   AppNetworkImage(

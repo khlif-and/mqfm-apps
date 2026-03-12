@@ -21,8 +21,12 @@ LikeEntity _$LikeEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LikeEntity {
-  int get status => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+  int get userId => throw _privateConstructorUsedError;
+  String get targetType => throw _privateConstructorUsedError;
+  int get targetId => throw _privateConstructorUsedError;
+  String get createdAt => throw _privateConstructorUsedError;
+  AudioEntity? get audio => throw _privateConstructorUsedError;
 
   /// Serializes this LikeEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +45,16 @@ abstract class $LikeEntityCopyWith<$Res> {
     $Res Function(LikeEntity) then,
   ) = _$LikeEntityCopyWithImpl<$Res, LikeEntity>;
   @useResult
-  $Res call({int status, String message});
+  $Res call({
+    int id,
+    int userId,
+    String targetType,
+    int targetId,
+    String createdAt,
+    AudioEntity? audio,
+  });
+
+  $AudioEntityCopyWith<$Res>? get audio;
 }
 
 /// @nodoc
@@ -58,20 +71,57 @@ class _$LikeEntityCopyWithImpl<$Res, $Val extends LikeEntity>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? status = null, Object? message = null}) {
+  $Res call({
+    Object? id = null,
+    Object? userId = null,
+    Object? targetType = null,
+    Object? targetId = null,
+    Object? createdAt = null,
+    Object? audio = freezed,
+  }) {
     return _then(
       _value.copyWith(
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
                       as int,
-            message: null == message
-                ? _value.message
-                : message // ignore: cast_nullable_to_non_nullable
+            userId: null == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as int,
+            targetType: null == targetType
+                ? _value.targetType
+                : targetType // ignore: cast_nullable_to_non_nullable
                       as String,
+            targetId: null == targetId
+                ? _value.targetId
+                : targetId // ignore: cast_nullable_to_non_nullable
+                      as int,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String,
+            audio: freezed == audio
+                ? _value.audio
+                : audio // ignore: cast_nullable_to_non_nullable
+                      as AudioEntity?,
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of LikeEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AudioEntityCopyWith<$Res>? get audio {
+    if (_value.audio == null) {
+      return null;
+    }
+
+    return $AudioEntityCopyWith<$Res>(_value.audio!, (value) {
+      return _then(_value.copyWith(audio: value) as $Val);
+    });
   }
 }
 
@@ -84,7 +134,17 @@ abstract class _$$LikeEntityImplCopyWith<$Res>
   ) = __$$LikeEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int status, String message});
+  $Res call({
+    int id,
+    int userId,
+    String targetType,
+    int targetId,
+    String createdAt,
+    AudioEntity? audio,
+  });
+
+  @override
+  $AudioEntityCopyWith<$Res>? get audio;
 }
 
 /// @nodoc
@@ -100,17 +160,40 @@ class __$$LikeEntityImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? status = null, Object? message = null}) {
+  $Res call({
+    Object? id = null,
+    Object? userId = null,
+    Object? targetType = null,
+    Object? targetId = null,
+    Object? createdAt = null,
+    Object? audio = freezed,
+  }) {
     return _then(
       _$LikeEntityImpl(
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
                   as int,
-        message: null == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as int,
+        targetType: null == targetType
+            ? _value.targetType
+            : targetType // ignore: cast_nullable_to_non_nullable
                   as String,
+        targetId: null == targetId
+            ? _value.targetId
+            : targetId // ignore: cast_nullable_to_non_nullable
+                  as int,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String,
+        audio: freezed == audio
+            ? _value.audio
+            : audio // ignore: cast_nullable_to_non_nullable
+                  as AudioEntity?,
       ),
     );
   }
@@ -119,19 +202,39 @@ class __$$LikeEntityImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LikeEntityImpl implements _LikeEntity {
-  const _$LikeEntityImpl({required this.status, required this.message});
+  const _$LikeEntityImpl({
+    this.id = 0,
+    this.userId = 0,
+    this.targetType = 'audio',
+    this.targetId = 0,
+    this.createdAt = '',
+    this.audio,
+  });
 
   factory _$LikeEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$LikeEntityImplFromJson(json);
 
   @override
-  final int status;
+  @JsonKey()
+  final int id;
   @override
-  final String message;
+  @JsonKey()
+  final int userId;
+  @override
+  @JsonKey()
+  final String targetType;
+  @override
+  @JsonKey()
+  final int targetId;
+  @override
+  @JsonKey()
+  final String createdAt;
+  @override
+  final AudioEntity? audio;
 
   @override
   String toString() {
-    return 'LikeEntity(status: $status, message: $message)';
+    return 'LikeEntity(id: $id, userId: $userId, targetType: $targetType, targetId: $targetId, createdAt: $createdAt, audio: $audio)';
   }
 
   @override
@@ -139,13 +242,28 @@ class _$LikeEntityImpl implements _LikeEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LikeEntityImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.targetType, targetType) ||
+                other.targetType == targetType) &&
+            (identical(other.targetId, targetId) ||
+                other.targetId == targetId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.audio, audio) || other.audio == audio));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, status, message);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    userId,
+    targetType,
+    targetId,
+    createdAt,
+    audio,
+  );
 
   /// Create a copy of LikeEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -163,17 +281,29 @@ class _$LikeEntityImpl implements _LikeEntity {
 
 abstract class _LikeEntity implements LikeEntity {
   const factory _LikeEntity({
-    required final int status,
-    required final String message,
+    final int id,
+    final int userId,
+    final String targetType,
+    final int targetId,
+    final String createdAt,
+    final AudioEntity? audio,
   }) = _$LikeEntityImpl;
 
   factory _LikeEntity.fromJson(Map<String, dynamic> json) =
       _$LikeEntityImpl.fromJson;
 
   @override
-  int get status;
+  int get id;
   @override
-  String get message;
+  int get userId;
+  @override
+  String get targetType;
+  @override
+  int get targetId;
+  @override
+  String get createdAt;
+  @override
+  AudioEntity? get audio;
 
   /// Create a copy of LikeEntity
   /// with the given fields replaced by the non-null parameter values.

@@ -46,6 +46,17 @@ class _PlayerPageState extends State<PlayerPage> {
     _loadLikeState();
   }
 
+  @override
+  void didUpdateWidget(covariant PlayerPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.audioId != widget.audioId) {
+      _queueReady = false;
+      _pageController.dispose();
+      _pageController = PageController();
+      _loadLikeState();
+    }
+  }
+
   Future<void> _loadLikeState() async {
     final audioId = int.tryParse(widget.audioId) ?? 0;
     final liked = await PreferencesHelper.isAudioLiked(audioId);

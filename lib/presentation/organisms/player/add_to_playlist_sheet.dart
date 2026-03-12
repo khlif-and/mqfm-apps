@@ -115,7 +115,7 @@ class AddToPlaylistSheet extends StatelessWidget {
             style: TextStyle(color: AppColors.textWhite, fontSize: AppDims.sp14, fontWeight: FontWeight.w500),
           ),
           subtitle: Text(
-            "${playlist.audios.length} ${AppStrings.audioCount}",
+            "${playlist.audioCount} ${AppStrings.audioCount}",
             style: TextStyle(color: AppColors.textSecondary, fontSize: AppDims.sp12),
           ),
           onTap: () {

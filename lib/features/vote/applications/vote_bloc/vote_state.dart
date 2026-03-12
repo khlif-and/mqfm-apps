@@ -7,10 +7,10 @@ part 'vote_state.freezed.dart';
 class VoteState with _$VoteState {
   const factory VoteState.initial() = VoteInitial;
   const factory VoteState.loading() = VoteLoading;
-  const factory VoteState.votesLoaded({required List<VoteEntity> votes}) =
-      VoteVotesLoaded;
   const factory VoteState.rankingLoaded(
       {required List<VoteRankingEntity> rankings}) = VoteRankingLoaded;
+  const factory VoteState.statusLoaded(
+      {required VoteStatusEntity status}) = VoteStatusLoaded;
   const factory VoteState.actionSuccess({required String message}) =
       VoteActionSuccess;
   const factory VoteState.error({required String message}) = VoteError;

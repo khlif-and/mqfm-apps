@@ -17,6 +17,10 @@ class AudioDto {
   final String filePath;
   @JsonKey(defaultValue: 0)
   final int duration;
+  @JsonKey(name: 'duration_fmt', defaultValue: '')
+  final String durationFmt;
+  @JsonKey(name: 'file_size', defaultValue: 0)
+  final int fileSize;
   @JsonKey(defaultValue: 'active')
   final String status;
   @JsonKey(name: 'category_id', defaultValue: 0)
@@ -37,6 +41,8 @@ class AudioDto {
     this.description = '',
     this.filePath = '',
     this.duration = 0,
+    this.durationFmt = '',
+    this.fileSize = 0,
     this.status = 'active',
     this.categoryId = 0,
     this.thumbnail,
@@ -66,6 +72,8 @@ class AudioDto {
       description: description,
       filePath: _fixUrl(filePath),
       duration: duration,
+      durationFmt: durationFmt,
+      fileSize: fileSize,
       status: status,
       categoryId: categoryId,
       thumbnail: _fixUrl(thumbnail),

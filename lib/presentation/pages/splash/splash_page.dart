@@ -37,11 +37,17 @@ class _SplashScreenState extends State<SplashScreen> {
         if (isTokenValid) {
           LogHelper.success("SplashScreen", "User valid");
         } else {
-          LogHelper.info("SplashScreen", "User invalid/expired");
+          final stillHasToken = await PreferencesHelper.getToken();
+          if (stillHasToken != null && stillHasToken.isNotEmpty) {
+            LogHelper.info("SplashScreen", "Network issue but token exists, proceeding");
+            isTokenValid = true;
+          } else {
+            LogHelper.info("SplashScreen", "Token invalid/expired");
+          }
         }
       } catch (e) {
         LogHelper.error("SplashScreen", "Error fetching user: $e");
-        await PreferencesHelper.removeToken();
+        isTokenValid = true;
       }
     }
 

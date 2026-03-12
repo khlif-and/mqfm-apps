@@ -23,8 +23,14 @@ PlaylistEntity _$PlaylistEntityFromJson(Map<String, dynamic> json) {
 mixin _$PlaylistEntity {
   int get id => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
+  String get creatorRole => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
+  String get dominantColor => throw _privateConstructorUsedError;
+  String get shareToken => throw _privateConstructorUsedError;
+  bool get isPublic => throw _privateConstructorUsedError;
+  String get timeSince => throw _privateConstructorUsedError;
+  int get audioCount => throw _privateConstructorUsedError;
   List<AudioEntity> get audios => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
   String get updatedAt => throw _privateConstructorUsedError;
@@ -49,8 +55,14 @@ abstract class $PlaylistEntityCopyWith<$Res> {
   $Res call({
     int id,
     int userId,
+    String creatorRole,
     String name,
     String imageUrl,
+    String dominantColor,
+    String shareToken,
+    bool isPublic,
+    String timeSince,
+    int audioCount,
     List<AudioEntity> audios,
     String createdAt,
     String updatedAt,
@@ -74,8 +86,14 @@ class _$PlaylistEntityCopyWithImpl<$Res, $Val extends PlaylistEntity>
   $Res call({
     Object? id = null,
     Object? userId = null,
+    Object? creatorRole = null,
     Object? name = null,
     Object? imageUrl = null,
+    Object? dominantColor = null,
+    Object? shareToken = null,
+    Object? isPublic = null,
+    Object? timeSince = null,
+    Object? audioCount = null,
     Object? audios = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -90,6 +108,10 @@ class _$PlaylistEntityCopyWithImpl<$Res, $Val extends PlaylistEntity>
                 ? _value.userId
                 : userId // ignore: cast_nullable_to_non_nullable
                       as int,
+            creatorRole: null == creatorRole
+                ? _value.creatorRole
+                : creatorRole // ignore: cast_nullable_to_non_nullable
+                      as String,
             name: null == name
                 ? _value.name
                 : name // ignore: cast_nullable_to_non_nullable
@@ -98,6 +120,26 @@ class _$PlaylistEntityCopyWithImpl<$Res, $Val extends PlaylistEntity>
                 ? _value.imageUrl
                 : imageUrl // ignore: cast_nullable_to_non_nullable
                       as String,
+            dominantColor: null == dominantColor
+                ? _value.dominantColor
+                : dominantColor // ignore: cast_nullable_to_non_nullable
+                      as String,
+            shareToken: null == shareToken
+                ? _value.shareToken
+                : shareToken // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isPublic: null == isPublic
+                ? _value.isPublic
+                : isPublic // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            timeSince: null == timeSince
+                ? _value.timeSince
+                : timeSince // ignore: cast_nullable_to_non_nullable
+                      as String,
+            audioCount: null == audioCount
+                ? _value.audioCount
+                : audioCount // ignore: cast_nullable_to_non_nullable
+                      as int,
             audios: null == audios
                 ? _value.audios
                 : audios // ignore: cast_nullable_to_non_nullable
@@ -128,8 +170,14 @@ abstract class _$$PlaylistEntityImplCopyWith<$Res>
   $Res call({
     int id,
     int userId,
+    String creatorRole,
     String name,
     String imageUrl,
+    String dominantColor,
+    String shareToken,
+    bool isPublic,
+    String timeSince,
+    int audioCount,
     List<AudioEntity> audios,
     String createdAt,
     String updatedAt,
@@ -152,8 +200,14 @@ class __$$PlaylistEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? userId = null,
+    Object? creatorRole = null,
     Object? name = null,
     Object? imageUrl = null,
+    Object? dominantColor = null,
+    Object? shareToken = null,
+    Object? isPublic = null,
+    Object? timeSince = null,
+    Object? audioCount = null,
     Object? audios = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -168,6 +222,10 @@ class __$$PlaylistEntityImplCopyWithImpl<$Res>
             ? _value.userId
             : userId // ignore: cast_nullable_to_non_nullable
                   as int,
+        creatorRole: null == creatorRole
+            ? _value.creatorRole
+            : creatorRole // ignore: cast_nullable_to_non_nullable
+                  as String,
         name: null == name
             ? _value.name
             : name // ignore: cast_nullable_to_non_nullable
@@ -176,6 +234,26 @@ class __$$PlaylistEntityImplCopyWithImpl<$Res>
             ? _value.imageUrl
             : imageUrl // ignore: cast_nullable_to_non_nullable
                   as String,
+        dominantColor: null == dominantColor
+            ? _value.dominantColor
+            : dominantColor // ignore: cast_nullable_to_non_nullable
+                  as String,
+        shareToken: null == shareToken
+            ? _value.shareToken
+            : shareToken // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isPublic: null == isPublic
+            ? _value.isPublic
+            : isPublic // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        timeSince: null == timeSince
+            ? _value.timeSince
+            : timeSince // ignore: cast_nullable_to_non_nullable
+                  as String,
+        audioCount: null == audioCount
+            ? _value.audioCount
+            : audioCount // ignore: cast_nullable_to_non_nullable
+                  as int,
         audios: null == audios
             ? _value._audios
             : audios // ignore: cast_nullable_to_non_nullable
@@ -198,12 +276,18 @@ class __$$PlaylistEntityImplCopyWithImpl<$Res>
 class _$PlaylistEntityImpl implements _PlaylistEntity {
   const _$PlaylistEntityImpl({
     required this.id,
-    required this.userId,
-    required this.name,
-    required this.imageUrl,
-    required final List<AudioEntity> audios,
-    required this.createdAt,
-    required this.updatedAt,
+    this.userId = 0,
+    this.creatorRole = 'user',
+    this.name = '',
+    this.imageUrl = '',
+    this.dominantColor = '',
+    this.shareToken = '',
+    this.isPublic = false,
+    this.timeSince = '',
+    this.audioCount = 0,
+    final List<AudioEntity> audios = const [],
+    this.createdAt = '',
+    this.updatedAt = '',
   }) : _audios = audios;
 
   factory _$PlaylistEntityImpl.fromJson(Map<String, dynamic> json) =>
@@ -212,13 +296,35 @@ class _$PlaylistEntityImpl implements _PlaylistEntity {
   @override
   final int id;
   @override
+  @JsonKey()
   final int userId;
   @override
+  @JsonKey()
+  final String creatorRole;
+  @override
+  @JsonKey()
   final String name;
   @override
+  @JsonKey()
   final String imageUrl;
+  @override
+  @JsonKey()
+  final String dominantColor;
+  @override
+  @JsonKey()
+  final String shareToken;
+  @override
+  @JsonKey()
+  final bool isPublic;
+  @override
+  @JsonKey()
+  final String timeSince;
+  @override
+  @JsonKey()
+  final int audioCount;
   final List<AudioEntity> _audios;
   @override
+  @JsonKey()
   List<AudioEntity> get audios {
     if (_audios is EqualUnmodifiableListView) return _audios;
     // ignore: implicit_dynamic_type
@@ -226,13 +332,15 @@ class _$PlaylistEntityImpl implements _PlaylistEntity {
   }
 
   @override
+  @JsonKey()
   final String createdAt;
   @override
+  @JsonKey()
   final String updatedAt;
 
   @override
   String toString() {
-    return 'PlaylistEntity(id: $id, userId: $userId, name: $name, imageUrl: $imageUrl, audios: $audios, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'PlaylistEntity(id: $id, userId: $userId, creatorRole: $creatorRole, name: $name, imageUrl: $imageUrl, dominantColor: $dominantColor, shareToken: $shareToken, isPublic: $isPublic, timeSince: $timeSince, audioCount: $audioCount, audios: $audios, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -242,9 +350,21 @@ class _$PlaylistEntityImpl implements _PlaylistEntity {
             other is _$PlaylistEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.creatorRole, creatorRole) ||
+                other.creatorRole == creatorRole) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.dominantColor, dominantColor) ||
+                other.dominantColor == dominantColor) &&
+            (identical(other.shareToken, shareToken) ||
+                other.shareToken == shareToken) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic) &&
+            (identical(other.timeSince, timeSince) ||
+                other.timeSince == timeSince) &&
+            (identical(other.audioCount, audioCount) ||
+                other.audioCount == audioCount) &&
             const DeepCollectionEquality().equals(other._audios, _audios) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -258,8 +378,14 @@ class _$PlaylistEntityImpl implements _PlaylistEntity {
     runtimeType,
     id,
     userId,
+    creatorRole,
     name,
     imageUrl,
+    dominantColor,
+    shareToken,
+    isPublic,
+    timeSince,
+    audioCount,
     const DeepCollectionEquality().hash(_audios),
     createdAt,
     updatedAt,
@@ -285,12 +411,18 @@ class _$PlaylistEntityImpl implements _PlaylistEntity {
 abstract class _PlaylistEntity implements PlaylistEntity {
   const factory _PlaylistEntity({
     required final int id,
-    required final int userId,
-    required final String name,
-    required final String imageUrl,
-    required final List<AudioEntity> audios,
-    required final String createdAt,
-    required final String updatedAt,
+    final int userId,
+    final String creatorRole,
+    final String name,
+    final String imageUrl,
+    final String dominantColor,
+    final String shareToken,
+    final bool isPublic,
+    final String timeSince,
+    final int audioCount,
+    final List<AudioEntity> audios,
+    final String createdAt,
+    final String updatedAt,
   }) = _$PlaylistEntityImpl;
 
   factory _PlaylistEntity.fromJson(Map<String, dynamic> json) =
@@ -301,9 +433,21 @@ abstract class _PlaylistEntity implements PlaylistEntity {
   @override
   int get userId;
   @override
+  String get creatorRole;
+  @override
   String get name;
   @override
   String get imageUrl;
+  @override
+  String get dominantColor;
+  @override
+  String get shareToken;
+  @override
+  bool get isPublic;
+  @override
+  String get timeSince;
+  @override
+  int get audioCount;
   @override
   List<AudioEntity> get audios;
   @override

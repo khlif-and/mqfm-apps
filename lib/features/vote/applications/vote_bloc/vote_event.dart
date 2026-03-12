@@ -6,7 +6,7 @@ part 'vote_event.freezed.dart';
 class VoteEvent with _$VoteEvent {
   const factory VoteEvent.cast({required int audioId}) = VoteCast;
   const factory VoteEvent.remove({required int audioId}) = VoteRemove;
-  const factory VoteEvent.fetchUserVotes() = VoteFetchUserVotes;
-  const factory VoteEvent.fetchWeeklyRanking() = VoteFetchWeeklyRanking;
-  const factory VoteEvent.fetchMonthlyRanking() = VoteFetchMonthlyRanking;
+  const factory VoteEvent.fetchStatus({required int audioId}) = VoteFetchStatus;
+  const factory VoteEvent.fetchWeeklyRanking({@Default(20) int limit}) = VoteFetchWeeklyRanking;
+  const factory VoteEvent.fetchMonthlyRanking({@Default(20) int limit}) = VoteFetchMonthlyRanking;
 }

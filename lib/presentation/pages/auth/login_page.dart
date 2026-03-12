@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mqfm_apps/core/di/injection.dart';
 import 'package:mqfm_apps/core/manager/user_manager.dart';
+import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_colors.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_dims.dart';
 import 'package:mqfm_apps/core/utils/constants/styles/app_strings.dart';
@@ -42,14 +43,17 @@ class _LoginPageState extends State<LoginPage> {
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
           state.whenOrNull(
-            success: (user) {
+            success: (user) async {
               UserManager.instance.setUser(user);
               if (!user.emailVerified) {
                 context.go('${AppPathRoutes.otpVerify}?email=${user.email}');
                 return;
               }
               MessageHelper.showSuccess(context, '${AppStrings.loginSuccess} ${user.username}');
-              context.go(AppPathRoutes.dashboard);
+              final pickDone = await PreferencesHelper.isOnboardingPickDone();
+              if (context.mounted) {
+                context.go(pickDone ? AppPathRoutes.dashboard : AppPathRoutes.onboardingPick);
+              }
             },
             error: (message) => MessageHelper.showError(context, message),
           );

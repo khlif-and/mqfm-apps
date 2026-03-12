@@ -21,8 +21,8 @@ mixin _$VoteState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<VoteEntity> votes) votesLoaded,
     required TResult Function(List<VoteRankingEntity> rankings) rankingLoaded,
+    required TResult Function(VoteStatusEntity status) statusLoaded,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) error,
   }) => throw _privateConstructorUsedError;
@@ -30,8 +30,8 @@ mixin _$VoteState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<VoteEntity> votes)? votesLoaded,
     TResult? Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult? Function(VoteStatusEntity status)? statusLoaded,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? error,
   }) => throw _privateConstructorUsedError;
@@ -39,8 +39,8 @@ mixin _$VoteState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<VoteEntity> votes)? votesLoaded,
     TResult Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult Function(VoteStatusEntity status)? statusLoaded,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -49,8 +49,8 @@ mixin _$VoteState {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteInitial value) initial,
     required TResult Function(VoteLoading value) loading,
-    required TResult Function(VoteVotesLoaded value) votesLoaded,
     required TResult Function(VoteRankingLoaded value) rankingLoaded,
+    required TResult Function(VoteStatusLoaded value) statusLoaded,
     required TResult Function(VoteActionSuccess value) actionSuccess,
     required TResult Function(VoteError value) error,
   }) => throw _privateConstructorUsedError;
@@ -58,8 +58,8 @@ mixin _$VoteState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteInitial value)? initial,
     TResult? Function(VoteLoading value)? loading,
-    TResult? Function(VoteVotesLoaded value)? votesLoaded,
     TResult? Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult? Function(VoteStatusLoaded value)? statusLoaded,
     TResult? Function(VoteActionSuccess value)? actionSuccess,
     TResult? Function(VoteError value)? error,
   }) => throw _privateConstructorUsedError;
@@ -67,8 +67,8 @@ mixin _$VoteState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteInitial value)? initial,
     TResult Function(VoteLoading value)? loading,
-    TResult Function(VoteVotesLoaded value)? votesLoaded,
     TResult Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult Function(VoteStatusLoaded value)? statusLoaded,
     TResult Function(VoteActionSuccess value)? actionSuccess,
     TResult Function(VoteError value)? error,
     required TResult orElse(),
@@ -140,8 +140,8 @@ class _$VoteInitialImpl implements VoteInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<VoteEntity> votes) votesLoaded,
     required TResult Function(List<VoteRankingEntity> rankings) rankingLoaded,
+    required TResult Function(VoteStatusEntity status) statusLoaded,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) error,
   }) {
@@ -153,8 +153,8 @@ class _$VoteInitialImpl implements VoteInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<VoteEntity> votes)? votesLoaded,
     TResult? Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult? Function(VoteStatusEntity status)? statusLoaded,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? error,
   }) {
@@ -166,8 +166,8 @@ class _$VoteInitialImpl implements VoteInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<VoteEntity> votes)? votesLoaded,
     TResult Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult Function(VoteStatusEntity status)? statusLoaded,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -183,8 +183,8 @@ class _$VoteInitialImpl implements VoteInitial {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteInitial value) initial,
     required TResult Function(VoteLoading value) loading,
-    required TResult Function(VoteVotesLoaded value) votesLoaded,
     required TResult Function(VoteRankingLoaded value) rankingLoaded,
+    required TResult Function(VoteStatusLoaded value) statusLoaded,
     required TResult Function(VoteActionSuccess value) actionSuccess,
     required TResult Function(VoteError value) error,
   }) {
@@ -196,8 +196,8 @@ class _$VoteInitialImpl implements VoteInitial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteInitial value)? initial,
     TResult? Function(VoteLoading value)? loading,
-    TResult? Function(VoteVotesLoaded value)? votesLoaded,
     TResult? Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult? Function(VoteStatusLoaded value)? statusLoaded,
     TResult? Function(VoteActionSuccess value)? actionSuccess,
     TResult? Function(VoteError value)? error,
   }) {
@@ -209,8 +209,8 @@ class _$VoteInitialImpl implements VoteInitial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteInitial value)? initial,
     TResult Function(VoteLoading value)? loading,
-    TResult Function(VoteVotesLoaded value)? votesLoaded,
     TResult Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult Function(VoteStatusLoaded value)? statusLoaded,
     TResult Function(VoteActionSuccess value)? actionSuccess,
     TResult Function(VoteError value)? error,
     required TResult orElse(),
@@ -271,8 +271,8 @@ class _$VoteLoadingImpl implements VoteLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<VoteEntity> votes) votesLoaded,
     required TResult Function(List<VoteRankingEntity> rankings) rankingLoaded,
+    required TResult Function(VoteStatusEntity status) statusLoaded,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) error,
   }) {
@@ -284,8 +284,8 @@ class _$VoteLoadingImpl implements VoteLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<VoteEntity> votes)? votesLoaded,
     TResult? Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult? Function(VoteStatusEntity status)? statusLoaded,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? error,
   }) {
@@ -297,8 +297,8 @@ class _$VoteLoadingImpl implements VoteLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<VoteEntity> votes)? votesLoaded,
     TResult Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult Function(VoteStatusEntity status)? statusLoaded,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -314,8 +314,8 @@ class _$VoteLoadingImpl implements VoteLoading {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteInitial value) initial,
     required TResult Function(VoteLoading value) loading,
-    required TResult Function(VoteVotesLoaded value) votesLoaded,
     required TResult Function(VoteRankingLoaded value) rankingLoaded,
+    required TResult Function(VoteStatusLoaded value) statusLoaded,
     required TResult Function(VoteActionSuccess value) actionSuccess,
     required TResult Function(VoteError value) error,
   }) {
@@ -327,8 +327,8 @@ class _$VoteLoadingImpl implements VoteLoading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteInitial value)? initial,
     TResult? Function(VoteLoading value)? loading,
-    TResult? Function(VoteVotesLoaded value)? votesLoaded,
     TResult? Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult? Function(VoteStatusLoaded value)? statusLoaded,
     TResult? Function(VoteActionSuccess value)? actionSuccess,
     TResult? Function(VoteError value)? error,
   }) {
@@ -340,8 +340,8 @@ class _$VoteLoadingImpl implements VoteLoading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteInitial value)? initial,
     TResult Function(VoteLoading value)? loading,
-    TResult Function(VoteVotesLoaded value)? votesLoaded,
     TResult Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult Function(VoteStatusLoaded value)? statusLoaded,
     TResult Function(VoteActionSuccess value)? actionSuccess,
     TResult Function(VoteError value)? error,
     required TResult orElse(),
@@ -355,183 +355,6 @@ class _$VoteLoadingImpl implements VoteLoading {
 
 abstract class VoteLoading implements VoteState {
   const factory VoteLoading() = _$VoteLoadingImpl;
-}
-
-/// @nodoc
-abstract class _$$VoteVotesLoadedImplCopyWith<$Res> {
-  factory _$$VoteVotesLoadedImplCopyWith(
-    _$VoteVotesLoadedImpl value,
-    $Res Function(_$VoteVotesLoadedImpl) then,
-  ) = __$$VoteVotesLoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<VoteEntity> votes});
-}
-
-/// @nodoc
-class __$$VoteVotesLoadedImplCopyWithImpl<$Res>
-    extends _$VoteStateCopyWithImpl<$Res, _$VoteVotesLoadedImpl>
-    implements _$$VoteVotesLoadedImplCopyWith<$Res> {
-  __$$VoteVotesLoadedImplCopyWithImpl(
-    _$VoteVotesLoadedImpl _value,
-    $Res Function(_$VoteVotesLoadedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of VoteState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? votes = null}) {
-    return _then(
-      _$VoteVotesLoadedImpl(
-        votes: null == votes
-            ? _value._votes
-            : votes // ignore: cast_nullable_to_non_nullable
-                  as List<VoteEntity>,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$VoteVotesLoadedImpl implements VoteVotesLoaded {
-  const _$VoteVotesLoadedImpl({required final List<VoteEntity> votes})
-    : _votes = votes;
-
-  final List<VoteEntity> _votes;
-  @override
-  List<VoteEntity> get votes {
-    if (_votes is EqualUnmodifiableListView) return _votes;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_votes);
-  }
-
-  @override
-  String toString() {
-    return 'VoteState.votesLoaded(votes: $votes)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$VoteVotesLoadedImpl &&
-            const DeepCollectionEquality().equals(other._votes, _votes));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_votes));
-
-  /// Create a copy of VoteState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$VoteVotesLoadedImplCopyWith<_$VoteVotesLoadedImpl> get copyWith =>
-      __$$VoteVotesLoadedImplCopyWithImpl<_$VoteVotesLoadedImpl>(
-        this,
-        _$identity,
-      );
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<VoteEntity> votes) votesLoaded,
-    required TResult Function(List<VoteRankingEntity> rankings) rankingLoaded,
-    required TResult Function(String message) actionSuccess,
-    required TResult Function(String message) error,
-  }) {
-    return votesLoaded(votes);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<VoteEntity> votes)? votesLoaded,
-    TResult? Function(List<VoteRankingEntity> rankings)? rankingLoaded,
-    TResult? Function(String message)? actionSuccess,
-    TResult? Function(String message)? error,
-  }) {
-    return votesLoaded?.call(votes);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<VoteEntity> votes)? votesLoaded,
-    TResult Function(List<VoteRankingEntity> rankings)? rankingLoaded,
-    TResult Function(String message)? actionSuccess,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (votesLoaded != null) {
-      return votesLoaded(votes);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(VoteInitial value) initial,
-    required TResult Function(VoteLoading value) loading,
-    required TResult Function(VoteVotesLoaded value) votesLoaded,
-    required TResult Function(VoteRankingLoaded value) rankingLoaded,
-    required TResult Function(VoteActionSuccess value) actionSuccess,
-    required TResult Function(VoteError value) error,
-  }) {
-    return votesLoaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(VoteInitial value)? initial,
-    TResult? Function(VoteLoading value)? loading,
-    TResult? Function(VoteVotesLoaded value)? votesLoaded,
-    TResult? Function(VoteRankingLoaded value)? rankingLoaded,
-    TResult? Function(VoteActionSuccess value)? actionSuccess,
-    TResult? Function(VoteError value)? error,
-  }) {
-    return votesLoaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(VoteInitial value)? initial,
-    TResult Function(VoteLoading value)? loading,
-    TResult Function(VoteVotesLoaded value)? votesLoaded,
-    TResult Function(VoteRankingLoaded value)? rankingLoaded,
-    TResult Function(VoteActionSuccess value)? actionSuccess,
-    TResult Function(VoteError value)? error,
-    required TResult orElse(),
-  }) {
-    if (votesLoaded != null) {
-      return votesLoaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class VoteVotesLoaded implements VoteState {
-  const factory VoteVotesLoaded({required final List<VoteEntity> votes}) =
-      _$VoteVotesLoadedImpl;
-
-  List<VoteEntity> get votes;
-
-  /// Create a copy of VoteState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$VoteVotesLoadedImplCopyWith<_$VoteVotesLoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -617,8 +440,8 @@ class _$VoteRankingLoadedImpl implements VoteRankingLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<VoteEntity> votes) votesLoaded,
     required TResult Function(List<VoteRankingEntity> rankings) rankingLoaded,
+    required TResult Function(VoteStatusEntity status) statusLoaded,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) error,
   }) {
@@ -630,8 +453,8 @@ class _$VoteRankingLoadedImpl implements VoteRankingLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<VoteEntity> votes)? votesLoaded,
     TResult? Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult? Function(VoteStatusEntity status)? statusLoaded,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? error,
   }) {
@@ -643,8 +466,8 @@ class _$VoteRankingLoadedImpl implements VoteRankingLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<VoteEntity> votes)? votesLoaded,
     TResult Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult Function(VoteStatusEntity status)? statusLoaded,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -660,8 +483,8 @@ class _$VoteRankingLoadedImpl implements VoteRankingLoaded {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteInitial value) initial,
     required TResult Function(VoteLoading value) loading,
-    required TResult Function(VoteVotesLoaded value) votesLoaded,
     required TResult Function(VoteRankingLoaded value) rankingLoaded,
+    required TResult Function(VoteStatusLoaded value) statusLoaded,
     required TResult Function(VoteActionSuccess value) actionSuccess,
     required TResult Function(VoteError value) error,
   }) {
@@ -673,8 +496,8 @@ class _$VoteRankingLoadedImpl implements VoteRankingLoaded {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteInitial value)? initial,
     TResult? Function(VoteLoading value)? loading,
-    TResult? Function(VoteVotesLoaded value)? votesLoaded,
     TResult? Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult? Function(VoteStatusLoaded value)? statusLoaded,
     TResult? Function(VoteActionSuccess value)? actionSuccess,
     TResult? Function(VoteError value)? error,
   }) {
@@ -686,8 +509,8 @@ class _$VoteRankingLoadedImpl implements VoteRankingLoaded {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteInitial value)? initial,
     TResult Function(VoteLoading value)? loading,
-    TResult Function(VoteVotesLoaded value)? votesLoaded,
     TResult Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult Function(VoteStatusLoaded value)? statusLoaded,
     TResult Function(VoteActionSuccess value)? actionSuccess,
     TResult Function(VoteError value)? error,
     required TResult orElse(),
@@ -710,6 +533,188 @@ abstract class VoteRankingLoaded implements VoteState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VoteRankingLoadedImplCopyWith<_$VoteRankingLoadedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$VoteStatusLoadedImplCopyWith<$Res> {
+  factory _$$VoteStatusLoadedImplCopyWith(
+    _$VoteStatusLoadedImpl value,
+    $Res Function(_$VoteStatusLoadedImpl) then,
+  ) = __$$VoteStatusLoadedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({VoteStatusEntity status});
+
+  $VoteStatusEntityCopyWith<$Res> get status;
+}
+
+/// @nodoc
+class __$$VoteStatusLoadedImplCopyWithImpl<$Res>
+    extends _$VoteStateCopyWithImpl<$Res, _$VoteStatusLoadedImpl>
+    implements _$$VoteStatusLoadedImplCopyWith<$Res> {
+  __$$VoteStatusLoadedImplCopyWithImpl(
+    _$VoteStatusLoadedImpl _value,
+    $Res Function(_$VoteStatusLoadedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of VoteState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? status = null}) {
+    return _then(
+      _$VoteStatusLoadedImpl(
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as VoteStatusEntity,
+      ),
+    );
+  }
+
+  /// Create a copy of VoteState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $VoteStatusEntityCopyWith<$Res> get status {
+    return $VoteStatusEntityCopyWith<$Res>(_value.status, (value) {
+      return _then(_value.copyWith(status: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$VoteStatusLoadedImpl implements VoteStatusLoaded {
+  const _$VoteStatusLoadedImpl({required this.status});
+
+  @override
+  final VoteStatusEntity status;
+
+  @override
+  String toString() {
+    return 'VoteState.statusLoaded(status: $status)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$VoteStatusLoadedImpl &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, status);
+
+  /// Create a copy of VoteState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VoteStatusLoadedImplCopyWith<_$VoteStatusLoadedImpl> get copyWith =>
+      __$$VoteStatusLoadedImplCopyWithImpl<_$VoteStatusLoadedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<VoteRankingEntity> rankings) rankingLoaded,
+    required TResult Function(VoteStatusEntity status) statusLoaded,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String message) error,
+  }) {
+    return statusLoaded(status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult? Function(VoteStatusEntity status)? statusLoaded,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String message)? error,
+  }) {
+    return statusLoaded?.call(status);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult Function(VoteStatusEntity status)? statusLoaded,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (statusLoaded != null) {
+      return statusLoaded(status);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(VoteInitial value) initial,
+    required TResult Function(VoteLoading value) loading,
+    required TResult Function(VoteRankingLoaded value) rankingLoaded,
+    required TResult Function(VoteStatusLoaded value) statusLoaded,
+    required TResult Function(VoteActionSuccess value) actionSuccess,
+    required TResult Function(VoteError value) error,
+  }) {
+    return statusLoaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(VoteInitial value)? initial,
+    TResult? Function(VoteLoading value)? loading,
+    TResult? Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult? Function(VoteStatusLoaded value)? statusLoaded,
+    TResult? Function(VoteActionSuccess value)? actionSuccess,
+    TResult? Function(VoteError value)? error,
+  }) {
+    return statusLoaded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(VoteInitial value)? initial,
+    TResult Function(VoteLoading value)? loading,
+    TResult Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult Function(VoteStatusLoaded value)? statusLoaded,
+    TResult Function(VoteActionSuccess value)? actionSuccess,
+    TResult Function(VoteError value)? error,
+    required TResult orElse(),
+  }) {
+    if (statusLoaded != null) {
+      return statusLoaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class VoteStatusLoaded implements VoteState {
+  const factory VoteStatusLoaded({required final VoteStatusEntity status}) =
+      _$VoteStatusLoadedImpl;
+
+  VoteStatusEntity get status;
+
+  /// Create a copy of VoteState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$VoteStatusLoadedImplCopyWith<_$VoteStatusLoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -788,8 +793,8 @@ class _$VoteActionSuccessImpl implements VoteActionSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<VoteEntity> votes) votesLoaded,
     required TResult Function(List<VoteRankingEntity> rankings) rankingLoaded,
+    required TResult Function(VoteStatusEntity status) statusLoaded,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) error,
   }) {
@@ -801,8 +806,8 @@ class _$VoteActionSuccessImpl implements VoteActionSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<VoteEntity> votes)? votesLoaded,
     TResult? Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult? Function(VoteStatusEntity status)? statusLoaded,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? error,
   }) {
@@ -814,8 +819,8 @@ class _$VoteActionSuccessImpl implements VoteActionSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<VoteEntity> votes)? votesLoaded,
     TResult Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult Function(VoteStatusEntity status)? statusLoaded,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -831,8 +836,8 @@ class _$VoteActionSuccessImpl implements VoteActionSuccess {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteInitial value) initial,
     required TResult Function(VoteLoading value) loading,
-    required TResult Function(VoteVotesLoaded value) votesLoaded,
     required TResult Function(VoteRankingLoaded value) rankingLoaded,
+    required TResult Function(VoteStatusLoaded value) statusLoaded,
     required TResult Function(VoteActionSuccess value) actionSuccess,
     required TResult Function(VoteError value) error,
   }) {
@@ -844,8 +849,8 @@ class _$VoteActionSuccessImpl implements VoteActionSuccess {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteInitial value)? initial,
     TResult? Function(VoteLoading value)? loading,
-    TResult? Function(VoteVotesLoaded value)? votesLoaded,
     TResult? Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult? Function(VoteStatusLoaded value)? statusLoaded,
     TResult? Function(VoteActionSuccess value)? actionSuccess,
     TResult? Function(VoteError value)? error,
   }) {
@@ -857,8 +862,8 @@ class _$VoteActionSuccessImpl implements VoteActionSuccess {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteInitial value)? initial,
     TResult Function(VoteLoading value)? loading,
-    TResult Function(VoteVotesLoaded value)? votesLoaded,
     TResult Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult Function(VoteStatusLoaded value)? statusLoaded,
     TResult Function(VoteActionSuccess value)? actionSuccess,
     TResult Function(VoteError value)? error,
     required TResult orElse(),
@@ -955,8 +960,8 @@ class _$VoteErrorImpl implements VoteError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<VoteEntity> votes) votesLoaded,
     required TResult Function(List<VoteRankingEntity> rankings) rankingLoaded,
+    required TResult Function(VoteStatusEntity status) statusLoaded,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) error,
   }) {
@@ -968,8 +973,8 @@ class _$VoteErrorImpl implements VoteError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<VoteEntity> votes)? votesLoaded,
     TResult? Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult? Function(VoteStatusEntity status)? statusLoaded,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? error,
   }) {
@@ -981,8 +986,8 @@ class _$VoteErrorImpl implements VoteError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<VoteEntity> votes)? votesLoaded,
     TResult Function(List<VoteRankingEntity> rankings)? rankingLoaded,
+    TResult Function(VoteStatusEntity status)? statusLoaded,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -998,8 +1003,8 @@ class _$VoteErrorImpl implements VoteError {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteInitial value) initial,
     required TResult Function(VoteLoading value) loading,
-    required TResult Function(VoteVotesLoaded value) votesLoaded,
     required TResult Function(VoteRankingLoaded value) rankingLoaded,
+    required TResult Function(VoteStatusLoaded value) statusLoaded,
     required TResult Function(VoteActionSuccess value) actionSuccess,
     required TResult Function(VoteError value) error,
   }) {
@@ -1011,8 +1016,8 @@ class _$VoteErrorImpl implements VoteError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteInitial value)? initial,
     TResult? Function(VoteLoading value)? loading,
-    TResult? Function(VoteVotesLoaded value)? votesLoaded,
     TResult? Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult? Function(VoteStatusLoaded value)? statusLoaded,
     TResult? Function(VoteActionSuccess value)? actionSuccess,
     TResult? Function(VoteError value)? error,
   }) {
@@ -1024,8 +1029,8 @@ class _$VoteErrorImpl implements VoteError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteInitial value)? initial,
     TResult Function(VoteLoading value)? loading,
-    TResult Function(VoteVotesLoaded value)? votesLoaded,
     TResult Function(VoteRankingLoaded value)? rankingLoaded,
+    TResult Function(VoteStatusLoaded value)? statusLoaded,
     TResult Function(VoteActionSuccess value)? actionSuccess,
     TResult Function(VoteError value)? error,
     required TResult orElse(),

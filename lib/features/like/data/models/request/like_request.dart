@@ -3,14 +3,16 @@ import 'package:json_annotation/json_annotation.dart';
 part 'like_request.g.dart';
 
 @JsonSerializable()
-class ToggleLikeRequest {
-  @JsonKey(name: 'audio_id')
-  final int audioId;
+class LikeRequest {
+  @JsonKey(name: 'target_type')
+  final String targetType;
+  @JsonKey(name: 'target_id')
+  final int targetId;
 
-  const ToggleLikeRequest({required this.audioId});
+  const LikeRequest({required this.targetType, required this.targetId});
 
-  factory ToggleLikeRequest.fromJson(Map<String, dynamic> json) =>
-      _$ToggleLikeRequestFromJson(json);
+  factory LikeRequest.fromJson(Map<String, dynamic> json) =>
+      _$LikeRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ToggleLikeRequestToJson(this);
+  Map<String, dynamic> toJson() => _$LikeRequestToJson(this);
 }

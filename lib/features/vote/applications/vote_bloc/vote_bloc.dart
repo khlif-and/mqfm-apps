@@ -11,7 +11,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
   VoteBloc(this._repository) : super(const VoteState.initial()) {
     on<VoteCast>(_onCast);
     on<VoteRemove>(_onRemove);
-    on<VoteFetchUserVotes>(_onFetchUserVotes);
+    on<VoteFetchStatus>(_onFetchStatus);
     on<VoteFetchWeeklyRanking>(_onFetchWeeklyRanking);
     on<VoteFetchMonthlyRanking>(_onFetchMonthlyRanking);
   }
@@ -21,7 +21,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
     final result = await _repository.castVote(event.audioId);
     result.fold(
       (error) => emit(VoteState.error(message: error)),
-      (vote) => emit(const VoteState.actionSuccess(message: 'Vote berhasil')),
+      (_) => emit(const VoteState.actionSuccess(message: 'Vote berhasil')),
     );
   }
 
@@ -34,20 +34,19 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
     );
   }
 
-  Future<void> _onFetchUserVotes(
-      VoteFetchUserVotes event, Emitter<VoteState> emit) async {
-    emit(const VoteState.loading());
-    final result = await _repository.getMyVotes();
+  Future<void> _onFetchStatus(
+      VoteFetchStatus event, Emitter<VoteState> emit) async {
+    final result = await _repository.getVoteStatus(event.audioId);
     result.fold(
       (error) => emit(VoteState.error(message: error)),
-      (votes) => emit(VoteState.votesLoaded(votes: votes)),
+      (status) => emit(VoteState.statusLoaded(status: status)),
     );
   }
 
   Future<void> _onFetchWeeklyRanking(
       VoteFetchWeeklyRanking event, Emitter<VoteState> emit) async {
     emit(const VoteState.loading());
-    final result = await _repository.getWeeklyRanking();
+    final result = await _repository.getWeeklyRanking(limit: event.limit);
     result.fold(
       (error) => emit(VoteState.error(message: error)),
       (rankings) => emit(VoteState.rankingLoaded(rankings: rankings)),
@@ -57,7 +56,7 @@ class VoteBloc extends Bloc<VoteEvent, VoteState> {
   Future<void> _onFetchMonthlyRanking(
       VoteFetchMonthlyRanking event, Emitter<VoteState> emit) async {
     emit(const VoteState.loading());
-    final result = await _repository.getMonthlyRanking();
+    final result = await _repository.getMonthlyRanking(limit: event.limit);
     result.fold(
       (error) => emit(VoteState.error(message: error)),
       (rankings) => emit(VoteState.rankingLoaded(rankings: rankings)),

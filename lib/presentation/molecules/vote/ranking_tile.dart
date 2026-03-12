@@ -11,6 +11,12 @@ class RankingTile extends StatelessWidget {
 
   const RankingTile({super.key, required this.ranking, required this.position, this.onTap});
 
+  String _formatLikes(int count) {
+    if (count >= 1000000) return '${(count / 1000000).toStringAsFixed(1)}M';
+    if (count >= 1000) return '${(count / 1000).toStringAsFixed(1)}K';
+    return '$count';
+  }
+
   @override
   Widget build(BuildContext context) {
     final isTop3 = position <= 3;
@@ -69,7 +75,7 @@ class RankingTile extends StatelessWidget {
             Icon(Icons.how_to_vote_rounded, color: AppColors.primary, size: AppDims.sp18),
             SizedBox(width: AppDims.w4),
             Text(
-              '${ranking.voteCount}',
+              _formatLikes(ranking.likes),
               style: TextStyle(color: AppColors.primary, fontSize: AppDims.sp13, fontWeight: FontWeight.w600),
             ),
           ],

@@ -15,73 +15,54 @@ class VoteRepositoryImpl implements IVoteRepository {
   @override
   Future<Either<String, String>> castVote(int audioId) async {
     try {
-      final response = await _datasource.castVote(
-        CastVoteRequest(audioId: audioId),
-      );
-      if (response.status == 200) return Right(response.message);
-      return Left(response.message);
+      await _datasource.castVote(CastVoteRequest(audioId: audioId));
+      return const Right('Vote berhasil');
     } on DioException catch (e) {
-      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
-    } catch (e) {
-      return Left(e.toString());
+      return Left(e.response?.data?['message']?.toString() ?? 'Terjadi kesalahan');
     }
   }
 
   @override
   Future<Either<String, String>> removeVote(int audioId) async {
     try {
-      final response = await _datasource.removeVote(audioId);
-      if (response.status == 200) return Right(response.message);
-      return Left(response.message);
+      await _datasource.removeVote(audioId);
+      return const Right('Vote dihapus');
     } on DioException catch (e) {
-      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
-    } catch (e) {
-      return Left(e.toString());
+      return Left(e.response?.data?['message']?.toString() ?? 'Terjadi kesalahan');
     }
   }
 
   @override
-  Future<Either<String, List<VoteEntity>>> getMyVotes() async {
+  Future<Either<String, VoteStatusEntity>> getVoteStatus(int audioId) async {
     try {
-      final response = await _datasource.getMyVotes();
-      if (response.status == 200 && response.data != null) {
-        return Right(response.data!.map((d) => d.toEntity()).toList());
-      }
-      return Left(response.message);
+      final dto = await _datasource.getVoteStatus(audioId);
+      return Right(dto.toEntity());
     } on DioException catch (e) {
-      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
-    } catch (e) {
-      return Left(e.toString());
+      return Left(e.response?.data?['message']?.toString() ?? 'Terjadi kesalahan');
     }
   }
 
   @override
-  Future<Either<String, List<VoteRankingEntity>>> getWeeklyRanking() async {
+  Future<Either<String, List<VoteRankingEntity>>> getWeeklyRanking({int limit = 20}) async {
     try {
-      final response = await _datasource.getWeeklyRanking();
-      if (response.status == 200 && response.data != null) {
-        return Right(response.data!.map((d) => d.toEntity()).toList());
-      }
-      return Left(response.message);
+      final dtos = await _datasource.getWeeklyRanking(limit: limit);
+      return Right(dtos.map((d) => d.toEntity()).toList());
     } on DioException catch (e) {
-      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+      return Left(e.response?.data?['message']?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {
-      return Left(e.toString());
+      return Left('Terjadi kesalahan');
     }
   }
 
   @override
-  Future<Either<String, List<VoteRankingEntity>>> getMonthlyRanking() async {
+  Future<Either<String, List<VoteRankingEntity>>> getMonthlyRanking({int limit = 20}) async {
     try {
-      final response = await _datasource.getMonthlyRanking();
-      if (response.status == 200 && response.data != null) {
-        return Right(response.data!.map((d) => d.toEntity()).toList());
-      }
-      return Left(response.message);
+      final dtos = await _datasource.getMonthlyRanking(limit: limit);
+      return Right(dtos.map((d) => d.toEntity()).toList());
     } on DioException catch (e) {
-      return Left(e.error?.toString() ?? 'Terjadi kesalahan');
+      return Left(e.response?.data?['message']?.toString() ?? 'Terjadi kesalahan');
     } catch (e) {
-      return Left(e.toString());
+      return Left('Terjadi kesalahan');
     }
   }
 }

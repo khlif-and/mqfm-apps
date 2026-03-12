@@ -22,11 +22,19 @@ DownloadEntity _$DownloadEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$DownloadEntity {
   int get id => throw _privateConstructorUsedError;
+  int get userId => throw _privateConstructorUsedError;
   int get audioId => throw _privateConstructorUsedError;
+  int? get playlistId => throw _privateConstructorUsedError;
+  AudioEntity? get audio => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get artist => throw _privateConstructorUsedError;
-  String get filePath => throw _privateConstructorUsedError;
+  String get thumbnail => throw _privateConstructorUsedError;
+  String get dominantColor => throw _privateConstructorUsedError;
+  int get duration => throw _privateConstructorUsedError;
+  String get durationFmt => throw _privateConstructorUsedError;
   int get fileSize => throw _privateConstructorUsedError;
+  String get expiresAt => throw _privateConstructorUsedError;
+  int get daysRemaining => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this DownloadEntity to a JSON map.
@@ -48,13 +56,23 @@ abstract class $DownloadEntityCopyWith<$Res> {
   @useResult
   $Res call({
     int id,
+    int userId,
     int audioId,
+    int? playlistId,
+    AudioEntity? audio,
     String title,
     String artist,
-    String filePath,
+    String thumbnail,
+    String dominantColor,
+    int duration,
+    String durationFmt,
     int fileSize,
+    String expiresAt,
+    int daysRemaining,
     String createdAt,
   });
+
+  $AudioEntityCopyWith<$Res>? get audio;
 }
 
 /// @nodoc
@@ -73,11 +91,19 @@ class _$DownloadEntityCopyWithImpl<$Res, $Val extends DownloadEntity>
   @override
   $Res call({
     Object? id = null,
+    Object? userId = null,
     Object? audioId = null,
+    Object? playlistId = freezed,
+    Object? audio = freezed,
     Object? title = null,
     Object? artist = null,
-    Object? filePath = null,
+    Object? thumbnail = null,
+    Object? dominantColor = null,
+    Object? duration = null,
+    Object? durationFmt = null,
     Object? fileSize = null,
+    Object? expiresAt = null,
+    Object? daysRemaining = null,
     Object? createdAt = null,
   }) {
     return _then(
@@ -86,10 +112,22 @@ class _$DownloadEntityCopyWithImpl<$Res, $Val extends DownloadEntity>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as int,
+            userId: null == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as int,
             audioId: null == audioId
                 ? _value.audioId
                 : audioId // ignore: cast_nullable_to_non_nullable
                       as int,
+            playlistId: freezed == playlistId
+                ? _value.playlistId
+                : playlistId // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            audio: freezed == audio
+                ? _value.audio
+                : audio // ignore: cast_nullable_to_non_nullable
+                      as AudioEntity?,
             title: null == title
                 ? _value.title
                 : title // ignore: cast_nullable_to_non_nullable
@@ -98,13 +136,33 @@ class _$DownloadEntityCopyWithImpl<$Res, $Val extends DownloadEntity>
                 ? _value.artist
                 : artist // ignore: cast_nullable_to_non_nullable
                       as String,
-            filePath: null == filePath
-                ? _value.filePath
-                : filePath // ignore: cast_nullable_to_non_nullable
+            thumbnail: null == thumbnail
+                ? _value.thumbnail
+                : thumbnail // ignore: cast_nullable_to_non_nullable
+                      as String,
+            dominantColor: null == dominantColor
+                ? _value.dominantColor
+                : dominantColor // ignore: cast_nullable_to_non_nullable
+                      as String,
+            duration: null == duration
+                ? _value.duration
+                : duration // ignore: cast_nullable_to_non_nullable
+                      as int,
+            durationFmt: null == durationFmt
+                ? _value.durationFmt
+                : durationFmt // ignore: cast_nullable_to_non_nullable
                       as String,
             fileSize: null == fileSize
                 ? _value.fileSize
                 : fileSize // ignore: cast_nullable_to_non_nullable
+                      as int,
+            expiresAt: null == expiresAt
+                ? _value.expiresAt
+                : expiresAt // ignore: cast_nullable_to_non_nullable
+                      as String,
+            daysRemaining: null == daysRemaining
+                ? _value.daysRemaining
+                : daysRemaining // ignore: cast_nullable_to_non_nullable
                       as int,
             createdAt: null == createdAt
                 ? _value.createdAt
@@ -113,6 +171,20 @@ class _$DownloadEntityCopyWithImpl<$Res, $Val extends DownloadEntity>
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of DownloadEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AudioEntityCopyWith<$Res>? get audio {
+    if (_value.audio == null) {
+      return null;
+    }
+
+    return $AudioEntityCopyWith<$Res>(_value.audio!, (value) {
+      return _then(_value.copyWith(audio: value) as $Val);
+    });
   }
 }
 
@@ -127,13 +199,24 @@ abstract class _$$DownloadEntityImplCopyWith<$Res>
   @useResult
   $Res call({
     int id,
+    int userId,
     int audioId,
+    int? playlistId,
+    AudioEntity? audio,
     String title,
     String artist,
-    String filePath,
+    String thumbnail,
+    String dominantColor,
+    int duration,
+    String durationFmt,
     int fileSize,
+    String expiresAt,
+    int daysRemaining,
     String createdAt,
   });
+
+  @override
+  $AudioEntityCopyWith<$Res>? get audio;
 }
 
 /// @nodoc
@@ -151,11 +234,19 @@ class __$$DownloadEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? userId = null,
     Object? audioId = null,
+    Object? playlistId = freezed,
+    Object? audio = freezed,
     Object? title = null,
     Object? artist = null,
-    Object? filePath = null,
+    Object? thumbnail = null,
+    Object? dominantColor = null,
+    Object? duration = null,
+    Object? durationFmt = null,
     Object? fileSize = null,
+    Object? expiresAt = null,
+    Object? daysRemaining = null,
     Object? createdAt = null,
   }) {
     return _then(
@@ -164,10 +255,22 @@ class __$$DownloadEntityImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as int,
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as int,
         audioId: null == audioId
             ? _value.audioId
             : audioId // ignore: cast_nullable_to_non_nullable
                   as int,
+        playlistId: freezed == playlistId
+            ? _value.playlistId
+            : playlistId // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        audio: freezed == audio
+            ? _value.audio
+            : audio // ignore: cast_nullable_to_non_nullable
+                  as AudioEntity?,
         title: null == title
             ? _value.title
             : title // ignore: cast_nullable_to_non_nullable
@@ -176,13 +279,33 @@ class __$$DownloadEntityImplCopyWithImpl<$Res>
             ? _value.artist
             : artist // ignore: cast_nullable_to_non_nullable
                   as String,
-        filePath: null == filePath
-            ? _value.filePath
-            : filePath // ignore: cast_nullable_to_non_nullable
+        thumbnail: null == thumbnail
+            ? _value.thumbnail
+            : thumbnail // ignore: cast_nullable_to_non_nullable
+                  as String,
+        dominantColor: null == dominantColor
+            ? _value.dominantColor
+            : dominantColor // ignore: cast_nullable_to_non_nullable
+                  as String,
+        duration: null == duration
+            ? _value.duration
+            : duration // ignore: cast_nullable_to_non_nullable
+                  as int,
+        durationFmt: null == durationFmt
+            ? _value.durationFmt
+            : durationFmt // ignore: cast_nullable_to_non_nullable
                   as String,
         fileSize: null == fileSize
             ? _value.fileSize
             : fileSize // ignore: cast_nullable_to_non_nullable
+                  as int,
+        expiresAt: null == expiresAt
+            ? _value.expiresAt
+            : expiresAt // ignore: cast_nullable_to_non_nullable
+                  as String,
+        daysRemaining: null == daysRemaining
+            ? _value.daysRemaining
+            : daysRemaining // ignore: cast_nullable_to_non_nullable
                   as int,
         createdAt: null == createdAt
             ? _value.createdAt
@@ -198,11 +321,19 @@ class __$$DownloadEntityImplCopyWithImpl<$Res>
 class _$DownloadEntityImpl implements _DownloadEntity {
   const _$DownloadEntityImpl({
     required this.id,
+    this.userId = 0,
     this.audioId = 0,
+    this.playlistId,
+    this.audio,
     this.title = '',
     this.artist = '',
-    this.filePath = '',
+    this.thumbnail = '',
+    this.dominantColor = '',
+    this.duration = 0,
+    this.durationFmt = '',
     this.fileSize = 0,
+    this.expiresAt = '',
+    this.daysRemaining = 0,
     this.createdAt = '',
   });
 
@@ -213,7 +344,14 @@ class _$DownloadEntityImpl implements _DownloadEntity {
   final int id;
   @override
   @JsonKey()
+  final int userId;
+  @override
+  @JsonKey()
   final int audioId;
+  @override
+  final int? playlistId;
+  @override
+  final AudioEntity? audio;
   @override
   @JsonKey()
   final String title;
@@ -222,17 +360,32 @@ class _$DownloadEntityImpl implements _DownloadEntity {
   final String artist;
   @override
   @JsonKey()
-  final String filePath;
+  final String thumbnail;
+  @override
+  @JsonKey()
+  final String dominantColor;
+  @override
+  @JsonKey()
+  final int duration;
+  @override
+  @JsonKey()
+  final String durationFmt;
   @override
   @JsonKey()
   final int fileSize;
+  @override
+  @JsonKey()
+  final String expiresAt;
+  @override
+  @JsonKey()
+  final int daysRemaining;
   @override
   @JsonKey()
   final String createdAt;
 
   @override
   String toString() {
-    return 'DownloadEntity(id: $id, audioId: $audioId, title: $title, artist: $artist, filePath: $filePath, fileSize: $fileSize, createdAt: $createdAt)';
+    return 'DownloadEntity(id: $id, userId: $userId, audioId: $audioId, playlistId: $playlistId, audio: $audio, title: $title, artist: $artist, thumbnail: $thumbnail, dominantColor: $dominantColor, duration: $duration, durationFmt: $durationFmt, fileSize: $fileSize, expiresAt: $expiresAt, daysRemaining: $daysRemaining, createdAt: $createdAt)';
   }
 
   @override
@@ -241,13 +394,27 @@ class _$DownloadEntityImpl implements _DownloadEntity {
         (other.runtimeType == runtimeType &&
             other is _$DownloadEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.audioId, audioId) || other.audioId == audioId) &&
+            (identical(other.playlistId, playlistId) ||
+                other.playlistId == playlistId) &&
+            (identical(other.audio, audio) || other.audio == audio) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.artist, artist) || other.artist == artist) &&
-            (identical(other.filePath, filePath) ||
-                other.filePath == filePath) &&
+            (identical(other.thumbnail, thumbnail) ||
+                other.thumbnail == thumbnail) &&
+            (identical(other.dominantColor, dominantColor) ||
+                other.dominantColor == dominantColor) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
+            (identical(other.durationFmt, durationFmt) ||
+                other.durationFmt == durationFmt) &&
             (identical(other.fileSize, fileSize) ||
                 other.fileSize == fileSize) &&
+            (identical(other.expiresAt, expiresAt) ||
+                other.expiresAt == expiresAt) &&
+            (identical(other.daysRemaining, daysRemaining) ||
+                other.daysRemaining == daysRemaining) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -257,11 +424,19 @@ class _$DownloadEntityImpl implements _DownloadEntity {
   int get hashCode => Object.hash(
     runtimeType,
     id,
+    userId,
     audioId,
+    playlistId,
+    audio,
     title,
     artist,
-    filePath,
+    thumbnail,
+    dominantColor,
+    duration,
+    durationFmt,
     fileSize,
+    expiresAt,
+    daysRemaining,
     createdAt,
   );
 
@@ -285,11 +460,19 @@ class _$DownloadEntityImpl implements _DownloadEntity {
 abstract class _DownloadEntity implements DownloadEntity {
   const factory _DownloadEntity({
     required final int id,
+    final int userId,
     final int audioId,
+    final int? playlistId,
+    final AudioEntity? audio,
     final String title,
     final String artist,
-    final String filePath,
+    final String thumbnail,
+    final String dominantColor,
+    final int duration,
+    final String durationFmt,
     final int fileSize,
+    final String expiresAt,
+    final int daysRemaining,
     final String createdAt,
   }) = _$DownloadEntityImpl;
 
@@ -299,15 +482,31 @@ abstract class _DownloadEntity implements DownloadEntity {
   @override
   int get id;
   @override
+  int get userId;
+  @override
   int get audioId;
+  @override
+  int? get playlistId;
+  @override
+  AudioEntity? get audio;
   @override
   String get title;
   @override
   String get artist;
   @override
-  String get filePath;
+  String get thumbnail;
+  @override
+  String get dominantColor;
+  @override
+  int get duration;
+  @override
+  String get durationFmt;
   @override
   int get fileSize;
+  @override
+  String get expiresAt;
+  @override
+  int get daysRemaining;
   @override
   String get createdAt;
 
@@ -327,9 +526,8 @@ DownloadStorageEntity _$DownloadStorageEntityFromJson(
 
 /// @nodoc
 mixin _$DownloadStorageEntity {
-  int get totalFiles => throw _privateConstructorUsedError;
-  int get totalSizeBytes => throw _privateConstructorUsedError;
-  String get formattedSize => throw _privateConstructorUsedError;
+  int get totalBytes => throw _privateConstructorUsedError;
+  int get totalMb => throw _privateConstructorUsedError;
 
   /// Serializes this DownloadStorageEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -348,7 +546,7 @@ abstract class $DownloadStorageEntityCopyWith<$Res> {
     $Res Function(DownloadStorageEntity) then,
   ) = _$DownloadStorageEntityCopyWithImpl<$Res, DownloadStorageEntity>;
   @useResult
-  $Res call({int totalFiles, int totalSizeBytes, String formattedSize});
+  $Res call({int totalBytes, int totalMb});
 }
 
 /// @nodoc
@@ -368,25 +566,17 @@ class _$DownloadStorageEntityCopyWithImpl<
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? totalFiles = null,
-    Object? totalSizeBytes = null,
-    Object? formattedSize = null,
-  }) {
+  $Res call({Object? totalBytes = null, Object? totalMb = null}) {
     return _then(
       _value.copyWith(
-            totalFiles: null == totalFiles
-                ? _value.totalFiles
-                : totalFiles // ignore: cast_nullable_to_non_nullable
+            totalBytes: null == totalBytes
+                ? _value.totalBytes
+                : totalBytes // ignore: cast_nullable_to_non_nullable
                       as int,
-            totalSizeBytes: null == totalSizeBytes
-                ? _value.totalSizeBytes
-                : totalSizeBytes // ignore: cast_nullable_to_non_nullable
+            totalMb: null == totalMb
+                ? _value.totalMb
+                : totalMb // ignore: cast_nullable_to_non_nullable
                       as int,
-            formattedSize: null == formattedSize
-                ? _value.formattedSize
-                : formattedSize // ignore: cast_nullable_to_non_nullable
-                      as String,
           )
           as $Val,
     );
@@ -402,7 +592,7 @@ abstract class _$$DownloadStorageEntityImplCopyWith<$Res>
   ) = __$$DownloadStorageEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int totalFiles, int totalSizeBytes, String formattedSize});
+  $Res call({int totalBytes, int totalMb});
 }
 
 /// @nodoc
@@ -419,25 +609,17 @@ class __$$DownloadStorageEntityImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? totalFiles = null,
-    Object? totalSizeBytes = null,
-    Object? formattedSize = null,
-  }) {
+  $Res call({Object? totalBytes = null, Object? totalMb = null}) {
     return _then(
       _$DownloadStorageEntityImpl(
-        totalFiles: null == totalFiles
-            ? _value.totalFiles
-            : totalFiles // ignore: cast_nullable_to_non_nullable
+        totalBytes: null == totalBytes
+            ? _value.totalBytes
+            : totalBytes // ignore: cast_nullable_to_non_nullable
                   as int,
-        totalSizeBytes: null == totalSizeBytes
-            ? _value.totalSizeBytes
-            : totalSizeBytes // ignore: cast_nullable_to_non_nullable
+        totalMb: null == totalMb
+            ? _value.totalMb
+            : totalMb // ignore: cast_nullable_to_non_nullable
                   as int,
-        formattedSize: null == formattedSize
-            ? _value.formattedSize
-            : formattedSize // ignore: cast_nullable_to_non_nullable
-                  as String,
       ),
     );
   }
@@ -446,28 +628,21 @@ class __$$DownloadStorageEntityImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DownloadStorageEntityImpl implements _DownloadStorageEntity {
-  const _$DownloadStorageEntityImpl({
-    this.totalFiles = 0,
-    this.totalSizeBytes = 0,
-    this.formattedSize = '',
-  });
+  const _$DownloadStorageEntityImpl({this.totalBytes = 0, this.totalMb = 0});
 
   factory _$DownloadStorageEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$DownloadStorageEntityImplFromJson(json);
 
   @override
   @JsonKey()
-  final int totalFiles;
+  final int totalBytes;
   @override
   @JsonKey()
-  final int totalSizeBytes;
-  @override
-  @JsonKey()
-  final String formattedSize;
+  final int totalMb;
 
   @override
   String toString() {
-    return 'DownloadStorageEntity(totalFiles: $totalFiles, totalSizeBytes: $totalSizeBytes, formattedSize: $formattedSize)';
+    return 'DownloadStorageEntity(totalBytes: $totalBytes, totalMb: $totalMb)';
   }
 
   @override
@@ -475,18 +650,14 @@ class _$DownloadStorageEntityImpl implements _DownloadStorageEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DownloadStorageEntityImpl &&
-            (identical(other.totalFiles, totalFiles) ||
-                other.totalFiles == totalFiles) &&
-            (identical(other.totalSizeBytes, totalSizeBytes) ||
-                other.totalSizeBytes == totalSizeBytes) &&
-            (identical(other.formattedSize, formattedSize) ||
-                other.formattedSize == formattedSize));
+            (identical(other.totalBytes, totalBytes) ||
+                other.totalBytes == totalBytes) &&
+            (identical(other.totalMb, totalMb) || other.totalMb == totalMb));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, totalFiles, totalSizeBytes, formattedSize);
+  int get hashCode => Object.hash(runtimeType, totalBytes, totalMb);
 
   /// Create a copy of DownloadStorageEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -508,20 +679,17 @@ class _$DownloadStorageEntityImpl implements _DownloadStorageEntity {
 
 abstract class _DownloadStorageEntity implements DownloadStorageEntity {
   const factory _DownloadStorageEntity({
-    final int totalFiles,
-    final int totalSizeBytes,
-    final String formattedSize,
+    final int totalBytes,
+    final int totalMb,
   }) = _$DownloadStorageEntityImpl;
 
   factory _DownloadStorageEntity.fromJson(Map<String, dynamic> json) =
       _$DownloadStorageEntityImpl.fromJson;
 
   @override
-  int get totalFiles;
+  int get totalBytes;
   @override
-  int get totalSizeBytes;
-  @override
-  String get formattedSize;
+  int get totalMb;
 
   /// Create a copy of DownloadStorageEntity
   /// with the given fields replaced by the non-null parameter values.

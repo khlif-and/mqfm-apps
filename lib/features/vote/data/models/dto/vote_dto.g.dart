@@ -6,34 +6,34 @@ part of 'vote_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VoteDto _$VoteDtoFromJson(Map<String, dynamic> json) => VoteDto(
-  id: (json['id'] as num).toInt(),
-  audioId: (json['audio_id'] as num?)?.toInt() ?? 0,
-  createdAt: json['created_at'] as String? ?? '',
-);
-
-Map<String, dynamic> _$VoteDtoToJson(VoteDto instance) => <String, dynamic>{
-  'id': instance.id,
-  'audio_id': instance.audioId,
-  'created_at': instance.createdAt,
-};
-
 VoteRankingDto _$VoteRankingDtoFromJson(Map<String, dynamic> json) =>
     VoteRankingDto(
-      audioId: (json['audio_id'] as num?)?.toInt() ?? 0,
-      title: json['title'] as String? ?? '',
-      artist: json['artist'] as String? ?? '',
-      thumbnail: json['thumbnail'] as String? ?? '',
-      voteCount: (json['vote_count'] as num?)?.toInt() ?? 0,
       rank: (json['rank'] as num?)?.toInt() ?? 0,
+      audioId: (json['audio_id'] as num?)?.toInt() ?? 0,
+      audio: json['audio'] as Map<String, dynamic>?,
+      likes: (json['likes'] as num?)?.toInt() ?? 0,
+      updatedAt: json['updated_at'] as String? ?? '',
     );
 
 Map<String, dynamic> _$VoteRankingDtoToJson(VoteRankingDto instance) =>
     <String, dynamic>{
-      'audio_id': instance.audioId,
-      'title': instance.title,
-      'artist': instance.artist,
-      'thumbnail': instance.thumbnail,
-      'vote_count': instance.voteCount,
       'rank': instance.rank,
+      'audio_id': instance.audioId,
+      'audio': instance.audio,
+      'likes': instance.likes,
+      'updated_at': instance.updatedAt,
+    };
+
+VoteStatusDto _$VoteStatusDtoFromJson(Map<String, dynamic> json) =>
+    VoteStatusDto(
+      audioId: (json['audio_id'] as num?)?.toInt() ?? 0,
+      hasVoted: json['has_voted'] as bool? ?? false,
+      totalVotes: (json['total_votes'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$VoteStatusDtoToJson(VoteStatusDto instance) =>
+    <String, dynamic>{
+      'audio_id': instance.audioId,
+      'has_voted': instance.hasVoted,
+      'total_votes': instance.totalVotes,
     };

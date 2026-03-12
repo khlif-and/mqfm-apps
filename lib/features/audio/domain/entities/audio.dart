@@ -12,6 +12,8 @@ class AudioEntity with _$AudioEntity {
     @Default('') String description,
     @Default('') String filePath,
     @Default(0) int duration,
+    @Default('') String durationFmt,
+    @Default(0) int fileSize,
     @Default('active') String status,
     @Default(0) int categoryId,
     @Default('') String thumbnail,

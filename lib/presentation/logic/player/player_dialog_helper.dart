@@ -27,7 +27,7 @@ class PlayerDialogHelper {
         child: BlocConsumer<PlaylistBloc, PlaylistState>(
           listener: (ctx, state) {
             state.whenOrNull(
-              audioAdded: () {
+              actionSuccess: (_) {
                 PlaylistChangeNotifier.notifyChange();
                 Navigator.pop(ctx);
               },
@@ -89,9 +89,11 @@ class PlayerDialogHelper {
             TextButton(
               onPressed: () {
                 if (nameController.text.isNotEmpty) {
-                  context.read<PlaylistBloc>().add(PlaylistEvent.create(name: nameController.text));
+                  context.read<PlaylistBloc>().add(PlaylistEvent.createFromAudio(
+                    name: nameController.text,
+                    audioId: audioId,
+                  ));
                   Navigator.pop(dialogContext);
-                  showPlaylistBottomSheet(context, audioId);
                 }
               },
               child: Text(AppStrings.create, style: const TextStyle(color: AppColors.success)),

@@ -49,7 +49,7 @@ class DashboardProviders extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) =>
-              getIt<VoteBloc>()..add(const VoteEvent.fetchWeeklyRanking()),
+              getIt<VoteBloc>()..add(const VoteEvent.fetchWeeklyRanking(limit: 5)),
         ),
         BlocProvider(
           create: (_) => getIt<ResumeBloc>()..add(const ResumeEvent.fetch()),

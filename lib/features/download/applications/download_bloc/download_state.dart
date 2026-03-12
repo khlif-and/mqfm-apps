@@ -8,6 +8,8 @@ part 'download_state.freezed.dart';
 class DownloadState with _$DownloadState {
   const factory DownloadState.initial() = DownloadInitial;
   const factory DownloadState.loading() = DownloadLoading;
+  const factory DownloadState.downloading({required int audioId}) =
+      DownloadDownloading;
   const factory DownloadState.loaded(
       {required List<DownloadEntity> downloads}) = DownloadLoaded;
   const factory DownloadState.storageLoaded(

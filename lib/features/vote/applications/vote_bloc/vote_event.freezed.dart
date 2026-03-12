@@ -21,32 +21,32 @@ mixin _$VoteEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(int audioId) cast,
     required TResult Function(int audioId) remove,
-    required TResult Function() fetchUserVotes,
-    required TResult Function() fetchWeeklyRanking,
-    required TResult Function() fetchMonthlyRanking,
+    required TResult Function(int audioId) fetchStatus,
+    required TResult Function(int limit) fetchWeeklyRanking,
+    required TResult Function(int limit) fetchMonthlyRanking,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int audioId)? cast,
     TResult? Function(int audioId)? remove,
-    TResult? Function()? fetchUserVotes,
-    TResult? Function()? fetchWeeklyRanking,
-    TResult? Function()? fetchMonthlyRanking,
+    TResult? Function(int audioId)? fetchStatus,
+    TResult? Function(int limit)? fetchWeeklyRanking,
+    TResult? Function(int limit)? fetchMonthlyRanking,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int audioId)? cast,
     TResult Function(int audioId)? remove,
-    TResult Function()? fetchUserVotes,
-    TResult Function()? fetchWeeklyRanking,
-    TResult Function()? fetchMonthlyRanking,
+    TResult Function(int audioId)? fetchStatus,
+    TResult Function(int limit)? fetchWeeklyRanking,
+    TResult Function(int limit)? fetchMonthlyRanking,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(VoteCast value) cast,
     required TResult Function(VoteRemove value) remove,
-    required TResult Function(VoteFetchUserVotes value) fetchUserVotes,
+    required TResult Function(VoteFetchStatus value) fetchStatus,
     required TResult Function(VoteFetchWeeklyRanking value) fetchWeeklyRanking,
     required TResult Function(VoteFetchMonthlyRanking value)
     fetchMonthlyRanking,
@@ -55,7 +55,7 @@ mixin _$VoteEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteCast value)? cast,
     TResult? Function(VoteRemove value)? remove,
-    TResult? Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult? Function(VoteFetchStatus value)? fetchStatus,
     TResult? Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult? Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
   }) => throw _privateConstructorUsedError;
@@ -63,7 +63,7 @@ mixin _$VoteEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteCast value)? cast,
     TResult Function(VoteRemove value)? remove,
-    TResult Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult Function(VoteFetchStatus value)? fetchStatus,
     TResult Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
     required TResult orElse(),
@@ -162,9 +162,9 @@ class _$VoteCastImpl implements VoteCast {
   TResult when<TResult extends Object?>({
     required TResult Function(int audioId) cast,
     required TResult Function(int audioId) remove,
-    required TResult Function() fetchUserVotes,
-    required TResult Function() fetchWeeklyRanking,
-    required TResult Function() fetchMonthlyRanking,
+    required TResult Function(int audioId) fetchStatus,
+    required TResult Function(int limit) fetchWeeklyRanking,
+    required TResult Function(int limit) fetchMonthlyRanking,
   }) {
     return cast(audioId);
   }
@@ -174,9 +174,9 @@ class _$VoteCastImpl implements VoteCast {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int audioId)? cast,
     TResult? Function(int audioId)? remove,
-    TResult? Function()? fetchUserVotes,
-    TResult? Function()? fetchWeeklyRanking,
-    TResult? Function()? fetchMonthlyRanking,
+    TResult? Function(int audioId)? fetchStatus,
+    TResult? Function(int limit)? fetchWeeklyRanking,
+    TResult? Function(int limit)? fetchMonthlyRanking,
   }) {
     return cast?.call(audioId);
   }
@@ -186,9 +186,9 @@ class _$VoteCastImpl implements VoteCast {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int audioId)? cast,
     TResult Function(int audioId)? remove,
-    TResult Function()? fetchUserVotes,
-    TResult Function()? fetchWeeklyRanking,
-    TResult Function()? fetchMonthlyRanking,
+    TResult Function(int audioId)? fetchStatus,
+    TResult Function(int limit)? fetchWeeklyRanking,
+    TResult Function(int limit)? fetchMonthlyRanking,
     required TResult orElse(),
   }) {
     if (cast != null) {
@@ -202,7 +202,7 @@ class _$VoteCastImpl implements VoteCast {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteCast value) cast,
     required TResult Function(VoteRemove value) remove,
-    required TResult Function(VoteFetchUserVotes value) fetchUserVotes,
+    required TResult Function(VoteFetchStatus value) fetchStatus,
     required TResult Function(VoteFetchWeeklyRanking value) fetchWeeklyRanking,
     required TResult Function(VoteFetchMonthlyRanking value)
     fetchMonthlyRanking,
@@ -215,7 +215,7 @@ class _$VoteCastImpl implements VoteCast {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteCast value)? cast,
     TResult? Function(VoteRemove value)? remove,
-    TResult? Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult? Function(VoteFetchStatus value)? fetchStatus,
     TResult? Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult? Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
   }) {
@@ -227,7 +227,7 @@ class _$VoteCastImpl implements VoteCast {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteCast value)? cast,
     TResult Function(VoteRemove value)? remove,
-    TResult Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult Function(VoteFetchStatus value)? fetchStatus,
     TResult Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
     required TResult orElse(),
@@ -323,9 +323,9 @@ class _$VoteRemoveImpl implements VoteRemove {
   TResult when<TResult extends Object?>({
     required TResult Function(int audioId) cast,
     required TResult Function(int audioId) remove,
-    required TResult Function() fetchUserVotes,
-    required TResult Function() fetchWeeklyRanking,
-    required TResult Function() fetchMonthlyRanking,
+    required TResult Function(int audioId) fetchStatus,
+    required TResult Function(int limit) fetchWeeklyRanking,
+    required TResult Function(int limit) fetchMonthlyRanking,
   }) {
     return remove(audioId);
   }
@@ -335,9 +335,9 @@ class _$VoteRemoveImpl implements VoteRemove {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int audioId)? cast,
     TResult? Function(int audioId)? remove,
-    TResult? Function()? fetchUserVotes,
-    TResult? Function()? fetchWeeklyRanking,
-    TResult? Function()? fetchMonthlyRanking,
+    TResult? Function(int audioId)? fetchStatus,
+    TResult? Function(int limit)? fetchWeeklyRanking,
+    TResult? Function(int limit)? fetchMonthlyRanking,
   }) {
     return remove?.call(audioId);
   }
@@ -347,9 +347,9 @@ class _$VoteRemoveImpl implements VoteRemove {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int audioId)? cast,
     TResult Function(int audioId)? remove,
-    TResult Function()? fetchUserVotes,
-    TResult Function()? fetchWeeklyRanking,
-    TResult Function()? fetchMonthlyRanking,
+    TResult Function(int audioId)? fetchStatus,
+    TResult Function(int limit)? fetchWeeklyRanking,
+    TResult Function(int limit)? fetchMonthlyRanking,
     required TResult orElse(),
   }) {
     if (remove != null) {
@@ -363,7 +363,7 @@ class _$VoteRemoveImpl implements VoteRemove {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteCast value) cast,
     required TResult Function(VoteRemove value) remove,
-    required TResult Function(VoteFetchUserVotes value) fetchUserVotes,
+    required TResult Function(VoteFetchStatus value) fetchStatus,
     required TResult Function(VoteFetchWeeklyRanking value) fetchWeeklyRanking,
     required TResult Function(VoteFetchMonthlyRanking value)
     fetchMonthlyRanking,
@@ -376,7 +376,7 @@ class _$VoteRemoveImpl implements VoteRemove {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteCast value)? cast,
     TResult? Function(VoteRemove value)? remove,
-    TResult? Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult? Function(VoteFetchStatus value)? fetchStatus,
     TResult? Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult? Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
   }) {
@@ -388,7 +388,7 @@ class _$VoteRemoveImpl implements VoteRemove {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteCast value)? cast,
     TResult Function(VoteRemove value)? remove,
-    TResult Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult Function(VoteFetchStatus value)? fetchStatus,
     TResult Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
     required TResult orElse(),
@@ -413,55 +413,85 @@ abstract class VoteRemove implements VoteEvent {
 }
 
 /// @nodoc
-abstract class _$$VoteFetchUserVotesImplCopyWith<$Res> {
-  factory _$$VoteFetchUserVotesImplCopyWith(
-    _$VoteFetchUserVotesImpl value,
-    $Res Function(_$VoteFetchUserVotesImpl) then,
-  ) = __$$VoteFetchUserVotesImplCopyWithImpl<$Res>;
+abstract class _$$VoteFetchStatusImplCopyWith<$Res> {
+  factory _$$VoteFetchStatusImplCopyWith(
+    _$VoteFetchStatusImpl value,
+    $Res Function(_$VoteFetchStatusImpl) then,
+  ) = __$$VoteFetchStatusImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int audioId});
 }
 
 /// @nodoc
-class __$$VoteFetchUserVotesImplCopyWithImpl<$Res>
-    extends _$VoteEventCopyWithImpl<$Res, _$VoteFetchUserVotesImpl>
-    implements _$$VoteFetchUserVotesImplCopyWith<$Res> {
-  __$$VoteFetchUserVotesImplCopyWithImpl(
-    _$VoteFetchUserVotesImpl _value,
-    $Res Function(_$VoteFetchUserVotesImpl) _then,
+class __$$VoteFetchStatusImplCopyWithImpl<$Res>
+    extends _$VoteEventCopyWithImpl<$Res, _$VoteFetchStatusImpl>
+    implements _$$VoteFetchStatusImplCopyWith<$Res> {
+  __$$VoteFetchStatusImplCopyWithImpl(
+    _$VoteFetchStatusImpl _value,
+    $Res Function(_$VoteFetchStatusImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of VoteEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? audioId = null}) {
+    return _then(
+      _$VoteFetchStatusImpl(
+        audioId: null == audioId
+            ? _value.audioId
+            : audioId // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
-class _$VoteFetchUserVotesImpl implements VoteFetchUserVotes {
-  const _$VoteFetchUserVotesImpl();
+class _$VoteFetchStatusImpl implements VoteFetchStatus {
+  const _$VoteFetchStatusImpl({required this.audioId});
+
+  @override
+  final int audioId;
 
   @override
   String toString() {
-    return 'VoteEvent.fetchUserVotes()';
+    return 'VoteEvent.fetchStatus(audioId: $audioId)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$VoteFetchUserVotesImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$VoteFetchStatusImpl &&
+            (identical(other.audioId, audioId) || other.audioId == audioId));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, audioId);
+
+  /// Create a copy of VoteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VoteFetchStatusImplCopyWith<_$VoteFetchStatusImpl> get copyWith =>
+      __$$VoteFetchStatusImplCopyWithImpl<_$VoteFetchStatusImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int audioId) cast,
     required TResult Function(int audioId) remove,
-    required TResult Function() fetchUserVotes,
-    required TResult Function() fetchWeeklyRanking,
-    required TResult Function() fetchMonthlyRanking,
+    required TResult Function(int audioId) fetchStatus,
+    required TResult Function(int limit) fetchWeeklyRanking,
+    required TResult Function(int limit) fetchMonthlyRanking,
   }) {
-    return fetchUserVotes();
+    return fetchStatus(audioId);
   }
 
   @override
@@ -469,11 +499,11 @@ class _$VoteFetchUserVotesImpl implements VoteFetchUserVotes {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int audioId)? cast,
     TResult? Function(int audioId)? remove,
-    TResult? Function()? fetchUserVotes,
-    TResult? Function()? fetchWeeklyRanking,
-    TResult? Function()? fetchMonthlyRanking,
+    TResult? Function(int audioId)? fetchStatus,
+    TResult? Function(int limit)? fetchWeeklyRanking,
+    TResult? Function(int limit)? fetchMonthlyRanking,
   }) {
-    return fetchUserVotes?.call();
+    return fetchStatus?.call(audioId);
   }
 
   @override
@@ -481,13 +511,13 @@ class _$VoteFetchUserVotesImpl implements VoteFetchUserVotes {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int audioId)? cast,
     TResult Function(int audioId)? remove,
-    TResult Function()? fetchUserVotes,
-    TResult Function()? fetchWeeklyRanking,
-    TResult Function()? fetchMonthlyRanking,
+    TResult Function(int audioId)? fetchStatus,
+    TResult Function(int limit)? fetchWeeklyRanking,
+    TResult Function(int limit)? fetchMonthlyRanking,
     required TResult orElse(),
   }) {
-    if (fetchUserVotes != null) {
-      return fetchUserVotes();
+    if (fetchStatus != null) {
+      return fetchStatus(audioId);
     }
     return orElse();
   }
@@ -497,12 +527,12 @@ class _$VoteFetchUserVotesImpl implements VoteFetchUserVotes {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteCast value) cast,
     required TResult Function(VoteRemove value) remove,
-    required TResult Function(VoteFetchUserVotes value) fetchUserVotes,
+    required TResult Function(VoteFetchStatus value) fetchStatus,
     required TResult Function(VoteFetchWeeklyRanking value) fetchWeeklyRanking,
     required TResult Function(VoteFetchMonthlyRanking value)
     fetchMonthlyRanking,
   }) {
-    return fetchUserVotes(this);
+    return fetchStatus(this);
   }
 
   @override
@@ -510,11 +540,11 @@ class _$VoteFetchUserVotesImpl implements VoteFetchUserVotes {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteCast value)? cast,
     TResult? Function(VoteRemove value)? remove,
-    TResult? Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult? Function(VoteFetchStatus value)? fetchStatus,
     TResult? Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult? Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
   }) {
-    return fetchUserVotes?.call(this);
+    return fetchStatus?.call(this);
   }
 
   @override
@@ -522,20 +552,29 @@ class _$VoteFetchUserVotesImpl implements VoteFetchUserVotes {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteCast value)? cast,
     TResult Function(VoteRemove value)? remove,
-    TResult Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult Function(VoteFetchStatus value)? fetchStatus,
     TResult Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
     required TResult orElse(),
   }) {
-    if (fetchUserVotes != null) {
-      return fetchUserVotes(this);
+    if (fetchStatus != null) {
+      return fetchStatus(this);
     }
     return orElse();
   }
 }
 
-abstract class VoteFetchUserVotes implements VoteEvent {
-  const factory VoteFetchUserVotes() = _$VoteFetchUserVotesImpl;
+abstract class VoteFetchStatus implements VoteEvent {
+  const factory VoteFetchStatus({required final int audioId}) =
+      _$VoteFetchStatusImpl;
+
+  int get audioId;
+
+  /// Create a copy of VoteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$VoteFetchStatusImplCopyWith<_$VoteFetchStatusImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -544,6 +583,8 @@ abstract class _$$VoteFetchWeeklyRankingImplCopyWith<$Res> {
     _$VoteFetchWeeklyRankingImpl value,
     $Res Function(_$VoteFetchWeeklyRankingImpl) then,
   ) = __$$VoteFetchWeeklyRankingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int limit});
 }
 
 /// @nodoc
@@ -557,38 +598,67 @@ class __$$VoteFetchWeeklyRankingImplCopyWithImpl<$Res>
 
   /// Create a copy of VoteEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? limit = null}) {
+    return _then(
+      _$VoteFetchWeeklyRankingImpl(
+        limit: null == limit
+            ? _value.limit
+            : limit // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
 class _$VoteFetchWeeklyRankingImpl implements VoteFetchWeeklyRanking {
-  const _$VoteFetchWeeklyRankingImpl();
+  const _$VoteFetchWeeklyRankingImpl({this.limit = 20});
+
+  @override
+  @JsonKey()
+  final int limit;
 
   @override
   String toString() {
-    return 'VoteEvent.fetchWeeklyRanking()';
+    return 'VoteEvent.fetchWeeklyRanking(limit: $limit)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$VoteFetchWeeklyRankingImpl);
+            other is _$VoteFetchWeeklyRankingImpl &&
+            (identical(other.limit, limit) || other.limit == limit));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, limit);
+
+  /// Create a copy of VoteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VoteFetchWeeklyRankingImplCopyWith<_$VoteFetchWeeklyRankingImpl>
+  get copyWith =>
+      __$$VoteFetchWeeklyRankingImplCopyWithImpl<_$VoteFetchWeeklyRankingImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int audioId) cast,
     required TResult Function(int audioId) remove,
-    required TResult Function() fetchUserVotes,
-    required TResult Function() fetchWeeklyRanking,
-    required TResult Function() fetchMonthlyRanking,
+    required TResult Function(int audioId) fetchStatus,
+    required TResult Function(int limit) fetchWeeklyRanking,
+    required TResult Function(int limit) fetchMonthlyRanking,
   }) {
-    return fetchWeeklyRanking();
+    return fetchWeeklyRanking(limit);
   }
 
   @override
@@ -596,11 +666,11 @@ class _$VoteFetchWeeklyRankingImpl implements VoteFetchWeeklyRanking {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int audioId)? cast,
     TResult? Function(int audioId)? remove,
-    TResult? Function()? fetchUserVotes,
-    TResult? Function()? fetchWeeklyRanking,
-    TResult? Function()? fetchMonthlyRanking,
+    TResult? Function(int audioId)? fetchStatus,
+    TResult? Function(int limit)? fetchWeeklyRanking,
+    TResult? Function(int limit)? fetchMonthlyRanking,
   }) {
-    return fetchWeeklyRanking?.call();
+    return fetchWeeklyRanking?.call(limit);
   }
 
   @override
@@ -608,13 +678,13 @@ class _$VoteFetchWeeklyRankingImpl implements VoteFetchWeeklyRanking {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int audioId)? cast,
     TResult Function(int audioId)? remove,
-    TResult Function()? fetchUserVotes,
-    TResult Function()? fetchWeeklyRanking,
-    TResult Function()? fetchMonthlyRanking,
+    TResult Function(int audioId)? fetchStatus,
+    TResult Function(int limit)? fetchWeeklyRanking,
+    TResult Function(int limit)? fetchMonthlyRanking,
     required TResult orElse(),
   }) {
     if (fetchWeeklyRanking != null) {
-      return fetchWeeklyRanking();
+      return fetchWeeklyRanking(limit);
     }
     return orElse();
   }
@@ -624,7 +694,7 @@ class _$VoteFetchWeeklyRankingImpl implements VoteFetchWeeklyRanking {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteCast value) cast,
     required TResult Function(VoteRemove value) remove,
-    required TResult Function(VoteFetchUserVotes value) fetchUserVotes,
+    required TResult Function(VoteFetchStatus value) fetchStatus,
     required TResult Function(VoteFetchWeeklyRanking value) fetchWeeklyRanking,
     required TResult Function(VoteFetchMonthlyRanking value)
     fetchMonthlyRanking,
@@ -637,7 +707,7 @@ class _$VoteFetchWeeklyRankingImpl implements VoteFetchWeeklyRanking {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteCast value)? cast,
     TResult? Function(VoteRemove value)? remove,
-    TResult? Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult? Function(VoteFetchStatus value)? fetchStatus,
     TResult? Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult? Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
   }) {
@@ -649,7 +719,7 @@ class _$VoteFetchWeeklyRankingImpl implements VoteFetchWeeklyRanking {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteCast value)? cast,
     TResult Function(VoteRemove value)? remove,
-    TResult Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult Function(VoteFetchStatus value)? fetchStatus,
     TResult Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
     required TResult orElse(),
@@ -662,7 +732,16 @@ class _$VoteFetchWeeklyRankingImpl implements VoteFetchWeeklyRanking {
 }
 
 abstract class VoteFetchWeeklyRanking implements VoteEvent {
-  const factory VoteFetchWeeklyRanking() = _$VoteFetchWeeklyRankingImpl;
+  const factory VoteFetchWeeklyRanking({final int limit}) =
+      _$VoteFetchWeeklyRankingImpl;
+
+  int get limit;
+
+  /// Create a copy of VoteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$VoteFetchWeeklyRankingImplCopyWith<_$VoteFetchWeeklyRankingImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -671,6 +750,8 @@ abstract class _$$VoteFetchMonthlyRankingImplCopyWith<$Res> {
     _$VoteFetchMonthlyRankingImpl value,
     $Res Function(_$VoteFetchMonthlyRankingImpl) then,
   ) = __$$VoteFetchMonthlyRankingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int limit});
 }
 
 /// @nodoc
@@ -684,38 +765,66 @@ class __$$VoteFetchMonthlyRankingImplCopyWithImpl<$Res>
 
   /// Create a copy of VoteEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? limit = null}) {
+    return _then(
+      _$VoteFetchMonthlyRankingImpl(
+        limit: null == limit
+            ? _value.limit
+            : limit // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
 class _$VoteFetchMonthlyRankingImpl implements VoteFetchMonthlyRanking {
-  const _$VoteFetchMonthlyRankingImpl();
+  const _$VoteFetchMonthlyRankingImpl({this.limit = 20});
+
+  @override
+  @JsonKey()
+  final int limit;
 
   @override
   String toString() {
-    return 'VoteEvent.fetchMonthlyRanking()';
+    return 'VoteEvent.fetchMonthlyRanking(limit: $limit)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$VoteFetchMonthlyRankingImpl);
+            other is _$VoteFetchMonthlyRankingImpl &&
+            (identical(other.limit, limit) || other.limit == limit));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, limit);
+
+  /// Create a copy of VoteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$VoteFetchMonthlyRankingImplCopyWith<_$VoteFetchMonthlyRankingImpl>
+  get copyWith =>
+      __$$VoteFetchMonthlyRankingImplCopyWithImpl<
+        _$VoteFetchMonthlyRankingImpl
+      >(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int audioId) cast,
     required TResult Function(int audioId) remove,
-    required TResult Function() fetchUserVotes,
-    required TResult Function() fetchWeeklyRanking,
-    required TResult Function() fetchMonthlyRanking,
+    required TResult Function(int audioId) fetchStatus,
+    required TResult Function(int limit) fetchWeeklyRanking,
+    required TResult Function(int limit) fetchMonthlyRanking,
   }) {
-    return fetchMonthlyRanking();
+    return fetchMonthlyRanking(limit);
   }
 
   @override
@@ -723,11 +832,11 @@ class _$VoteFetchMonthlyRankingImpl implements VoteFetchMonthlyRanking {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int audioId)? cast,
     TResult? Function(int audioId)? remove,
-    TResult? Function()? fetchUserVotes,
-    TResult? Function()? fetchWeeklyRanking,
-    TResult? Function()? fetchMonthlyRanking,
+    TResult? Function(int audioId)? fetchStatus,
+    TResult? Function(int limit)? fetchWeeklyRanking,
+    TResult? Function(int limit)? fetchMonthlyRanking,
   }) {
-    return fetchMonthlyRanking?.call();
+    return fetchMonthlyRanking?.call(limit);
   }
 
   @override
@@ -735,13 +844,13 @@ class _$VoteFetchMonthlyRankingImpl implements VoteFetchMonthlyRanking {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int audioId)? cast,
     TResult Function(int audioId)? remove,
-    TResult Function()? fetchUserVotes,
-    TResult Function()? fetchWeeklyRanking,
-    TResult Function()? fetchMonthlyRanking,
+    TResult Function(int audioId)? fetchStatus,
+    TResult Function(int limit)? fetchWeeklyRanking,
+    TResult Function(int limit)? fetchMonthlyRanking,
     required TResult orElse(),
   }) {
     if (fetchMonthlyRanking != null) {
-      return fetchMonthlyRanking();
+      return fetchMonthlyRanking(limit);
     }
     return orElse();
   }
@@ -751,7 +860,7 @@ class _$VoteFetchMonthlyRankingImpl implements VoteFetchMonthlyRanking {
   TResult map<TResult extends Object?>({
     required TResult Function(VoteCast value) cast,
     required TResult Function(VoteRemove value) remove,
-    required TResult Function(VoteFetchUserVotes value) fetchUserVotes,
+    required TResult Function(VoteFetchStatus value) fetchStatus,
     required TResult Function(VoteFetchWeeklyRanking value) fetchWeeklyRanking,
     required TResult Function(VoteFetchMonthlyRanking value)
     fetchMonthlyRanking,
@@ -764,7 +873,7 @@ class _$VoteFetchMonthlyRankingImpl implements VoteFetchMonthlyRanking {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(VoteCast value)? cast,
     TResult? Function(VoteRemove value)? remove,
-    TResult? Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult? Function(VoteFetchStatus value)? fetchStatus,
     TResult? Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult? Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
   }) {
@@ -776,7 +885,7 @@ class _$VoteFetchMonthlyRankingImpl implements VoteFetchMonthlyRanking {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(VoteCast value)? cast,
     TResult Function(VoteRemove value)? remove,
-    TResult Function(VoteFetchUserVotes value)? fetchUserVotes,
+    TResult Function(VoteFetchStatus value)? fetchStatus,
     TResult Function(VoteFetchWeeklyRanking value)? fetchWeeklyRanking,
     TResult Function(VoteFetchMonthlyRanking value)? fetchMonthlyRanking,
     required TResult orElse(),
@@ -789,5 +898,14 @@ class _$VoteFetchMonthlyRankingImpl implements VoteFetchMonthlyRanking {
 }
 
 abstract class VoteFetchMonthlyRanking implements VoteEvent {
-  const factory VoteFetchMonthlyRanking() = _$VoteFetchMonthlyRankingImpl;
+  const factory VoteFetchMonthlyRanking({final int limit}) =
+      _$VoteFetchMonthlyRankingImpl;
+
+  int get limit;
+
+  /// Create a copy of VoteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$VoteFetchMonthlyRankingImplCopyWith<_$VoteFetchMonthlyRankingImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }

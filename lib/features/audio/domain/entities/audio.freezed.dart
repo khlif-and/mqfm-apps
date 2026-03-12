@@ -27,6 +27,8 @@ mixin _$AudioEntity {
   String get description => throw _privateConstructorUsedError;
   String get filePath => throw _privateConstructorUsedError;
   int get duration => throw _privateConstructorUsedError;
+  String get durationFmt => throw _privateConstructorUsedError;
+  int get fileSize => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   int get categoryId => throw _privateConstructorUsedError;
   String get thumbnail => throw _privateConstructorUsedError;
@@ -58,6 +60,8 @@ abstract class $AudioEntityCopyWith<$Res> {
     String description,
     String filePath,
     int duration,
+    String durationFmt,
+    int fileSize,
     String status,
     int categoryId,
     String thumbnail,
@@ -88,6 +92,8 @@ class _$AudioEntityCopyWithImpl<$Res, $Val extends AudioEntity>
     Object? description = null,
     Object? filePath = null,
     Object? duration = null,
+    Object? durationFmt = null,
+    Object? fileSize = null,
     Object? status = null,
     Object? categoryId = null,
     Object? thumbnail = null,
@@ -120,6 +126,14 @@ class _$AudioEntityCopyWithImpl<$Res, $Val extends AudioEntity>
             duration: null == duration
                 ? _value.duration
                 : duration // ignore: cast_nullable_to_non_nullable
+                      as int,
+            durationFmt: null == durationFmt
+                ? _value.durationFmt
+                : durationFmt // ignore: cast_nullable_to_non_nullable
+                      as String,
+            fileSize: null == fileSize
+                ? _value.fileSize
+                : fileSize // ignore: cast_nullable_to_non_nullable
                       as int,
             status: null == status
                 ? _value.status
@@ -167,6 +181,8 @@ abstract class _$$AudioEntityImplCopyWith<$Res>
     String description,
     String filePath,
     int duration,
+    String durationFmt,
+    int fileSize,
     String status,
     int categoryId,
     String thumbnail,
@@ -196,6 +212,8 @@ class __$$AudioEntityImplCopyWithImpl<$Res>
     Object? description = null,
     Object? filePath = null,
     Object? duration = null,
+    Object? durationFmt = null,
+    Object? fileSize = null,
     Object? status = null,
     Object? categoryId = null,
     Object? thumbnail = null,
@@ -228,6 +246,14 @@ class __$$AudioEntityImplCopyWithImpl<$Res>
         duration: null == duration
             ? _value.duration
             : duration // ignore: cast_nullable_to_non_nullable
+                  as int,
+        durationFmt: null == durationFmt
+            ? _value.durationFmt
+            : durationFmt // ignore: cast_nullable_to_non_nullable
+                  as String,
+        fileSize: null == fileSize
+            ? _value.fileSize
+            : fileSize // ignore: cast_nullable_to_non_nullable
                   as int,
         status: null == status
             ? _value.status
@@ -268,6 +294,8 @@ class _$AudioEntityImpl implements _AudioEntity {
     this.description = '',
     this.filePath = '',
     this.duration = 0,
+    this.durationFmt = '',
+    this.fileSize = 0,
     this.status = 'active',
     this.categoryId = 0,
     this.thumbnail = '',
@@ -297,6 +325,12 @@ class _$AudioEntityImpl implements _AudioEntity {
   final int duration;
   @override
   @JsonKey()
+  final String durationFmt;
+  @override
+  @JsonKey()
+  final int fileSize;
+  @override
+  @JsonKey()
   final String status;
   @override
   @JsonKey()
@@ -316,7 +350,7 @@ class _$AudioEntityImpl implements _AudioEntity {
 
   @override
   String toString() {
-    return 'AudioEntity(id: $id, title: $title, artist: $artist, description: $description, filePath: $filePath, duration: $duration, status: $status, categoryId: $categoryId, thumbnail: $thumbnail, dominantColor: $dominantColor, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'AudioEntity(id: $id, title: $title, artist: $artist, description: $description, filePath: $filePath, duration: $duration, durationFmt: $durationFmt, fileSize: $fileSize, status: $status, categoryId: $categoryId, thumbnail: $thumbnail, dominantColor: $dominantColor, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -333,6 +367,10 @@ class _$AudioEntityImpl implements _AudioEntity {
                 other.filePath == filePath) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
+            (identical(other.durationFmt, durationFmt) ||
+                other.durationFmt == durationFmt) &&
+            (identical(other.fileSize, fileSize) ||
+                other.fileSize == fileSize) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
@@ -356,6 +394,8 @@ class _$AudioEntityImpl implements _AudioEntity {
     description,
     filePath,
     duration,
+    durationFmt,
+    fileSize,
     status,
     categoryId,
     thumbnail,
@@ -386,6 +426,8 @@ abstract class _AudioEntity implements AudioEntity {
     final String description,
     final String filePath,
     final int duration,
+    final String durationFmt,
+    final int fileSize,
     final String status,
     final int categoryId,
     final String thumbnail,
@@ -409,6 +451,10 @@ abstract class _AudioEntity implements AudioEntity {
   String get filePath;
   @override
   int get duration;
+  @override
+  String get durationFmt;
+  @override
+  int get fileSize;
   @override
   String get status;
   @override

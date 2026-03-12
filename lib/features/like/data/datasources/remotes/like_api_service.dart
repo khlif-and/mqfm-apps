@@ -1,21 +1,38 @@
 import 'package:dio/dio.dart';
-import 'package:mqfm_apps/core/models/base_response.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mqfm_apps/features/audio/data/models/dto/audio_dto.dart';
+import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/features/like/data/models/dto/like_dto.dart';
 import 'package:mqfm_apps/features/like/data/models/request/like_request.dart';
-import 'package:retrofit/retrofit.dart';
+import 'package:mqfm_apps/features/like/domain/entities/like.dart';
 
-part 'like_api_service.g.dart';
+@lazySingleton
+class LikeRemoteDatasource {
+  final Dio _dio;
+  static const _base = '/api/v1/user/likes';
 
-@RestApi()
-abstract class LikeRemoteDatasource {
-  factory LikeRemoteDatasource(Dio dio, {String baseUrl}) =
-      _LikeRemoteDatasource;
+  LikeRemoteDatasource(this._dio);
 
-  @POST('/api/user/likes/')
-  Future<BaseResponse<dynamic>> toggleLike(@Body() ToggleLikeRequest body);
+  Future<LikeEntity> like(LikeRequest body) async {
+    final response = await _dio.post('$_base/', data: body.toJson());
+    final data = response.data['data'] as Map<String, dynamic>;
+    return LikeDto.fromJson(data).toEntity();
+  }
 
-  @DELETE('/api/user/likes/{audioId}')
-  Future<void> unlikeAudio(@Path('audioId') int audioId);
+  Future<void> unlike(LikeRequest body) async {
+    await _dio.delete('$_base/', data: body.toJson());
+  }
 
-  @GET('/api/user/likes/')
-  Future<dynamic> getLikedAudios();
+  Future<List<AudioEntity>> getLikedAudios({String type = 'audio'}) async {
+    final response = await _dio.get('$_base/', queryParameters: {'type': type});
+    final list = response.data['data'] as List? ?? [];
+    return list
+        .map((item) {
+          final audioJson = item['audio'] as Map<String, dynamic>?;
+          if (audioJson == null) return null;
+          return AudioDto.fromJson(audioJson).toEntity();
+        })
+        .whereType<AudioEntity>()
+        .toList();
+  }
 }

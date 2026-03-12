@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mqfm_apps/core/manager/audio_player_handler.dart';
 import 'package:mqfm_apps/core/utils/helpers/preferences_helper.dart';
 import 'package:mqfm_apps/features/audio/domain/entities/audio.dart';
+import 'package:mqfm_apps/features/download/data/datasources/locals/download_db_helper.dart';
 
 class AudioPlayerManager {
   static final AudioPlayerManager _instance = AudioPlayerManager._internal();
@@ -32,6 +33,9 @@ class AudioPlayerManager {
   List<AudioEntity> get queue => _queue;
 
   Timer? _sleepTimer;
+  Timer? _retryTimer;
+  int _retryCount = 0;
+  static const int _maxRetries = 5;
   final ValueNotifier<Duration?> sleepTimerRemaining = ValueNotifier(null);
 
   static const int _maxCachedAudios = 5;
@@ -110,31 +114,55 @@ class AudioPlayerManager {
 
   Future<void> playAt(int index) async {
     if (index < 0 || index >= _queue.length) return;
+    _retryTimer?.cancel();
     queueIndexNotifier.value = index;
     final audio = _queue[index];
-    if (audio.filePath.isEmpty) return;
     currentAudioNotifier.value = audio;
     currentAudioId = audio.id;
     _updateNotification(audio);
     await player.stop();
     try {
-      final cacheFile = await _getCacheFile(audio.id);
-      final source = LockCachingAudioSource(
-        Uri.parse(audio.filePath),
-        cacheFile: cacheFile,
-      );
+      final localPath = await DownloadDbHelper.getLocalPath(audio.id);
+      final AudioSource source;
+      if (localPath != null && await File(localPath).exists()) {
+        source = AudioSource.file(localPath);
+      } else if (audio.filePath.isNotEmpty) {
+        final cacheFile = await _getCacheFile(audio.id);
+        source = LockCachingAudioSource(
+          Uri.parse(audio.filePath),
+          cacheFile: cacheFile,
+        );
+      } else {
+        playerErrorNotifier.value = 'File audio tidak tersedia';
+        return;
+      }
       await player.setAudioSource(source);
       player.play();
       playerErrorNotifier.value = null;
     } on PlayerException catch (e) {
-      playerErrorNotifier.value = e.message ?? 'Gagal memuat audio';
+      playerErrorNotifier.value = e.message ?? 'Gagal memuat audio. Mencoba ulang...';
+      _scheduleRetry(index);
       return;
     } catch (_) {
-      playerErrorNotifier.value = 'Gagal memuat audio';
+      playerErrorNotifier.value = 'Gagal memuat audio. Mencoba ulang...';
+      _scheduleRetry(index);
       return;
     }
     await _trackCachedAudio(audio.id);
     PreferencesHelper.savePlayedAudio(audio);
+    _retryCount = 0;
+  }
+
+  void _scheduleRetry(int index) {
+    _retryTimer?.cancel();
+    if (_retryCount >= _maxRetries) {
+      playerErrorNotifier.value = 'Gagal memuat audio. Periksa koneksi internet.';
+      _retryCount = 0;
+      return;
+    }
+    _retryCount++;
+    final delay = Duration(seconds: 3 * _retryCount);
+    _retryTimer = Timer(delay, () => playAt(index));
   }
 
   Future<void> skipNext() async {
@@ -154,6 +182,7 @@ class AudioPlayerManager {
 
   void dispose() {
     _sleepTimer?.cancel();
+    _retryTimer?.cancel();
     _handler?.dispose();
     player.dispose();
   }
